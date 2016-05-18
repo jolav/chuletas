@@ -1,0 +1,35 @@
+site_name: brusbilis
+#site_favicon: 'z-static/images/favicon.png'
+site_favicon: 'z-static/images/logo/brusbb.png'
+google_analytics: ['UA-65859401-3', 'brusbilis.com']
+extra:
+    logo: 'z-static/images/logo/brusbb.png'
+
+pages:
+- Menu Chuletas: 'index.md'
+- Front-end:
+    - 'Html5': 'frontend/html5.md'
+    - 'CSS3': 'frontend/css3.md'
+    - 'Javascript': 'frontend/js.md'
+    - 'jQuery': 'frontend/jquery.md'
+- Back-End:
+    - 'Golang': 'backend/golang.md'
+    - 'NodeJS': 'backend/nodejs.md'
+    - 'Meteor': 'backend/meteor.md'
+- Debian:
+    - 'Desktop': 'debian/desktop.md'
+    - 'Server': 'debian/server.md'
+- Varios:
+    - 'Git': 'varios/git.md'
+    - 'Hugo': 'varios/hugo.md'
+    - 'mkDocs': 'varios/mkdocs.md'
+    - 'Expresiones regulares': 'varios/expreregulares.md'
+
+markdown_extensions:
+    - fenced_code
+
+theme_dir: 'brus-docs-theme'
+site_dir: 'chuletas'
+docs_dir: 'docs/content'
+extra_css:
+    - 'z-static/extra.css'
