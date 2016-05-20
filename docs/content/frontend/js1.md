@@ -1,4 +1,6 @@
-# JAVASCRIPT
+# JAVASCRIPT 1
+
+---
 
 ## TIPOS DATOS
 
@@ -174,7 +176,7 @@ function myFunction() {
 }
 ```
 
-* Si asigno un valor a una variable no dclarada, esta se convierte en global
+* Si asigno un valor a una variable no declarada, esta se convierte en global
 ```js
 // codigo aqui puede usar carName
 function myFunction() {
@@ -361,7 +363,63 @@ Un Objeto es un contenedor de propiedades
 Una propiedad es un nombre y un valor (cualquiera menos undefined)  
 Los objetos se pasan siempre por `referencia`  
 
-### Objetos Literales
+### this
+
+Usada dentro de funciones y objetos para referirse a un objeto que lo normal 
+es el objeto en el que la funcion opera
+
+* Funcion con alcance global (no esta dentro de ningun otro objeto o funcion) `this` se refiere al objeto `window`
+
+```js
+function windowSize() {
+  var width = this.innerWidth;
+  var height = this.innerHeight;
+  return [height, width]
+}
+```
+
+* Variables globales, las variables globales se convierten en propiedades del 
+objeto `window`
+
+```js
+var width = 600;
+var shape = {width: 300};
+var showWidth = function() {
+  document.write(this.width);
+};
+showWidth();      // this.width = 600
+```
+
+* Metodo de un objeto, si una funcion se define dentro de un objeto se 
+convierte en un metodo de ese objeto. En un metodo `this` se refiere al objeto
+que lo contiene
+
+```js
+var shape = {
+  width: 600,
+  height: 400,
+  getArea: function() {
+    return this.width * this.height;
+  }  
+}
+```
+
+* Funciones con nombre globales y usadas como metodos de un objeto, `this` se
+refiere al objeto que contiene a la funcion
+
+```js
+var width = 600;
+var shape = {width: 300);
+var showWidth = function() {
+  document.write(this.width);
+};
+shape.getWidth = showWidth;
+shape.getWidth();                 // this.width = 300
+```
+
+### Crear Objetos
+
+#### Literales
 
 * Los valores de las propiedades se pueden obtener de cualquier expresion
 incluso de otros objetos anidados  
@@ -372,21 +430,23 @@ incluso de otros objetos anidados
 var objetoVacio = {};
 
 var miObjeto = {
-  diHola = function() {
+  diHola : function() {
     alert("Hola");
   },
-  name: "Pepe",
-  edad: 50,
-  nacimiento: {               // los objetos se pueden anidar
+  name : "Pepe",
+  edad : 50,
+  nacimiento : {               // los objetos se pueden anidar
     fecha: "01-01-1980",
     lugar: "La Tierra"
   }
 };
 ```
 
-### Objetos con new
+#### Constructor
 
 NO USAR
+
+* Normal
 
 ```js
 var persona = new Object();
@@ -394,9 +454,7 @@ persona.nombre = 'Ivan';
 persona.edad = '50';
 ```
 
-### Constructor de objetos
-
-Reusable
+* Reusable
 
 ```js
 function myPersona (a, b) {
@@ -407,7 +465,7 @@ var actor1 = new myPersona ('Juan', '30');
 var actor2 = new myPersona ('Manu', '18');
 ```
 
-### Protoyipos
+### Prototipos
 
 `Object.create` crea un nuevo objeto que usa uno viejo como prototipo
 
@@ -444,12 +502,15 @@ var u = b.hasOwnProperty('member'); // u is false
 var v = b.member                    // v is true
 ```
 
+---
 
 ## ARRAYS
 
 Los arrays en Javascript son falsos arrays pero aun asi renta su uso
 
-- Creacion de Arrays
+* Creacion de Arrays
+
+* * Array Literal  
 
 ```js
 var vacio = [];
@@ -457,12 +518,17 @@ var numeros = ['cero','uno','dos','tres','cuatro','cinco',
                'seis','siete','ocho','nueve','diez'];
 vacio[1]    // undefined
 numeros[1]  // 'one'
+```
 
+* * Array constructor
+
+```js
+var colores = new Array('blanco', 'rojo', 'azul')
 ```
 
 Heredan de `Array.prototype` muchos metodos muy utiles
 
-- Iteracion de arrays
+* Iteracion de arrays
 
 ```js
 No usar for in que da muchos problemas por no ser objetos puros
@@ -472,7 +538,6 @@ for ( var i = 0; i < numeros.length; i = i + 1) {
 ```
 
 ### Metodos
-
 
 `array.concat(item1, item2 ...)` Va añadiendo los items
 
@@ -600,7 +665,7 @@ ANONIMAS
 var nombreFuncion = function() {
   codigo;
 }
-CON NOMBRE
+NAMED
 var referenciaFuncion = function nombreFuncion() {
   codigo;
 }
@@ -619,13 +684,30 @@ function () {
 Immediately Invoked Function Expressions (IIFEs)  
 Una vez declarada se llama a si misma para inicializarse y estar ya disponible para otras partes de la aplicacion, contiene la visibilidad de las variables
 
+
 ```js
-(function nombreOanonima(parametros) {
-  codigo;
-})(parametros);
+ANONIMA
+(function(){
+	//código de tu función
+}());
+// con parametros
+(function(w,d,o){
+    //Ahora w es un alias (shortcut) para window
+    //d es un alias de document
+    //o es un alias de otraVariableMuyLarga
+}(window, document, otraVariableMuyLarga));
+```
+
+```js
+NAMED
+(function nombreFuncion(){
+	//código de tu función
+}());
 ```
 
 ### Invocacion
+
+* Se realiza `nombrefuncion();`
 
 Cuando invocamos una funcion
 
@@ -645,15 +727,29 @@ Patrones de invocacion
 - Apply PENDIENTE
 ```
 
-### Parametros
+### Parametros y Argumentos
 
-Si a una funcion le pasamos demasiados parametros los que sobran los ignora  
-Si a una funcion le pasamos menos parametros a los que faltan les asigna  undefined
+Pequeña diferencia entre ambos
 
-### Argumentos
+* Parametros: son las variables que se definen cuando se declara la funcion
+* Argumentos: son los valores que se pasan a la funcion al invocarla
+* Si a una funcion le pasamos demasiados parametros los que sobran los ignora  
+* Si a una funcion le pasamos menos parametros a los que faltan les asigna  undefined
 
-Es como un array pero incompleto de los parametros que se le pasan a una
- funcion
+### return multiples valores
+
+Para ello usan un array
+
+```js
+funcion getMedidas(anchura, altura, profundidad) {
+  var area = anchura * altura;
+  var volumen = anchura * altura * profundidad;
+  var medidas = [area, volumen];
+  return medidas;
+}
+var area1 = getMedidas(5,4,10)[0];
+var volumen1 = getMedidas(5,4,10)[1];
+```
 
 ### Closure
 
@@ -845,30 +941,3 @@ var Modulo = (function () {
 
 ---
 
-## DOM
-
-![js](/z-static/images/comingSoon2.jpg)
-
----
-
-## EVENTOS
-
-![js](/z-static/images/comingSoon2.jpg)
-
----
-
-## AJAX
-
-![js](/z-static/images/comingSoon2.jpg)
-
----
-
-
-
-
-
-
-
-```js
-
-```

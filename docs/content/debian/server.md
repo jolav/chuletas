@@ -1,10 +1,10 @@
 # DEBIAN TESTING
 
+---
+
 Para andar con ojo en las actualizaciones:
 
 `aptitude install apt-listbugs`
-
----
 
 ## ADDUSER
 
@@ -316,6 +316,18 @@ server {
 
     # Redirect all traffic comming from your-server-ip to your domain
     return 301 $scheme://example.com$request_uri;
+}
+```
+
+```sh
+server {
+    listen 80;
+
+    # Listen to your server ip address
+    server_name 89.38.144.25;
+
+    # Redirect all traffic comming from your-server-ip to your domain
+    return 301 $scheme://brusbilis.com$request_uri;
 }
 ```
 

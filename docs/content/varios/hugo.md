@@ -1,5 +1,7 @@
 # HUGO
 
+---
+
 ## INSTALACION
 
 [Descargar de aqui el tar.gz o deb](https://github.com/spf13/hugo/releases)

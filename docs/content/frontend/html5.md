@@ -1,5 +1,7 @@
 # HTML5
 
+---
+
 ## ESTRUCTURA
 
 ```html

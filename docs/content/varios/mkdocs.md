@@ -1,6 +1,8 @@
 # MkDocs
 
-### Instalacion
+---
+
+### INSTALACION
 
 * Necesitamos python 2.6, 2.7, 3.3, 3.4 o 3.5  
 * `apt-get install python-pip`
@@ -9,6 +11,10 @@
 Para actualizar mkdocs
 
 `pip install -U mkdocs`
+
+---
+
+## CONFIGURACION
 
 ### Nuevo Proyecto
 

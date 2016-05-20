@@ -1,4 +1,14 @@
-# GOLANG
+# GOLANG 1.6
+
+---
+
+## INSTALACION
+
+Ademas de lo del manual añadir en `nano /home/user/.bashrc`  
+```sh
+export PATH=$PATH:/usr/local/go/bin
+export GOPATH=$HOME/Dropbox/Programacion/Codigo/Go 
+```
 
 ## HTML/TEMPLATE
 
@@ -291,6 +301,47 @@ func main() {
   	t.Execute(os.Stdout, name)
 }
 ```
+
+## DEPLOY
+
+### Systemd
+
+`systemctl status servidorGO` nos da informacion del servicio
+
+`Service name`: servidorGO.service
+
+```sh
+/etc/systemd/servidorGO.service
+/etc/systemd/system/servidorGO.service
+/etc/systemd/system/multi-user.target.wants/servidorGO.service
+/sys/fs/cgroup/systemd/system.slice/servidorGO.service
+```
+
+Systemd configuration  
+`nano /etc/systemd/servidorGO.service`
+
+```sh
+[Unit]
+Description=Webhook
+
+[Service]
+User=brus
+Group=www-data
+Restart=on-failure                    // o always ???
+ExecStart=/home/brus/Go/src/Pruebas/servidor //servidor es el binario
+
+[Install]
+WantedBy=multi-user.target
+```
+
+* Activar el servicio y arrancar automaticamente al inicio    
+`systemctl enable application.service`
+* Desactivar el servicio de iniciar automaticamente   
+`systemctl disable application.service`  
+
+[Buena guia de systemctl](https://www.digitalocean.com/community/tutorials/how-to-use-systemctl-to-manage-systemd-services-and-units)
+
+
 
 
 

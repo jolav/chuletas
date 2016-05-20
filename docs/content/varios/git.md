@@ -1,5 +1,7 @@
 # GIT
 
+---
+
 ## Instalacion
 
 ## Conceptos

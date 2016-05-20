@@ -10,7 +10,8 @@ pages:
 - Front-end:
     - 'Html5': 'frontend/html5.md'
     - 'CSS3': 'frontend/css3.md'
-    - 'Javascript': 'frontend/js.md'
+    - 'Javascript I': 'frontend/js1.md'
+    - 'Javascript II': 'frontend/js2.md'
     - 'jQuery': 'frontend/jquery.md'
 - Back-End:
     - 'Golang': 'backend/golang.md'
