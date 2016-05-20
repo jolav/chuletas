@@ -202,12 +202,7 @@ t2.Execute(os.Stdout, nil)
 
 // Resultado -> hey hey hey!
 
-
 ### Funciones
-
-Llamar a la funcion suma con parametros 1 y 2
-
-`{{ add 1 2 }}
 
 #### Predefinidas
 
@@ -215,7 +210,8 @@ Por ejemplo `print` equivale a `fmt.Sprintf`
 
 ```go
 func main() {
-    texto := "{{with $x := `hello`}}{{printf `%s %s` $x `Mary`}}{{end}}!\n"
+    texto := "{{with $x := `hello`}}{{printf `%s %s` $x `Mary`}}
+        {{end}}!\n"
     t := template.New("test")
     t = template.Must(t.Parse(texto))
     t.Execute(os.Stdout, nil)

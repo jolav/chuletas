@@ -35,8 +35,9 @@ Ejemplo:
   });
 }());
 
-Al envolver todo con ()() evitamos contaminar el namespace global y hacemos
-que se invoque inmediatamente despues de definirse para crear el nuevo scope
+Al envolver todo con ()() evitamos contaminar el namespace global y 
+hacemos que se invoque inmediatamente despues de definirse para crear
+el nuevo scope
 ```
 
 Ejemplo
@@ -114,8 +115,8 @@ resultado: 3
 var result = [1, 5, 7].map(function(element) {
   return element – 1;
 });
-Claramente el callback solo se usa para iterar los elementos del array y no para
-pasar el resultado de la operacion
+Claramente el callback solo se usa para iterar los elementos del array
+y no para pasar el resultado de la operacion
 No siempre la presencia de callbacks implica estilo asincrono o CPS.
 Hay que leer la documentacion de las API para conocerlo
 ```
@@ -447,9 +448,8 @@ __`app.js` o `main.js`__ Cosas que se hacen en este fichero:
 
 __Funcionamiento cliente-servidor__
 
-|                                       |                                      |
-| --------------------------------------|:-------------------------------------|
-| ![nodejs](/z-static/images/nodejs/traditional.png)| ![nodejs](/z-static/images/nodejs/restApiAjax.png)
+![nodejs](/z-static/images/nodejs/traditional.png)
+![nodejs](/z-static/images/nodejs/restApiAjax.png)
 
 __Seguimiento de una peticion en express__
 
@@ -483,8 +483,8 @@ app.set('views', path);
 app.set('viewengine', name);
 // path es la tuta a la carpeta con las plantillas
 // name es el motor de plantilla a usar: ejs, jade, handlebars ...
-app.engine() es un metodo de bajo nivel para decirle a express que motor de
-    plantillas vamos a usar
+app.engine() es un metodo de bajo nivel para decirle a express que 
+    motor de plantillas vamos a usar
 ```
 ### Middleware
 
@@ -540,7 +540,7 @@ module.exports = profile;
 ```
 
 ```javascript
-// en app.js con esto hemos creado dos rutas "/profile" y "/profile/:username"
+// en app.js con esto creamos dos rutas "/profile" y "/profile/:username"
 app.use('/profile', require('./rotes/profile'));
 
 //Cada router puede cargar otros router hasta cargar todos en pej index.js

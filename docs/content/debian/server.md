@@ -6,6 +6,8 @@ Para andar con ojo en las actualizaciones:
 
 `aptitude install apt-listbugs`
 
+---
+
 ## ADDUSER
 
 Crear un usuario con su carpeta home y consola para usar
@@ -82,7 +84,7 @@ Uso
 freshclam
 
 // Si esta bloqueado
-/etc/init.d/clamav-freshclam stop // y despues service clamav-freshclam start
+/etc/init.d/clamav-freshclam stop //despues service clamav-freshclam start
 
 // para escanear como usuario normal
 clamscan -r /ruta
@@ -135,8 +137,8 @@ destemail = root@localhost
 ```
 
 ```sh
-// En la seccion JAILS hay que ir definiendo lo que queremos en cada uno de los
-// servicios que queremos proteger con fail2ban.
+// En la seccion JAILS hay que ir definiendo lo que queremos en cada 
+//uno de los servicios que queremos proteger con fail2ban.
 
 [webmin]
 
@@ -243,13 +245,13 @@ server {
     location / {
         try_files $uri $uri/ =404;
     }
-	# pass the PHP scripts to FastCGI server listening on the php-fpm socket
+	# pass PHP scripts to FastCGI server listening on the php-fpm socket
     location ~ \.php$ {
-            try_files $uri =404;
-            fastcgi_pass unix:/var/run/php5-fpm.sock;
-            fastcgi_index index.php;
-            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-            include fastcgi_params;
+        try_files $uri =404;
+        fastcgi_pass unix:/var/run/php5-fpm.sock;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
     }
 }
 
@@ -461,11 +463,12 @@ A veces no funciona el metapaquete mongodb-org y entonces es un lio
 ```sh
 // Con el repositorio anterior activado
 apt-get install mongodb-org=2.6.10 mongodb-org-server=2.6.10
-mongodb-org-shell=2.6.10 mongodb-org-mongos=2.6.10 mongodb-org-tools=2.6.10
+mongodb-org-shell=2.6.10 mongodb-org-mongos=2.6.10 
+mongodb-org-tools=2.6.10
 
 // No hace autoarranque y hay que crearlo manualmente
 mongod --auth --port puerto
-// Por defecto las BBDD las manda a /data/db que no existe y hay que crearlo
+// Por defecto las BBDD las manda a /data/db y hay que crearlo
 mongod --dbpath /ruta/que/queramos
 mongod --repair
 ```
@@ -495,7 +498,8 @@ servidor como usuario (tenemos capado acceso ssh como root).
 ```sh
 $ mongo
 > use admin
-> db.createUser({user:"usuarioAdmin",pwd:"contraseña",roles:[{role:"root",db:"admin"}]})
+> db.createUser({user:"usuarioAdmin",pwd:"contraseña"
+>                   ,roles:[{role:"root",db:"admin"}]})
 
 $ mongo -u usuarioAdmin -p contraseña --authenticationDatabase admin
 > use some_db

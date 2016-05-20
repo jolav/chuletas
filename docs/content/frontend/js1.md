@@ -1,4 +1,12 @@
-# JAVASCRIPT 1
+# JAVASCRIPT 1  
+
+`console.log()`  
+`prompt("introduce datos aqui")`  
+`confirm("Aceptas si o no")`  
+`alert("Ventana en la pantalla")`  
+
+`//` Comentarios de una linea  
+`/* ... /*` Comentarios multilinea
 
 ---
 
@@ -11,50 +19,75 @@ Devuelve una string con el tipo de la variable dato
 
 ### Numeros
 
-* Internamente son un numero flotante de 64 bits  
-* `NaN (Not a number)` no equivale a ningun valor ni siquiera a el mismo  
-* Se detectan con `isNan(numero)`
-* `Math` es un objeto con metodos que actuan sobre numeros pej:
-`Math.floor(num)` que redondea al entero mas cercano por abajo  
-* `number.toString()` equivale a `String(number)`  
+> * Internamente son un numero flotante de 64 bits  
+ * `NaN (Not a number)` no equivale a ningun valor ni siquiera a el mismo  
+
+* Metodos :
+
+`isNan(numero)` - Detecta si es numero o no  
+`numero.toFixed(n)` - Redondea a n decimales (devuelve una string)   
+`numero.toPrecision(n)` - Redondea a n digitos decimales incluidos (devuelve 
+una string)  
+`numero.toExponential(n)` - Representa el numero en notacion exponencial 
+(devuelve una string)    
+`numero.toString()`- equivale a `String(numero)` y devuelve una string  
+
+#### Math
+
+`Math` es un Objeto Global que actua sobre numeros 
+
+* Propiedades
+
+`Math.PI` - Devuelve pi 3.14159265359
+
+* Metodos  
+
+`Math.round(num)` - Redondea num al entero mas cercano    
+`Math.sqrt(num)` - Devuelve la raiz cuadrada del numero positivo num    
+`Math.ceil(num)` - Redondea al entero mas cercano por arriba     
+`Math.floor(num)` - Redondea al entero mas cercano por abajo  
+`Math.random()` - Genera un numero aleatorio entre 0 (inclusivo) y 1 
+(no inclusivo)   
 
 ```js
-Math.PI.toString();
-3.141592653589793
+// Crea un numero aleatorio entre 1-10
+var aleatorio = Math.floor((Math.random() * 10) +1);
 ```
+
 
 ### String
 
-* Puede estar entre comillas simples o comillas dobles  
+>* Puede estar entre comillas simples o comillas dobles  
 * Las cadenas tienen un propiedad lenght. `"cadena".lenght`  
 * Las cadenas son inmutables. no se pueden cambiar pero si crear nuevas  
 * Para escapar caracteres usamos \ `\n` nueva linea por ejemplo  
 
-`parseInt(string)` Convierte la cadena string en un numero
+* Metodos
 
-`string.charAt(pos)` Devuelve la letra en la posicion pos
+`parseInt(string)` - Convierte la cadena string en un numero  
+`string.charAt(pos)` - Devuelve la letra en la posicion pos  
 
 ```js
 var name = 'Curly';
 var initial = name.charAt(0);       // initial is 'C'
-```
+```  
 
-`string.charCodeAt(pos)` Devuelve el codigo de la letra en la posicion pos
-
+`string.charCodeAt(pos)` - Devuelve el codigo de la letra en la posicion pos
+  
 ```js
 var name = 'Curly';
 var initial = name.charCodeAt(0);   // initial is 67
-```
+```  
 
-`string.concat(str1, str2, ...)` Junta los strings. Mejor usar +
+`string.concat(str1, str2, ...)` - Junta los strings. Mejor usar +
 
 ```js
 var s = 'C'.concat('a', 't');       // s es 'Cat'
 ```
 
-`string.indexOf(cadenaBuscada, pos)` Busca una cadenaBuscada en la string y si
+`string.indexOf(cadenaBuscada, pos)` - Busca una cadenaBuscada en la string y si
 la encuentra devuelve la posicion del primer caracter, si no devuelve -1.  
-El parametro opcional pos indica a partir de donde buscar
+El parametro opcional pos indica a partir de donde buscar  
 
 ```js
 var text = 'Mississippi';
@@ -63,7 +96,7 @@ p = text.indexOf('ss', 3);          // p es 5
 p = text.indexOf('ss', 6);          // p es -1
 ```
 
-`string.lastIndexOf(cadenaBuscada, pos)` Como indexOf pero busca desde atras
+`string.lastIndexOf(cadenaBuscada, pos)` - Como indexOf pero busca desde atras
 hacia adelante
 
 ```js
@@ -73,28 +106,28 @@ p = text.indexOf('ss', 3);          // p es 2
 p = text.indexOf('ss', 6);          // p es 5
 ```
 
-`string.replace(valorBuscado, valorNuevo)` reemplaza el valorBuscado por el valorNuevo solo una vez salvo que el valorBuscado sea una expresion regular
+`string.replace(valorBuscado, valorNuevo)` - Reemplaza el valorBuscado por el valorNuevo solo una vez salvo que el valorBuscado sea una expresion regular
 
 ```js
 var str = "Visita mi casa";
 var res = str.replace("casa", "huerta"); // "Visita mi huerta"
 ```
 
-`string.search(regexp)` Busca una cadena que case con la expresion regular pasada y devuelve la posicion del primer caracter o -1
+`string.search(regexp)` - Busca una cadena que case con la expresion regular pasada y devuelve la posicion del primer caracter o -1
 
 ```js
 var text = 'Por la mañana " yo me levanto';
 var pos = text.search(/["']/);          // pos es 14
 ```
 
-`string.slice(comiezo, fin)` Crea una nueva string desde la posicion comienzo incluida hasta la posicion fin NO incluida
+`string.slice(comiezo, fin)` - Crea una nueva string desde la posicion comienzo incluida hasta la posicion fin NO incluida
 
 ```js
 var cadena = 'Hola mundo';
 var res = cadena.slice(1, 4);           // res es 'ola'
 ```
 
-`string.split(separador, limite)` Crea un array de cadenas al separar el string original en piezas separadas por el parametro separador  
+`string.split(separador, limite)` - Crea un array de cadenas al separar el string original en piezas separadas por el parametro separador  
 Limite es el limite de nuevas cadenas
 
 ```js
@@ -102,18 +135,18 @@ var cadena = "Como lo llevas hoy amigo";
 var res = cadena.split(" ", 4)  // res es ['Como','lo','llevas','hoy']
 ```
 
-`string.substring(comienzo, fin)` usar `string.slice()` en su lugar
-
-`string.toLowerCase()` Convierte la string a minusculas  
-
-`string.toUpperCase()` Convierte la string a mayusculas  
-
-`String.fromCharCode(car1, car2, ...)`  
+`string.substring(comienzo, fin)` - Usar `string.slice()` en su lugar  
+`string.toLowerCase()` - Convierte la string a minusculas    
+`string.toUpperCase()` - Convierte la string a mayusculas    
+`string.fromCharCode(car1, car2, ...)`  
 
 ```js
 var a = String.fromCharCode(67, 97, 116);
 // a is 'Cat'
 ```
+
+`string.trim(cadena)` - Elimina los espacios en blanco del comienzo y del final 
+de la cadena  
 
 ### Boolean
 
@@ -127,7 +160,7 @@ OR  --> ||
 NOT --> !
 Operador ternario o operador condicional
 test ? expresion1 : expresion2
-Si test es true devuelve expresion1, si test es falso devuelve expresion2
+Si test es true devuelve expresion1, si es falso devuelve expresion2
 ```
 
 Cuando convertimos un no-booleano a booleano es falso o true?
@@ -153,19 +186,21 @@ La diferencia entre ellos es irrelevante, se pueden tratar igual
 todos los objetos
 * En las funciones lo mismo aumentando `Function.prototype`
 
-### Ambito o visibilidad
+---
 
-#### Alcance
+## VISIBILIDAD
+
+### Alcance
 
 La visibilidad es hacia fuera en las funciones. Yo veo las
 variables de las funciones externas que me contienen pero no veo las de dentro  
 
-#### ES6 let (como var)
+### ES6 let (como var)
 
 Declara una variable que solo se vera en ese bloque donde se ha definido
 (funcion, if..else, while)  
 
-#### Global
+### Global
 
 * Declarada fuera de una funcion
 ```js
@@ -185,7 +220,7 @@ function myFunction() {
 }
 ```
 
-#### Local
+### Local
 
 Variables declaradas dentro de una funcion permanecen locales a esa funcion
 
@@ -243,19 +278,7 @@ function myFunction() {
 
 ---
 
-## ESTRUCTURA
-
-* Expresiones: fragmentos de codigo que producen un valor
-* Instrucciones: lineas que acaban con punto y coma ;
-
-`console.log()`  
-`prompt("introduce datos aqui")`  
-`confirm("Aceptas si o no")`  
-`alert("Ventana en la pantalla")`  
-
-`//` Comentarios de una linea  
-`/* ... /*` Comentarios multilinea
-
+## DECISIONES Y BUCLES
 
 ### if ... else
 
@@ -282,7 +305,6 @@ else {
 }
 ```
 
-
 ### while
 
 `while` El codigo puede que no se ejecute nunca
@@ -304,12 +326,17 @@ while (condicion)
 
 ### for
 
+`inicializacion` - Se ejecuta antes que el bucle empiece  
+`condicion` - Define la condicion para seguir ejecutando el bucle  
+`actualizacion` - Se ejecuta cada vez que el bucle se ha ejecutado  
+
 ```js
-instruccion1 - se ejecuta antes que el bucle empiece
-instruccion2 - define la condicion para seguir ejecutando el bucle
-instruccion3 - se ejecuta cada vez que el bucle se ha ejecutado
-for (instruccion1; instruccion2; instruccion3) {
+for (inicializacion; condicion; actualizacion) {
   codigo_se_ejecuta:con_cada_bucle;
+}
+
+for (var i = 0; i < 10; i++) {
+  document.writeln(i);
 }
 ```
 
@@ -321,6 +348,10 @@ Recorre todas las propiedades de un objeto o array
 for (variable in [object | array]) {
   instrucciones;
 }
+
+for (p in window) {
+  document.writeln(p + "<br/>");
+}
 ```
 
 ### for each ... in
@@ -331,19 +362,20 @@ for (variable in [object | array]) {
 
 ```js
 switch(expresion) {
-  case n:
+  case 'uno':
     instrucciones;
     break;
-  case n:
+  case 'dos':
     instrucciones;
     break;
   default:
     instrucciones_por_defecto;
+    break;
 }
 ```
 
 ```js
-switch (new Date().getDay()) {   //getDay() da el numero de dia de la semana
+switch (new Date().getDay()) {   //getDay() numero de dia de la semana
   case 6:
     text = "Sabado";
     break;
@@ -352,6 +384,7 @@ switch (new Date().getDay()) {   //getDay() da el numero de dia de la semana
     break;
   default:
     text = "Entre semana";
+    break;
 }
 ```
 
@@ -715,7 +748,8 @@ Cuando invocamos una funcion
 1- Se suspende la ejecucion de la funcion actual
 2- Pasa el control y los parametros a la nueva funcion
 3- Tambien se pasan this y arguments
-4- El valor de this depende del patron de invocacion de los cuales existen 4
+4- El valor de this depende del patron de invocacion de los cuales
+existen 4
 ```
 
 Patrones de invocacion
@@ -793,7 +827,8 @@ console.log(wrap2());         // → 2
 
 ### Callback
 
-Son funciones que se ejecutan una vez que el proceso asincrono que las llama se ha terminado
+Son funciones que se ejecutan una vez que el proceso asincrono que las llama
+ se ha terminado
 
 ```js
 function nombreCompleto (nombre, apellido, callback) {
@@ -895,7 +930,7 @@ intentalo( );
 
 ```js
 (function ($, YAHOO) {
-	// ahora tenemos acceso a las globales jQuery (as $) and YAHOO aqui dentro
+	// Nos da acceso a las globales jQuery (as $) y YAHOO aqui dentro
 }(jQuery, YAHOO));
 ```
 

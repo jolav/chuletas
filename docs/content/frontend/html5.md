@@ -53,7 +53,7 @@ Es una ventana dentro de la pagina donde puedes ver otra pagina
     <meta name="description" content="max 155, sale en la busqueda" />
     <meta name="keywords" content="palabras usadas para la busqueda" />
     <meta http-equiv="author" content="Autor de la pagina" />
-    <meta http-equiv="expires" content="Fri, 04 Apr 2014 23:59:59 GMT" />
+    <meta http-equiv="expires" content="Fri, 04 Apr 2014 23:59:59 GMT"/>
   </head>
   <body>
   </body>
@@ -69,8 +69,8 @@ Es una ventana dentro de la pagina donde puedes ver otra pagina
 
 ### Elementos para estructurar la pagina
 
->**white space collapsing :** Dos o mas espacios o lineas juntos el navegador solo
-mostrara uno  
+>**white space collapsing :** Dos o mas espacios o lineas juntos el navegador 
+solo mostrara uno  
 
 ```html
 <p> paragraph </p>
@@ -158,30 +158,31 @@ mostrara uno
 
 ## ENLACES
 
-### a paginas externas
+* A paginas externas
 
 ```html
 <a href="http://www.brusbilis.com">href como url absoluta</a>
 ```
 
-### a paginas del mismo sitio
+* A paginas del mismo sitio
 
 ```html
 <a href="../info/contacto.html">Contacto href como url relativa</a>
 ```
-### a direcciones de correo
+
+* A direcciones de correo
 
 ```html
 <a href="mailto:info@brusbilis.com">Mandar correo</a>
 ```
 
-### a una nueva pestaña
+* A una nueva pestaña
 
 ```html
-<a href="http://www.imdb.com" target="_blank">Movie Database</a> (opens in new window)
+<a href="http://www.imdb.com" target="_blank">Movie Database</a>
 ```
 
-### a una parte de la misma pagina
+* A una parte de la misma pagina
 
 ```html
 <h1 id="top">Bla bla bla</h1>
@@ -190,7 +191,7 @@ mostrara uno
 <a href="#top">Subir</a>
 ```
 
-### a una parte de otra pagina
+* A una parte de otra pagina
 
 ```html
 <a href="URL relativa o absoluta/#top">Enlace</a>
@@ -202,7 +203,6 @@ mostrara uno
 
 Ponerlas todas en una carpeta `/imagenes`  
 Salvarlas a resolucion de 72 ppi(pices per inch), los monitores no dan mas y asi ahorramos peso en la imagen  
-`src y alt` son obligatorias  
 
 ```html
 <img src="URL relativa o absoluta a la imagen" />
@@ -213,17 +213,18 @@ Salvarlas a resolucion de 72 ppi(pices per inch), los monitores no dan mas y asi
 ```
 
 ```html
-<img title="titulo descripcion de la imagen, sale al poner el cursor encima" />
+<img title="descripcion de la imagen, sale al poner el cursor encima" />
 ```
 
-```html
-<img src="images/loquesea.jpg" alt="loquesea" width="600" height="450" />
-```
-CODIGO VIEJO -Altura y anchura de la imagen en pixeles, es mejor hacerlo por CSS
+CODIGO VIEJO -Altura ,anchura y alineamiento de la imagen es mejor hacerlo por 
+CSS  
 
 ```html
-<img src="imagen.png" alt="loquesea" align="left/right/top/bottom/middle" />
+<img src="images/imagen.jpg" alt="loquesea" width="600" height="450" />
+
+<img src="imagen.png" alt="alt" align="left|right|top|bottom|middle" />
 ```
+
 `<figure>` se usa para tener juntas y asociar las imagenes con sus
 pies de fotos `<figcaption>`
 
@@ -321,21 +322,22 @@ usuario lo pinche encima
 ### `textarea`  
 
 cols y rows son las dos CODIGO VIEJO, mejor con CSS
-```html
-<textarea name="sugerencias" cols="40" rows="3">Aqui se puede escribir...
-</textarea>
-```
-<form action="http://www.brusbilis.com">
-  <p>Textarea ejemplo</p>
-  <textarea name="comments" cols="20" rows="4">Aqui se puede escribir...
+
+<form action="http://brusbilis.com/chuletas/frontend/html5/#formularios">
+  <textarea name="comments" cols="20" rows="4">Escribir Aqui...
   </textarea>
 </form>
+
+```html
+<textarea name="sugerencias" cols="40" rows="3">Escribir Aqui...
+</textarea>
+```
 
 ### `radio button`  
 
 Puedes elegir una opcion
 
-<form action="http://www.brusbilis.com/rutaquegestionaelform">
+<form action="http://brusbilis.com/chuletas/frontend/html5/#formularios">
   <p>Elige una opcion <br />
     <input type="radio" name="opcion" value="1" /> Opcion 1
     <input type="radio" name="opcion" value="2" checked="checked"/> Opcion 2
@@ -344,10 +346,11 @@ Puedes elegir una opcion
 </form>  
 
 ```html
-<form action="http://www.brusbilis.com/rutaquegestionaelform">
+<form action="http://rutaquegestionaelform">
   <p>Elige una opcion <br />
     <input type="radio" name="opcion" value="1" /> Opcion 1
-    <input type="radio" name="opcion" value="2" checked="checked"/> Opcion 2
+    <input type="radio" name="opcion" value="2" 
+      checked="checked"/> Opcion 2
     <input type="radio" name="opcion" value="3" /> Opcion 3
   </p>
 </form>
@@ -357,7 +360,7 @@ Puedes elegir una opcion
 
 Pues elegir cero, una o mas opciones de las disponibles  
 
-<form action="http://www.brusbilis.com/rutaquegestionaelform">
+<form action="http://brusbilis.com/chuletas/frontend/html5/#formularios">
   <p>Elige una opcion <br />
     <input type="checkbox" name="opcion" value="1" checked="checked" /> Opcion 1
     <input type="checkbox" name="opcion" value="2" /> Opcion 2
@@ -366,18 +369,20 @@ Pues elegir cero, una o mas opciones de las disponibles
 </form>  
 
 ```html
-<form action="http://www.brusbilis.com/rutaquegestionaelform">
+<form action="http://rutaquegestionaelform">
   <p>Elige una opcion <br />
-    <input type="checkbox" name="opcion" value="1" checked="checked" /> Opcion 1
+    <input type="checkbox" name="opcion" value="1" checked="checked" /> 
+      Opcion 1
     <input type="checkbox" name="opcion" value="2" /> Opcion 2
-    <input type="checkbox" name="opcion" value="3" checked="checked" /> Opcion 3
+    <input type="checkbox" name="opcion" value="3" checked="checked" /> 
+      Opcion 3
   </p>
 </form>
 ```
 
 ### `select : drop down list`  
 
-<form action="http://www.brusbilis.com/rutaquegestionaelform">
+<form action="http://brusbilis.com/chuletas/frontend/html5/#formularios">
   <p>Opcion a elegir ?</p>
   <select name="opciones">
     <option value="1">Opcion 1</option>
@@ -387,7 +392,7 @@ Pues elegir cero, una o mas opciones de las disponibles
 </form>  
 
 ```html
-<form action="http://www.brusbilis.com/rutaquegestionaelform">
+<form action="http://rutaquegestionaelform">
   <p>Opcion a elegir ?</p>
   <select name="opciones">
     <option value="1">Opcion 1</option>
@@ -399,7 +404,7 @@ Pues elegir cero, una o mas opciones de las disponibles
 
 ### `multiple select box`  
 
-<form action="http://www.brusbilis.com/rutaquegestionaelform">
+<form action="http://brusbilis.com/chuletas/frontend/html5/#formularios">
   <p>Opcion a elegir ?</p>
   <select name="opciones"size="3" multiple="mutiple">
     <option value="1">Opcion 1</option>
@@ -411,7 +416,7 @@ Pues elegir cero, una o mas opciones de las disponibles
 </form>  
 
 ```html
-<form action="http://www.brusbilis.com/rutaquegestionaelform">
+<form action="http://rutaquegestionaelform">
   <p>Opcion a elegir ?</p>
   <select name="opciones"size="3" multiple="mutiple">
     <option value="1">Opcion 1</option>
@@ -425,14 +430,14 @@ Pues elegir cero, una o mas opciones de las disponibles
 
 ### `file input box`  
 
-<form action="http://www.brusbilis.com/rutaquegestionaelform" method="post">
+<form action="http://brusbilis.com/chuletas/frontend/html5/#formularios">
   <p>Subir un archivo</p>
   <input type="file" name="nombreArchivo" /><br />
   <input type="submit" value="Upload" />
 </form>  
 
 ```html
-<form action="http://www.brusbilis.com/rutaquegestionaelform" method="post">
+<form action="http://rutaquegestionaelform" method="post">
   <p>Subir un archivo</p>
   <input type="file" name="nombreArchivo" /><br />
   <input type="submit" value="Upload" />
@@ -441,23 +446,23 @@ Pues elegir cero, una o mas opciones de las disponibles
 
 ### `image button`  
 
-<form action="http://www.brusbilis.com/rutaquegestionaelform" >
+<form action="http://brusbilis.com/chuletas/frontend/html5/#formularios" >
   <p>Texto de lo que sea</p>
   <input type="text" name="email" />
   <input type="image" src="images/subscribe.jpg" width="100" height="20" />
 </form>
 
 ```html
-<form action="http://www.brusbilis.com/rutaquegestionaelform" >
+<form action="http://rutaquegestionaelform" >
   <p>Texto de lo que sea</p>
   <input type="text" name="email" />
-  <input type="image" src="images/subscribe.jpg" width="100" height="20" />
+  <input type="image" src="/ruta/imagen.jpg" width="100" height="20" />
 </form>
 ```
 
 ### `button and hidden controls`  
 
-<form action="http://www.brusbilis.com/rutaquegestionaelform" >
+<form action="http://brusbilis.com/chuletas/frontend/html5/#formularios">
   <button>
     <img src="images/add.gif" alt="add" width="10" height="10" /> Add
   </button>
@@ -465,7 +470,7 @@ Pues elegir cero, una o mas opciones de las disponibles
 </form>  
 
 ```html  
-<form action="http://www.brusbilis.com/rutaquegestionaelform" >
+<form action="http://rutaquegestionaelform" >
   <button>
     <img src="images/add.gif" alt="add" width="10" height="10" /> Add
   </button>
@@ -511,14 +516,14 @@ uso de etiquetas <label></label> para accesibilidad
 
 ### Validacion de formularios con HTML5
 
-<form action="http://www.brusbilis.com/rutaquegestionaelform" >
+<form action="http://brusbilis.com/chuletas/frontend/html5/#formularios">
   Usuario<input type="text" name="usuario" required="required"/> <br />
   Contraseña<input type="password" name="contrasena" required /> <br />
   <input type="submit" value="Enviar" />
 </form>
 
 ```html
-<form action="http://www.brusbilis.com/rutaquegestionaelform" >
+<form action="http://rutaquegestionaelform" >
   Usuario<input type="text" name="usuario" required="required"/> <br />
   Contraseña<input type="password" name="contrasena" required /> <br />
   <input type="submit" value="Enviar" />
@@ -529,7 +534,7 @@ uso de etiquetas <label></label> para accesibilidad
 
 #### Fecha
 
-<form action="http://www.brusbilis.com/rutaquegestionaelform" >
+<form action="http://brusbilis.com/chuletas/frontend/html5/#formularios">
   <p>Elige Fecha</p>
   <input type="date" name="date" />
   <input type="submit" value="Enviar" />
@@ -541,7 +546,7 @@ uso de etiquetas <label></label> para accesibilidad
 
 #### Correo
 
-<form action="http://www.brusbilis.com/rutaquegestionaelform" >
+<form action="http://brusbilis.com/chuletas/frontend/html5/#formularios">
   <p>Correo</p>
   <input type="email" name="email" />
   <input type="submit" value="Enviar" />
@@ -553,7 +558,7 @@ uso de etiquetas <label></label> para accesibilidad
 
 #### URL
 
-<form action="http://www.brusbilis.com/rutaquegestionaelform" >
+<form action="http://brusbilis.com/chuletas/frontend/html5/#formularios">
   <p>URL</p>
   <input type="url" name="url" />
   <input type="submit" value="Enviar" />
@@ -565,7 +570,7 @@ uso de etiquetas <label></label> para accesibilidad
 
 ####  Telefono
 
-<form action="http://www.brusbilis.com/rutaquegestionaelform" >
+<form action="http://brusbilis.com/chuletas/frontend/html5/#formularios">
   <p>Telefono</p>
   <input type="tel" name="tel" />
   <input type="submit" value="Enviar" />
@@ -577,7 +582,7 @@ uso de etiquetas <label></label> para accesibilidad
 
 #### Numero
 
-<form action="http://www.brusbilis.com/rutaquegestionaelform" >
+<form action="http://brusbilis.com/chuletas/frontend/html5/#formularios">
   <p>Numero</p>
   <input type="number" name="number" min="10" max="20" />
   <input type="submit" value="Enviar" />
@@ -589,7 +594,7 @@ uso de etiquetas <label></label> para accesibilidad
 
 #### Range
 
-<form action="http://www.brusbilis.com/rutaquegestionaelform" >
+<form action="http://brusbilis.com/chuletas/frontend/html5/#formularios">
   <p>Numero</p>
   <input type="range" name="range" min="0" max="20" step="4" />
   <input type="submit" value="Enviar" />
@@ -601,7 +606,7 @@ uso de etiquetas <label></label> para accesibilidad
 
 #### Color
 
-<form action="http://www.brusbilis.com/rutaquegestionaelform" >
+<form action="http://brusbilis.com/chuletas/frontend/html5/#formularios">
   <p>Color</p>
   <input type="color" name="color" />
   <input type="submit" value="Enviar" />
@@ -613,7 +618,7 @@ uso de etiquetas <label></label> para accesibilidad
 
 ####  Search
 
-<form action="http://www.brusbilis.com/rutaquegestionaelform" >
+<form action="http://brusbilis.com/chuletas/frontend/html5/#formularios">
   <p>Search</p>
   <input type="search" name="search" />
   <input type="submit" value="Enviar" />
@@ -654,7 +659,8 @@ Para poner diferentes formatos usamos `<source>`
 
 ```html
 <video poster="images/puppy.jpg" width="400" height="320" >
-  <source src="video.mp4" type='video/mp4;codecs="avc1.42E01E, mp4a.40.2"' />
+  <source src="video.mp4" type='video/mp4;
+    codecs="avc1.42E01E, mp4a.40.2"' />
   <source src="video.webm" type='video/webm;codecs="vp8, vorbis"' />
   <p>Descripcion del video</p>
 </video>
@@ -686,11 +692,11 @@ Para poner diferentes formatos usamos `<source>`
 
 ## HTML5 LAYOUT
 
-|                                       |                                      |
-| --------------------------------------|:-------------------------------------|
-| ![html6](/z-static/images/html5/oldLayout.png) | ![html7](/z-static/images/html5/newLayout.png)
+<img src="/z-static/images/html5/oldLayout.png" alt="html6" width="320"/>
+<img src="/z-static/images/html5/newLayout.png" alt="html6" width="320"/>
 
-### `<header> <footer> <nav>`
+
+### header, footer, nav
 
 <header>
   <h4>Yoko's Kitchen</h4>
@@ -726,23 +732,23 @@ Para poner diferentes formatos usamos `<source>`
 </footer>
 ```
 
-### `<article>`
+### article
 
 <article>
   <hgroup>
     <h2>Japanese Vegetarian</h2>
     <h3>Five week course in London</h3>
   </hgroup>
-  <p>A five week introduction to traditional Japanese vegetarian meals, teaching
-    you a selection of rice and noodle dishes.</p>
+  <p>A five week introduction to traditional Japanese vegetarian meals,
+   teaching you a selection of rice and noodle dishes.</p>
 </article>
 <article>
   <hgroup>
     <h2>Sauces Masterclass</h2>
     <h3>One day workshop</h3>
   </hgroup>
-  <p>An intensive one-day course looking at how to create the most delicious
-    sauces for use in a range of Japanese cookery.</p>
+  <p>An intensive one-day course looking at how to create the most 
+    delicious sauces for use in a range of Japanese cookery.</p>
 </article>
 
 ```html
@@ -751,27 +757,28 @@ Para poner diferentes formatos usamos `<source>`
     <h2>Japanese Vegetarian</h2>
     <h3>Five week course in London</h3>
   </hgroup>
-  <p>A five week introduction to traditional Japanese vegetarian meals, teaching
-    you a selection of rice and noodle dishes.</p>
+  <p>A five week introduction to traditional Japanese vegetarian 
+    meals, teaching you a selection of rice and noodle dishes.</p>
 </article>
 <article>
   <hgroup>
     <h2>Sauces Masterclass</h2>
     <h3>One day workshop</h3>
   </hgroup>
-  <p>An intensive one-day course looking at how to create the most delicious
-    sauces for use in a range of Japanese cookery.</p>
+  <p>An intensive one-day course looking at how to create the most 
+    delicious sauces for use in a range of Japanese cookery.</p>
 </article>
 ```
-### `<aside> <section>`
+
+### aside, section
 
 <aside>
   <section class="popular-recipes">
     <h3>Popular Recipes</h3>
-    <a href="">Yakitori (grilled chicken)</a>
-    <a href="">Tsukune (minced chicken patties)</a>
-    <a href="">Okonomiyaki (savory pancakes)</a>
-    <a href="">Mizutaki (chicken stew)</a>
+    <a href="">Yakitori (grilled chicken)</a><br/>
+    <a href="">Tsukune (minced chicken patties)</a><br/>
+    <a href="">Okonomiyaki (savory pancakes)</a><br/>
+    <a href="">Mizutaki (chicken stew)</a><br/>
   </section>
   <section class="contact-details">
     <h3>Contact</h3>
@@ -787,10 +794,10 @@ Para poner diferentes formatos usamos `<source>`
 <aside>
   <section class="popular-recipes">
     <h3>Popular Recipes</h3>
-    <a href="">Yakitori (grilled chicken)</a>
-    <a href="">Tsukune (minced chicken patties)</a>
-    <a href="">Okonomiyaki (savory pancakes)</a>
-    <a href="">Mizutaki (chicken stew)</a>
+    <a href="">Yakitori (grilled chicken)</a><br/>
+    <a href="">Tsukune (minced chicken patties)</a><br/>
+    <a href="">Okonomiyaki (savory pancakes)</a><br/>
+    <a href="">Mizutaki (chicken stew)</a><br/>
   </section>
   <section class="contact-details">
     <h3>Contact</h3>
@@ -802,7 +809,7 @@ Para poner diferentes formatos usamos `<source>`
 </aside>
 ```
 
-### `<hgroup>`
+### hgroup
 
 <hgroup>
   <h3>Japanese Vegetarian</h3>
@@ -816,7 +823,7 @@ Para poner diferentes formatos usamos `<source>`
 </hgroup>
 ```
 
-### `<figure> <figcaption>`
+### figure, figcaption
 
 `<figure>` se usa para tener juntas y asociar las imagenes con sus
 pies de fotos `<figcaption>`
@@ -837,7 +844,7 @@ Pero tambien se puede usar para contener
 </figure>
 ```
 
-### `<div>`
+### div
 
 `<div>` queda para todo lo que no sea claramente algo de lo anterior y para
 tener juntos elementos relacionados o envolver partes de la pagina

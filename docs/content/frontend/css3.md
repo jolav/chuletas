@@ -705,17 +705,17 @@ a {
 
 ```css
 input {
-  font-size: 120%;                // tamaño del texto escrito por el usuario
+  font-size: 120%;                // tamaño del texto 
   color: #5a5854;                 // color del texto
-  background-color: #f2f2f2;      // color del fondo de la entrada de texto
-  border: 1px solid #bdbdbd;      // marca los bordes de la entrada de texto
+  background-color: #f2f2f2;      // color del fondo de la entrada 
+  border: 1px solid #bdbdbd;      // marca los bordes de la entrada 
   border-radius: 5px;             // redondea esos bordes
   padding: 5px 5px 5px 30px;
   background-repeat: no-repeat;
   background-position: 8px 9px;
   display: block;
   margin-bottom: 10px;}
-input:focus {                     // cambia el color de fondo de lo que se usa
+input:focus {                     // cambia el color de fondo 
   background-color: #ffffff;
   border: 1px solid #b1e1e4;}
 input#email {
@@ -744,8 +744,8 @@ input#submit {
     -o-linear-gradient(top, #beeae9, #a8cfce);
   background:
     -ms-linear-gradient(top, #beeae9, #a8cfce);}
-input#submit:hover {       // cambia la apariencia del boton al pasar por encima
-  color: #333333;
+input#submit:hover {                // cambia la apariencia del boton 
+  color: #333333;                   // al pasar por encima
   border: 1px solid #a4a4a4;
   border-top: 2px solid #b2b2b2;
   background-color: #a0dbc4;

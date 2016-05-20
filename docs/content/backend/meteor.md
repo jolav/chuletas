@@ -274,7 +274,7 @@ instancia de la plantilla
 ```javascript
 Template.nombrePlantilla.events() {
   'click .clase': function(event, template) {
-    event.preventDefault() // p.ej en form para evitar la recarga de pagina;
+    event.preventDefault() // p.ej en form para no recargar la pagina;
     codigo;
   },
   'keyup [name=nombreQueSea]: function(event, template) {
@@ -343,7 +343,8 @@ unless es lo mismo que #if pero con la condicion al reves
 * with
 
 ```javascript
-establece un nuevo contexto de datos a su contenido y plantillas contenidas
+establece un nuevo contexto de datos a su contenido y plantillas 
+contenidas
 ```
 
 * each
@@ -646,7 +647,8 @@ subscriptions: function () {
 ```javascript
 $ mongo
 > use admin
-> db.createUser({user:"usuarioAdmin",pwd:"contraseña",roles:[{role:"root",db:"admin"}]})
+> db.createUser({user:"usuarioAdmin",pwd:"contraseña",
+>                   roles:[{role:"root",db:"admin"}]})
 
 $ mongo -u usuarioAdmin -p contraseña --authenticationDatabase admin
 > use some_db
@@ -660,18 +662,20 @@ mongod --auth //para iniciar el servicio con la autenticacion activada
 
 ```javascript
 miTabla = new Mongo.Collection('mitabla');
-miTabla = new Mongo.Collection(null); // crea coleccion solo en el lado cliente
+miTabla = new Mongo.Collection(null); // crea coleccion solo en cliente
 Meteor.Collection esta deprecado
 ```
 
 `IdGenerator`
 
-```javascript
-('mitabla', {idGenerator: 'MONGO'}); // crea  "_id" : "6Ar8tad67Tru9TH"
-('mitabla', {idGenerator: 'STRING'}); // crea "_id" : ObjectId ("9Uyt06iG39gh9")
+MongoDB por defecto usa ObjectId, por ejemplo al usar mongoimport.  
+Meteor por defecto usa string  
 
-MongoDB por defecto usa ObjectId, por ejemplo al usar mongoimport
-Meteor por defecto usa string
+```javascript
+// crea "_id" : "6Ar8tad67Tru9TH"
+('mitabla', {idGenerator: 'MONGO'}); 
+// crea "_id" : ObjectId ("9Uyt06iG39gh9")
+('mitabla', {idGenerator: 'STRING'});
 ```
 
 ### Minimongo
@@ -1061,9 +1065,9 @@ data // mas abajo
 ```javascript
 Router.onRun // Cuando la ruta se ejecuta por primera vez
 Router.onRerun // similar a onBeforeAction, hau que usar this.next()
-Router.onBeforeAction // Antes de ejecutar la ruta, hay que usar this.next()
+Router.onBeforeAction // Antes de ejecutar la ruta, usar this.next()
 Router.onAfterAction // Se ejecuta despues de haber ejecutado la ruta
-Router.onStop // Cuando la ruta se para, lo normal es antes de una nueva ruta
+Router.onStop // Cuando la ruta se para, antes de una nueva ruta
 ```
 
 `onBeforeAction` para asegurarnos que antes de acceder a una pagina esta 
@@ -1340,8 +1344,10 @@ Accounts.ui.config({
 ya diseñada para loguearse 
 
 ```javascript
-{{> loginButtons}} // Inserta la interfaz de logueo en una plantilla
-{{> loginButtons align="right"}}) // para ponerla a la derecha o a la izquierda
+// Inserta la interfaz de logueo en una plantilla
+{{> loginButtons}} 
+// para ponerla a la derecha o a la izquierda
+{{> loginButtons align="right"}}) 
 ```
 
 ---
