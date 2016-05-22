@@ -18,8 +18,8 @@ pages:
     - 'NodeJS': 'backend/nodejs.md'
     - 'Meteor': 'backend/meteor.md'
 - Debian:
-    - 'Desktop': 'debian/desktop.md'
-    - 'Server': 'debian/server.md'
+    - 'Testing': 'debian/testing.md'
+    - 'Servidor': 'debian/servidor.md'
 - Varios:
     - 'Git': 'varios/git.md'
     - 'Hugo': 'varios/hugo.md'

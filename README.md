@@ -1,4 +1,4 @@
-# Chuletas
+## Chuletas
 Recopilacion de informacion para intentar no estar todo el dia buscando las mismas cosas
 
 Front-end  
@@ -24,4 +24,10 @@ Varios
 * [Expresiones regulares](https://github.com/BrusBilis/chuletas/blob/master/docs/content/varios/expreregulares.md)   
 
 
-# Usar [mkdocs](http://www.mkdocs.org/) 
+## Usar [mkdocs](http://www.mkdocs.org/)
+
+Para verlo todo aqui en GitHub dan problemas los enlaces a imagenes y los 
+enlaces internos.
+
+Aqui se ve perfecto [Chuletas](http://brusbilis.com/chuletas) 
+

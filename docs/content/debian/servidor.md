@@ -1,10 +1,4 @@
-# DEBIAN TESTING
-
----
-
-Para andar con ojo en las actualizaciones:
-
-`aptitude install apt-listbugs`
+# SERVIDOR
 
 ---
 
@@ -557,29 +551,6 @@ Si debian protesta de dependencias instala las que pida. Estas son las mas posib
 > `perl libnet-ssleay-perl openssl libpam-runtime libio-pty-perl python
 > libauthen-pam-perl libio-pty-perl apt-show-versions`
 
-
----
-
-## GPG
-
-```sh
-gpg -c archivo.txt // lo cifra a archivo binario
-gpg -ca archivo.txt // lo cifra a archivo texto
-gpg -d archivo.(gpg o txt) // lo descifra segun el archivo
-```
-
----
-
-## DPKG
-
-Cuando en consola un paquete deb tiene dependencias incumplidas y no se instala, justo despues del dpkg -i hacemos un -f install y todo se instala
-
-```sh
-dpkg -i paquete.deb
-apt-get -f install
-dpkg -r solonombreprograma // desinstalar
-```
-
 ---
 
 ## PUERTOS
@@ -606,3 +577,144 @@ Para ver si me puedo conectar a algun sitio
 `nc -v brusbilis.com 80`
 
 ---
+
+
+## LETS ENCRYPT
+
+[HTTPS certbot](https://certbot.eff.org/)
+
+```sh
+apt-get install letsencrypt -t jessie-backports
+letsencrypt certonly
+```
+
+Ahora configurar nginx para que sirva todo por SSL port 443
+
+```sh
+nano /etc/nginx/sites-available/archivo
+// No olvidar despues
+cp /etc/nginx/sites-available/archivo /etc/nginx/sites-enabled/archivo
+service nginx restart
+```
+
+Añadir posibilidad de peticion https
+
+```sh
+# HTTPS server
+server {
+   listen 443 ssl;
+   server_name brusbilis.com;
+   ssl_certificate /etc/letsencrypt/live/brusbilis.com/cert.pem;
+   ssl_certificate_key /etc/letsencrypt/live/brusbilis.com/privkey.pem;
+   ssl_session_cache shared:SSL:1m;
+   ssl_session_timeout 5m;
+   ssl_ciphers HIGH:!aNULL:!MD5;
+   ssl_prefer_server_ciphers on;
+   location / {
+      root /var/www/html;
+      index index.html index.htm;
+   }
+}
+```
+
+Pero lo que queremos es forzar siempre a HTTPS
+
+```sh
+server {
+        listen 80;
+        listen [::]:80;
+
+        server_name brusbilis.com www.brusbilis.com;
+        return 301 https://brusbilis.com$request_uri;
+}
+server {
+        listen 80;
+        listen [::]:80;
+        server_name aplicateca.brusbilis.com;
+
+        return 301 https://aplicateca.brusbilis.com$request_uri;
+}
+server {
+    listen 80;
+
+    # Listen to your server ip address
+    server_name 89.38.144.25;
+
+    # Redirect all traffic comming from your-server-ip to your domain
+    return 301 $scheme://brusbilis.com$request_uri;
+}
+# HTTPS server
+server {
+   listen 443 ssl;
+   server_name brusbilis.com;
+   ssl_certificate /etc/letsencrypt/live/brusbilis.com/cert.pem;
+   ssl_certificate_key /etc/letsencrypt/live/brusbilis.com/privkey.pem;
+   ssl_session_cache shared:SSL:1m;
+   ssl_session_timeout 5m;
+   ssl_ciphers HIGH:!aNULL:!MD5;
+   ssl_prefer_server_ciphers on;
+   location / {
+        ssi on;
+        try_files $uri $uri/ =404;
+        root /var/www/html;
+        index index.html index.htm;
+   }
+}
+
+# HTTPS server
+server {
+   listen 443 ssl;
+   server_name aplicateca.brusbilis.com;
+   ssl_certificate /etc/letsencrypt/live/aplicateca.brusbilis.com
+                                                        /cert.pem;
+   ssl_certificate_key /etc/letsencrypt/live/aplicateca.brusbilis.com
+                                                        /privkey.pem;
+   ssl_session_cache shared:SSL:1m;
+   ssl_session_timeout 5m;
+   ssl_ciphers HIGH:!aNULL:!MD5;
+   ssl_prefer_server_ciphers on;
+   location / {
+        ssi on;
+        try_files $uri $uri/ =404;
+        root /var/www/aplicateca;
+        index index.html index.htm;
+   }
+}
+```
+
+Daba algun problema en navegadores de android "Your connection is not private"
+
+Al cambiar  
+`ssl_certificate /etc/letsencrypt/live/snakify.org/cert.pem;`   
+por  
+`ssl_certificate     /etc/letsencrypt/live/snakify.org/fullchain.pem;`  
+Se arregla en chrome y en Dolphin 
+
+
+FALTA EL TEMA DE LA RENOVACION
+
+Probar con
+`letsencrypt renew --dry-run`
+
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+``
+
+
+
+
+
