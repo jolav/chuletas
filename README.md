@@ -14,8 +14,8 @@ Back-End
 * [Meteor](https://github.com/BrusBilis/chuletas/blob/master/docs/content/backend/meteor.md)  
 
 Debian  
-* [Desktop](https://github.com/BrusBilis/chuletas/blob/master/docs/content/debian/desktop.md)  
-* [Server](https://github.com/BrusBilis/chuletas/blob/master/docs/content/debian/server.md)  
+* [Testing](https://github.com/BrusBilis/chuletas/blob/master/docs/content/debian/testing.md)  
+* [Servidor](https://github.com/BrusBilis/chuletas/blob/master/docs/content/debian/servidor.md)  
 
 Varios  
 * [Git](https://github.com/BrusBilis/chuletas/blob/master/docs/content/varios/git.md)  

@@ -12,6 +12,7 @@ pages:
     - 'CSS3': 'frontend/css3.md'
     - 'Javascript I': 'frontend/js1.md'
     - 'Javascript II': 'frontend/js2.md'
+    - 'Javascript III': 'frontend/js3.md'
     - 'jQuery': 'frontend/jquery.md'
 - Back-End:
     - 'Golang': 'backend/golang.md'

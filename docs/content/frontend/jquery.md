@@ -565,6 +565,160 @@ $('li').on('click', function(e) {
 });
 ```
 
+---
+
+## AJAX
+
+### Requests
+
+* **Metodos**
+
+`.load()` - Carga codigo HTML en el elemento seleccionado  
+`$.get(url[, data][, callback][, type])` - Carga datos usando el metodo GET. 
+Se usa para pedir datos del servidor  
+`$.post(url[, data][, callback][, type])` - Carga datos usando el metodo POST. 
+Se usa para actualizar datos 
+del servidor  
+`$.getJSON(url[, data][, callback])` - Carga datos JSON usando el metodo GET. 
+Se usa para datos JSON   
+`$.getScript(url[, callback])` - Carga y ejecuta datos javascript usando el 
+metodo GET. Se usa para datos javascript (p ej JSONP)  
+
+> `url` de donde se sacan los datos  
+> `data` ofrece informacion extra para enviar al servidor  
+> `callback` la funcion que se ejecutara cuando recibamos los datos  
+> `type` el tipo de dato que esperamos recibir del servidor  
+
+`$.ajax()` - Se usa para hacer las peticiones. Todos los de arriba en realidad 
+usan este por debajo 
+
+> `type` - GET ó POST   
+> `url` - Pagina a la que enviar la peticion  
+> `data` - Datos adicionales que van al servidor con la peticion  
+> `success` - Funcion que se ejecuta se la peticion tiene exito (similar a 
+> `.done()`)    
+> `error` - Funcion que se ejecuta si la peticion falla (similar a `.fail()`)  
+> `beforeSend` - Funcion que se ejecuta antes de que comienze la peticion (por 
+>  ejemplo para poner un icono de cargando)  
+> `complete` - Funcion para ejecutar despues de los eventos de exito o fallo
+> (por ejemplo para quitar el icono de cargando)  
+> `timeout` - Milisegundos a esperar antes de que el evento falle  
+
+```js
+$('nav a').on('click', function(e) {
+  e.preventDefault();
+  var url = this.href;                                 // URL to load
+  var $content = $('#content');                        // Cache selection
+  $('nav a.current').removeClass('current');           // Update links
+  $(this).addClass('current');
+  $('#container').remove();                            // Remove content
+  $.ajax({
+    type: "GET",                                       // GET or POST
+    url: url,                                          // Path to file
+    timeout: 2000,                                     // Waiting time
+    beforeSend: function() {                           // Before Ajax 
+      $content.append('<div id="load">Loading</div>'); // Load message
+    },
+    complete: function() {                             // Once finished
+      $('#load').remove();                             // Clear message
+    },
+    success: function(data) {                          // Show content
+      $content.html( $(data).find('#container') ).hide().fadeIn(400);
+    },
+    error: function() {                                // Show error msg 
+      $content.html('<div class="container">Please try again soon.</div>');
+    }
+  });
+});
+```
+
+### Responses
+
+* **Propiedades**
+
+`responseText` - Datos basados en texto  
+`responseXML` - Datos en XML  
+`status` - Codigo de estado  
+`statusText` - Descripcion del estado  
+
+* **Metodos**
+
+`.done()` - Codigo a ejecutar si la peticion tuvo exito  
+`.fail()` - Codigo a ejecutar si la peticion fallo  
+`.always()` - Codigo a ejecutar si la peticion tuvo exito o fallo  
+`.abort()` - Cortar la comunicacion  
+
+```js
+function loadRates() {
+  $.getJSON('data/rates.json')
+  .done( function(data){                                 
+    // codigo si la peticion tuvo exito                        
+  }).fail( function() {                                  
+    // codigo si la peticion ha fallado   
+  }).always( function() {                                
+    // codigo que se ejecuta siempre
+  }); 
+}
+```
+
+### Cargar HTML
+
+> > ![jquery](/z-static/images/jquery/loadingHTML.png)
+
+> 1. Crea un objeto jQuery con el elemento cuya id="content"  
+> 2. La URL de la pagina de donde queremos cargar el HTML. Debe haber un 
+> espacio entre la URL y el selector del paso 3  
+> 3. Es el fragmento de la pagina HTML cargada que queremos mostrar. En este
+> caso es la seccion con id="content"  
+
+```html
+<nav>
+  <a href="jq-load.html" class="current">HOME</a>
+  <a href="jq-load2.html">ROUTE</a>
+  <a href="jq-load3.html">TOYS</a>
+</nav>
+
+<section id="content">
+  <div id="container">    
+    <!-- CONTENIDO DE LA PAGINA AQUI -->
+  </div>
+</section>
+```
+
+```js
+$('nav a').on('click', function(e) {          // User clicks nav link
+  e.preventDefault();                         // Stop loading new link
+  var url = this.href;                        // Get value of href
+
+  $('nav a.current').removeClass('current');  // Clear current indicator
+  $(this).addClass('current');                // New current indicator
+
+  $('#container').remove();                   // Remove old content
+  // New content
+  $('#content').load(url + ' #container').hide().fadeIn('slow'); 
+});
+```
+
+### Enviando Formularios
+
+* **Metodo**
+
+`.serialize()`  
+> * Selecciona toda la informacion del formulario  
+> * La pone en un cadena lista para ser enviada al servidor  
+> * Codifica los caracteres que no pueden ser enviados un cada cadena  
+> * Solo envia controles de formulario exitosos, no envia controles 
+> desactivados ni no seleccionados ni el boton enviar  
+
+```js
+$('#register').on('submit', function(e) {           
+  e.preventDefault();                               
+  var details = $('#register').serialize();         
+  $.post('register.php', details, function(data) {  
+    $('#register').html(data);                    
+  });
+});
+```
 
 
 

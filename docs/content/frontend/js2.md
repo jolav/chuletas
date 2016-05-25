@@ -545,9 +545,392 @@ el `event listener` en el elemento que los contiene y luego se usa la propiedad
 
 ## AJAX
 
-![js2](/z-static/images/comingSoon2.jpg)
+### Conceptos
+
+> Ajax permite pedir datos al servidor y cargarlos sin tener que refrescar la 
+> pagina entera  
+> Los servidores usan para enviar los datos HTML, XML o JSON  
+> Ajax usa un modelo asicrono, permite hacer cosas mientras el navegador espera 
+> los datos del servidor para cargarlos  
+
+> ![js2](/z-static/images/js/ajax/ajaxFlow.png)
+
+
+> 1. Peticion: El navegador pide datos al servidor, la peticion puede incluir
+> datos que el servidor necesite al igual que un formulario puede enviar datos
+> a un servidor  
+
+> 2. En el servidor ocurre lo que sea y se genera una respuesta que puede ser 
+> en forma de HTML u otro formato como XML o JSON que luego el navegador 
+> convertira en HTML   
+
+> 3. Respuesta: cuando el navegador recibe la respuesta del servidor dispara un
+> evento el cual puede ser usado para ejecutar una funcion javascipt que 
+> procesara los datos y los mostrara en pantalla  
+
+### XMLHttpRequest Object
+
+> Los navegadores usan el objeto `XMLHttpRequest` para manejar peticiones Ajax. 
+> Cuando el servidor responde a la peticion del navegador el mismo objeto 
+> `XMLHttpRequest` procesa el resultado  
+
+* **Peticiones**
+
+> ![js2](/z-static/images/js/ajax/ajaxRequest.png)
+
+> 1. Se instancia el objeto `XMLHttpRequest` para crear un nuevo objeto `xhr`  
+> 2. `.open()` - Metodo HTTP , url que manejara la peticion, true|false 
+> si es asincrono
+> 3. `.send()` - Envia la peticion al servidor, se puede pasar informacion 
+> extra o no
+
+* **Respuestas**
+
+> ![js2](/z-static/images/js/ajax/ajaxResponse.png)
+
+> 1. Cuando el navegador recibe y carga la respuesta del servidor se dispara
+> el evento `onload`. Esto provoca que se ejecute una funcion  
+> 2. La funcion chequea la propiedad `status` del objeto para asegurarse de
+> que la respuesta del servidor esta bien
+
+### Formatos de datos
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>JavaScript AJAX - Loading HTML, JSON y XML</title>
+  </head>
+  <body>
+    <header><h1>THE MAKER BUS</h1></header>
+    <h2>The bus stops here.</h2>
+    <section id="content"></section>
+    <script src="js/data.js"></script>
+
+  </body>
+</html>
+```
+
+```html
+// data.html
+<div class="event">
+  <img src="img/map-ca.png" alt="Map of California" />
+  <p><b>Los Angeles, CA</b><br>
+  May 1</p>
+</div>
+<div class="event">
+  <img src="img/map-tx.png" alt="Map of MI casa" />
+  <p><b>Austin, TX</b><br>
+  May 15</p>
+</div>
+<div class="event">
+  <img src="img/map-ny.png" alt="Map of New York" />
+  <p><b>New York, NY</b><br>
+  May 30</p>
+</div>
+
+```
+
+```json
+// data.json
+{
+  "events": [
+    {
+      "location": "San Francisco, CA",
+      "date": "May 1",
+      "map": "img/map-ca.png"
+    },
+    {
+      "location": "Austin, TX",
+      "date": "May 15",
+      "map": "img/map-tx.png"
+    },
+    {
+      "location": "New York, NY",
+      "date": "May 30",
+      "map": "img/map-ny.png"
+    }
+  ]
+}
+```
+
+```xml
+// data.xml
+<?xml version="1.0" encoding="utf-8" ?>
+<events>
+  <event>
+    <location>San Francisco, CA</location>
+    <date>May 1</date>
+    <map>img/map-ca.png</map>
+  </event>
+  <event>
+    <location>Austin, TX</location>
+    <date>May 15</date>
+    <map>img/map-tx.png</map>
+  </event>
+  <event>
+    <location>New York, NY</location>
+    <date>May 30</date>
+    <map>img/map-ny.png</map>
+  </event>
+</events>
+```
+
+* **[HTML](//brusbilis.com/chuletas/frontend/html5/)**
+
+```js
+var xhr = new XMLHttpRequest();       // Create XMLHttpRequest object
+
+xhr.onload = function() {             // When response has loaded
+  if(xhr.status === 200) {            // If server status was ok update
+    var response = xhr.responsetext;  
+    document.getElementById('content').innerHTML = response; 
+  }
+};
+
+xhr.open('GET', 'data/data.html', true);        // Prepare the request
+xhr.send(null); 
+```
+
+* **[JSON](#json)**
+
+```js
+var xhr = new XMLHttpRequest();         // Create XMLHttpRequest object
+
+xhr.onload = function() {               // When readystate changes
+  if(xhr.status === 200) {              // If server status was ok
+    responseObject = JSON.parse(xhr.responseText);
+
+    // BUILD UP STRING WITH NEW CONTENT (could also use DOM manipulation)
+    var newContent = '';
+    // Loop through object
+    for (var i = 0; i < responseObject.events.length; i++) { 
+      newContent += '<div class="event">';
+      newContent += '<img src="' + responseObject.events[i].map + '" ';
+      newContent += 'alt="' + responseObject.events[i].location + '" />';
+      newContent += '<p><b>' + responseObject.events[i].location + 
+                                                        '</b><br>';
+      newContent += responseObject.events[i].date + '</p>';
+      newContent += '</div>';
+    }
+
+    // Update the page with the new content
+    document.getElementById('content').innerHTML = newContent;
+
+  //}
+};
+
+xhr.open('GET', 'data/data.json', true);        // Prepare the request
+xhr.send(null);  
+```
+
+* **[XML](#xml)**
+
+```js
+var xhr = new XMLHttpRequest();          // Create XMLHttpRequest object
+
+xhr.onload = function() {                // When response has loaded
+  if (xhr.status === 200) {              // If server status was ok
+    var response = xhr.responseXML;      // Get XML from the server
+    // Find <event> elements and loop through them
+    var events = response.getElementsByTagName('event'); 
+    for (var i = 0; i < events.length; i++) {            
+      var container, image, location, city, newline;     
+      container = document.createElement('div');          
+      container.className = 'event';                     
+      // Add map image
+      image = document.createElement('img');              
+      image.setAttribute('src', getNodeValue(events[i], 'map'));
+      image.setAttribute('alt', getNodeValue(events[i], 'location'));
+      container.appendChild(image);
+      // Add location data
+      location = document.createElement('p');             
+      city = document.createElement('b');
+      newline = document.createElement('br');
+      city.appendChild(document.createTextNode(getNodeValue(
+                                            events[i], 'location')));
+      location.appendChild(newline);
+      location.insertBefore(city, newline);
+      location.appendChild(document.createTextNode(getNodeValue(
+                                            events[i], 'date')));
+      container.appendChild(location);
+    
+      document.getElementById('content').appendChild(container);
+    }
+}
+  // Gets content from XML
+  function getNodeValue(obj, tag) {                   
+    return obj.getElementsByTagName(tag)[0].firstChild.nodeValue;
+  }
+};
+
+xhr.open('GET', 'data/data.xml', true);             // Prepare the request
+xhr.send(null); 
+```
+
+### Datos de otros servidores
+
+> Por seguridad AJAX no carga respùestas de otros dominios (conocidas como 
+> `cross-domain requests`)  
+> Alternativas
+
+> 1. `Proxy` - Crear un archivo en mi servidor que recoge los datos del 
+> servidor  remoto. Asi las demas paginas de mi web pueden pedir los datos 
+> de ese archivo que actua de proxy     
+> 2. `JSONP`    
+> 3. `Cross-Origin resources Sharing CORS` - Añadir informacion extra a las 
+> cabeceras HTTP - [Buena Guia para CORS](http://www.html5rocks.com/en/tutorials/cors/?redirect_from_locale=es)
+
+* **JSONP**  
+
+```html
+// data-jsonp.html
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>JavaScript Ajax - JSONP</title>
+</head>
+<body>
+  <header><h1>THE MAKER BUS</h1></header>
+  <h2>The bus stops here</h2>
+  <section id="content"></section>
+  <script src="js/data-jsonp.js"></script>
+  <script 
+    src="http://htmlandcssbook.com/js/jsonp.js?callback=showEvents">
+  </script>
+</body>
+</html>
+```
+
+```js
+// js/data-jsonp.js
+function showEvents(data) {           // Callback when JSON loads
+  var newContent = '';                // Variable to hold HTML
+  // BUILD UP STRING WITH NEW CONTENT (could also use DOM manipulation)
+  for (var i = 0; i < data.events.length; i++) {    // Loop through object
+    newContent += '<div class="event">';
+    newContent += '<img src="' + data.events[i].map + '" ';
+    newContent += 'alt="' + data.events[i].location + '" />';
+    newContent += '<p><b>' + data.events[i].location + '</b><br>';
+    newContent += data.events[i].date + '</p>';
+    newContent += '</div>';
+  }
+  // Update the page with the new content
+  document.getElementById('content').innerHTML = newContent;
+}
+```
+  
+```js
+// data/data-jsonp.js
+showEvents({
+  "events": [
+    {
+      "location": "San Francisco, CA",
+      "date": "May 1",
+      "map": "img/map-ca.png"
+    },
+    {
+      "location": "Austin, TX",
+      "date": "May 15",
+      "map": "img/map-tx.png"
+    },
+    {
+      "location": "New York, NY",
+      "date": "May 30",
+      "map": "img/map-ny.png"
+    }
+  ]
+});
+```
 
 ---
+
+## JSON
+
+### Notacion JSON
+ 
+JSON es solo texto plano que envias por internet y luego el navegador 
+convierte en objetos para usarlos  
+
+> ![js2](/z-static/images/js/jsonSyntaxis.png)
+
+> * KEYS colocados entre comillas (no comillas simples y separados del valor 
+> por dos puntos. 
+
+> * VALUES alguno de los siguientes tipos de datos
+>     * `string` - Texto escrito entre comillas  
+>     * `number` - Numero  
+>     * `boolean` - `true` o `false`  
+>     * `array` - array de valores o de objetos   
+>     * `object` - objeto javascript que puede contener objetos hijos o arrays  
+>     * `null` - cuando el valor esta vacio o perdido  
+
+> * Cada pareja clave/valor esta separada por una coma excepto la ultima  
+
+### Objeto JSON
+
+> events es un array que contiene dos objetos (uno por evento)  
+
+```json
+{
+  "events" : [
+    {
+      "location": "San Francisco, CA",
+      "date": "May l", 
+      "map": "img/map-ca.png " 
+    },
+    {    
+      "location" : "Austin, TX", 
+      "date" : "May 15", 
+      "map": "img/map-tx.png" 
+    }
+  ]
+}
+```
+
+`JSON.stringify()` convierte objetos javascript en una cadena formateada usando
+JSON. Esto permite enviar objetos javascript de el navegador a otra aplicacion  
+
+
+`JSON.parse()` convierte una cadena de datos JSON en objetos javascript que el 
+navegador pueda usar  
+
+---
+
+## XML
+
+Parecido a HTML pero las etiquetas describen el tipo de dato que hay dentro  
+Se puede procesar XML usando los mismos metodos DOM de HTML, por eso es mas
+facil usando jQuery  
+
+```xml
+<?xml version="1.O" encoding="utf-8" ?>
+<events>
+  <event>
+  <location>San Francisco, CA</location>
+  <date>May 1 </date>
+  <map>img/map-ca.png</map>
+  </event>
+  <event>
+  <location>Austin, TX</location>
+  <date>May 15</ date>
+  <map>img/map-tx.png</map>
+  </event>
+</events>
+```
+
+---
+
+
+
+
+
+
+---
+
+
 
 
 ```js
