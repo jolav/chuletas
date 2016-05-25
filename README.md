@@ -6,6 +6,7 @@ Front-end
 * [CSS3](https://github.com/BrusBilis/chuletas/blob/master/docs/content/frontend/css3.md)  
 * [Javascript 1](https://github.com/BrusBilis/chuletas/blob/master/docs/content/frontend/js1.md)  
 * [Javascript 2](https://github.com/BrusBilis/chuletas/blob/master/docs/content/frontend/js2.md)  
+* [Javascript 3](https://github.com/BrusBilis/chuletas/blob/master/docs/content/frontend/js3.md) 
 * [jQuery](https://github.com/BrusBilis/chuletas/blob/master/docs/content/frontend/jquery.md)  
 
 Back-End  
