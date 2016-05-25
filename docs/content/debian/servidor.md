@@ -206,7 +206,7 @@ Hay que darle permisos al user para toda esa carpeta
 
 `nano /etc/nginx/nginx.conf`  
 
-```sh
+```nginx
 // Descomentar la linea
 server_names_hash_bucket_size 64;
 ```
@@ -226,7 +226,7 @@ Contenido de brusbilis. Aqui son todos host virtuales que escuchan por el mismo 
 
 El primer virtualHost que sirve brusbilis.com y www.brusbilis.com esta preparado para ejecutar paginas PHP, el resto no.
 
-```sh
+```nginx
 server {
     listen 80;
     listen [::]:80;
@@ -303,7 +303,7 @@ server {
 
 Redirigir acceso por direccion IP al nombre del dominio
 
-```sh
+```nginx
 server {
     listen 80;
 
@@ -315,7 +315,7 @@ server {
 }
 ```
 
-```sh
+```nginx
 server {
     listen 80;
 
@@ -331,7 +331,7 @@ server {
 
 SIN CONFIRMAR, yo lo tengo hecho por DNS
 
-```sh
+```nginx
 OPCION A
 server {
     listen   80;
@@ -357,7 +357,7 @@ server   {
 user brus;
 ```
 
-```sh
+```nginx
 server {
   listen       3000;
 
@@ -385,7 +385,7 @@ server {
 
 Para activarlas poner `ssi on` en `/etc/nginx/sites-available`
 
-```sh
+```nginx
 location / {
     ssi on;
     ...
@@ -599,7 +599,7 @@ service nginx restart
 
 Añadir posibilidad de peticion https
 
-```sh
+```nginx
 # HTTPS server
 server {
    listen 443 ssl;
@@ -619,7 +619,7 @@ server {
 
 Pero lo que queremos es forzar siempre a HTTPS
 
-```sh
+```nginx
 server {
         listen 80;
         listen [::]:80;

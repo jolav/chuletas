@@ -1,7 +1,7 @@
 site_name: brusbilis
 #site_favicon: 'z-static/images/favicon.png'
 site_favicon: 'z-static/images/logo/brusbb.png'
-google_analytics: ['UA-65859401-3', 'brusbilis.com']
+google_analytics: ['UA-65859401-3', 'auto']
 extra:
     logo: 'z-static/images/logo/brusbb.png'
 
@@ -12,7 +12,7 @@ pages:
     - 'CSS3': 'frontend/css3.md'
     - 'Javascript I': 'frontend/js1.md'
     - 'Javascript II': 'frontend/js2.md'
-    - 'Javascript III': 'frontend/js3.md'
+    - 'Javascript APIs': 'frontend/apis.md'
     - 'jQuery': 'frontend/jquery.md'
 - Back-End:
     - 'Golang': 'backend/golang.md'
