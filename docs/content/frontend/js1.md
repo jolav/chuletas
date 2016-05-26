@@ -178,7 +178,9 @@ false
 
 Se usan para denotar la ausencia de valor  
 Muchas opeciones en JS que no producen un valor significativo dan undefined sencillamente porque un valor tienen que dar  
-La diferencia entre ellos es irrelevante, se pueden tratar igual
+
+`null` es para objetos  
+`undefined` es para propiedades, metodos o variables  
 
 ### Aumentando tipos
 
@@ -572,33 +574,9 @@ for ( var i = 0; i < numeros.length; i = i + 1) {
 
 ### Metodos
 
-`array.concat(item1, item2 ...)` Va añadiendo los items
+* **Añadir elementos**
 
-```js
-var a = ['a', 'b', 'c'];
-var b = ['x', 'y', 'z'];
-var c = a.concat(b, true);
-// c is ['a', 'b', 'c', 'x', 'y', 'z', true]
-```
-
-`array.join(separador)` crea un string concatenando todos los elementos del
-array usando el separador indicado que por defecto es ','. Si usas espacio en blanco como separador se unen todos sin separacion
-
-```js
-var a = ['a', 'b', 'c'];
-a.push('d');
-var c = a.join(''); // c is 'abcd';
-```
-
-`array.pop()` Elimina y devuelve el ultimo elemento del array. Si vacio
-devuelve undefined
-
-```js
-var a = ['a', 'b', 'c'];
-var c = a.pop( ); // a is ['a', 'b'] & c is 'c'
-```
-
-`array.push(item1, item2, ...)` Añade los items al final del array. Pero cada
+`array.push(item1, item2, ...)` - Añade los items al final del array. Pero cada
  item que añade lo hace como un array item
 
 ```js
@@ -609,14 +587,27 @@ var c = a.push(b, true);
 // c is 5
 ```
 
-`array.reverse()` invierte todos los elementos del array
+`array.unshift(item1, item2, ...)` - como push pero añade los items al principio
+ del array
+
 ```js
 var a = ['a', 'b', 'c'];
-var b = a.reverse( );
-// tanto a como b son ['c', 'b', 'a']
+var r = a.unshift('?', '@');
+// a es ['?', '@', 'a', 'b', 'c']
+//r es 5
 ```
 
-`array.shift()` elimina el primer elemento del array y lo devuelve Si el array esta vacio devuelve undefined
+* **Eliminar elementos**
+
+`array.pop()` - Elimina y devuelve el ultimo elemento del array. Si vacio
+devuelve undefined
+
+```js
+var a = ['a', 'b', 'c'];
+var c = a.pop( ); // a is ['a', 'b'] & c is 'c'
+```
+
+`array.shift()` - elimina el primer elemento del array y lo devuelve Si el array esta vacio devuelve undefined
 
 ```js
 var a = ['a', 'b', 'c'];
@@ -624,7 +615,126 @@ var c = a.shift( );
 // a es ['b', 'c'] , c is 'a'
 ```
 
-`array.slice(comienzo, fin)` copia una parte del array desde el array[comienzo] incluido hasta el array[fin] NO incluido. Fin es opcionale y por defecto es array.length
+* **Iteracion**
+
+`forEach()` - Ejecuta una funcion una vez para cada elemento del array.  
+
+```js
+var people = [
+    {name: 'Casey', rate: 60},
+    {name: 'Camille', rate: 80},
+    {name: 'Gordon', rate: 75},
+    {name: 'Nigel', rate: 120}
+];
+var results = [];                                
+people.forEach(function(person) {                
+  if (person.rate >= 65 && person.rate <= 90) {  
+    results.push(person);                        
+  }
+});
+```
+
+`some()` - Comprueba si algunos elementos del array pasan un test definido 
+por una funcion  
+
+```js
+var ages = [3, 10, 18, 20];
+function checkAdult(age) {
+    return age >= 18;
+}
+function myFunction() {
+    res = ages.some(checkAdult);
+}
+// res = true
+```
+
+`every()` - Comprueba si todos los elementos del array pasan un test definido 
+por una funcion  
+
+```js
+var ages = [3, 10, 18, 20];
+function checkAdult(age) {
+    return age >= 18;
+}
+function myFunction() {
+    res = ages.every(checkAdult);
+}
+// res = false
+```
+
+* **Combinar**
+
+`array.concat(item1, item2 ...)` - Va añadiendo los items
+
+```js
+var a = ['a', 'b', 'c'];
+var b = ['x', 'y', 'z'];
+var c = a.concat(b, true);
+// c is ['a', 'b', 'c', 'x', 'y', 'z', true]
+```
+
+* **Filtrar**
+
+`filter()` - Crea un nuevo array con todos los elementos que pasan un test
+especificado en una funcion  
+
+```js
+var people = [
+    {name: 'Casey', rate: 60},
+    {name: 'Camille', rate: 80},
+    {name: 'Gordon', rate: 75},
+    {name: 'Nigel', rate: 120}
+];
+function priceRange(person) {                        
+  return (person.rate >= 65) && (person.rate <= 90); 
+};
+var results = [];                              
+results = people.filter(priceRange);           
+```
+
+* **Ordenar**
+
+`array.sort(funcionDeComparacion)` - Por defecto la comparacion la hace
+ asumiendo que todos los elementos son strings
+
+```js
+var n = [4, 8, 15, 16, 23, 42];
+n.sort(function (a, b) {
+  return a - b;
+});
+// n is [4, 8, 15, 16, 23, 42];
+```
+
+`array.reverse()` - invierte todos los elementos del array
+```js
+var a = ['a', 'b', 'c'];
+var b = a.reverse( );
+// tanto a como b son ['c', 'b', 'a']
+```
+
+* **Modificar**
+
+`map()` - Llama una funcion sobre cada elemento del array y crea un nuevo 
+array con los resultados  
+
+```js
+var numbers = [4, 9, 16, 25];
+
+function myFunction() {
+  x = numbers.map(Math.sqrt);
+// x = [2, 3, 4, 5]
+```
+
+`array.join(separador)` - crea un string concatenando todos los elementos del
+array usando el separador indicado que por defecto es ','. Si usas espacio en blanco como separador se unen todos sin separacion
+
+```js
+var a = ['a', 'b', 'c'];
+a.push('d');
+var c = a.join(''); // c is 'abcd';
+```
+
+`array.slice(comienzo, fin)` - copia una parte del array desde el array[comienzo] incluido hasta el array[fin] NO incluido. Fin es opcional y por defecto es array.length
 
 ```js
 var a = ['a', 'b', 'c'];
@@ -633,18 +743,7 @@ var c = a.slice(1); // c es ['b', 'c']
 var d = a.slice(1, 2); // d es ['b']
 ```
 
-`array.sort(funcionDeComparacion)` Por defecto la comparacion la hace asumiendo que todos los elementos son strings
-
-```js
-var n = [4, 8, 15, 16, 23, 42];
-n.sort(function (a, b) {
-  return a - b;
-});
-// n is [4, 8, 15, 16, 23, 42];
-
-```
-
-`array.splice(comienzo, borrarCont, item1, item2, ...)` Elimina elementos reemplazandolos por los nuevos item. array[comienzo] a partir de aqui (el incluido) elimina los siguientes borrarCont e inserta los items en su lugar
+`array.splice(comienzo, borrarCont, item1, item2, ...)` - Elimina elementos reemplazandolos por los nuevos item. array[comienzo] a partir de aqui (el incluido) elimina los siguientes borrarCont e inserta los items en su lugar
 Devuelve los elementos borrados
 
 ```js
@@ -652,17 +751,6 @@ var a = ['a', 'b', 'c'];
 var r = a.splice(1, 1, 'ache', 'bug');
 // a es ['a', 'ache', 'bug', 'c']
 // r es ['b']
-
-```
-
-`array.unshift(item1, item2, ...)` como push pero añade los items al principio
- del array
-
-```js
-var a = ['a', 'b', 'c'];
-var r = a.unshift('?', '@');
-// a es ['?', '@', 'a', 'b', 'c']
-//r es 5
 ```
 
 ---
@@ -896,9 +984,111 @@ var b = /&.+;/.test('frank & beans'); // b is true
 
 ## ERRORES
 
-### Excepciones
+### Contexto de ejecucion
+
+> Se corresponden con el alcance o visibilidad de las variables  
+
+> * `Contexto Global`: codigo que esta en el script pero no en una funcion. 
+> Solo hay un contexto global en una pagina    
+> * `Contexto de funcion`: codigo que se ejecuta dentro de una funcion. Cada 
+> funcion tiene su propio contexto  
+
+> Cada vez que un script entra en un nuevo contexto de ejecucion hay dos 
+> fases :
+
+> * `Preparacion`:, se crea un nuevo alcance. Se crean variables, funciones y
+> argumentos y se determina el valor de `this`.   
+> * `Ejecucion`: ahora se pueden asignar valores a las variables, se 
+> referencian las funciones y se ejecuta su codigo y se ejecutan tambien las
+> sentencias  
+
+* **Objeto variables**
+
+> * Cada contexto de ejecucion tiene su propio objeto `variables` que tiene 
+> las variables, funciones y parametros que estan disponibles para ese 
+> contexto.  
+> * Cada contxto de ejecucion tiene tambien acceso al padre de objeto ç
+>`variables`  
+
+* **Excepciones**
+
+Cuando se produce un error, mira en su contexto a ver si hay codigo para 
+manejar el error, si no lo hay sube hacia arriba por el stack buscando codigo 
+para manejar el error. Si llega al contexto global y no lo encuentra termina
+la ejecucion del script y crea un objeto `Error` 
+
+### Objecto Error
+
+* **Tipos de objetos error**
+
+`Error` - error generico
+`SyntaxError` - no se ha respetado la sintaxis  
+`ReferenceError` - se ha referenciado una variable que o no esta declarada o 
+esta fuera del alcance  
+`TypeError` - hay un inesperado tipo de datos que no puede ser forzado  
+`RangeError` - numeros en un rango no aceptable  
+`URIError` - metodos del tipo encodeURI() decodeURI() mal usados  
+`EvalError` - funcion eval() mal usada  
+
+* **Propiedades**
+
+`name` - tipo de ejecucion  
+`message` - descripcion  
+`fileNumber` - nombre del archivo javascript  
+`lineNumber` - numero de la linea con error  
+
+### Depuracion
+
+> * **¿ Donde esta el fallo ?**
+
+1. Hay que acotar al maximo el area donde esta el problema.
+
+2. El mensaje de error te dice:  
+    * el script donde esta el problema  
+    * el numero de linea donde el script ya no puede continuar. Lo normal es
+      que el fallo este antes
+    * el tipo de error
+3. Prueba a ver hasta donde se ejecuta el script uando mensajes en la consola
+para ello  
+4. Usa breakpoints para parar la ejecucion e inspeccionar los valores 
+almacenados en las variables  
+
+> * **¿ Cual es el fallo ?**
+
+1. En los breakpoints si ves valores normales busca antes
+2. Parte el codigo en partes mas pequeñas para testearlas  
+    * usa la consola para escribir los valores de las variables
+    * llama a las funciones desde la consola para ver si devuelven lo que se
+    espera de ellas  
+    * comprueba si los objetos existen y tienen los metodos y propiedades 
+    que se espera que tengan  
+3. Comprueba el numero de parametros de una funcion o el numero de elementos 
+de un array.
+
+> * **Trucos**
+
+* Prueba otro navegador, a veces los errores son especificos del navegador   
+* Manda numeros a la consola a ver cuando se para la ejecucion del programa  
+* Comenta partes del codigo para ir acotando zonas
+* StackOverflow es tu amigo  
+* Herramientas de validacion de codigo online:
+    * [jslint](http://jslint.com)
+    * [jshint](http://jshint.com)
+    * [jsonlint](http://jsonlint.com)
+
+### Manejo excepciones 
 
 Interrumpen la ejecucion del programa. Para evitarlo hay que capturarlas
+
+```js
+try {
+  // intenta ejecutar este codigo
+} catch (exception) {
+  // si hay una excepcion ejecuta este codigo
+} finally {
+  // esto siempre se ejecuta
+}
+```
 
 ```js
 var intentalo = function ( ) {
@@ -911,11 +1101,37 @@ var intentalo = function ( ) {
 intentalo( );
 ```
 
+### Throwing errors
+
+Si sabes que algo podria causar un fallo puedes generar tus propios errores 
+antes que el interprete lo haga.  
+
+`throw new Error("mensaje");`
+
+```js
+var width = 12;                                     
+var height = 'test';                              
+function calcArea(width, height) {
+  try {
+    var area = width * height;                      
+    if (!isNaN(area)) {                   // If it is a number
+      return area;                                  
+    } else {                              // Otherwise throw an error
+      throw new Error('calcArea() received invalid number');
+    }
+  } catch(e) {                            // If there was an error
+    console.log(e.name + ' ' + e.message);          
+    return 'We were unable to calculate the area.'; 
+  }
+}
+document.getElementById('area').innerHTML = calcArea(width, height);
+```
+
 ---
 
-## PATRON DE MODULOS
+## PATRONES
 
-### Reduccion de variables globales
+### Reducir variables globales
 
 `Closures anonimos` Son funciones autoejecutables
 
@@ -971,8 +1187,35 @@ var Modulo = (function () {
 	};
 	return mod;
 }());
-
 ```
+
+### Datos: Arrays VS Objects
+
+> Grupos de obejtos se pueden almacenar en arrays o como propiedades de otros 
+> objetos  
+
+* **Objetos en un array**
+
+```js
+var people = [
+  {name: 'Casey ', rate: 70, active: true},
+  {name: 'Camille', rate: 80, active: true},  
+  {name: 'Gordon', rate: 75, active: false},
+  {name: 'Nigel', rate: 120, active: true}
+]
+```
+
+* **Objetos como propiedades de otros objetos**
+
+```js
+var people = {
+  Casey= {rate: 70, active: true},
+  Camille = {rate: 80, active: true}, 
+  Gordon= {rate: 75, active: false} ,
+  Nigel = {rate: 120, active: true }
+}
+```
+
 
 ---
 
