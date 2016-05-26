@@ -551,6 +551,15 @@ Si debian protesta de dependencias instala las que pida. Estas son las mas posib
 > `perl libnet-ssleay-perl openssl libpam-runtime libio-pty-perl python
 > libauthen-pam-perl libio-pty-perl apt-show-versions`
 
+### Actualizacion
+
+Despues de actualizarse hay veces que no arranca  
+
+```sh
+/etc/init.d/webmin stop
+/etc/init.d/webmin start
+```
+
 ---
 
 ## PUERTOS

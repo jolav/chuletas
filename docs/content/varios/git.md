@@ -45,6 +45,8 @@ solo buscara en el directorio actual, pero con las comillas hara una busqueda re
  commit  
 `--` Indica que no hay mas opciones despues del --  
 `git reset fichero.extension` Saca al archivo de la staging area  
+`git config --global user.name "John Doe"`
+`git config --global user.email johndoe@example.com`
 
 ## Comandos GitHub
 

@@ -923,6 +923,122 @@ facil usando jQuery
 
 ---
 
+## FORMULARIOS
+
+### Helper functions 
+
+* Añadir un `event listener`
+
+```js
+function addEvent (el, event, callback) {
+  if ('addEventListener' in el) {                  
+    el.addEventListener(event, callback, false);   
+  } else {                                         
+    el['e' + event + callback] = callback;         
+    el[event + callback] = function () {
+      el['e' + event + callback](window.event);
+    };
+    el.attachEvent('on' + event, el[event + callback]);
+  }
+}
+```
+
+* Borrar un `event listener`
+
+```js
+function removeEvent(el, event, callback) {
+  if ('removeEventListener' in el) {                       
+    el.removeEventListener(event, callback, false);        
+  } else {                                                
+    el.detachEvent('on' + event, el[event + callback]);   
+    el[event + callback] = null;
+    el['e' + event + callback] = null;
+  }
+}
+```
+
+### Elemento Form
+
+El `document` tiene una coleccion de formularios que guarda referencias a 
+cada formulario de la pagina
+
+> * `document.forms[1]` accede al segundo formulario de la pagina  
+> * `document.forms.login` accede al formulario cuyo atributo name="login" 
+
+Cada elemento `<form>` de la pagina tiene tambien una coleccion de elementos 
+que tiene todos los controles del formulario dentro
+
+> * `document.forms[1].element[0]` accede al primer control del segundo 
+> formulario de la pagina
+> * `documento.forms[1].elements.password` accede al elemento del segundo 
+> formulario cuyo atributo name="password"   
+
+* **Propiedades**
+
+`action` - La URL a que el formulario es enviado para ser procesado  
+`method` - si se envia por GET o POST  
+`name` - se usa poco, lo mas comun es seleccionar un formulario por su 
+atributo id  
+`elements` - una coleccion de elementos en el formulario con los que el
+usuario puede interactuar. Se puede acceder a ellos por los indices o por
+los valores de sus atributos ´name´  
+
+* **Metodos**
+
+`submit()` - Tiene el mismo efecto que pinchar el boton submit   
+`reset()` - Resetea el formulario a los valores iniciales como si la pagina 
+se hubiera recargado  
+
+* **Eventos**
+
+`submit` - Se dispara cuando el formulario es enviado  
+`reset` - Se dispara cuando se resetea el formulario  
+
+### Controles del formulario
+
+* **Propiedades**
+
+`value` - En una entrada de texto es el texto que el usuario introduce, es 
+el valor del atributo `value`  
+`type` - Cuando un formulario se crea usando el elemento `<input>` esto define 
+el tipo del elemento (text, radio, checkbox, password ..)  
+`name` - Devuelve o establece el valor de atributo `name`  
+`defaultValue` - Es el valor inicial de una entrada de texto cuando la pagina 
+se renderiza  
+`form` - El formulario al que el control pertenece  
+`disabled` - Inhabilita el elemento del formulario  
+`checked` - Indica que checkboxes o botones de radio han sido chequeados. 
+Es un booleano que indica true si esta chequeado  
+`defaultChecked` - El valor inicial de un checkbox o radio button (booleano)  
+`selected` - Indica que un elemento de una select box esta seleccionado. 
+Es un booleano que indica true si esta seleccionado.  
+
+* **Metodos**
+
+`focus()` - Le da el foco a un elemento  
+`blur()` - Le quita el fofo al elemento  
+`select()` - Selecciona e ilumina el contenido de texto de un elemento de 
+entrada de texto  
+`click()` - Dispara un    
+
+>  * evento `click` en botones, checkboxes y carga de archivos.  
+>  * evento `submit` en el boton submit   
+>  * evento `reset` en el boton reset  
+
+* **Eventos**
+
+`blur` - Salta cuando el usuario sale de un campo  
+`focus` - Salta cuando el usuario entra en un campo  
+`click` - Salta cuando el usuario pincha un elemento  
+`change` - Salta cuando el valor de un elemento cambia   
+`input` - Salta cuando cambia el valor de los elementos `<input>` ó 
+`<textarea>`   
+`keydown`, `keyup`, `keypress` - Salta cuando se interactua con el teclado  
+
+
+
+
+
 
 
 
