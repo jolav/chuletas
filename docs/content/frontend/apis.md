@@ -63,14 +63,14 @@ if (Modernizr.awesomeNewFeature) {
 
 * **localStorage**
 
-> * Solo cambia en los intervalos establecidos (horarios, listas de precios) 
+> * Solo cambia en los intervalos establecidos (horarios, listas de precios)
 > y es util almacenarlo offline  
 > * Cosas que el usuario use de nuevo si vuelve al sitio (guardar preferencias
-> y ajustes) 
+> y ajustes)
 
 ### IndexedDB
 
-### Web SQL 
+### Web SQL
 
 Deprecada, pero aun se usa  
 No funciona ni en chrome ni en IE  
@@ -82,12 +82,12 @@ No funciona ni en chrome ni en IE
 * **Metodos objeto `navigation.geolocation`**
 
 `getCurrentPosition(exito, error, conf)` -
-> exito - funcion para procesar la ubicacion recibida en el objeto `Position` 
-> error -funcion para procesar los errores retornados en el objeto 
+> exito - funcion para procesar la ubicacion recibida en el objeto `Position`
+> error -funcion para procesar los errores retornados en el objeto
 > `PositionError`  
 > conf - objeto para configurar como la informacion sera adquirida  
 
-`watchPosition(exito, error, conf)` - igual que el anterior excepto que 
+`watchPosition(exito, error, conf)` - igual que el anterior excepto que
 inicia un proceso de vigilancia para detectar nuevas ubicaciones que nos
 enviara cada cierto tiempo  
 
@@ -152,15 +152,15 @@ function fail(msg) {
 
 `history.back()` - Retrocedes en la historia a la anterior posicion  
 `history.forward()` - Saltas adelante a la siguiente posicion  
-`history.go(n)` - Te lleva a la pagina n respecto de tu posicion que es la 0. 
+`history.go(n)` - Te lleva a la pagina n respecto de tu posicion que es la 0.
 Por ejemplo -2 echa dos para atras y 1 salta uno hacia adelante   
 `history.pushState()` - Añade un elemento a la historia  
-`history.replaceState()` - Cambia el actual elemento de la historia por el que 
+`history.replaceState()` - Cambia el actual elemento de la historia por el que
 pasamos ahora  
 
 * **Eventos**
 
-`window.onpopstate` - Usado para manejar los movimientos de usuario de adelante 
+`window.onpopstate` - Usado para manejar los movimientos de usuario de adelante
 atras  
 
 ---
@@ -178,9 +178,9 @@ atras
 > 1. El evento `onload` llama a la funcion `loadScript()`   
 > 2. `LoadScript()` crea un elemento `<script>` que carga la API y cuando se carga
 > llama a `init()` que inicializa el mapa  
-> 3. `init()`  carga el mapa en la pagina. Primero crea un objeto `mapOptions` 
+> 3. `init()`  carga el mapa en la pagina. Primero crea un objeto `mapOptions`
 > con propiedades  
-> 4. Luego usa el contructor Map() para crear el map y dibujarlo en la pagina. El 
+> 4. Luego usa el contructor Map() para crear el map y dibujarlo en la pagina. El
 > contructor tiene dos paremetros  
 >     * el elemento dentro del cual el mapa aparecera dentro  
 >     * el objeto `mapOption`  
@@ -188,7 +188,7 @@ atras
 `zoom` - Entre 0 (el mundo entero) y 16  
 `mapTypeId` - ROADMAP, SATELLITE, HYBRID, TERRAIN  
 
-    
+
 ```js
 function init() {
   var mapOptions = {           // Set up the map options
@@ -197,7 +197,7 @@ function init() {
     zoom: 13
   };
   var venueMap;                // Map() draws a map
-  venueMap = new google.maps.Map(document.getElementById('map'), 
+  venueMap = new google.maps.Map(document.getElementById('map'),
                                                     mapOptions);
 }
 function loadScript() {
@@ -259,7 +259,7 @@ var pinlocation = new google.maps.Latlng(40.782710,-73.965310);
 var startPosition = new google.maps.Marker({    // Create marker
   position: pinLocation,                        // Set position
   map: venueMap,                                // Specify the map
-  icon: "img/go.png"                            // Path to image 
+  icon: "img/go.png"                            // Path to image
 });
 ```
 
@@ -279,18 +279,19 @@ var startPosition = new google.maps.Marker({    // Create marker
 </body>
 ```
 
-`.getContext(opcion)` - Genera un contexto de dibujo que se asigna al lienzo. 
+`.getContext(opcion)` - Genera un contexto de dibujo que se asigna al lienzo.
 opcion puede ser "2d" o "webGL"  
 
 ```js
 function iniciar(){
-  var elem = document.getElementById('canvas');
-  var canvas = elem.getContext('2d');
+  var elem = document.getElementById('lienzo');
+  var lienzo = elem.getContext('2d');
+  // Aqui los distintos ejemplos posteriores
 }
 addEventListener("load", iniciar);
 ```
 
-### Dibujar 
+### Dibujar
 
 >>>>> ![apis](/z-static/images/apis/canvasCoords.png)
 
@@ -324,7 +325,7 @@ lienzo.clearRect(120,120,80,80);
 
 `strokeStyle` - color para el contorno de la figura  
 `fillStyle` - color para el interior de la figura  
-`globalAlpha` - especifica la transfercnia para todas las figuras dibujadas 
+`globalAlpha` - especifica la transfercnia para todas las figuras dibujadas
 en el lienzo  
 
 ```js
@@ -338,13 +339,13 @@ lienzo.globalAlpha = 0.5                     // (0 opaco, 1 transparente)
 
 > Metodos
 
-`createLinearGradient(x1,y1,x2,y2)` - Crea un objeto que luego sera usado 
+`createLinearGradient(x1,y1,x2,y2)` - Crea un objeto que luego sera usado
 para aplicar un gradiente lineal al lienzo   
-`createRadialGradient(x1,y1,r1,x2,y2,r2)` - Crea un objeto que luego será 
-usado para aplicar un gradiente circular o radial al lienzo usando dos 
-círculos. Los valores representan la posición del centro de cada círculo y 
+`createRadialGradient(x1,y1,r1,x2,y2,r2)` - Crea un objeto que luego será
+usado para aplicar un gradiente circular o radial al lienzo usando dos
+círculos. Los valores representan la posición del centro de cada círculo y
 sus radios  
-`addColorStop(posicion,color)` - Posición es un valor entre 0 y 1 que 
+`addColorStop(posicion,color)` - Posición es un valor entre 0 y 1 que
 determina dónde la degradación comenzará para ese color en particular.
 Color especifica los colores que usaran los gradientes  
 
@@ -360,15 +361,15 @@ lienzo.fillStyle = gradiente;
 Lo normal es procesar figuras en segundo plano y una vez hecho enviarlas al
 contexto a ser dibujadas.
 
-Un `trazado` es como un mapa a ser seguido por el lapiz. Puede incluir 
+Un `trazado` es como un mapa a ser seguido por el lapiz. Puede incluir
 diferentes tipos de líneas, como líneas rectas, arcos, rectángulos ... para
 crear figuras complejas  
 
-> Metodos para comenzar y cerrar el trazado 
+> Metodos para comenzar y cerrar el trazado
 
-`beginPath()` - Describe el comienzo de una nueva figura. Se llama primero, 
+`beginPath()` - Describe el comienzo de una nueva figura. Se llama primero,
 antes de comenzar a crear el trazado  
-`closePath()` - Cierra el trazado generando una linea recta desde el ultimo 
+`closePath()` - Cierra el trazado generando una linea recta desde el ultimo
 punto hasta el punto de origen. Se puede ignorar cuando usamos el metodo
 `fill()` para dibujar el trazado en el lienzo  
 
@@ -376,9 +377,9 @@ punto hasta el punto de origen. Se puede ignorar cuando usamos el metodo
 
 `stroke()` - dibuja el trazado de una figura vacia (solo el contorno)  
 `fill()` - dibuja el trazado de una figura solida  
-`clip()` - declara una nueva area de corte para el contexto. Al inicializar 
-el contexto el area de corte es el area completa ocupada por el lienzo. 
-`clip()` cambia esa area a una nueva forma creando una mascara. Todo lo que 
+`clip()` - declara una nueva area de corte para el contexto. Al inicializar
+el contexto el area de corte es el area completa ocupada por el lienzo.
+`clip()` cambia esa area a una nueva forma creando una mascara. Todo lo que
 este fuera de esa mascara no sera dibujado  
 
 ```js
@@ -392,18 +393,18 @@ lienzo.stroke();
 `moveTo(x,y)` - mueve el lapiz a una posicion para continuar con el trazado  
 `lineTo(x,y)` - genera linea recta desde la posicion actual hasta la nueva x,y  
 `rect(x,y,ancho,alto)` - genera un texangulo que forma parte del trazado  
-`arc(x,y,radio,anguloInicio,anguloFinal,direccion)` - genera un arco o circulo 
+`arc(x,y,radio,anguloInicio,anguloFinal,direccion)` - genera un arco o circulo
 en la posicion x,y con radio y desde un anguloInicio hasta anguloFinal. La
 direccion false a favor de las agujas del reloj, true en contra  
-`quadraticCurve(cpx,cpy,x,y)` - genera una curva cuadratica bezier desde la 
-posicion actual hasta las posicion x,y. cpx y cpy indican el punto que dara 
+`quadraticCurve(cpx,cpy,x,y)` - genera una curva cuadratica bezier desde la
+posicion actual hasta las posicion x,y. cpx y cpy indican el punto que dara
 forma a la curva  
 `bezierCurve(cp1x,cp1y,cp2x,cp2y,x,y)` - como el anterior pero genera una curva bezier cubica con dos puntos para moldear la curva  
 
 ```js
 lienzo.beginPath();
 lienzo.moveTo(100,100);
-lienzo.lineTo(200,200); 
+lienzo.lineTo(200,200);
 lienzo.lineTo(100,200);
 // Opcion 1
 lienzo.closePath();     lienzo.stroke();
@@ -425,11 +426,11 @@ lienzo.arc(100,100,50,0,radianes, false);
 > las lineas hay que crear un nuevo trazado  
 
 `lineWidth` - Determina el grosor de la linea, por defecto = 1  
-`lineCap` - Determina la forma de la terminacion de la linea `butt`, 
+`lineCap` - Determina la forma de la terminacion de la linea `butt`,
 `round` ó `square`  
-`lineJoin` - Forma de la conexion entre dos lineas, `round`, `bevel` 
+`lineJoin` - Forma de la conexion entre dos lineas, `round`, `bevel`
 ó `miter`  
-`miterLimit` - Determina cuanto la conexion de dos lineas sera extendida 
+`miterLimit` - Determina cuanto la conexion de dos lineas sera extendida
 cuando lineJoin="miter"   
 
 ```js
@@ -459,16 +460,16 @@ lienzo.stroke();
 
 `font` - similar a `font` de CSS y acepta los mismos valores  
 `textAlign` - Alinea el texto, `start`, `end`, `left`, `right`, y `center`  
-`textBaseline` -Alineamiento vertical, `top`, `hanging`, `middle`, 
+`textBaseline` -Alineamiento vertical, `top`, `hanging`, `middle`,
 `alphabetic`, `ideographic`, y `bottom`  
 
 > Metodos
 
-`strokeText(texto,x,y,opcional)` - Dibuja el texto en la posicion x,y como una figura vacia(solo contornos). opcional declara el tamaño maximo,si el texto es 
+`strokeText(texto,x,y,opcional)` - Dibuja el texto en la posicion x,y como una figura vacia(solo contornos). opcional declara el tamaño maximo,si el texto es
 mas extenso se encogera    
 `fillText(texto,x,y)` - Igual que el anterior pero el texto sera solido  
-`measureText(texto,x,y)` - Retorna informacion sobre el tamaño de un texto 
-especifico. Util para combinar texto con otras formas y calcular posiciones o 
+`measureText(texto,x,y)` - Retorna informacion sobre el tamaño de un texto
+especifico. Util para combinar texto con otras formas y calcular posiciones o
 colisiones  
 
 ```js
@@ -512,12 +513,12 @@ lienzo.fillText("Mi mensaje ", 100,100);
 
 `translate(x,y)` - Mueve el origen del lienzo  
 `rotate(angulo)` - Rota el lienzo alrededor del origen tantos angulos  
-`scale(x,y)` - Incrementa o disminuye las unidades de la grilla para reducir 
-o ampliar todo lo dibujado. La escala se puede cambiar solo en un eje. 
+`scale(x,y)` - Incrementa o disminuye las unidades de la grilla para reducir
+o ampliar todo lo dibujado. La escala se puede cambiar solo en un eje.
 Por defecto valor=1  
-`transform(m1,m2,m3,m4,dx,dy)` - El lienzo tiene una matriz de valores, esto 
+`transform(m1,m2,m3,m4,dx,dy)` - El lienzo tiene una matriz de valores, esto
 aplica una nueva matriz sobre la actual para modificar el lienzo  
-`setTransform(m1,m2,m3,m4,dx,dy)` - Reinicializa la matriz de transformacion 
+`setTransform(m1,m2,m3,m4,dx,dy)` - Reinicializa la matriz de transformacion
 y establece una nueva con estos valores  
 
 ```js
@@ -561,25 +562,25 @@ lienzo.fillText("PRUEBA2",0,30);
 
 * **globalCompositeOperation**
 
-> Determina como una figura es poscionada y combinada con figuras ya dibujadas 
+> Determina como una figura es poscionada y combinada con figuras ya dibujadas
 > en el lienzo  
 > Valores de la propiedad  
 
-`source-over` - POR DEFECTO - la nueva figura sera dibujada sobre las 
+`source-over` - POR DEFECTO - la nueva figura sera dibujada sobre las
 existentes  
 `source-in` - Solo la parte de la nueva figura que se sobrepone a las figuras previas es dibujada. El resto de la figura, e incluso el resto de las figuras previas, se vuelven transparentes.  
-`source-out` - Solo la parte de la nueva figura que no se sobrepone a las 
+`source-out` - Solo la parte de la nueva figura que no se sobrepone a las
 figuras previas es dibujada. El resto de la figura, e incluso el resto de las figuras previas, se vuelven transparentes.  
-`source-atop` - Solo la parte de la nueva figura que se superpone con las 
+`source-atop` - Solo la parte de la nueva figura que se superpone con las
 figuras previas es dibujada. Las figuras previas son preservadas, pero el
 resto de la nueva figura se vuelve transparente.  
 `lighter` - Ambas figuras son dibujadas (nueva y vieja), pero el color de las partes que se superponen es obtenido adicionando los valores de los colores de cada figura.  
 `xor` - Ambas figuras son dibujadas (nueva y vieja), pero las partes que se superponen se vuelven transparentes.  
-`destination-over` - Este es el opuesto del valor por defecto. Las nuevas 
+`destination-over` - Este es el opuesto del valor por defecto. Las nuevas
 figuras son dibujadas detrás de las viejas que ya se encuentran en el lienzo.  
 `destination-in` - Las partes de las figuras existentes en el lienzo que se superponen con la nueva figura son preservadas. El resto, incluyendo la nueva figura, se vuelven transparentes  
 `destination-out` - Las partes de las figuras existentes en el lienzo que no
-se superponen con la nueva figura son preservadas. El resto, incluyendo la 
+se superponen con la nueva figura son preservadas. El resto, incluyendo la
 nueva figura, se vuelven transparentes.  
 `destination-atop` - Las figuras existentes y la nueva son preservadas solo en la parte en la que se superponen.  
 `darker` - Ambas figuras son dibujadas, pero el color de las partes que se superponen es determinado substrayendo los valores de los colores de cada
@@ -602,27 +603,299 @@ lienzo.fillText("PRUEBA",250,110);
 
 * **drawImage()**
 
+> Permite dibujar una imagen en el lienzo
+
+`drawImage(imagen,x,y)` - Dibuja una imagen en el lienzo en la posicion x,y.
+La imagen puede ser una referencia a un elemento `<img>` `<video>` u otro
+`<canvas>`  
+`drawImage(imagen,x,y,ancho,alto)` - Como antes pero permite escalar la imagen  
+`drawImage(imagen,x1,y1,ancho1,alto1,x2,y2,ancho2,alto2)` - Los valores ..1
+definen la parte de la imagen que sera cortada mientras que los valores ..2
+indican el lugar donde sera insertado en el lienzo y su nuevo tamaño  
+
+```js
+var img = document.createElement('img');
+img.setAttribute('src', 'http://www.formasterminds.com/snow.jpg');
+img.addEventListener("load", function(){
+  lienzo.drawImage(img, 20, 20);
+  // Otra opcion: Ajustando la imagen al tamaño del lienzo
+  lienzo.drawImage(img, 0, 0, elem.width, elem.height);
+});
+```
+
 * **Datos de imagen**
+
+> Toda imagen puede ser representada por una sucesión de números enteros
+> representando valores rgba  Un grupo de valores con esta información
+> resultará en un array unidimensional que puede ser usado luego para generar
+> una imagen.
+
+> Metodos
+
+`getImageData(x,y,ancho,alto)` - toma un rectangulo del lienzo y lo convierte
+en datos. Retorna un objeto con propiedades `width`, `height` y `data`   
+`putImageData(datosImagen,x,y)` - convierte los datos de `datosImagen` en una
+imagen y la dibujan en el lienzo en la posicion x,y  
+`createImageData((ancho,alto)|datos)` - Crea datos para representar una imagen vacia.
+Todos los pixeles son negro transparente. Tambien puede recibir datos como
+atributo en lugar de ancho,alto  
+
+```js
+img = document.createElement('img');
+img.setAttribute('src', 'snow.jpg');
+img.addEventListener("load", modimagen);
+
+function modimagen(){
+  lienzo.drawImage(img, 0, 0);
+
+  var info = lienzo.getImageData(0, 0, 175, 262);
+  var pos;
+  for(var x = 0; x < 175; x++){
+    for(var y = 0; y < 262; y++){
+      pos = (info.width * 4 * y) + (x * 4);
+      info.data[pos] = 255 - info.data[pos];
+      info.data[pos+1] = 255 - info.data[pos+1];
+      info.data[pos+2] = 255 - info.data[pos+2];
+    }
+  }
+  lienzo.putImageData(info, 0, 0);
+}
+```
 
 * **cross-origin**
 
+`setAttribute("crossOrigin","anonymous|use-credentials")` - `anonymous` hace
+caso omiso de las credenciales y `use-credentials` requiere credenciales  
+
+```js
+imagen.setAttribute("crossOrigin","anonymous|use-credentials");
+```
+
 * **Extraccion de datos**
+
+> Metodos
+
+`toDataURL(image/jpeg|image/png)` - Devuelve los datos en formato data:url del
+contenido del lienzo a una resolucion de 96 ppp   
+`toDataURL` - Como la anterior pera la resolucion es la original del lienzo  
+`toBlob(funcion,image/jpeg|image/png)` -  Devuelve un objeto con un
+blob(datos en crudo) que contiene la representacion del lienzo en el formato elegido y resolucion de 96 ppp. La funcion es la encargada de procesar
+el objeto.  
+`toBlobHD(tipo)` - Como el anterior pero la resolucion del blob es la del
+lienzo original  
 
 * **Patrones**
 
+> Los patrones son simples adiciones que pueden mejorar nuestros trazados.  
+
+`createPattern(imagen,tipo)` - imágen es una referencia a la imagen que vamos
+a usar como patrón, y tipo configura el patrón por medio de cuatro
+valores: repeat, repeat-x, repeat-y y no-repeat  
+
+```js
+img = document.createElement('img');
+  img.setAttribute('src', 'http://www.formasterminds.com/content/bricks.jpg');
+  img.addEventListener("load", modimagen);
+}
+function modimagen(){
+  var pattern = lienzo.createPattern(img, 'repeat');
+  lienzo.fillStyle = pattern;
+  lienzo.fillRect(0, 0, 500, 300);
+}
+```
 
 ### Animaciones
 
+> Básicamente, debemos borrar el área del lienzo que queremos animar, dibujar
+> las figuras y repetir el proceso una y otra vez.  
+> Es mejor usar imagenes (png) que figuras con trazados complejos
+
+
 * **Elementales**
 
+```js
+// Dos ojos que miran al puntero del raton y lo siguen
+var lienzo;
+function iniciar(){
+  var elem = document.getElementById('lienzo');
+  lienzo = elem.getContext('2d');
+  addEventListener('mousemove', animar);
+}
+function animar(e){
+  lienzo.clearRect(0, 0, 300, 500);
+
+  var xraton = e.clientX;
+  var yraton = e.clientY;
+  var xcentro = 220;
+  var ycentro = 150;
+  var ang = Math.atan2(xraton - xcentro, yraton - ycentro);
+  var x = xcentro + Math.round(Math.sin(ang) * 10);
+  var y = ycentro + Math.round(Math.cos(ang) * 10);
+
+  lienzo.beginPath();
+  lienzo.arc(xcentro, ycentro, 20, 0, Math.PI * 2, false);
+  lienzo.moveTo(xcentro + 70, 150);
+  lienzo.arc(xcentro + 50, 150, 20, 0, Math.PI * 2, false);
+  lienzo.stroke();
+
+  lienzo.beginPath();
+  lienzo.moveTo(x + 10, y);
+  lienzo.arc(x, y, 10, 0, Math.PI * 2, false);
+  lienzo.moveTo(x + 60, y);
+  lienzo.arc(x + 50, y, 10, 0, Math.PI * 2, false);
+  lienzo.fill();
+}
+addEventListener("load", iniciar);
+```
+
 * **Profesionales**
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>VideoJuegos</title>
+  <style>
+    body{
+      text-align: center;
+    }
+    #cajadelienzo{
+      margin: 100px auto;
+    }
+    #lienzo{
+      border: 1px solid #999999;
+    }
+  </style>
+  <script src="videojuego.js"></script>
+</head>
+<body>
+  <section id="cajadelienzo">
+    <canvas id="lienzo" width="600" height="400"></canvas>
+  </section>
+</body>
+</html>
+```
+
+`requestAnimationFrame(funcion)` - Sincroniza la animacion con la ventana del
+navegador y el monitor. hay que llamarlo para cada ciclo del bucle  
+`cancelAnimationFrame(variable)` - Podemos asignar el valor de arriba a una variable y con ese metodo cancelamos el proceso  
+
+Hay que concentrar el codigo del juego en un objeto global unico
+
+```js
+var mijuego = {
+  lienzo: {
+    ctx: '',
+    offsetx: 0,
+    offsety: 0
+  },
+  nave: {
+    x: 300,
+    y: 200,
+    movex: 0,
+    movey: 0,
+    speed: 1
+  },
+  iniciar: function(){
+    var elem = document.getElementById('lienzo');
+    mijuego.lienzo.ctx = elem.getContext('2d');
+    mijuego.lienzo.offsetx = elem.offsetLeft;
+    mijuego.lienzo.offsety = elem.offsetTop;
+    document.addEventListener('click', function(e){
+      mijuego.control(e);
+    });
+    mijuego.bucle();
+  },
+  bucle: function(){
+    if(mijuego.nave.speed){
+      mijuego.procesar();
+      mijuego.detectar();
+      mijuego.dibujar();
+      // requestAnimationFrame(function(){ mijuego.bucle() });
+      webkitRequestAnimationFrame(function(){ mijuego.bucle() });
+    }else{
+      mijuego.lienzo.ctx.font = "bold 36px verdana, sans-serif";
+      mijuego.lienzo.ctx.fillText('JUEGO FINALIZADO', 112, 210);
+    }
+  },
+  control: function(e){
+    var distancex = e.clientX - (mijuego.lienzo.offsetx + mijuego.nave.x);
+    var distancey = e.clientY - (mijuego.lienzo.offsety + mijuego.nave.y);
+    var ang = Math.atan2(distancex, distancey);
+    mijuego.nave.movex = Math.sin(ang);
+    mijuego.nave.movey = Math.cos(ang);
+    mijuego.nave.speed += 1;
+  },
+  dibujar: function(){
+    mijuego.lienzo.ctx.clearRect(0, 0, 600, 400);
+    mijuego.lienzo.ctx.beginPath();
+    mijuego.lienzo.ctx.arc(mijuego.nave.x, mijuego.nave.y, 20, 0, 
+                                            Math.PI/180*360, false);
+    mijuego.lienzo.ctx.fill();
+  },
+  procesar: function(){
+    mijuego.nave.x += mijuego.nave.movex * mijuego.nave.speed;
+    mijuego.nave.y += mijuego.nave.movey * mijuego.nave.speed;
+  },
+  detectar: function(){
+    if(mijuego.nave.x < 0 || mijuego.nave.x > 600 || mijuego.nave.y < 0 
+                                              || mijuego.nave.y > 400){
+      mijuego.nave.speed = 0;
+    }
+  }
+};
+addEventListener('load', function(){ mijuego.iniciar(); });
+```
 
 
 ### Procesar Video
 
+> Coger cada cuadro del video desde el elemento `<video>` y dibujarlo como 
+> una imagen en el lienzo usando drawImage()  
+
 * **Mostrar video**
 
-* **Aplicacion real**
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Video en el Lienzo</title>
+  <style>
+    section{
+      float: left;
+    }
+  </style>
+  <script>
+    var lienzo, video;
+    function iniciar(){
+      var elem = document.getElementById('lienzo');
+      lienzo = elem.getContext('2d');
+      video = document.getElementById('media');
+      lienzo.translate(483, 0);
+      lienzo.scale(-1, 1); 
+      setInterval(procesarCuadros, 33);
+    }
+    function procesarCuadros(){
+      lienzs.drawImage(video, 0, 0);
+    }
+    addEventListener("load", iniciar);
+  </script>
+</head>
+<body>
+  <section>
+    <video id="medio" width="483" height="272" autoplay>
+      <source src="http://www.formasterminds.com/content/trailer2.mp4">
+      <source src="http://www.formasterminds.com/content/trailer2.ogg">
+    </video>
+  </section>
+  <section>
+    <canvas id="canvas" width="483" height="272"></canvas>
+  </section>
+</body>
+</html>
+```
 
 ---
 
