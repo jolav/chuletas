@@ -392,6 +392,18 @@ location / {
 }
 ```
 
+### Seguridad
+
+* **Ocultar la firma del servidor**
+
+```nginx
+nano /etc/nginx/nginx.conf
+// y añadir dentro de http
+http {
+  server_tokens off;
+}
+```
+
 ---
 
 ## MYSQL

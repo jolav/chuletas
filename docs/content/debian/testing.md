@@ -12,26 +12,26 @@ Para andar con ojo en las actualizaciones:
 
 ```sh
 ## Debian Testing
-deb http://ftp.es.debian.org/debian/ testing main contrib non-free 
+deb http://ftp.es.debian.org/debian/ testing main contrib non-free
 ## Debian Security
-deb http://security.debian.org/ testing/updates main contrib non-free 
+deb http://security.debian.org/ testing/updates main contrib non-free
 ## Debian updates
-deb http://ftp.debian.org/debian/ testing-proposed-updates main contrib 
-                                                              non-free 
+deb http://ftp.debian.org/debian/ testing-proposed-updates main contrib
+                                                              non-free
 ## Debian Multimedia
-deb http://www.deb-multimedia.org/ testing main non-free 
+deb http://www.deb-multimedia.org/ testing main non-free
 ## Dropbox
 deb [arch=i386,amd64] http://linux.dropbox.com/debian/ sid main  
 ## Webupd8 Java
-deb http://ppa.launchpad.net/webupd8team/java/ubuntu/ xenial main 
+deb http://ppa.launchpad.net/webupd8team/java/ubuntu/ xenial main
 ## VirtualBox
-deb http://download.virtualbox.org/virtualbox/debian/ xenial contrib 
+deb http://download.virtualbox.org/virtualbox/debian/ xenial contrib
 ## Solaar
-deb http://pwr.github.io/Solaar/packages/ ./ 
+deb http://pwr.github.io/Solaar/packages/ ./
 ## node
-# deb https://deb.nodesource.com/node_0.10/ jessie main 
-# deb https://deb.nodesource.com/node_0.12/ jessie main 
-deb https://deb.nodesource.com/node_4.x/ jessie main 
+# deb https://deb.nodesource.com/node_0.10/ jessie main
+# deb https://deb.nodesource.com/node_0.12/ jessie main
+deb https://deb.nodesource.com/node_4.x/ jessie main
 ### Insync
 deb http://apt.insynchq.com/debian jessie non-free contrib
 ```
@@ -70,6 +70,11 @@ dpkg -r solonombreprograma // desinstalar
 
 ---
 
-```sh
+## IMAGE MAGIC
 
+```sh
+convert input.png -transparent red output.png
 ```
+
+
+---
