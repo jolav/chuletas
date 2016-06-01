@@ -76,5 +76,24 @@ dpkg -r solonombreprograma // desinstalar
 convert input.png -transparent red output.png
 ```
 
+---
+
+## LIVE SERVER
+
+```sh
+npm install -g live-server
+```
+
+Desde la terminal en el directorio del proyecto  con `live-server` lo lanza en 
+el puerto 8080.
+
+[Proyecto Live-Server](https://github.com/tapio/live-server)
 
 ---
+
+
+
+
+
+---
+

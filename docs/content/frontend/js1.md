@@ -145,8 +145,7 @@ var a = String.fromCharCode(67, 97, 116);
 // a is 'Cat'
 ```
 
-`string.trim(cadena)` - Elimina los espacios en blanco del comienzo y del final 
-de la cadena  
+`string.trim(cadena)` - Elimina los espacios en blanco y los saltos de linea del comienzo y del final de la cadena    
 
 ### Boolean
 
