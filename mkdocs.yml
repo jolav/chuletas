@@ -15,17 +15,18 @@ pages:
     - 'Javascript APIs': 'frontend/apis.md'
     - 'jQuery': 'frontend/jquery.md'
 - Back-End:
-    - 'Golang': 'backend/golang.md'
     - 'NodeJS': 'backend/nodejs.md'
+    - 'Express': 'backend/express.md'
+    - 'Bases de Datos': 'backend/bbdd.md'
+    - 'Tiempo Real': 'backend/tiempoReal.md'
+    - 'Modulos': 'backend/modulos1.md'
     - 'Meteor': 'backend/meteor.md'
+    - 'Golang': 'backend/golang.md'
 - Debian:
     - 'Testing': 'debian/testing.md'
     - 'Servidor': 'debian/servidor.md'
 - Varios:
-    - 'Git': 'varios/git.md'
-    - 'Hugo': 'varios/hugo.md'
-    - 'mkDocs': 'varios/mkdocs.md'
-    - 'Expresiones regulares': 'varios/expreregulares.md'
+    - 'Varios I': 'varios/varios1.md'
 
 markdown_extensions:
     - fenced_code

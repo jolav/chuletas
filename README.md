@@ -10,19 +10,21 @@ Front-end
 * [jQuery](https://github.com/BrusBilis/chuletas/blob/master/docs/content/frontend/jquery.md)  
 
 Back-End  
-* [Golang](https://github.com/BrusBilis/chuletas/blob/master/docs/content/backend/golang.md)  
-* [NodeJS](https://github.com/BrusBilis/chuletas/blob/master/docs/content/backend/nodejs.md)  
-* [Meteor](https://github.com/BrusBilis/chuletas/blob/master/docs/content/backend/meteor.md)  
+* [Node.js](https://github.com/BrusBilis/chuletas/blob/master/docs/content/backend/nodejs.md)  
+* [Express](https://github.com/BrusBilis/chuletas/blob/master/docs/content/backend/express.md)  
+* [Bases de Datos](https://github.com/BrusBilis/chuletas/blob/master/docs/content/backend/bbdd.md)  
+* [Tiempo real](https://github.com/BrusBilis/chuletas/blob/master/docs/content/backend/tiempoReal.md)  
+* [Modulos](https://github.com/BrusBilis/chuletas/blob/master/docs/content/backend/modulos1.md)  
+* [Meteor](https://github.com/BrusBilis/chuletas/blob/master/docs/content/backend/meteor.md)    
+* [Golang](https://github.com/BrusBilis/chuletas/blob/master/docs/content/backend/golang.md)    
 
 Debian  
 * [Testing](https://github.com/BrusBilis/chuletas/blob/master/docs/content/debian/testing.md)  
 * [Servidor](https://github.com/BrusBilis/chuletas/blob/master/docs/content/debian/servidor.md)  
 
 Varios  
-* [Git](https://github.com/BrusBilis/chuletas/blob/master/docs/content/varios/git.md)  
-* [Hugo](https://github.com/BrusBilis/chuletas/blob/master/docs/content/varios/hugo.md)   
-* [mkDocs](https://github.com/BrusBilis/chuletas/blob/master/docs/content/varios/mkdocs.md)  
-* [Expresiones regulares](https://github.com/BrusBilis/chuletas/blob/master/docs/content/varios/expreregulares.md)   
+* [Varios](https://github.com/BrusBilis/chuletas/blob/master/docs/content/varios/varios1.md)  
+ 
 
 
 ## Usar [mkdocs](http://www.mkdocs.org/)
