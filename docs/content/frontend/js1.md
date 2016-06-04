@@ -275,7 +275,28 @@ function myFunction() {
 
 ### Unitarios
 
-* `typeof()` Nos da el tipo de valor
+* **`typeof()`**
+
+Nos da el tipo de valor
+
+* **`in`**
+
+Devuelve true si la propiedad especificada existe en el objeto especificado  
+
+> `propiedadNombreOrNumero in nombreObjeto`  
+> `propiedadNombreOrNumero` es una string que representa al nombre de una 
+> propiedad o un numero que es el indice de un array  
+> `nombreObjeto` es el nombre de un objeto  
+
+```js
+var trees = new Array("redwood", "bay", "cedar", "oak", "maple");
+0 in trees;        // returns true
+3 in trees;        // returns true
+6 in trees;        // returns false
+"bay" in trees;    // returns false (you must specify the index number,
+                   // not the value at that index)
+"length" in trees; // returns true (length is an Array property)
+```
 
 ---
 
@@ -691,6 +712,21 @@ var results = [];
 results = people.filter(priceRange);           
 ```
 
+`reduce()` - Reduce el array a un solo valor. Ejecuta una funcion suministrada 
+para cada valor del array(de izda a derecha). El valor de return se guarda en 
+un acumulador  
+
+```js
+var total = [0, 1, 2, 3].reduce(function(a, b){ return a + b; });
+// total == 6
+
+var numbers = [65, 44, 12, 4];
+function getSum(total, num) {
+    return total + num;
+}
+console.log(numbers.reduce(getSum));   // resultado = 125
+```
+
 * **Ordenar**
 
 `array.sort(funcionDeComparacion)` - Por defecto la comparacion la hace
@@ -855,7 +891,18 @@ Pequeña diferencia entre ambos
 * Parametros: son las variables que se definen cuando se declara la funcion
 * Argumentos: son los valores que se pasan a la funcion al invocarla
 * Si a una funcion le pasamos demasiados parametros los que sobran los ignora  
-* Si a una funcion le pasamos menos parametros a los que faltan les asigna  undefined
+* Si a una funcion le pasamos menos parametros a los que faltan les asigna  undefined  
+
+`arguments object` - Un objeto similar a un Array que se corresponde con los argumentos pasados a la función.  
+
+```js
+function fourArguments (a, b, c) {
+  console.log(arguments.length);
+  console.log(arguments[0]);
+  console.log(arguments[3]);
+}
+fourArguments('uno', 'dos', 'tres', 'cuatro');
+```
 
 ### return multiples valores
 
