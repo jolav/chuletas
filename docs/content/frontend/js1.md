@@ -26,15 +26,15 @@ Devuelve una string con el tipo de la variable dato
 
 `isNan(numero)` - Detecta si es numero o no  
 `numero.toFixed(n)` - Redondea a n decimales (devuelve una string)   
-`numero.toPrecision(n)` - Redondea a n digitos decimales incluidos (devuelve 
+`numero.toPrecision(n)` - Redondea a n digitos decimales incluidos (devuelve
 una string)  
-`numero.toExponential(n)` - Representa el numero en notacion exponencial 
+`numero.toExponential(n)` - Representa el numero en notacion exponencial
 (devuelve una string)    
 `numero.toString()`- equivale a `String(numero)` y devuelve una string  
 
 #### Math
 
-`Math` es un Objeto Global que actua sobre numeros 
+`Math` es un Objeto Global que actua sobre numeros
 
 * Propiedades
 
@@ -46,7 +46,7 @@ una string)
 `Math.sqrt(num)` - Devuelve la raiz cuadrada del numero positivo num    
 `Math.ceil(num)` - Redondea al entero mas cercano por arriba     
 `Math.floor(num)` - Redondea al entero mas cercano por abajo  
-`Math.random()` - Genera un numero aleatorio entre 0 (inclusivo) y 1 
+`Math.random()` - Genera un numero aleatorio entre 0 (inclusivo) y 1
 (no inclusivo)   
 
 ```js
@@ -73,7 +73,7 @@ var initial = name.charAt(0);       // initial is 'C'
 ```  
 
 `string.charCodeAt(pos)` - Devuelve el codigo de la letra en la posicion pos
-  
+
 ```js
 var name = 'Curly';
 var initial = name.charCodeAt(0);   // initial is 67
@@ -284,7 +284,7 @@ Nos da el tipo de valor
 Devuelve true si la propiedad especificada existe en el objeto especificado  
 
 > `propiedadNombreOrNumero in nombreObjeto`  
-> `propiedadNombreOrNumero` es una string que representa al nombre de una 
+> `propiedadNombreOrNumero` es una string que representa al nombre de una
 > propiedad o un numero que es el indice de un array  
 > `nombreObjeto` es el nombre de un objeto  
 
@@ -420,7 +420,7 @@ Los objetos se pasan siempre por `referencia`
 
 ### this
 
-Usada dentro de funciones y objetos para referirse a un objeto que lo normal 
+Usada dentro de funciones y objetos para referirse a un objeto que lo normal
 es el objeto en el que la funcion opera
 
 * Funcion con alcance global (no esta dentro de ningun otro objeto o funcion) `this` se refiere al objeto `window`
@@ -433,7 +433,7 @@ function windowSize() {
 }
 ```
 
-* Variables globales, las variables globales se convierten en propiedades del 
+* Variables globales, las variables globales se convierten en propiedades del
 objeto `window`
 
 ```js
@@ -445,7 +445,7 @@ var showWidth = function() {
 showWidth();      // this.width = 600
 ```
 
-* Metodo de un objeto, si una funcion se define dentro de un objeto se 
+* Metodo de un objeto, si una funcion se define dentro de un objeto se
 convierte en un metodo de ese objeto. En un metodo `this` se refiere al objeto
 que lo contiene
 
@@ -557,6 +557,11 @@ var u = b.hasOwnProperty('member'); // u is false
 var v = b.member                    // v is true
 ```
 
+### Herencia
+
+* En javascript los objetos heredan directamente de otros objetos (prototipos)  
+* Con el operador `new` podemos montarnos factorias de objetos y hacer un pseudoclasico patron de diseño
+
 ---
 
 ## ARRAYS
@@ -654,7 +659,7 @@ people.forEach(function(person) {
 });
 ```
 
-`some()` - Comprueba si algunos elementos del array pasan un test definido 
+`some()` - Comprueba si algunos elementos del array pasan un test definido
 por una funcion  
 
 ```js
@@ -668,7 +673,7 @@ function myFunction() {
 // res = true
 ```
 
-`every()` - Comprueba si todos los elementos del array pasan un test definido 
+`every()` - Comprueba si todos los elementos del array pasan un test definido
 por una funcion  
 
 ```js
@@ -706,14 +711,14 @@ var people = [
     {name: 'Nigel', rate: 120}
 ];
 function priceRange(person) {                        
-  return (person.rate >= 65) && (person.rate <= 90); 
+  return (person.rate >= 65) && (person.rate <= 90);
 };
 var results = [];                              
 results = people.filter(priceRange);           
 ```
 
-`reduce()` - Reduce el array a un solo valor. Ejecuta una funcion suministrada 
-para cada valor del array(de izda a derecha). El valor de return se guarda en 
+`reduce()` - Reduce el array a un solo valor. Ejecuta una funcion suministrada
+para cada valor del array(de izda a derecha). El valor de return se guarda en
 un acumulador  
 
 ```js
@@ -749,7 +754,7 @@ var b = a.reverse( );
 
 * **Modificar**
 
-`map()` - Llama una funcion sobre cada elemento del array y crea un nuevo 
+`map()` - Llama una funcion sobre cada elemento del array y crea un nuevo
 array con los resultados  
 
 ```js
@@ -991,13 +996,6 @@ console.log(power(2, 3));              // → 8
 
 ---
 
-## HERENCIA
-
-* En javascript los objetos heredan directamente de otros objetos (prototipos)  
-* Con el operador `new` podemos montarnos factorias de objetos y hacer un pseudoclasico patron de diseño
-
----
-
 ## EXPRESIONES REGULARES
 
 En Javascript las expresiones regulares han de estar en una sola linea. Los espacios en blanco son significativos  
@@ -1034,34 +1032,34 @@ var b = /&.+;/.test('frank & beans'); // b is true
 
 > Se corresponden con el alcance o visibilidad de las variables  
 
-> * `Contexto Global`: codigo que esta en el script pero no en una funcion. 
+> * `Contexto Global`: codigo que esta en el script pero no en una funcion.
 > Solo hay un contexto global en una pagina    
-> * `Contexto de funcion`: codigo que se ejecuta dentro de una funcion. Cada 
+> * `Contexto de funcion`: codigo que se ejecuta dentro de una funcion. Cada
 > funcion tiene su propio contexto  
 
-> Cada vez que un script entra en un nuevo contexto de ejecucion hay dos 
+> Cada vez que un script entra en un nuevo contexto de ejecucion hay dos
 > fases :
 
 > * `Preparacion`:, se crea un nuevo alcance. Se crean variables, funciones y
 > argumentos y se determina el valor de `this`.   
-> * `Ejecucion`: ahora se pueden asignar valores a las variables, se 
+> * `Ejecucion`: ahora se pueden asignar valores a las variables, se
 > referencian las funciones y se ejecuta su codigo y se ejecutan tambien las
 > sentencias  
 
 * **Objeto variables**
 
-> * Cada contexto de ejecucion tiene su propio objeto `variables` que tiene 
-> las variables, funciones y parametros que estan disponibles para ese 
+> * Cada contexto de ejecucion tiene su propio objeto `variables` que tiene
+> las variables, funciones y parametros que estan disponibles para ese
 > contexto.  
-> * Cada contxto de ejecucion tiene tambien acceso al padre de objeto ç
+> * Cada contxto de ejecucion tiene tambien acceso al padre de objeto 
 >`variables`  
 
 * **Excepciones**
 
-Cuando se produce un error, mira en su contexto a ver si hay codigo para 
-manejar el error, si no lo hay sube hacia arriba por el stack buscando codigo 
+Cuando se produce un error, mira en su contexto a ver si hay codigo para
+manejar el error, si no lo hay sube hacia arriba por el stack buscando codigo
 para manejar el error. Si llega al contexto global y no lo encuentra termina
-la ejecucion del script y crea un objeto `Error` 
+la ejecucion del script y crea un objeto `Error`
 
 ### Objecto Error
 
@@ -1069,10 +1067,10 @@ la ejecucion del script y crea un objeto `Error`
 
 `Error` - error generico
 `SyntaxError` - no se ha respetado la sintaxis  
-`ReferenceError` - se ha referenciado una variable que o no esta declarada o 
+`ReferenceError` - se ha referenciado una variable que o no esta declarada o
 esta fuera del alcance  
 `TypeError` - hay un inesperado tipo de datos que no puede ser forzado  
-`RangeError` - numeros en un rango no aceptable  
+`RangeError` - numeros en un rango no aceptable  +0
 `URIError` - metodos del tipo encodeURI() decodeURI() mal usados  
 `EvalError` - funcion eval() mal usada  
 
@@ -1096,7 +1094,7 @@ esta fuera del alcance
     * el tipo de error
 3. Prueba a ver hasta donde se ejecuta el script uando mensajes en la consola
 para ello  
-4. Usa breakpoints para parar la ejecucion e inspeccionar los valores 
+4. Usa breakpoints para parar la ejecucion e inspeccionar los valores
 almacenados en las variables  
 
 > * **¿ Cual es el fallo ?**
@@ -1106,9 +1104,9 @@ almacenados en las variables
     * usa la consola para escribir los valores de las variables
     * llama a las funciones desde la consola para ver si devuelven lo que se
     espera de ellas  
-    * comprueba si los objetos existen y tienen los metodos y propiedades 
+    * comprueba si los objetos existen y tienen los metodos y propiedades
     que se espera que tengan  
-3. Comprueba el numero de parametros de una funcion o el numero de elementos 
+3. Comprueba el numero de parametros de una funcion o el numero de elementos
 de un array.
 
 > * **Trucos**
@@ -1122,7 +1120,7 @@ de un array.
     * [jshint](http://jshint.com)
     * [jsonlint](http://jsonlint.com)
 
-### Manejo excepciones 
+### Manejo excepciones
 
 Interrumpen la ejecucion del programa. Para evitarlo hay que capturarlas
 
@@ -1149,7 +1147,7 @@ intentalo( );
 
 ### Throwing errors
 
-Si sabes que algo podria causar un fallo puedes generar tus propios errores 
+Si sabes que algo podria causar un fallo puedes generar tus propios errores
 antes que el interprete lo haga.  
 
 `throw new Error("mensaje");`
@@ -1167,10 +1165,73 @@ function calcArea(width, height) {
     }
   } catch(e) {                            // If there was an error
     console.log(e.name + ' ' + e.message);          
-    return 'We were unable to calculate the area.'; 
+    return 'We were unable to calculate the area.';
   }
 }
 document.getElementById('area').innerHTML = calcArea(width, height);
+```
+
+```js
+function promptDirection (question) {
+  var result = prompt(question, '');
+  if (result.toLowerCase() == 'left') return 'L';
+  if (result.toLowerCase() == 'right') return 'R';
+  throw new Error('Invalid direction: ' + result);
+}
+
+function look () {
+  if (promptDirection('Which way?') == 'L')
+    return 'a house';
+  else
+    return 'two angry bears';
+}
+
+try {
+  console.log('You see', look());
+} catch (error) {
+  console.log('Something went wrong: ' + error);
+}
+```
+
+### Strict Mode
+
+Se activa poniendo `"use strict"` al comienzo del archivo o del cuerpo de una
+funcion 
+
+- No permite usar variables no declaradas  
+- No se puede borrar una variable u objeto usando `delete`    
+- No se puede definir la misma propiedad dos veces  
+- No permite los nombres de parametros duplicados  
+- En una funcion si no se conoce `this` en lugar de usar el objeto global 
+`window` sera `undefined`  
+- Las variables instanciadas dentro del contexto de eval() sólo son válidas en ese contexto.   
+- La sentencia `with(){}` ya no se usa  
+- Y mas ...  
+
+---
+
+## MODULOS
+
+### Exportar modulo
+
+
+`Exportacion del modulo` Exportamos el modulo con 2 propiedades publicas (las mod.algo), el resto se mantiene como privado.  
+Podemos importar facilmente las globales que necesitemos usando el patron
+anterior
+
+```js
+var Modulo = (function () {
+	var mod = {};
+	var privadaVariable = 1;
+	function privadoMetodo() {
+		// ...
+	}
+	mod.moduloPropiedad = 1;
+	mod.moduloMetodo = function () {
+		// ...
+	};
+	return mod;
+}());
 ```
 
 ---
@@ -1213,31 +1274,9 @@ MiAPP.miObjeto = {
 };
 ```
 
-### Exportar modulo
-
-
-`Exportacion del modulo` Exportamos el modulo con 2 propiedades publicas (las mod.algo), el resto se mantiene como privado.  
-Podemos importar facilmente las globales que necesitemos usando el patron
-anterior
-
-```js
-var Modulo = (function () {
-	var mod = {};
-	var privadaVariable = 1;
-	function privadoMetodo() {
-		// ...
-	}
-	mod.moduloPropiedad = 1;
-	mod.moduloMetodo = function () {
-		// ...
-	};
-	return mod;
-}());
-```
-
 ### Datos: Arrays VS Objects
 
-> Grupos de obejtos se pueden almacenar en arrays o como propiedades de otros 
+> Grupos de obejtos se pueden almacenar en arrays o como propiedades de otros
 > objetos  
 
 * **Objetos en un array**
@@ -1256,7 +1295,7 @@ var people = [
 ```js
 var people = {
   Casey= {rate: 70, active: true},
-  Camille = {rate: 80, active: true}, 
+  Camille = {rate: 80, active: true},
   Gordon= {rate: 75, active: false} ,
   Nigel = {rate: 120, active: true }
 }
@@ -1264,4 +1303,3 @@ var people = {
 
 
 ---
-

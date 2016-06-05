@@ -15,13 +15,11 @@ pages:
     - 'Javascript APIs': 'frontend/apis.md'
     - 'jQuery': 'frontend/jquery.md'
 - Back-End:
-    - 'NodeJS': 'backend/nodejs.md'
-    - 'Express': 'backend/express.md'
-    - 'Bases de Datos': 'backend/bbdd.md'
-    - 'Tiempo Real': 'backend/tiempoReal.md'
-    - 'Modulos': 'backend/modulos1.md'
-    - 'Meteor': 'backend/meteor.md'
     - 'Golang': 'backend/golang.md'
+    - 'Librerias Golang': 'backend/libs1.md'
+    - 'Bases de Datos': 'backend/bbdd.md'
+    - 'NodeJS': 'backend/nodejs.md'
+    - 'Meteor': 'backend/meteor.md'
 - Debian:
     - 'Testing': 'debian/testing.md'
     - 'Servidor': 'debian/servidor.md'
@@ -36,3 +34,4 @@ site_dir: 'chuletas'
 docs_dir: 'docs/content'
 extra_css:
     - 'z-static/extra.css'
+ 

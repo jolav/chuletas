@@ -10,13 +10,11 @@ Front-end
 * [jQuery](https://github.com/BrusBilis/Chuletas/blob/master/docs/content/frontend/jquery.md)  
 
 Back-End  
-* [Node.js](https://github.com/BrusBilis/Chuletas/blob/master/docs/content/backend/nodejs.md)  
-* [Express](https://github.com/BrusBilis/Chuletas/blob/master/docs/content/backend/express.md)  
-* [Bases de Datos](https://github.com/BrusBilis/Chuletas/blob/master/docs/content/backend/bbdd.md)  
-* [Tiempo real](https://github.com/BrusBilis/Chuletas/blob/master/docs/content/backend/tiempoReal.md)  
-* [Modulos](https://github.com/BrusBilis/Chuletas/blob/master/docs/content/backend/modulos1.md)  
-* [Meteor](https://github.com/BrusBilis/Chuletas/blob/master/docs/content/backend/meteor.md)    
 * [Golang](https://github.com/BrusBilis/Chuletas/blob/master/docs/content/backend/golang.md)    
+* [Librerias Golang](https://github.com/BrusBilis/Chuletas/blob/master/docs/content/backend/libs1.md)  
+* [Bases de Datos](https://github.com/BrusBilis/Chuletas/blob/master/docs/content/backend/bbdd.md)  
+* [Node.js](https://github.com/BrusBilis/Chuletas/blob/master/docs/content/backend/nodejs.md)  
+* [Meteor](https://github.com/BrusBilis/Chuletas/blob/master/docs/content/backend/meteor.md)    
 
 Debian  
 * [Testing](https://github.com/BrusBilis/Chuletas/blob/master/docs/content/debian/testing.md)  
