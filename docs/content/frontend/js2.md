@@ -122,7 +122,7 @@ Pueden tener hijos pero seran hijos del elemento que los contiene
 
 > El objeto superior es `document` que representa la pagina como un todo
 
-![js2](/z-static/images/js/dom.png)
+![js2](/z-static/images/js/dom.png) ![js2](/z-static/images/js/nearbyNodes.png)  
 
 * Propiedades
 
@@ -473,9 +473,26 @@ elUsername.addEventListener('blur', function() {
 }, false);
 ```
 
+```js
+var button = document.querySelector("button");
+button.addEventListener("mousedown", function(event) {
+  if (event.which == 1)
+    console.log("Left button");
+  else if (event.which == 2)
+    console.log("Middle button");
+  else if (event.which == 3)
+    console.log("Right button");
+});
+```
+
 ### Event FLow
 
-> Describe el orden en el que los eventos se procesan
+> Describe el orden en el que los eventos se procesan  
+> `Propagacion` : Los eventos registrados en nodos con hijos reciben algunos 
+> eventos que ocurren en los hijos. Si pulsamos un buton dentro de un parrafo 
+> los manejadores de evento del parrafo tambien recibiran el evento click. Si
+> los dos tienen el evento el manejador mas especifico (el mas interno) va 
+> primero    
 
 * `bubbling` - el evento se captura y maneja primero por el elemento mas interno y 
 despues de propaga hacua los elementos exteriores
@@ -540,6 +557,71 @@ el.addEventListener("blur", function(e) {
 Para evitar malos rendimientos por ejemplo en listas o celdas o tablas se pone
 el `event listener` en el elemento que los contiene y luego se usa la propiedad
 `target` del objeto `event` para encontrar al hijo que desato el evento
+
+### Setting Timers
+
+`setTimeout`: similar a `requestAnimationFrame`, fija una funcion para ser ejecutada mas tarde, pero en lugar de llamarla en el siguiente redibujado 
+espera un numero de milisegundos  
+
+```js
+document.body.style.background = "blue";
+setTimeout(function() {
+  document.body.style.background = "yellow";
+}, 2000);
+```
+
+`clearTimeout` cancela la ejecucion de la funcion planeada
+
+```js
+var bombTimer = setTimeout(function() {
+  console.log("BOOM!");
+}, 500);
+
+if (Math.random() < 0.5) { // 50% chance
+  console.log("Defused.");
+  clearTimeout(bombTimer);
+}
+```
+
+`setInterval` y `clearInterval` son para lo mismo pero la ejecucion se repite 
+cada X milisegundos
+
+```js
+var ticks = 0;
+var clock = setInterval(function() {
+  console.log("tick", ticks++);
+  if (ticks == 10) {
+    clearInterval(clock);
+    console.log("stop.");
+  }
+}, 200);
+```
+
+### Debouncing
+
+Hay eventos que se pueden disparar muy muy rapidamente (como `mousemove` o 
+`scroll` pej). Hay que tener cuidado de no consumir mucho tiempo en su 
+manejador o la pagina se lageara.  
+
+Se puede usar setTimeout para suavizar el evento y que no haya lageos  
+
+```js
+// Aqui se responde a mousemove pero una vez cada 250 milisegundos
+function displayCoords(event) {
+  document.body.textContent = "Mouse " + event.pageX + ", " + event.pageY;
+}
+var scheduled = false, lastEvent;
+addEventListener("mousemove", function(event) {
+  lastEvent = event;
+  if (!scheduled) {
+    scheduled = true;
+    setTimeout(function() {
+      scheduled = false;
+      displayCoords(lastEvent);
+    }, 250);
+  }
+});
+```
 
 ---
 

@@ -65,6 +65,14 @@ var aleatorio = Math.floor((Math.random() * 10) +1);
 * Metodos
 
 `parseInt(string)` - Convierte la cadena string en un numero  
+`String.fromCharCode()` - Convierte un codigo de letra en una cadena con la 
+letra
+
+```js
+var codigo = 65;
+var letra = String.fromCharCode(codigo);      // letra = "A"
+```
+
 `string.charAt(pos)` - Devuelve la letra en la posicion pos  
 
 ```js
@@ -1214,7 +1222,6 @@ funcion
 
 ### Exportar modulo
 
-
 `Exportacion del modulo` Exportamos el modulo con 2 propiedades publicas (las mod.algo), el resto se mantiene como privado.  
 Podemos importar facilmente las globales que necesitemos usando el patron
 anterior
@@ -1231,8 +1238,75 @@ var Modulo = (function () {
 		// ...
 	};
 	return mod;
-}());
+}();
 ```
+
+Las funciones son las unicas que crean un nuevo ambito de visibilidad. Por ello para 
+que los modulos tengan su propio ambito se usan funciones.
+
+```js
+var dayName = function() {
+  var names = ["Sunday", "Monday", "Tuesday", "Wednesday",
+               "Thursday", "Friday", "Saturday"];
+  return function(number) {
+    return names[number];
+  };
+}();
+```
+
+### Objetos como interfaces
+
+```js
+var weekDay = function() {
+  var names = ["Sunday", "Monday", "Tuesday", "Wednesday",
+               "Thursday", "Friday", "Saturday"];
+  return {
+    name: function(number) { return names[number]; },
+    number: function(name) { return names.indexOf(name); }
+  };
+}();
+console.log(weekDay.name(weekDay.number("Sunday")));	// → Sunday
+```
+
+En modulos grandes el juntar todos los valores exportados al final puede ser 
+complejo por hacerse muy grande.
+Alternativa es declarar un objeto (llamado `exports`) y añadirle propiedades
+que seran exportadas
+
+```js
+(function(exports) {
+  var names = ["Sunday", "Monday", "Tuesday", "Wednesday",
+               "Thursday", "Friday", "Saturday"];
+
+  exports.name = function(number) {
+    return names[number];
+  };
+  exports.number = function(name) {
+    return names.indexOf(name);
+  };
+})(this.weekDay = {});
+
+console.log(weekDay.name(weekDay.number("Saturday")));
+// → Saturday
+```
+
+### CommonJS - Browserify
+
+Para evitar aun asi manchar el namespace con los nombres de todos los modulos
+buscamos tener solo una funcion `require` a la cual le damos un nombre de un 
+modulo y lo carga
+
+`require` necesita dos cosas:  
+1. Una funcion `readFile` que devuelve el contenido (recordemos que es codigo)
+ como una string  
+2. Ejecutar esa cadena como codigo Javascript  
+
+Una implementacion de `require` es `CommonJS`, pero en el navegador leer archivos
+desde la web es mucho mas lento que del disco duro. Soluciones :  
+1. usar [`Browserify`](http://browserify.org/)  
+2. `AMD definicion asincrona de modulos` Envolver el codigo del modulo en una 
+funcion `define `para que se llame al modulo cuano ya se han cargado las 
+dependencias. [`RequireJS`](http://requirejs.org/) implementa esa solucion  
 
 ---
 

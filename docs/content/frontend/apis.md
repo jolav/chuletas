@@ -24,6 +24,8 @@ if (Modernizr.awesomeNewFeature) {
 
 ## WEB STORAGE
 
+### Objeto Storage
+
 > Los navegadores guardan sobre 8mb por dominio en un objecto storage    
 > Los datos se guardan como propiedades (clave/calor) del objeto storage  
 > Acceso a los datos se hace de manera sincrona  
@@ -39,8 +41,6 @@ if (Modernizr.awesomeNewFeature) {
 >>> 3. Dominio debe coincidir  
 >>> 4. Puerto, este tambien debe coincidr
 
-### Objeto Storage
-
 * **Propiedades**
 
 `.length` - numero de claves  
@@ -51,8 +51,6 @@ if (Modernizr.awesomeNewFeature) {
 `.getItem('clave')` - Devuelve el valor de la clave "clave"  
 `.removeItem('clave')` - Elimina la clave/valor para esa clave  
 `.clear()` - Limpia toda la informacion del objeto storage  
-
-### Session vs Local
 
 >>>>> ![apis](/z-static/images/apis/webStorage1.png)  
 
@@ -67,6 +65,18 @@ if (Modernizr.awesomeNewFeature) {
 > y es util almacenarlo offline  
 > * Cosas que el usuario use de nuevo si vuelve al sitio (guardar preferencias
 > y ajustes)
+
+```js
+localStorage.setItem("username", "marijn");
+console.log(localStorage.getItem("username"));
+// → marijn
+localStorage.removeItem("username");
+```
+
+> Un valor en `localStorage` dura hasta que se sobreescribe, se elimina o el 
+> usuario limpia sus datos locales  
+> Cada pagina tiene su propio almacen que solo puede interactuar con scripts de
+> la misma pagina   
 
 ### IndexedDB
 
@@ -848,7 +858,6 @@ var mijuego = {
 addEventListener('load', function(){ mijuego.iniciar(); });
 ```
 
-
 ### Procesar Video
 
 > Coger cada cuadro del video desde el elemento `<video>` y dibujarlo como 
@@ -895,6 +904,54 @@ addEventListener('load', function(){ mijuego.iniciar(); });
   </section>
 </body>
 </html>
+```
+
+### Graficos de tarta
+
+>> ![apis](/z-static/images/apis/pieChart.png)
+
+```html
+<!doctype html>
+<canvas width="600" height="300"></canvas>
+<script>
+var results = [
+  {name: "Contento", count: 1043, color: "lightblue"},
+  {name: "Neutral", count: 563, color: "lightgreen"},
+  {name: "Descontento", count: 510, color: "pink"},
+  {name: "No contesta", count: 175, color: "silver"}
+];
+var cx = document.querySelector("canvas").getContext("2d");
+var total = results.reduce(function(sum, choice) {
+  return sum + choice.count;
+}, 0);
+
+var currentAngle = -0.5 * Math.PI;
+var centerX = 300, centerY = 150;
+
+results.forEach(function(result) {
+  var sliceAngle = (result.count / total) * 2 * Math.PI;
+  cx.beginPath();
+  cx.arc(centerX, centerY, 100,
+         currentAngle, currentAngle + sliceAngle);
+
+  var middleAngle = currentAngle + 0.5 * sliceAngle;
+  var textX = Math.cos(middleAngle) * 120 + centerX;
+  var textY = Math.sin(middleAngle) * 120 + centerY;
+  cx.textBaseLine = "middle";
+  if (Math.cos(middleAngle) > 0)
+    cx.textAlign = "left";
+  else
+    cx.textAlign = "right";
+  cx.font = "15px sans-serif";
+  cx.fillStyle = "black";
+  cx.fillText(result.name, textX, textY);
+
+  currentAngle += sliceAngle;
+  cx.lineTo(centerX, centerY);
+  cx.fillStyle = result.color;
+  cx.fill();
+});
+</script>
 ```
 
 ---
