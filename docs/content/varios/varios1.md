@@ -6,6 +6,23 @@
 
 ### Instalacion
 
+```sh
+// repo para Ubuntu
+sudo add-apt-repository ppa:git-core/ppa
+
+// para ultima version Debian backports
+deb http://ftp.debian.org/debian jessie-backports main
+aptitude -t jessie-backports install "package"
+
+// lo normal en debian
+aptitude install git
+git config --global user.name "John Doe"
+git config --global user.email johndoe@example.com
+git config --list
+nano ~/.gitconfig
+```
+
+
 ### Conceptos
 
 ```sh
@@ -47,8 +64,6 @@ solo buscara en el directorio actual, pero con las comillas hara una busqueda re
  commit  
 `--` Indica que no hay mas opciones despues del --  
 `git reset fichero.extension` Saca al archivo de la staging area  
-`git config --global user.name "John Doe"`
-`git config --global user.email johndoe@example.com`
 
 ### Comandos GitHub
 
@@ -242,9 +257,19 @@ markdown_extensions:
     - fenced_code
 
 theme_dir: 'brus-docs-theme'
-
 ```
 
+---
+
+## HUGO
+
+### Instalacion
+
+Esta en los repos de debian testing  
+
+`aptitude install hugo`  
+
+###
 ---
 
 

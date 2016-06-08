@@ -184,7 +184,7 @@ Una vez llegas de un elemento a su nodo texto, este tiene la propiedad
 nodeValue que te da acceso al valor del texto  
 
 ```js
-document.getElementByid("one").firstChild.nextSibling.nodeValue;
+document.getElementById("one").firstChild.nextSibling.nodeValue;
 ```
 
 * *`element`*`.textContent`  

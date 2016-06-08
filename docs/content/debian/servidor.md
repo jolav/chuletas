@@ -164,6 +164,8 @@ maxretry = 6
 `service fail2ban restart`  
 `service fail2ban status`
 
+Los log de baneos estan en `var/log/fail2ban.log`  
+
 ---
 
 ## UFW

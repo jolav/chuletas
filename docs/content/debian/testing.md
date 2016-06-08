@@ -72,6 +72,8 @@ dpkg -r solonombreprograma // desinstalar
 
 ## IMAGE MAGIC
 
+Convertir imagen el fondo en transparente
+
 ```sh
 convert input.png -transparent red output.png
 ```
@@ -91,7 +93,14 @@ el puerto 8080.
 
 ---
 
+## COMANDOS UTILES
 
+### Tamaño archivos y dir
+
+```sh
+ls -lh
+du -ah /ruta
+```
 
 
 
