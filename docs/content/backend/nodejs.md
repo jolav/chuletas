@@ -598,33 +598,7 @@ app para usarlo
 
 ---
 
-## SOCKET.IO
 
-![nodejs](/z-static/images/nodejs/httpVerbs.jpg)
-
----
-
-## FEATHERS.JS
-
-![nodejs](/z-static/images/comingSoon2.jpg)
-
----
-
-## ASYNC
-
-[GitHub Async](https://github.com/caolan/async)  
-[npm Async](https://www.npmjs.com/package/async)  
-
-![nodejs](/z-static/images/nodejs/callback1.jpg)
-
----
-
-## PASSPORT
-
-[Pagina Web Passport](http://passportjs.org)  
-[npm Passport](https://www.npmjs.com/package/passport)  
- 
----
 
 
 

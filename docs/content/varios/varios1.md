@@ -145,6 +145,7 @@ a mas usar (...) para especificar la cadena buscada
 `X{m}` - exactamente m instancias de X  
 `X{m,}` - al menos m instancias de X  
 `X{m,n}` - entre m y n instancias(incluidas) de X  
+`g` - repetir la busqueda a traves de la cadena entera  
 
 
 * **Especiales**
@@ -154,6 +155,11 @@ a mas usar (...) para especificar la cadena buscada
 ---
 
 ### Expresiones Comunes
+
+`.replace(/\s+/, "")` - Elimina todos los espacios en blancos  
+`.replace(/\s/g, "loQueSea")` - Reemplaza todos los espacios en blanco por 
+loQueSea   
+
 
 [Aqui](http://code.tutsplus.com/tutorials/8-regular-expressions-you-should-know--net-6149)
 
