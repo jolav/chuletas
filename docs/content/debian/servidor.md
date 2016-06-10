@@ -185,10 +185,9 @@ Antes de estp no se podia activar porque nos echa de la sesion de SSH ufw enable
 `ufw allow https/tcp`  
 `ufw allow webmin`  
 
-`ufw status verbose` nos informa de todo lo que esta configurado  
-
-A partir de aqui cada uno pone sus reglas particulares dependiendo de los
- servicios que tenga levantados
+`ufw status` -  Lista de reglas  
+`ufw status numbered` - Lista de reglas con numeros  
+`ufw delete X` -  borra la regla X  
 
 ---
 
@@ -519,6 +518,113 @@ mongod --auth //para iniciar el servicio con la autenticacion activada
 
 ---
 
+## RETHINKDB
+
+### Instalacion
+
+```sh
+nano /etc/apt/sources.list // y añadir
+"deb http://download.rethinkdb.com/apt jessie main" 
+wget -qO- https://download.rethinkdb.com/apt/pubkey.gpg | apt-key add -
+apt-get update
+apt-get install rethinkdb
+```
+
+### Configuracion
+
+Para que arranque al inicio
+
+```sh
+cp /etc/rethinkdb/default.conf.sample 
+      /etc/rethinkdb/instances.d/instance1.conf
+/etc/init.d/rethinkdb restart
+```
+
+Archivo configuracion:  
+`nano /etc/rethinkdb/instances.d/instance1.conf`
+
+Para levantar el servicio con el usuario rethinkdb usar  
+`/etc/init.d/rethinkdb restart`
+
+### Web segura
+
+` nano /etc/nginx/sites-available/brusbilis` para añadir la nueva ruta
+
+```nginx
+# HTTPS server
+server {
+   listen 443 ssl;
+   server_name brusbilis.com;
+   ssl_certificate /etc/letsencrypt/live/brusbilis.com/fullchain.pem;
+   ssl_certificate_key /etc/letsencrypt/live/brusbilis.com/privkey.pem;
+   ssl_session_cache shared:SSL:1m;
+   ssl_session_timeout 5m;
+   ssl_ciphers HIGH:!aNULL:!MD5;
+   ssl_prefer_server_ciphers on;
+   location / {
+        ssi on;
+        try_files $uri $uri/ =404;
+        root /var/www/html;
+        index index.html index.htm;
+   }
+   location /rethinkdb-admin/ {
+       auth_basic "Restricted";
+       auth_basic_user_file /etc/nginx/.rethinkdb.pass;
+       proxy_pass http://127.0.0.1:8080/;
+       proxy_redirect off;
+       proxy_set_header Authorization "";
+   }
+}
+```
+
+Opcion con subdirectorios
+
+```nginx
+## Sub
+server {
+        listen 80;
+        listen [::]:80;
+        server_name s.brusbilis.com;
+        return 301 https://s.brusbilis.com$request_uri;
+}
+# HTTPS server
+server {
+   listen 443 ssl;
+   server_name s.brusbilis.com;
+   ssl_certificate /etc/letsencrypt/live/s.brusbilis.com/fullchain.pem;
+   ssl_certificate_key /etc/letsencrypt/live/s.brusbilis.com/privkey.pem;
+   ssl_session_cache shared:SSL:1m;
+   ssl_session_timeout 5m;
+   ssl_ciphers HIGH:!aNULL:!MD5;
+   ssl_prefer_server_ciphers on;
+   location / {
+       try_files $uri $uri/ =404;
+   }
+   location /rethinkdb-admin/ {
+       auth_basic "Restricted";
+       auth_basic_user_file /etc/nginx/.rethinkdb.pass;
+       proxy_pass http://127.0.0.1:8080/;
+       proxy_redirect off;
+       proxy_set_header Authorization "";
+   }
+}
+```
+
+`cp /etc/nginx/sites-available/brusbilis /etc/nginx/sites-enabled/brusbilis`
+
+
+```sh
+apt-get install apache2-utils
+cd /etc/nginx
+htpasswd -c .rethinkdb.pass <username> // <username> nombre que queramos
+service nginx restart
+```
+
+Ahoya ya en el navegador
+`http://brusbilis.com/rethinkdb-admin`
+
+---
+
 ## PM2
 
 ### Instalacion
@@ -713,8 +819,18 @@ por
 `ssl_certificate     /etc/letsencrypt/live/snakify.org/fullchain.pem;`  
 Se arregla en chrome y en Dolphin 
 
+### Añadir subdominios
 
-FALTA EL TEMA DE LA RENOVACION
+Paramos nginx  
+`service nginx stop`  
+
+`letsencrypt certonly`  
+
+Elegimos la opcion de webroot, y ponemos el nombre del subdominio a añadir. Le
+damos la ruta `/etc/letsencrypt/` y el hara sus cosas, al terminar ya estaran 
+los certificados en `/etc/letsencrypt/live` y `/etc/letsencrypt/renewal`  
+
+### Renovacion
 
 Probar con
 `letsencrypt renew --dry-run`
