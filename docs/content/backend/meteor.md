@@ -7,7 +7,9 @@
 ### Instalacion
 
 * Instalar `curl https://install.meteor.com/ | sh`
-* Desinstalar :  Especialmente cuando sale el error de no reconocer modulos el primero de los cuales es fibers.  
+* Desinstalar :  Especialmente cuando sale el error de no reconocer modulos el 
+primero de los cuales es fibers.  
+
 ` rm -rf ~/.meteor`  
 ` rm /usr/bin/meteor`
 

@@ -2,6 +2,12 @@
 
 ---
 
+## HANDLEBARS
+
+![paquetes](/z-static/images/comingSoon2.jpg)
+
+---
+
 ## SOCKET.IO
 
 ![paquetes](/z-static/images/paquetes/httpVerbs.jpg)

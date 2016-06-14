@@ -40,7 +40,7 @@ untracked --> no son seguidos por git (usualmente ficheros recien creados)
 deleted --> ha sido borrado y esta esperando a ser removido de git
 ```
 
-![tools1](/z-static/images/tools/git.jpg)
+![tools1](/z-static/images/varios/git.jpg)
 
 ### Comandos locales
 
@@ -187,7 +187,7 @@ mkdocs new my-project
 cd my-project
 ```
 
-![tools2](/z-static/images/tools/initialLayout.png)
+![tools1](/z-static/images/varios/initialLayout.png)
 
 ```sh
 $ mkdocs serve

@@ -680,6 +680,31 @@ Despues de actualizarse hay veces que no arranca
 /etc/init.d/webmin start
 ```
 
+### Lets Encrypt
+
+Para cambiar la contraseña desde la consola  
+
+`/usr/share/webmin/changepass.pl /etc/webmin root NEWPASSWORD`
+
+* **Usar webmin con Lets Encrypt** 
+
+```sh
+service nginx stop
+// Creamos o tenemos certificado letsencrypt del dominio a usar
+cp /etc/letsencrypt/live/dominio/privkey.pem /etc/webmin/privkey.pem
+cp /etc/letsencrypt/live/dominio/cert.pem    /etc/webmin/cert.pem
+cp /etc/letsencrypt/live/dominio/chain.pem   /etc/webmin/chain.pem
+```
+
+Nos logueamos en webmin
+
+![servidor](/z-static/images/debian/webmin.png)
+
+le damos a `aplicar` y reiniciamos el servidor web `service nginx restart`   
+
+Por alguna extraña razon va en chrome pero no en firefox donde sale  
+`SSL_ERROR_RX_RECORD_TOO_LONG`
+
 ---
 
 ## PUERTOS
