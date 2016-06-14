@@ -10,7 +10,7 @@ Crear un usuario con su carpeta home y consola para usar
 
 Para crear la contraseña del usuario
 
-`passwd usuario`
+`passwd usuario`  
 
 ---
 
@@ -131,7 +131,7 @@ destemail = root@localhost
 ```
 
 ```sh
-// En la seccion JAILS hay que ir definiendo lo que queremos en cada 
+// En la seccion JAILS hay que ir definiendo lo que queremos en cada
 //uno de los servicios que queremos proteger con fail2ban.
 
 [webmin]
@@ -470,7 +470,7 @@ A veces no funciona el metapaquete mongodb-org y entonces es un lio
 ```sh
 // Con el repositorio anterior activado
 apt-get install mongodb-org=2.6.10 mongodb-org-server=2.6.10
-mongodb-org-shell=2.6.10 mongodb-org-mongos=2.6.10 
+mongodb-org-shell=2.6.10 mongodb-org-mongos=2.6.10
 mongodb-org-tools=2.6.10
 
 // No hace autoarranque y hay que crearlo manualmente
@@ -524,7 +524,7 @@ mongod --auth //para iniciar el servicio con la autenticacion activada
 
 ```sh
 nano /etc/apt/sources.list // y añadir
-"deb http://download.rethinkdb.com/apt jessie main" 
+"deb http://download.rethinkdb.com/apt jessie main"
 wget -qO- https://download.rethinkdb.com/apt/pubkey.gpg | apt-key add -
 apt-get update
 apt-get install rethinkdb
@@ -535,7 +535,7 @@ apt-get install rethinkdb
 Para que arranque al inicio
 
 ```sh
-cp /etc/rethinkdb/default.conf.sample 
+cp /etc/rethinkdb/default.conf.sample
       /etc/rethinkdb/instances.d/instance1.conf
 /etc/init.d/rethinkdb restart
 ```
@@ -686,7 +686,7 @@ Para cambiar la contraseña desde la consola
 
 `/usr/share/webmin/changepass.pl /etc/webmin root NEWPASSWORD`
 
-* **Usar webmin con Lets Encrypt** 
+* **Usar webmin con Lets Encrypt**
 
 ```sh
 service nginx stop
@@ -842,7 +842,7 @@ Al cambiar
 `ssl_certificate /etc/letsencrypt/live/snakify.org/cert.pem;`   
 por  
 `ssl_certificate     /etc/letsencrypt/live/snakify.org/fullchain.pem;`  
-Se arregla en chrome y en Dolphin 
+Se arregla en chrome y en Dolphin
 
 ### Añadir subdominios
 
@@ -852,7 +852,7 @@ Paramos nginx
 `letsencrypt certonly`  
 
 Elegimos la opcion de webroot, y ponemos el nombre del subdominio a añadir. Le
-damos la ruta `/etc/letsencrypt/` y el hara sus cosas, al terminar ya estaran 
+damos la ruta `/etc/letsencrypt/` y el hara sus cosas, al terminar ya estaran
 los certificados en `/etc/letsencrypt/live` y `/etc/letsencrypt/renewal`  
 
 ### Renovacion
@@ -877,8 +877,3 @@ Probar con
 
 
 ``
-
-
-
-
-
