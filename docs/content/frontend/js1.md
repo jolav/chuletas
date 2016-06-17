@@ -65,7 +65,7 @@ var aleatorio = Math.floor((Math.random() * 10) +1);
 * Metodos
 
 `parseInt(string)` - Convierte la cadena string en un numero  
-`String.fromCharCode()` - Convierte un codigo de letra en una cadena con la 
+`String.fromCharCode()` - Convierte un codigo de letra en una cadena con la
 letra
 
 ```js
@@ -801,6 +801,12 @@ var r = a.splice(1, 1, 'ache', 'bug');
 // r es ['b']
 ```
 
+Para borrar por ejemplo el elemento con indice = 3 de un array
+
+```js
+array.splice(indice, 1);
+```
+
 ---
 
 ## FUNCIONES
@@ -1059,7 +1065,7 @@ var b = /&.+;/.test('frank & beans'); // b is true
 > * Cada contexto de ejecucion tiene su propio objeto `variables` que tiene
 > las variables, funciones y parametros que estan disponibles para ese
 > contexto.  
-> * Cada contxto de ejecucion tiene tambien acceso al padre de objeto 
+> * Cada contxto de ejecucion tiene tambien acceso al padre de objeto
 >`variables`  
 
 * **Excepciones**
@@ -1204,13 +1210,13 @@ try {
 ### Strict Mode
 
 Se activa poniendo `"use strict"` al comienzo del archivo o del cuerpo de una
-funcion 
+funcion
 
 - No permite usar variables no declaradas  
 - No se puede borrar una variable u objeto usando `delete`    
 - No se puede definir la misma propiedad dos veces  
 - No permite los nombres de parametros duplicados  
-- En una funcion si no se conoce `this` en lugar de usar el objeto global 
+- En una funcion si no se conoce `this` en lugar de usar el objeto global
 `window` sera `undefined`  
 - Las variables instanciadas dentro del contexto de eval() sólo son válidas en ese contexto.   
 - La sentencia `with(){}` ya no se usa  
@@ -1241,7 +1247,7 @@ var Modulo = (function () {
 }();
 ```
 
-Las funciones son las unicas que crean un nuevo ambito de visibilidad. Por ello para 
+Las funciones son las unicas que crean un nuevo ambito de visibilidad. Por ello para
 que los modulos tengan su propio ambito se usan funciones.
 
 ```js
@@ -1268,7 +1274,7 @@ var weekDay = function() {
 console.log(weekDay.name(weekDay.number("Sunday")));	// → Sunday
 ```
 
-En modulos grandes el juntar todos los valores exportados al final puede ser 
+En modulos grandes el juntar todos los valores exportados al final puede ser
 complejo por hacerse muy grande.
 Alternativa es declarar un objeto (llamado `exports`) y añadirle propiedades
 que seran exportadas
@@ -1293,7 +1299,7 @@ console.log(weekDay.name(weekDay.number("Saturday")));
 ### CommonJS - Browserify
 
 Para evitar aun asi manchar el namespace con los nombres de todos los modulos
-buscamos tener solo una funcion `require` a la cual le damos un nombre de un 
+buscamos tener solo una funcion `require` a la cual le damos un nombre de un
 modulo y lo carga
 
 `require` necesita dos cosas:  
@@ -1304,8 +1310,8 @@ modulo y lo carga
 Una implementacion de `require` es `CommonJS`, pero en el navegador leer archivos
 desde la web es mucho mas lento que del disco duro. Soluciones :  
 1. usar [`Browserify`](http://browserify.org/)  
-2. `AMD definicion asincrona de modulos` Envolver el codigo del modulo en una 
-funcion `define `para que se llame al modulo cuano ya se han cargado las 
+2. `AMD definicion asincrona de modulos` Envolver el codigo del modulo en una
+funcion `define `para que se llame al modulo cuano ya se han cargado las
 dependencias. [`RequireJS`](http://requirejs.org/) implementa esa solucion  
 
 ---
