@@ -15,17 +15,15 @@ pages:
     - 'Javascript APIs': 'frontend/apis.md'
     - 'jQuery': 'frontend/jquery.md'
 - Back-End:
-    - 'NodeJS': 'backend/nodejs.md'
-    - 'Express': 'backend/express.md'
-    - 'Paquetes': 'backend/paquetes.md'
-    - 'Bases de Datos': 'backend/bbdd.md'
-    - 'Meteor': 'backend/meteor.md'
     - 'Golang': 'backend/golang.md'
+    - 'Bases de Datos': 'backend/bbdd.md'
+    - 'NodeJS': 'backend/nodejs.md'
+    - 'Meteor': 'backend/meteor.md'
 - Debian:
     - 'Testing': 'debian/testing.md'
     - 'Servidor': 'debian/servidor.md'
 - Varios:
-    - 'Varios I': 'varios/varios1.md'
+    - 'Git, MkDocs, ExpReg, Hugo': 'varios/varios1.md'
 
 markdown_extensions:
     - fenced_code
@@ -35,4 +33,3 @@ site_dir: 'chuletas'
 docs_dir: 'docs/content'
 extra_css:
     - 'z-static/extra.css'
- 
