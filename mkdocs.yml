@@ -16,6 +16,7 @@ pages:
     - 'jQuery': 'frontend/jquery.md'
 - Back-End:
     - 'Golang': 'backend/golang.md'
+    - 'Go Standard Library': 'backend/goStdLib.md'
     - 'Bases de Datos': 'backend/bbdd.md'
     - 'NodeJS': 'backend/nodejs.md'
     - 'Meteor': 'backend/meteor.md'
