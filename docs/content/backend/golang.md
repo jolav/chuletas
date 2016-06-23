@@ -7,15 +7,15 @@
 Ademas de lo del manual añadir en `nano /home/user/.bashrc`  
 ```sh
 export PATH=$PATH:/usr/local/go/bin
-export GOPATH=$HOME/code/go 
+export GOPATH=$HOME/code/go
 // OPCIONAL para tener disponibles los binarios compilados
-export PATH=$PATH:$GOPATH/bin 
+export PATH=$PATH:$GOPATH/bin
 ```
 
 Carpetas que se crean:  
 
 * `bin` - Contiene los binarios compilados. Podemos añadir la carpeta `bin` al path del sistema para hacer los binarios compilados ejecutables desde cualquier  sitio  
-* `pkg` - contiene los versiones compiladas de las librerias disponibles para 
+* `pkg` - contiene los versiones compiladas de las librerias disponibles para
 que el comilador las pueda enlazar sin tener que recompilarlas  
 * `src` -  contiene todo el codigo organizado por rutas de import  
 
@@ -133,11 +133,11 @@ func main() {
 El alcance es la region del programa donde una variable definida existe  
 Tipos de variables segun donde se declaren:  
 
-* `local variables` - dentro de una funcion o un bloque. Fuera de ese entorno 
+* `local variables` - dentro de una funcion o un bloque. Fuera de ese entorno
 no existen    
 * `global variables` - fuera de todas las funciones o bloques. Accesibles desde
 cualquier parte del programa  
-* `formal parameters` - en la definicion de los parametros de una funcion. Se 
+* `formal parameters` - en la definicion de los parametros de una funcion. Se
 tratan como locales para esa funcion y tienen preferencia sobre las globales    
 
 Cuando coinciden dentro de una funcion o bloque una local y una global prevalece
@@ -213,15 +213,15 @@ Son numeros reales (con parte decimal)
 `||` - or   
 `!` - not  
 
-> ![go](/z-static/images/go/boolean1.png) 
-> ![go](/z-static/images/go/boolean2.png) 
+> ![go](/z-static/images/go/boolean1.png)
+> ![go](/z-static/images/go/boolean2.png)
 > ![go](/z-static/images/go/boolean3.png)
 
 
 ### Strings
 
 Estan hechas de bytes (uno por caracter)  
-La diferencia entre comillas simples o dobles es que en estas no pueden contener 
+La diferencia entre comillas simples o dobles es que en estas no pueden contener
 nuevas lineas y se permiten escapar caracteres especiales  
 
 `len(string)` - longitud de la cadena  
@@ -258,10 +258,10 @@ const ( // iota is reset to 0
 
 ## POINTERS y MUTABILIDAD
 
-### Punteros 
+### Punteros
 
 Por defecto Go pasa los argumentos por valor (crea una copia)  
-Para pasarlos por referencia hay que pasar punteros o usar estructuras de 
+Para pasarlos por referencia hay que pasar punteros o usar estructuras de
 datos que usan valores por referencia como slices y maps.  
 
 `&` - para conseguir el puntero de un valor lo ponemos delante de su nombre  
@@ -287,7 +287,7 @@ func main() {
 
 * **new**
 
-`new` - coge un tipo como argumento, asigna suficiente memoria para ese tipo 
+`new` - coge un tipo como argumento, asigna suficiente memoria para ese tipo
 de dato y devuelve un puntero que apunta a esa memoria. Luego el GC (garbage
 collector lo limpia todo)  
 
@@ -305,7 +305,7 @@ func main() {
 ### Mutabilidad
 
 Solo las constantes son inmutables.  
-Sin embargo como los argumentos se pasan por valor, una funcion que recibe y 
+Sin embargo como los argumentos se pasan por valor, una funcion que recibe y
 modifica un argumento no muta el valor original  
 
 * Ejemplo
@@ -348,7 +348,7 @@ for i := 0; i < 10; i++ {
   sum = sum + i
 }
 
-// for sin declaraciones pre/post 
+// for sin declaraciones pre/post
 sum := 1
 for ; sum < 1000; {
   sum = sum + sum
@@ -490,9 +490,9 @@ Omites una iteracion
 * **Crear un slice :**  
 
 Los slice hay que crearlos antes de usarlos
-  
+
 > * `slice literal`    
-`mySlice := []int{2, 3, 5, 7, 11, 13}` 
+`mySlice := []int{2, 3, 5, 7, 11, 13}`
 > * `make` - crea un slice vacio de una longitud y (opcional una capacidad)    
 `cities := make([]string, len, cap)`  
 
@@ -519,7 +519,7 @@ Los slice hay que crearlos antes de usarlos
 
 * **Nil slices**
 
-`var z []int` - El valor cero de un slice es nil. Un slice nil tiene una 
+`var z []int` - El valor cero de un slice es nil. Un slice nil tiene una
 longitud de cero
 
 ---
@@ -533,9 +533,9 @@ Formado por `pares clave/valor`
 * **Crear un map :**  
 
 Los map hay que crearlos antes de usarlos
-  
+
 > * `map literal`    
-`amigos := map[string]int{"Juan":50, "Elena":21, "Carlos":41,}` 
+`amigos := map[string]int{"Juan":50, "Elena":21, "Carlos":41,}`
 > * `make` - creas un nil map vacio  
 `amigos := make(map[string]int)`  
 
@@ -598,7 +598,7 @@ type Circle struct {
 }
 ```
 
-`var c Circle` - crea una variable local Circle que pone por defecto los 
+`var c Circle` - crea una variable local Circle que pone por defecto los
 valores a cero (0 para int, 0.0 para float. "" para string, nil para punteros)  
 `c := new(Circle)` - asigna memoria para todos los campos, los inicializa a
 cero y devuelve un puntero a la struct (*Circle), los punteros se usan mucho en
@@ -625,7 +625,7 @@ func main() {
 
 ### Metodos
 
-El receptor del metodo esta entre la palabra clave `function` y el nombre del 
+El receptor del metodo esta entre la palabra clave `function` y el nombre del
 metodo
 
 `func (u User) Greeting() string` - nos permite llamarla con u.Greeting()  
@@ -666,7 +666,7 @@ func main() {
 
 * **Usar punteros en los receptores**
 
-Los metodos se pueden asociar a un nombre o a puntero. Ventajas de usar 
+Los metodos se pueden asociar a un nombre o a puntero. Ventajas de usar
 punteros:  
 
 * evitar copiar el valor con cada llamada al metodo (pasarlo por referencia)  
@@ -787,7 +787,7 @@ return region, continente   // devuelve mas de un valor
 // Si los parametros de retorno estan nombrados vale con solo return
 func location(name, city string) (region, continent string) {
     ..codigo
-    return    // devuelve region y continent 
+    return    // devuelve region y continent
 }
 ```
 
@@ -824,7 +824,7 @@ func factorial(x uint) uint {
 ### defer
 
 Aplaza la ejecucion de una funcion hasta que termina la funcion en la que esta  
- 
+
 ```go
 func main() {
     defer fmt.Println("world")
@@ -842,10 +842,10 @@ defer f.Close()
 ### panic, recover
 
 `panic("valor de panic")` - crea un runtime error .   
-`recover()` - detiene el panic y devuelve el valor que fue pasado con la 
+`recover()` - detiene el panic y devuelve el valor que fue pasado con la
 llamada a panic
 
-Un `panic` generalmente indica un error de programacion o una condicion 
+Un `panic` generalmente indica un error de programacion o una condicion
 excepcional de la que no hay forma facil de recuperarse  
 
 ```go
@@ -864,7 +864,7 @@ func main() {
 
 ### goroutines
 
-`go f(x)` comienza la ejecucion de una nueva goroutine que es una funcion capaz 
+`go f(x)` comienza la ejecucion de una nueva goroutine que es una funcion capaz
 de ejecutarse concurrentemente con otras funciones.  
 
 ```go
@@ -891,8 +891,8 @@ el operador `<-`
 
 `ch := make(chan int)` - Los canales hay que crearlos antes de usarlos  
 
-Por defecto los envios y recepciones esperan hasta que el otro lado este listo. 
-Esto permite a las goroutines sincronizarse sin bloqueos especificos o 
+Por defecto los envios y recepciones esperan hasta que el otro lado este listo.
+Esto permite a las goroutines sincronizarse sin bloqueos especificos o
 condiciones  
 
 ```go
@@ -916,7 +916,7 @@ func main() {
 
 * **Buffered channels**
 
-`ch := make(chan int, 100)` - Ponemos un buffer a los canales indicando su 
+`ch := make(chan int, 100)` - Ponemos un buffer a los canales indicando su
 longitud como segundo argumento en el `make` para inicializar el canal  
 Enviar datos aun canal con buffer se bloquea si el buffer esta lleno   
 Recibir datos de un canal con  buffer se bloquea si el buffer esta vacio  
@@ -929,8 +929,8 @@ func main() {
 }       // fatal error: all goroutines are asleep - deadlock!
 ```
 
-Sin embargo el siguiente funcionaria. Al añadir el valor extra desde una 
-goroutine no se bloquea el hilo principal pues aunque la goroutine se llama 
+Sin embargo el siguiente funcionaria. Al añadir el valor extra desde una
+goroutine no se bloquea el hilo principal pues aunque la goroutine se llama
 antes que el canal se vacie esta esperara hasta que haya espacio en el canal.  
 
 ```go
@@ -945,12 +945,12 @@ func main() {
 
 * **Close**
 
-`close(ch)` - Solo un emisor puede cerrar un canal. Enviar a un canal cerrado 
-causa un panic. No son como ficheros que hace falta cerrarlos. Solo se cierran 
-para avisar al receptor de que no llegaran mas datos y para terminar los loop 
+`close(ch)` - Solo un emisor puede cerrar un canal. Enviar a un canal cerrado
+causa un panic. No son como ficheros que hace falta cerrarlos. Solo se cierran
+para avisar al receptor de que no llegaran mas datos y para terminar los loop
 range      
 
-`v, ok := <-ch` - Un emisor puede cerrar un canal para indicar que no se enviara nada mas. Los receptores pueden testear cuando un canal ha sido cerrado 
+`v, ok := <-ch` - Un emisor puede cerrar un canal para indicar que no se enviara nada mas. Los receptores pueden testear cuando un canal ha sido cerrado
 asignando un segundo parametro a la expresion receptora  
 `ok` sera falso cuando no haya mas valores que recibir y el canal este cerrado.  
 
@@ -970,10 +970,10 @@ Es como `switch` pero con canales
 Un programa Go esta hecho con paquetes. Los programas empiezan ejecutando la
 funcion `main` dentro del paquete `main`.  
 Por convencion el nombre del paquete es la ultima palabra de la ruta del import,
-El paquete "math/rand" comprende archivos que comienzan con la sentencia 
+El paquete "math/rand" comprende archivos que comienzan con la sentencia
 `package rand`  
 
-Paquetes que no son de la libreria estandar se importan usando una URL web, 
+Paquetes que no son de la libreria estandar se importan usando una URL web,
 pero antes hay que descargarlos con `go get`
 
 ```go
@@ -981,7 +981,7 @@ go get github.com/creador/ruta/al/paquete
 import "github.com/creador/ruta/al/paquete"
 ```
 
-Despues de importar un paquete podemos usar los nombres que el exporta (sean 
+Despues de importar un paquete podemos usar los nombres que el exporta (sean
 variables, metodos o funciones) desde fuera de el paquete.
 Los nombres exportados en Go comienzan por letra mayuscula
 
@@ -997,17 +997,17 @@ func main() {
 
 >> **Otras formas de importar paquetes**
 
-* `ìmport alias "fmt"` - Crea un alias de fmt. Ahora es alias.LoQueSea en lugar 
+* `ìmport alias "fmt"` - Crea un alias de fmt. Ahora es alias.LoQueSea en lugar
 de fmt.LoQueSea  
 * `import . "fmt"` -  Permite acceder al contenido directamente sin tener que
 ir precedido de fmt  
-* `import _ "fmt"` - Elimina las advertencia del compilado sobre ese paquete 
-si no se usa y  ejecuta si hay las funciones de inicializacion, El resto del 
+* `import _ "fmt"` - Elimina las advertencia del compilado sobre ese paquete
+si no se usa y  ejecuta si hay las funciones de inicializacion, El resto del
 paquete permanece inaccesible.  
 
 ### Crear paquetes  
 
-Los nombres de paquetes coinciden con la carpeta donde estan. Esto se puede 
+Los nombres de paquetes coinciden con la carpeta donde estan. Esto se puede
 cambiar pero no merece la pena  
 
 `~/src/proyectoX/main.go`
@@ -1073,6 +1073,8 @@ func TestAverage(t *testing.T) {
     }
 }
 ```
+
+`go test`
 
 ---
 

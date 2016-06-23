@@ -136,7 +136,7 @@ Los rangos son inclusive
 
 * **Cuantificadores**
 
-Por defecto los cuantificadores solo se aplican a un caracter, para aplicarlo 
+Por defecto los cuantificadores solo se aplican a un caracter, para aplicarlo
 a mas usar (...) para especificar la cadena buscada  
 
 `X*` - 0 ó mas repeticiones de X  
@@ -157,7 +157,7 @@ a mas usar (...) para especificar la cadena buscada
 ### Expresiones Comunes
 
 `.replace(/\s+/, "")` - Elimina todos los espacios en blancos  
-`.replace(/\s/g, "loQueSea")` - Reemplaza todos los espacios en blanco por 
+`.replace(/\s/g, "loQueSea")` - Reemplaza todos los espacios en blanco por
 loQueSea   
 
 
@@ -266,20 +266,3 @@ theme_dir: 'brus-docs-theme'
 ```
 
 ---
-
-## HUGO
-
-### Instalacion
-
-Esta en los repos de debian testing  
-
-`aptitude install hugo`  
-
-###
----
-
-
-
-
-
-

@@ -10,7 +10,113 @@
 
 ---
 
-## TIPOS DATOS
+## OPERADORES
+
+* **Aritmeticos**
+
+> `+` Suma  
+> `-` Resta  
+> `*` Multiplicacion  
+> `/` Division  
+> `%` Modulo, lo que sobra de la division entera  
+> `++` Incremento  
+> `--` Decremento  
+
+* **Asignacion**
+
+> `=` x = y  
+> `+=` x = x + y  
+> `-=` x = x - y  
+> `*=` x = x * y  
+> `/=` x = x / y  
+> `%=` x = x % y  
+
+* **Comparacion**
+
+> `==` igual  
+> `===` igual valor e igual tipo  
+> `!=` no igual  
+> `!==` no igual valor ni igual tipo  
+> `>` mayor que  
+> `<` menor que  
+> `<=` mayor o igual que  
+> `>=` menor o igual que  
+
+* **Logicos**
+
+> `&&` AND  
+> `||` OR  
+> `!` NOT  
+
+* **Unitarios**
+
+> `typeof()` - Nos da el tipo de valor  
+
+> `in` - Devuelve true si la propiedad especificada existe en el objeto especificado  
+>> `propiedadNombreOrNumero in nombreObjeto`  
+>> `propiedadNombreOrNumero` es una string que representa al nombre de una
+ propiedad o un numero que es el indice de un array  
+>> `nombreObjeto` es el nombre de un objeto  
+
+```js
+var trees = new Array("redwood", "bay", "cedar", "oak", "maple");
+0 in trees;        // returns true
+3 in trees;        // returns true
+6 in trees;        // returns false
+"bay" in trees;    // returns false (you must specify the index number,
+                   // not the value at that index)
+"length" in trees; // returns true (length is an Array property)
+```
+
+---
+
+## VARIABLES  
+
+### Alcance
+
+La visibilidad es hacia fuera en las funciones. Yo veo las
+variables de las funciones externas que me contienen pero no veo las de dentro  
+
+**Global**
+
+* Declarada fuera de una funcion
+```js
+var carName = 'volvo';
+// codigo aqui puede usar carName
+function myFunction() {
+  // codigo aqui puede usar carName
+}
+```
+
+* Si asigno un valor a una variable no declarada, esta se convierte en global
+```js
+// codigo aqui puede usar carName
+function myFunction() {
+  carName = 'volvo';
+  // codigo aqui puede usar carName
+}
+```
+
+**Local**
+
+Variables declaradas dentro de una funcion permanecen locales a esa funcion
+
+```js
+// codigo aqui NO puede usar carName
+function myFunction() {
+  var carName = 'volvo';
+  // codigo aqui puede usar carName
+}
+```
+
+### ES6 let (como var)
+
+Declara una variable que solo se vera en ese bloque donde se ha definido
+(funcion, if..else, while)  
+
+---
+
+## DATOS BASICOS
 
 `typeof dato`  
 Devuelve una string con el tipo de la variable dato
@@ -189,126 +295,9 @@ Muchas opeciones en JS que no producen un valor significativo dan undefined senc
 `null` es para objetos  
 `undefined` es para propiedades, metodos o variables  
 
-### Aumentando tipos
-
-* Si añadimos un metodo a `Object.prototype` ese metodo esta disponible para
-todos los objetos
-* En las funciones lo mismo aumentando `Function.prototype`
-
 ---
 
-## VISIBILIDAD
-
-### Alcance
-
-La visibilidad es hacia fuera en las funciones. Yo veo las
-variables de las funciones externas que me contienen pero no veo las de dentro  
-
-### ES6 let (como var)
-
-Declara una variable que solo se vera en ese bloque donde se ha definido
-(funcion, if..else, while)  
-
-### Global
-
-* Declarada fuera de una funcion
-```js
-var carName = 'volvo';
-// codigo aqui puede usar carName
-function myFunction() {
-  // codigo aqui puede usar carName
-}
-```
-
-* Si asigno un valor a una variable no declarada, esta se convierte en global
-```js
-// codigo aqui puede usar carName
-function myFunction() {
-  carName = 'volvo';
-  // codigo aqui puede usar carName
-}
-```
-
-### Local
-
-Variables declaradas dentro de una funcion permanecen locales a esa funcion
-
-```js
-// codigo aqui NO puede usar carName
-function myFunction() {
-  var carName = 'volvo';
-  // codigo aqui puede usar carName
-}
-```
-
----
-
-## OPERADORES
-
-### Aritmeticos
-
-* `+` Suma
-* `-` Resta
-* `*` Multiplicacion
-* `/` Division
-* `%` Modulo, lo que sobra de la division entera
-* `++` Incremento
-* `--` Decremento
-
-### Asignacion
-
-* `=` x = y
-* `+=` x = x + y
-* `-=` x = x - y
-* `*=` x = x * y
-* `/=` x = x / y
-* `%=` x = x % y
-
-### Comparacion
-
-* `==` igual
-* `===` igual valor e igual tipo
-* `!=` no igual
-* `!==` no igual valor ni igual tipo
-* `>` mayor que
-* `<` menor que
-* `<=` mayor o igual que
-* `>=` menor o igual que
-
-### Logicos
-
-* `&&` AND
-* `||` OR
-* `!` NOT
-
-### Unitarios
-
-* **`typeof()`**
-
-Nos da el tipo de valor
-
-* **`in`**
-
-Devuelve true si la propiedad especificada existe en el objeto especificado  
-
-> `propiedadNombreOrNumero in nombreObjeto`  
-> `propiedadNombreOrNumero` es una string que representa al nombre de una
-> propiedad o un numero que es el indice de un array  
-> `nombreObjeto` es el nombre de un objeto  
-
-```js
-var trees = new Array("redwood", "bay", "cedar", "oak", "maple");
-0 in trees;        // returns true
-3 in trees;        // returns true
-6 in trees;        // returns false
-"bay" in trees;    // returns false (you must specify the index number,
-                   // not the value at that index)
-"length" in trees; // returns true (length is an Array property)
-```
-
----
-
-## DECISIONES Y BUCLES
+## ESTRUCTURAS DE CONTROL  
 
 ### if ... else
 
@@ -417,158 +406,6 @@ switch (new Date().getDay()) {   //getDay() numero de dia de la semana
     break;
 }
 ```
-
----
-
-## OBJETOS
-
-Un Objeto es un contenedor de propiedades  
-Una propiedad es un nombre y un valor (cualquiera menos undefined)  
-Los objetos se pasan siempre por `referencia`  
-
-### this
-
-Usada dentro de funciones y objetos para referirse a un objeto que lo normal
-es el objeto en el que la funcion opera
-
-* Funcion con alcance global (no esta dentro de ningun otro objeto o funcion) `this` se refiere al objeto `window`
-
-```js
-function windowSize() {
-  var width = this.innerWidth;
-  var height = this.innerHeight;
-  return [height, width]
-}
-```
-
-* Variables globales, las variables globales se convierten en propiedades del
-objeto `window`
-
-```js
-var width = 600;
-var shape = {width: 300};
-var showWidth = function() {
-  document.write(this.width);
-};
-showWidth();      // this.width = 600
-```
-
-* Metodo de un objeto, si una funcion se define dentro de un objeto se
-convierte en un metodo de ese objeto. En un metodo `this` se refiere al objeto
-que lo contiene
-
-```js
-var shape = {
-  width: 600,
-  height: 400,
-  getArea: function() {
-    return this.width * this.height;
-  }  
-}
-```
-
-* Funciones con nombre globales y usadas como metodos de un objeto, `this` se
-refiere al objeto que contiene a la funcion
-
-```js
-var width = 600;
-var shape = {width: 300);
-var showWidth = function() {
-  document.write(this.width);
-};
-shape.getWidth = showWidth;
-shape.getWidth();                 // this.width = 300
-```
-
-### Crear Objetos
-
-#### Literales
-
-* Los valores de las propiedades se pueden obtener de cualquier expresion
-incluso de otros objetos anidados  
-* Bueno para la creación de nuevos valores de objeto  
-* NO son reusables  
-
-```js
-var objetoVacio = {};
-
-var miObjeto = {
-  diHola : function() {
-    alert("Hola");
-  },
-  name : "Pepe",
-  edad : 50,
-  nacimiento : {               // los objetos se pueden anidar
-    fecha: "01-01-1980",
-    lugar: "La Tierra"
-  }
-};
-```
-
-#### Constructor
-
-NO USAR
-
-* Normal
-
-```js
-var persona = new Object();
-persona.nombre = 'Ivan';
-persona.edad = '50';
-```
-
-* Reusable
-
-```js
-function myPersona (a, b) {
-  this.name = a;
-  this.edad = b;
-}
-var actor1 = new myPersona ('Juan', '30');
-var actor2 = new myPersona ('Manu', '18');
-```
-
-### Prototipos
-
-`Object.create` crea un nuevo objeto que usa uno viejo como prototipo
-
-```js
-var proto = {
-  sentencia : 4,
-  condicional : 2
-}
-var creaPrisionero = function (nombre, id) {
-  var prisionero = Object.create(proto);
-  prisionero.nombre = nombre;
-  prisionero.id = id;
-  return prisionero;
-}
-var primerPrisionero = creaPrisionero ('Juan', '65891');
-var segundoPrisionero = crearPrisionero ('Pepe', '13698');
-```
-
-### Enumeracion
-
-* `for in` itera sobre todas las propiedades del objeto incluso funciones o propiedades de los prototipos    
-* Para evitarlo se usan filtros como `typeof !== 'function'` ó `hasOwnProperty`  
-* Tambien puede usar el `for`  
-
-### Metodos
-
-`object.hasOwnProperty(nombre)` Devuelve true si el objeto tiene la propiedad nombre y false si no. El prototipo no se examina
-
-```js
-var a = {member: true};
-var b = Object.create(a);
-var t = a.hasOwnProperty('member'); // t is true
-var u = b.hasOwnProperty('member'); // u is false
-var v = b.member                    // v is true
-```
-
-### Herencia
-
-* En javascript los objetos heredan directamente de otros objetos (prototipos)  
-* Con el operador `new` podemos montarnos factorias de objetos y hacer un pseudoclasico patron de diseño
 
 ---
 
@@ -1010,33 +847,155 @@ console.log(power(2, 3));              // → 8
 
 ---
 
-## EXPRESIONES REGULARES
+## OBJETOS
 
-En Javascript las expresiones regulares han de estar en una sola linea. Los espacios en blanco son significativos  
+Un Objeto es un contenedor de propiedades  
+Una propiedad es un nombre y un valor (cualquiera menos undefined)  
+Los objetos se pasan siempre por `referencia`  
+
+### this
+
+Usada dentro de funciones y objetos para referirse a un objeto que lo normal
+es el objeto en el que la funcion opera
+
+* Funcion con alcance global (no esta dentro de ningun otro objeto o funcion) `this` se refiere al objeto `window`
 
 ```js
-var expreg = /ab+c/;
-var expreg = new RegExp('/ab+c/');
-expreg.test(variableATestarConLaexpresionRegular) // da true o false
+function windowSize() {
+  var width = this.innerWidth;
+  var height = this.innerHeight;
+  return [height, width]
+}
 ```
+
+* Variables globales, las variables globales se convierten en propiedades del
+objeto `window`
+
+```js
+var width = 600;
+var shape = {width: 300};
+var showWidth = function() {
+  document.write(this.width);
+};
+showWidth();      // this.width = 600
+```
+
+* Metodo de un objeto, si una funcion se define dentro de un objeto se
+convierte en un metodo de ese objeto. En un metodo `this` se refiere al objeto
+que lo contiene
+
+```js
+var shape = {
+  width: 600,
+  height: 400,
+  getArea: function() {
+    return this.width * this.height;
+  }  
+}
+```
+
+* Funciones con nombre globales y usadas como metodos de un objeto, `this` se
+refiere al objeto que contiene a la funcion
+
+```js
+var width = 600;
+var shape = {width: 300);
+var showWidth = function() {
+  document.write(this.width);
+};
+shape.getWidth = showWidth;
+shape.getWidth();                 // this.width = 300
+```
+
+### Crear Objetos
+
+#### Literales
+
+* Los valores de las propiedades se pueden obtener de cualquier expresion
+incluso de otros objetos anidados  
+* Bueno para la creación de nuevos valores de objeto  
+* NO son reusables  
+
+```js
+var objetoVacio = {};
+
+var miObjeto = {
+  diHola : function() {
+    alert("Hola");
+  },
+  name : "Pepe",
+  edad : 50,
+  nacimiento : {               // los objetos se pueden anidar
+    fecha: "01-01-1980",
+    lugar: "La Tierra"
+  }
+};
+```
+
+#### Constructor
+
+NO USAR
+
+* Normal
+
+```js
+var persona = new Object();
+persona.nombre = 'Ivan';
+persona.edad = '50';
+```
+
+* Reusable
+
+```js
+function myPersona (a, b) {
+  this.name = a;
+  this.edad = b;
+}
+var actor1 = new myPersona ('Juan', '30');
+var actor2 = new myPersona ('Manu', '18');
+```
+
+### Prototipos
+
+`Object.create` crea un nuevo objeto que usa uno viejo como prototipo
+
+```js
+var proto = {
+  sentencia : 4,
+  condicional : 2
+}
+var creaPrisionero = function (nombre, id) {
+  var prisionero = Object.create(proto);
+  prisionero.nombre = nombre;
+  prisionero.id = id;
+  return prisionero;
+}
+var primerPrisionero = creaPrisionero ('Juan', '65891');
+var segundoPrisionero = crearPrisionero ('Pepe', '13698');
+```
+
+### Enumeracion
+
+* `for in` itera sobre todas las propiedades del objeto incluso funciones o propiedades de los prototipos    
+* Para evitarlo se usan filtros como `typeof !== 'function'` ó `hasOwnProperty`  
+* Tambien puede usar el `for`  
 
 ### Metodos
 
-`regexp.exec(string)` Si la expresion regular casa con el string devuelve un
-array  
+`object.hasOwnProperty(nombre)` Devuelve true si el objeto tiene la propiedad nombre y false si no. El prototipo no se examina
 
-* array[0] es la subcadena que casa con la expresion regular
-* array[1] el texto capturado por el primer grupo
-* array[2] el texto capturado por el segundo grupo
-* array[n] el texto capturado por el n grupo
-* Si la expresion regular tiene una bandera g la busqueda empieza en la posicion regexp.lastIndex (inicialmente cero). Si la busqueda es exitosa regexp.lastIndex pasara a ser el siguiente caracter tras la coincidencia. Si falla pasa a 0.  
-* Esto permite buscar varias coincidencias en una sola cadena
-
-`regexp.test(string)` Si la expresion regular casa con el string devuelve
-true, si no false
 ```js
-var b = /&.+;/.test('frank & beans'); // b is true
+var a = {member: true};
+var b = Object.create(a);
+var t = a.hasOwnProperty('member'); // t is true
+var u = b.hasOwnProperty('member'); // u is false
+var v = b.member                    // v is true
 ```
+
+### Herencia
+
+* En javascript los objetos heredan directamente de otros objetos (prototipos)  
+* Con el operador `new` podemos montarnos factorias de objetos y hacer un pseudoclasico patron de diseño
 
 ---
 
@@ -1221,6 +1180,36 @@ funcion
 - Las variables instanciadas dentro del contexto de eval() sólo son válidas en ese contexto.   
 - La sentencia `with(){}` ya no se usa  
 - Y mas ...  
+
+---
+
+## EXPRESIONES REGULARES
+
+En Javascript las expresiones regulares han de estar en una sola linea. Los espacios en blanco son significativos  
+
+```js
+var expreg = /ab+c/;
+var expreg = new RegExp('/ab+c/');
+expreg.test(variableATestarConLaexpresionRegular) // da true o false
+```
+
+### Metodos
+
+`regexp.exec(string)` Si la expresion regular casa con el string devuelve un
+array  
+
+* array[0] es la subcadena que casa con la expresion regular
+* array[1] el texto capturado por el primer grupo
+* array[2] el texto capturado por el segundo grupo
+* array[n] el texto capturado por el n grupo
+* Si la expresion regular tiene una bandera g la busqueda empieza en la posicion regexp.lastIndex (inicialmente cero). Si la busqueda es exitosa regexp.lastIndex pasara a ser el siguiente caracter tras la coincidencia. Si falla pasa a 0.  
+* Esto permite buscar varias coincidencias en una sola cadena
+
+`regexp.test(string)` Si la expresion regular casa con el string devuelve
+true, si no false
+```js
+var b = /&.+;/.test('frank & beans'); // b is true
+```
 
 ---
 
