@@ -15,12 +15,12 @@ pages:
     - 'Javascript APIs': 'frontend/apis.md'
     - 'jQuery': 'frontend/jquery.md'
 - Back-End:
+    - 'Golang': 'backend/golang.md'
+    - 'Go Standard Library': 'backend/goStdLib.md'
+    - 'Bases de Datos': 'backend/bbdd.md'
     - 'NodeJS': 'backend/nodejs.md'
     - 'Express': 'backend/express.md'
     - 'Modulos npm': 'backend/npm.md'
-    - 'Bases de Datos': 'backend/bbdd.md'
-    - 'Golang': 'backend/golang.md'
-    - 'Go Standard Library': 'backend/goStdLib.md'
     - 'Meteor': 'backend/meteor.md'
 - Debian:
     - 'Testing': 'debian/testing.md'

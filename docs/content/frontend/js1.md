@@ -94,7 +94,7 @@ function myFunction() {
 function myFunction() {
   carName = 'volvo';
   // codigo aqui puede usar carName
-}
+} 
 ```
 
 **Local**
@@ -108,11 +108,6 @@ function myFunction() {
   // codigo aqui puede usar carName
 }
 ```
-
-### ES6 let (como var)
-
-Declara una variable que solo se vera en ese bloque donde se ha definido
-(funcion, if..else, while)  
 
 ---
 
@@ -164,7 +159,7 @@ var aleatorio = Math.floor((Math.random() * 10) +1);
 ### String
 
 >* Puede estar entre comillas simples o comillas dobles  
-* Las cadenas tienen un propiedad lenght. `"cadena".lenght`  
+* Las cadenas tienen un propiedad length. `"cadena".length`    
 * Las cadenas son inmutables. no se pueden cambiar pero si crear nuevas  
 * Para escapar caracteres usamos \ `\n` nueva linea por ejemplo  
 
@@ -411,11 +406,12 @@ switch (new Date().getDay()) {   //getDay() numero de dia de la semana
 
 ## ARRAYS
 
-Los arrays en Javascript son falsos arrays pero aun asi renta su uso
+Los arrays en Javascript son falsos arrays pero aun asi renta su uso  
+Heredan de `Array.prototype` muchos metodos muy utiles  
 
 * Creacion de Arrays
 
-* * Array Literal  
+> * Array Literal  
 
 ```js
 var vacio = [];
@@ -425,13 +421,12 @@ vacio[1]    // undefined
 numeros[1]  // 'one'
 ```
 
-* * Array constructor
+> * Array constructor  
 
 ```js
 var colores = new Array('blanco', 'rojo', 'azul')
 ```
 
-Heredan de `Array.prototype` muchos metodos muy utiles
 
 * Iteracion de arrays
 
@@ -636,11 +631,8 @@ var a = ['a', 'b', 'c'];
 var r = a.splice(1, 1, 'ache', 'bug');
 // a es ['a', 'ache', 'bug', 'c']
 // r es ['b']
-```
 
-Para borrar por ejemplo el elemento con indice = 3 de un array
-
-```js
+//Para borrar por ejemplo el elemento con indice = 3 de un array
 array.splice(indice, 1);
 ```
 
@@ -654,15 +646,15 @@ array.splice(indice, 1);
  a `Object.prototype`  
 * Cada funcion se crea con una propiedad prototype cuyo valor es un objeto con
  una propiedad constructor cuyo valor es la funcion  
-* Cada funcion se crea con dos propiedades ocultas  
-* * El contexto de la funcion
-* * El codigo que implementa el comportamiento de la funcion
+* Cada funcion se crea con dos propiedades ocultas
+    * El contexto de la funcion
+    * El codigo que implementa el comportamiento de la funcion
 
 ### Tipos de funciones
 
-#### Named functions
+* **Named functions**
 
-  * Declaracion de funciones (function declaration) :las puedes llamar cuando quieras antes de que se lean, incluso en el onload
+> * Declaracion de funciones (function declaration) :las puedes llamar cuando quieras antes de que se lean, incluso en el onload
 
 ```js
 function nombreFuncion () {
@@ -670,7 +662,8 @@ function nombreFuncion () {
 }
 ```
 
-  * expresiones de funciones (function expressions) :  no se pueden usar hasta que este encontrada y definida
+> * Expresiones de funciones (function expressions) :  no se pueden usar hasta
+que este encontrada y definida
 
 ```js
 ANONIMAS
@@ -683,7 +676,7 @@ var referenciaFuncion = function nombreFuncion() {
 }
 ```
 
-#### Anonymous functions
+* **Anonymous functions**
 
 ```js
 function () {
@@ -691,7 +684,7 @@ function () {
 }
 ```
 
-#### Autoejecutables
+* **Autoejecutables**  
 
 Immediately Invoked Function Expressions (IIFEs)  
 Una vez declarada se llama a si misma para inicializarse y estar ya disponible para otras partes de la aplicacion, contiene la visibilidad de las variables
@@ -853,6 +846,53 @@ Un Objeto es un contenedor de propiedades
 Una propiedad es un nombre y un valor (cualquiera menos undefined)  
 Los objetos se pasan siempre por `referencia`  
 
+
+### Crear Objetos
+
+* **Literales**
+
+    * Los valores de las propiedades se pueden obtener de cualquier expresion
+incluso de otros objetos anidados  
+    * Bueno para la creación de nuevos valores de objeto  
+    * NO son reusables  
+
+```js
+var objetoVacio = {};
+
+var miObjeto = {
+  diHola : function() {
+    alert("Hola");
+  },
+  name : "Pepe",
+  edad : 50,
+  nacimiento : {               // los objetos se pueden anidar
+    fecha: "01-01-1980",
+    lugar: "La Tierra"
+  }
+};
+```
+
+* **Constructor**
+
+```js
+// NORMAL
+
+var persona = new Object();
+persona.nombre = 'Ivan';
+persona.edad = '50';
+```
+
+```js
+// REUSABLE
+
+function myPersona (a, b) {
+  this.name = a;
+  this.edad = b;
+}
+var actor1 = new myPersona ('Juan', '30');
+var actor2 = new myPersona ('Manu', '18');
+```
+
 ### this
 
 Usada dentro de funciones y objetos para referirse a un objeto que lo normal
@@ -905,54 +945,6 @@ var showWidth = function() {
 };
 shape.getWidth = showWidth;
 shape.getWidth();                 // this.width = 300
-```
-
-### Crear Objetos
-
-#### Literales
-
-* Los valores de las propiedades se pueden obtener de cualquier expresion
-incluso de otros objetos anidados  
-* Bueno para la creación de nuevos valores de objeto  
-* NO son reusables  
-
-```js
-var objetoVacio = {};
-
-var miObjeto = {
-  diHola : function() {
-    alert("Hola");
-  },
-  name : "Pepe",
-  edad : 50,
-  nacimiento : {               // los objetos se pueden anidar
-    fecha: "01-01-1980",
-    lugar: "La Tierra"
-  }
-};
-```
-
-#### Constructor
-
-NO USAR
-
-* Normal
-
-```js
-var persona = new Object();
-persona.nombre = 'Ivan';
-persona.edad = '50';
-```
-
-* Reusable
-
-```js
-function myPersona (a, b) {
-  this.name = a;
-  this.edad = b;
-}
-var actor1 = new myPersona ('Juan', '30');
-var actor2 = new myPersona ('Manu', '18');
 ```
 
 ### Prototipos
