@@ -30,6 +30,6 @@ Varios
 ## Usar [mkdocs](http://www.mkdocs.org/)
 
 Para verlo todo aqui en GitHub dan problemas los enlaces a imagenes y los
-enlaces internos.
+enlaces internos. 
 
 Aqui se ve perfecto [chuletas](http://brusbilis.com/chuletas)
