@@ -52,7 +52,8 @@
 
 > `typeof()` - Nos da el tipo de valor  
 
-> `in` - Devuelve true si la propiedad especificada existe en el objeto especificado  
+> `in` - Devuelve true si la propiedad especificada existe en el objeto 
+especificado  
 >> `propiedadNombreOrNumero in nombreObjeto`  
 >> `propiedadNombreOrNumero` es una string que representa al nombre de una
  propiedad o un numero que es el indice de un array  
@@ -72,6 +73,8 @@ var trees = new Array("redwood", "bay", "cedar", "oak", "maple");
 
 ## VARIABLES  
 
+En javascript las variables no tienen tipos, son los valores quienes tienen tipos  
+
 ### Alcance
 
 La visibilidad es hacia fuera en las funciones. Yo veo las
@@ -80,15 +83,17 @@ variables de las funciones externas que me contienen pero no veo las de dentro
 **Global**
 
 * Declarada fuera de una funcion
+
 ```js
-var carName = 'volvo';
-// codigo aqui puede usar carName
+var carName = 'volvo';  
+// codigo aqui puede usar carName  
 function myFunction() {
   // codigo aqui puede usar carName
 }
 ```
 
 * Si asigno un valor a una variable no declarada, esta se convierte en global
+
 ```js
 // codigo aqui puede usar carName
 function myFunction() {
@@ -108,6 +113,14 @@ function myFunction() {
   // codigo aqui puede usar carName
 }
 ```
+
+### Conversion de tipos
+
+`Number(string)` - Convierte cadena string en un numero    
+`parseInt(string)` - Convierte la cadena string en un numero entero  
+`parseFloat(string)` - Convierte la cadena string en un numero flotante  
+`String(numero)` - Convierte el numero en una string  
+`numero.toString()` - equivale a String(numero) y devuelve una string  
 
 ---
 
@@ -158,10 +171,10 @@ var aleatorio = Math.floor((Math.random() * 10) +1);
 
 ### String
 
->* Puede estar entre comillas simples o comillas dobles  
-* Las cadenas tienen un propiedad length. `"cadena".length`    
-* Las cadenas son inmutables. no se pueden cambiar pero si crear nuevas  
-* Para escapar caracteres usamos \ `\n` nueva linea por ejemplo  
+> * Puede estar entre comillas simples o comillas dobles  
+> * Las cadenas tienen un propiedad length. `"cadena".length`    
+> * Las cadenas son inmutables. no se pueden cambiar pero si crear nuevas  
+> * Para escapar caracteres usamos \ `\n` nueva linea por ejemplo  
 
 * Metodos
 
@@ -285,7 +298,8 @@ false
 ### Null - Undefined
 
 Se usan para denotar la ausencia de valor  
-Muchas opeciones en JS que no producen un valor significativo dan undefined sencillamente porque un valor tienen que dar  
+Muchas operaciones en JS que no producen un valor significativo dan undefined 
+sencillamente porque un valor tienen que dar  
 
 `null` es para objetos  
 `undefined` es para propiedades, metodos o variables  
@@ -649,6 +663,8 @@ array.splice(indice, 1);
 * Cada funcion se crea con dos propiedades ocultas
     * El contexto de la funcion
     * El codigo que implementa el comportamiento de la funcion
+* Para evitar callback hell y mas faunas mejor usar siempre las funciones todas
+con nombre  
 
 ### Tipos de funciones
 
@@ -687,7 +703,10 @@ function () {
 * **Autoejecutables**  
 
 Immediately Invoked Function Expressions (IIFEs)  
-Una vez declarada se llama a si misma para inicializarse y estar ya disponible para otras partes de la aplicacion, contiene la visibilidad de las variables
+Una vez declarada se llama a si misma para inicializarse y estar ya disponible 
+para otras partes de la aplicacion     
+Se usa para declarar variables que no afectan al resto del codigo fuera de la funcion pues contiene la visibilidad de las variables  
+Pueden usar tambien `return`  
 
 
 ```js
@@ -770,27 +789,19 @@ var volumen1 = getMedidas(5,4,10)[1];
 
 ### Closure
 
-Sin closure
-
-```js
-var cont = 0;
-function contador() {
-  cont = cont + 1;
-  return cont;
-}
-```
+Es una forma de "recordar" y tener acceso a las variables de una funcion una vez 
+que ya ha terminado de ejecutarse.   
 
 Closure ejemplo1
 
 ```js
-function crearContador() {
-  var cont = 0;
-  function contador() {
-    cont = cont + 1;
-    return cont;
+function crearContador(x) {
+  function sumarCantidad(y) {
+    return x + y;
   }
-  return contador
+  return sumarCantidad
 }
+var sumarUno = crearContador(1);
 ```
 
 Closure ejemplo2
@@ -1175,43 +1186,30 @@ funcion
 
 ---
 
-## EXPRESIONES REGULARES
-
-En Javascript las expresiones regulares han de estar en una sola linea. Los espacios en blanco son significativos  
-
-```js
-var expreg = /ab+c/;
-var expreg = new RegExp('/ab+c/');
-expreg.test(variableATestarConLaexpresionRegular) // da true o false
-```
-
-### Metodos
-
-`regexp.exec(string)` Si la expresion regular casa con el string devuelve un
-array  
-
-* array[0] es la subcadena que casa con la expresion regular
-* array[1] el texto capturado por el primer grupo
-* array[2] el texto capturado por el segundo grupo
-* array[n] el texto capturado por el n grupo
-* Si la expresion regular tiene una bandera g la busqueda empieza en la posicion regexp.lastIndex (inicialmente cero). Si la busqueda es exitosa regexp.lastIndex pasara a ser el siguiente caracter tras la coincidencia. Si falla pasa a 0.  
-* Esto permite buscar varias coincidencias en una sola cadena
-
-`regexp.test(string)` Si la expresion regular casa con el string devuelve
-true, si no false
-```js
-var b = /&.+;/.test('frank & beans'); // b is true
-```
-
----
-
 ## MODULOS
 
 ### Exportar modulo
 
-`Exportacion del modulo` Exportamos el modulo con 2 propiedades publicas (las mod.algo), el resto se mantiene como privado.  
-Podemos importar facilmente las globales que necesitemos usando el patron
-anterior
+* `Exportacion del modulo` 
+
+Exportamos el modulo con propiedades publicas (lo que se derive del return), el resto se mantiene como privado.  
+Podemos crear el modulo autoejecutable (funcion IIFE) o crearlo desde fuera  
+
+```
+function User(){
+  var username, password;
+  function doLogin(user,pw) {
+    username = user;
+    password = pw;
+  }
+  var publicAPI = {
+    login: doLogin
+  };
+  return publicAPI;
+}
+var fred = User();      // create a `User` module 
+fred.login( "fred", "12Battery34!" );
+```
 
 ```js
 var Modulo = (function () {
@@ -1225,19 +1223,6 @@ var Modulo = (function () {
 		// ...
 	};
 	return mod;
-}();
-```
-
-Las funciones son las unicas que crean un nuevo ambito de visibilidad. Por ello para
-que los modulos tengan su propio ambito se usan funciones.
-
-```js
-var dayName = function() {
-  var names = ["Sunday", "Monday", "Tuesday", "Wednesday",
-               "Thursday", "Friday", "Saturday"];
-  return function(number) {
-    return names[number];
-  };
 }();
 ```
 
@@ -1288,8 +1273,7 @@ modulo y lo carga
  como una string  
 2. Ejecutar esa cadena como codigo Javascript  
 
-Una implementacion de `require` es `CommonJS`, pero en el navegador leer archivos
-desde la web es mucho mas lento que del disco duro. Soluciones :  
+Una implementacion de `require` es `CommonJS`, pero en el navegador leer archivos desde la web es mucho mas lento que del disco duro. Soluciones :  
 1. usar [`Browserify`](http://browserify.org/)  
 2. `AMD definicion asincrona de modulos` Envolver el codigo del modulo en una
 funcion `define `para que se llame al modulo cuano ya se han cargado las
@@ -1301,7 +1285,7 @@ dependencias. [`RequireJS`](http://requirejs.org/) implementa esa solucion
 
 ### Reducir variables globales
 
-`Closures anonimos` Son funciones autoejecutables
+`funciones autoejecutables IIFEs`  
 
 ```js
 (function () {
@@ -1362,5 +1346,107 @@ var people = {
 }
 ```
 
+---
+
+## ES6
+
+### const - let
+
+* **const**
+
+Crea constantes que no se pueden modificar, ha de asignarse el valor en la declaracion   
+
+* **let**
+
+Declara variables que no son accesibles mas alla del ambito de creacion  
+Ejemplo mejor: para los `for`    
+
+### funcion arrow
+
+Para las funciones anonimas
+
+```js
+// ES5 
+var multiplicar = function(x, y) {
+  return x * y;
+} 
+// ES6 
+var multiplicar = (x, y) => { 
+  return x * y 
+};
+```
+
+### template strings
+
+```js
+let nombre1 = "JavaScript";  
+let nombre2 = "awesome";  
+console.log(`Sólo quiero decir que ${nombre1} is ${nombre2`); 
+```
+
+### modulos
+
+bar.js
+
+```js
+function hello(who) {
+    return "Let me introduce: " + who;
+}
+export hello;
+```
+
+foo.js
+
+```js
+import hello from "bar";      // import only `hello()` from "bar" module
+var hungry = "hippo";
+function awesome() {
+    console.log(
+        hello( hungry ).toUpperCase()
+    );
+}
+export awesome;
+```
+
+baz.js
+
+```js
+module foo from "foo";      // import the entire "foo" and "bar" modules
+module bar from "bar";
+console.log(
+    bar.hello( "rhino" )
+);                             // Let me introduce: rhino
+foo.awesome();                 // LET ME INTRODUCE: HIPPO
+```
+
+---
+
+## EXPRESIONES REGULARES
+
+En Javascript las expresiones regulares han de estar en una sola linea. Los espacios en blanco son significativos  
+
+```js
+var expreg = /ab+c/;
+var expreg = new RegExp('/ab+c/');
+expreg.test(variableATestarConLaexpresionRegular) // da true o false
+```
+
+### Metodos
+
+`regexp.exec(string)` Si la expresion regular casa con el string devuelve un
+array  
+
+* array[0] es la subcadena que casa con la expresion regular
+* array[1] el texto capturado por el primer grupo
+* array[2] el texto capturado por el segundo grupo
+* array[n] el texto capturado por el n grupo
+* Si la expresion regular tiene una bandera g la busqueda empieza en la posicion regexp.lastIndex (inicialmente cero). Si la busqueda es exitosa regexp.lastIndex pasara a ser el siguiente caracter tras la coincidencia. Si falla pasa a 0.  
+* Esto permite buscar varias coincidencias en una sola cadena
+
+`regexp.test(string)` Si la expresion regular casa con el string devuelve
+true, si no false
+```js
+var b = /&.+;/.test('frank & beans'); // b is true
+```
 
 ---

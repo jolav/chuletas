@@ -1,4 +1,4 @@
-# GOLANG 1.6
+# GOLANG 1.6.2
 
 ---
 
@@ -16,7 +16,7 @@ Carpetas que se crean:
 
 * `bin` - Contiene los binarios compilados. Podemos añadir la carpeta `bin` al path del sistema para hacer los binarios compilados ejecutables desde cualquier  sitio  
 * `pkg` - contiene los versiones compiladas de las librerias disponibles para
-que el comilador las pueda enlazar sin tener que recompilarlas  
+que el compilador las pueda enlazar sin tener que recompilarlas  
 * `src` -  contiene todo el codigo organizado por rutas de import  
 
 ---
@@ -128,6 +128,18 @@ func main() {
 }
 ```
 
+* **new**
+
+Pone a cero el valor del tipo y devuelve un puntero a el.
+
+```go
+x := new(int)
+```
+
+* **make**
+
+Necesario para `slices` `maps` y `channels`  
+
 ### Alcance
 
 El alcance es la region del programa donde una variable definida existe  
@@ -156,37 +168,15 @@ u := uint(f)
 
 ### Type Assertion
 
-1A-30
-
-```go
-if err != nil {
-    if myerr, ok := err.(*mysql.MySQLError); ok && myerr.Number == 1062 {
-        log.Println("We got a MySQL duplicate :(")  
-    } else {
-        return err
-    }
-}
-```
-
-### new
-
-Pone a cero el valor del tipo y devuelve un puntero a el.
-
-```go
-x := new(int)
-```
-
-### make
-
-Necesario para `slices` `maps` y `channels`  
-
 ---
 
 ## DATOS BASICOS
 
 ![go](/z-static/images/go/basicTypes.png)
 
-### Integers
+### Numeros
+
+* **Integers**
 
 Los enteros son numeros sin decimal
 
@@ -195,14 +185,14 @@ Los enteros son numeros sin decimal
 `byte` - alias de uint8 (0-255)  
 `rune` - alias de int32   
 
-### Numeros de Punto Flotante  
+* **Numeros de Punto Flotante**
 
 Son numeros reales (con parte decimal)  
 
 `float32` - conocido como simple precision  
 `float64` - conocido como doble precision  
 
-### Numeros Complejos
+* **Numeros Complejos**
 
 `complex64` - parte real float32 + partes imaginarias  
 `complex128` - parte real float64 + partes imaginarias  
@@ -269,7 +259,7 @@ datos que usan valores por referencia como slices y maps.
 
 ```go
 i := 42
-p = &i              // Genera un puntero a i
+p := &i             // Genera un puntero a i
 fmt.Println(*p)     // lee i a traves del puntero p
 *p = 21             // establece i a traves del puntero p
 ```
@@ -293,12 +283,12 @@ collector lo limpia todo)
 
 ```go
 func zero(x *int) {
-    *x = 0
+    *x = 5
 }
 func main() {
     x := new(int)
     zero(x)  
-    fmt.Println(*x) // x is 1
+    fmt.Println(*x) // x is 5
 }
 ```
 
@@ -311,29 +301,26 @@ modifica un argumento no muta el valor original
 * Ejemplo
 
 ```go
-type Artist struct {
-    Name, Genre string
-    Songs int
-}
-func newRelease(a Artist) int {
-    a.Songs++
-  return a.Songs
+func addOne(x int) {
+	x++
 }
 func main() {
-    me := Artist{Name: "Matt", Genre: "Electro", Songs: 42}
-    fmt.Printf("%s released their %dth song\n", me.Name, newRelease(me))
-    fmt.Printf("%s has a total of %d songs", me.Name, me.Songs)
+	x := 0
+	addOne(x)
+	fmt.Println(x)         // x da 0
 }
-// Matt released their 43th song
-// Matt has a total of 42 songs
 ```
 
 ```go
-// Solo con poner un puntero a Artist
-func newRelease(a *Artist) int {
-me := &Artist{Name: "Matt", Genre: "Electro", Songs: 42}
-// Matt released their 43th song
-// Matt has a total of 43 songs
+// Si usamos punteros
+func addOne(x *int) {
+	*x++
+}
+func main() {
+	x := 0
+	addOne(&x)
+	fmt.Println(x)          // x da 1
+}
 ```
 
 ---
@@ -570,27 +557,10 @@ if el, ok := elements["Li"]; ok {
 
 ## STRUCTS
 
-### Definicion
-
-* Es una coleccion de campos/propiedades  
+Es una coleccion de campos/propiedades  
 Solo los campos exportados (primera letra mayuscula) son accesibles de fuera del paquete  
 
-```go
-type Bootcamp struct {
-    Lat float64
-    Lon float64
-    Date time.Time
-}
-func main() {
-    fmt.Println(Bootcamp{
-        Lat: 34.012836
-        Lon: -118.495338,
-        Date: time.Now(),
-    })
-}
-```
-
-### Formas inicializacion
+### Inicializacion
 
 ```go
 type Circle struct {
@@ -608,9 +578,6 @@ structs paa que las funciones puedan modificar los datos.
 `c := &Circle{0, 0, 5}`  
 `c := Circle{x: 1}`  
 `c := Circle{}`  
-
-
-### Campos
 
 ```go
 type Circle struct {
@@ -699,36 +666,36 @@ Podemos acceder a la Struct de User:
 * Puede tener cualquier valor que implementen esos metodos  
 
 ```go
-type User struct {
-    FirstName, LastName string
+type usuario struct {
+	nombre, apellido string
 }
 
-func (u *User) Name() string {
-    return fmt.Sprintf("%s %s", u.FirstName, u.LastName)
+func (u usuario) getNombre() string {
+	return fmt.Sprintf("%s %s", u.nombre, u.apellido)
 }
 
-type Customer struct {
-    Id       int
-    FullName string
+type cliente struct {
+	Id             int
+	nombreCompleto string
 }
 
-func (c *Customer) Name() string {
-    return c.FullName
+func (c *cliente) getNombre() string {
+	return c.nombreCompleto
 }
 
-type Namer interface {
-    Name() string
+type llamar interface {
+	getNombre() string
 }
 
-func Greet(n Namer) string {
-    return fmt.Sprintf("Dear %s", n.Name())
+func saludar(n llamar) string {
+	return fmt.Sprintf("Sr %s", n.getNombre())
 }
 
 func main() {
-    u := &User{"nombre", "apellido"}
-    fmt.Println(Greet(u))
-    c := &Customer{42, "nombre2"}
-    fmt.Println(Greet(c))
+	u := usuario{"nombre", "apellido"}
+	fmt.Println(saludar(u))
+	c := &cliente{42, "nombre2"}
+	fmt.Println(saludar(c))
 }
 ```
 

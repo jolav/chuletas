@@ -6,27 +6,26 @@ extra:
     logo: 'z-static/images/logo/brusbb.png'
 
 pages:
-- Menu Chuletas: 'index.md'
-- Front-end:
-    - 'Html5': 'frontend/html5.md'
-    - 'CSS3': 'frontend/css3.md'
-    - 'Javascript I': 'frontend/js1.md'
-    - 'Javascript II': 'frontend/js2.md'
-    - 'Javascript APIs': 'frontend/apis.md'
+- MENU CHULETAS: 'index.md'
+- FRONT-END:
+    - 'html5': 'frontend/html5.md'
+    - 'css3': 'frontend/css3.md'
+    - 'javascript I': 'frontend/js1.md'
+    - 'javascript II': 'frontend/js2.md'
+    - 'javascript APIs': 'frontend/apis.md'
     - 'jQuery': 'frontend/jquery.md'
-- Back-End:
-    - 'Golang': 'backend/golang.md'
-    - 'Go Standard Library': 'backend/goStdLib.md'
-    - 'Bases de Datos': 'backend/bbdd.md'
-    - 'NodeJS': 'backend/nodejs.md'
-    - 'Express': 'backend/express.md'
-    - 'Modulos npm': 'backend/npm.md'
-    - 'Meteor': 'backend/meteor.md'
-- Debian:
-    - 'Testing': 'debian/testing.md'
-    - 'Servidor': 'debian/servidor.md'
-- Varios:
-    - 'Git, MkDocs, ExpReg': 'varios/varios1.md'
+- BACK-END:
+    - 'golang': 'backend/golang.md'
+    - 'golang standard libraries': 'backend/goStdLib.md'
+    - 'golang libraries': 'backend/goLib1.md'
+    - 'bases de datos': 'backend/bbdd.md'
+    - 'node.js': 'backend/nodejs.md'
+    - 'meteor': 'backend/meteor.md'
+- VARIOS:
+    - 'debian testing': 'varios/testing.md'
+    - 'debian servidor': 'varios/servidor.md'
+    - 'macOS': 'varios/macOS.md'
+    - 'git, mkDocs, expReg': 'varios/varios1.md'
 
 markdown_extensions:
     - fenced_code

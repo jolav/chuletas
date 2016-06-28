@@ -14,15 +14,12 @@ Back-End
 * [Go Standard Library](https://github.com/brusbilis/chuletas/blob/master/docs/content/backend/goStdLib.md)
 * [Bases de Datos](https://github.com/brusbilis/chuletas/blob/master/docs/content/backend/bbdd.md)  
 * [Node.js](https://github.com/brusbilis/chuletas/blob/master/docs/content/backend/nodejs.md)  
-* [Express](https://github.com/brusbilis/chuletas/blob/master/docs/content/backend/express.md)  
-* [Modulos de npm](https://github.com/brusbilis/chuletas/blob/master/docs/content/backend/npm.md)  
 * [Meteor](https://github.com/brusbilis/chuletas/blob/master/docs/content/backend/meteor.md)    
 
-Debian  
-* [Testing](https://github.com/brusbilis/chuletas/blob/master/docs/content/debian/testing.md)  
-* [Servidor](https://github.com/brusbilis/chuletas/blob/master/docs/content/debian/servidor.md)  
-
-Varios  
+Varios
+* [Debian Testing](https://github.com/brusbilis/chuletas/blob/master/docs/content/varios/testing.md)  
+* [Debian Servidor](https://github.com/brusbilis/chuletas/blob/master/docs/content/varios/servidor.md)  
+* [macOS](https://github.com/brusbilis/chuletas/blob/master/docs/content/varios/macOS.md)  
 * [Varios](https://github.com/brusbilis/chuletas/blob/master/docs/content/varios/varios1.md)  
 
 
@@ -30,6 +27,6 @@ Varios
 ## Usar [mkdocs](http://www.mkdocs.org/)
 
 Para verlo todo aqui en GitHub dan problemas los enlaces a imagenes y los
-enlaces internos. 
+enlaces internos.
 
 Aqui se ve perfecto [chuletas](http://brusbilis.com/chuletas)
