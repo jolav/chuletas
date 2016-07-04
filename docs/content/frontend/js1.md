@@ -52,7 +52,7 @@
 
 > `typeof()` - Nos da el tipo de valor  
 
-> `in` - Devuelve true si la propiedad especificada existe en el objeto 
+> `in` - Devuelve true si la propiedad especificada existe en el objeto
 especificado  
 >> `propiedadNombreOrNumero in nombreObjeto`  
 >> `propiedadNombreOrNumero` es una string que representa al nombre de una
@@ -99,7 +99,7 @@ function myFunction() {
 function myFunction() {
   carName = 'volvo';
   // codigo aqui puede usar carName
-} 
+}
 ```
 
 **Local**
@@ -298,7 +298,7 @@ false
 ### Null - Undefined
 
 Se usan para denotar la ausencia de valor  
-Muchas operaciones en JS que no producen un valor significativo dan undefined 
+Muchas operaciones en JS que no producen un valor significativo dan undefined
 sencillamente porque un valor tienen que dar  
 
 `null` es para objetos  
@@ -703,7 +703,7 @@ function () {
 * **Autoejecutables**  
 
 Immediately Invoked Function Expressions (IIFEs)  
-Una vez declarada se llama a si misma para inicializarse y estar ya disponible 
+Una vez declarada se llama a si misma para inicializarse y estar ya disponible
 para otras partes de la aplicacion     
 Se usa para declarar variables que no afectan al resto del codigo fuera de la funcion pues contiene la visibilidad de las variables  
 Pueden usar tambien `return`  
@@ -789,7 +789,7 @@ var volumen1 = getMedidas(5,4,10)[1];
 
 ### Closure
 
-Es una forma de "recordar" y tener acceso a las variables de una funcion una vez 
+Es una forma de "recordar" y tener acceso a las variables de una funcion una vez
 que ya ha terminado de ejecutarse.   
 
 Closure ejemplo1
@@ -1277,13 +1277,13 @@ Ejemplo mejor: para los `for`
 Para las funciones anonimas
 
 ```js
-// ES5 
+// ES5
 var multiplicar = function(x, y) {
   return x * y;
-} 
-// ES6 
-var multiplicar = (x, y) => { 
-  return x * y 
+}
+// ES6
+var multiplicar = (x, y) => {
+  return x * y
 };
 ```
 
@@ -1292,7 +1292,7 @@ var multiplicar = (x, y) => {
 ```js
 let nombre1 = "JavaScript";  
 let nombre2 = "awesome";  
-console.log(`Sólo quiero decir que ${nombre1} is ${nombre2`); 
+console.log(`Sólo quiero decir que ${nombre1} is ${nombre2}`);
 ```
 
 ### modulos

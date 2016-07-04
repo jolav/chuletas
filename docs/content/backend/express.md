@@ -17,7 +17,7 @@
 `express --hbs miApp` Crea el proyecto miApp con handlebars pej  
 `cd miApp & npm install` Instala las dependencias  
 
-![express](/z-static/images/express/fileStructure.png) 
+![express](/z-static/images/express/fileStructure.png)
 ![express](/z-static/images/express/fileStructure2.png)
 
 
@@ -30,7 +30,7 @@ para extraer informacion sobre la peticion
 * `response res` Es una envoltura del objeto response del modulo HTTP usado
 para enviar los datos y cabeceras de la respuesta
 
-__Application settings:__
+**Application settings:**
 
 * env: production, development ...
 * viewcache
@@ -45,8 +45,6 @@ __Application settings:__
 
 ![express](/z-static/images/express/requestExpress.png)
 
----
-
 ## MAIN FILE
 
 **`app.js` o `main.js`** Cosas que se hacen en este fichero:
@@ -54,31 +52,90 @@ __Application settings:__
 1. `Dependencias` - Incluir paquetes de terceros y modulos nuestros como
  manejadores, utilidades ayudantes y modelos
 2. `Instanciaciones` - configurar las opciones de express como motor de plantillas
-3. `Configuraciones` - como conectar las bases de datos
+3. `Configuraciones` - ajustes y como conectar las bases de datos
 4. `Middlewares` - Definir middlewares
 5. `Ruteo` - definir rutas
 6. `Arranque` - iniciar la app o exportarla app como un modulo
 
----
+### ajustes
 
-## MOTOR DE PLANTILLAS
-
-`Renderizar` es el proceso de combinar datos con plantillas
-
-`npm install --save handlebars`
+`app.set(nombre, valor)` - para definir un valor
 
 ```js
-app.set('views', path);
-app.set('viewengine', name);
-// path es la tuta a la carpeta con las plantillas
-// name es el motor de plantilla a usar: ejs, jade, handlebars ...
-
-app.engine() // para hacer cosas raras
+app.set('port', process.env.PORT || 3000);
 ```
 
----
+`app.get(nombre)` - para conseguir un valor  
+`app.enable()` -   
+`app.disable()` -  
+`app.enabled()` -   
+`app.disabled()` -  
+`env` - almacena el modo de entorno actual para ese proceso de node.js. Se toma
+de `process.env.NODE_ENV` o se pone `development` por defecto. Opciones
+{development, test, stage, preview, production}  
+`view cache` - ponerlo a `true` para produccion  
+`view engine` - [view engine](#motor-de-plantillas)  
+`views` -  la ruta absoluta al directorio con las plantillas  
 
-## CONTENIDO ESTATICO
+```js
+ app.set('views', path.join(__dirname, 'templates'))
+```
+
+`trust proxy` - ponerlo a true se esta detras de un proxy como nginx. Por
+defecto esta desactivado, para activarlo  
+
+```js
+app.set('trust proxy', true);
+app.enable('trust proxy');
+```
+
+`jsonp callback name` - vale para hacer llamadas ajax desde otros dominios
+usando CORS  
+
+```js
+app.set('jsonp callback name', 'cb');
+```
+
+`json replacer` - `json spaces` - son dos parametros que se aplican a todas las
+funciones JSON.stringify().   
+replacer es un filtro  
+spaces es valor de indentacion  
+
+```js
+app.set('json replacer', function(key, value){
+  if (key === 'discount')
+    return undefined;
+  else
+    return value;
+});
+app.set('json spaces', 4);
+```
+
+`case sensitive routing` - por defecto disabled, asi /nombre y /Nombres es la
+misma ruta  
+`strict routing` - por defeto disabled, asi /users y /users/ son la misma ruta  
+`x-powered-by` - establece la opcion de la respuesta `x-powered-by` con el
+valor Express. Por seguridad lo mejor es desactivarla  
+
+```js
+app.set('x-powered-by', false) // o
+app.disable('x-powered-by')
+```
+
+`etag` - dejarlo como esta es lo mejor  
+`query parser` - para parsear las `query-string` enviadas en la URL. Por defecto
+extended (usa el modulo qs), true (qs), false (lo desactiva), simple (usa el
+modulo del nucleo querystring)  
+
+```js
+app.set('query parser', 'simple');
+app.set('query parser', false);
+app.set('query parser', customQueryParsingFunction);
+```
+
+`subdomain offset` - Para aplicaciones desplegadas en varios subdominios  
+
+### contenido estatico
 
 * **Usar directorio de contenido estatico**
 
@@ -114,6 +171,12 @@ Ahora para cargar los archivos :
 
 ---
 
+## TEMPLATES
+
+[Handlebars con express.js](/backend/npm1/#handlebars)
+
+---
+
 ## REQUEST
 
 Es un envoltorio para el objeto `http.request` del modulo del core  
@@ -128,8 +191,6 @@ por el cliente
 `req.headers` - las cabeceras de la peticion recibidas del cliente   
 `req.ip` - la ip del cliente    
 `req.xhr` - devuelve true si la peticion es una llamada AJAX    
-
-
 
 ---
 
@@ -223,6 +284,12 @@ app.get('/', function (req, res) {
 app.listen(3000);
 ```
 
+Limitar un middleware a una cierta rutas
+
+```js
+app.use(/ruta, middlewareParaEsaRuta);
+```
+
 **Para cada ciclo request-response de una aplicacion Express**  
 
 * Se ejecutan los middlewares de arriba a abajo
@@ -268,22 +335,145 @@ app.use(middleware());
 
 **Esenciales**
 
-`compression`  
+`compression` - gzips los datos transferidos. Debe ponerse my arriba para que
+comprima los datos de otros middlewares y rutas  
+
+```js
+npm install compression
+var compression = require('compression');
+app.use(compression());
+```
+
 `express-static`  
-`morgan` - antiguo logger  
-`connect-timeout`  
-`body-parser`  
-`errorhandler`  
-`connect-busboy`  
-`cookie-parser`  
-`method-override`  
-`serve-index`  
-`express-session`  
-`response-time`  
-`passport`  
-`csurf`  
-`serve-favicon`  
-`vhost`  
+
+[contenido estatico](#contenido-estatico)
+
+`morgan` - antiguo logger. Lleva registro de todas las peticiones y otra
+informacion importante  
+
+```js
+npm install morgan
+var logger = require('morgan');
+app.use(logger("common | dev"));
+```
+
+`connect-timeout` - establece un temporizador
+
+```js
+npm install connect-timeout
+var timeout = require('connect-timeout');
+```
+
+`body-parser` - permite procesar los datos que vienen y convertirlos en objetos
+javascript/node usables.  
+
+```js
+npm install body-parser
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+```
+
+`errorhandler` - se usa para manejo basico de errores en desarrollo y
+prototipado
+
+```js
+npm install errorhandler
+var errorHandler = require('errorhandler');
+if (app.get('env') === 'development') {
+  app.use(errorhandler());
+}
+```
+
+`connect-busboy` - para usar el parseador de formularios `busboy`
+
+```js
+npm install connect-busboy
+var busboy = require('connect-busboy');
+app.use('/upload', busboy({immediate: true }));
+```
+
+`cookie-parser` - permite acceder los valores de las cookies del usuario del
+objeto `req.cookie`
+
+```js
+npm install cookie-parser
+var cookieParser = require('cookie-parser');
+app.use(cookieParser());
+```
+
+`method-override` - permite al servidor soportar metodos http que el cliente no
+soporte.   
+
+```js
+npm install method-override
+var methodOverride = require('method-override');
+app.use(methodOverride("loQueToque"));
+```
+
+`serve-index` - como un `ls` en la terminal   
+
+```js
+npm install serve-index
+var serveIndex = require('serve-index');
+app.use('/shared', serveIndex(
+  path.join('public','shared'),
+  {'icons': true}
+));
+```
+
+`express-session` - permite al servidor usar sesiones web. Necesita tener activo
+antes a cookie-parser.
+
+```js
+npm install express-session
+```
+
+`response-time` - añade la cabecera "X-Response-Time" con un tiempo en ms con un numero de 3 digitos por defecto desde el momento en el que la peticion entro en este middleware.
+
+```js
+npm install response-time
+var responseTime = require('response-time');
+app.use(responseTime(4));    // cambio a 4 digitos
+```
+
+`csurf` - para prevenir CSRF
+
+```js
+npm install csurf
+var csrf = require('csurf');
+app.use(csrf());
+```
+
+`serve-favicon` - para configurar el favicon que querramos  
+
+```js
+npm install serve-favicon
+var favicon = require('serve-favicon');
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname + '/public', 'favicon.ico')));
+```
+
+`vhost` - para usar diferentes rutas basadas en dominios. Por ejemplo tenemos
+dos apps con express (api y web) para organizar el codigo para diferentes
+rutas basadas en los dominios api.dominio.com y web.dominio.com  
+
+```js
+npm install vhost
+var api = express()
+var web = express()
+app.use(vhost('www.dominio.com', web))
+app.use(vhost('api.dominio.com', api))
+```
+
+`cookie-session` - almacen de sesion de cookies  
+`raw-body` - para peticiones como buffers  
+`express-validator` - para sanear y validar datos que se reciben  
+`passport` - autenticacion  
+`oauth2-server` - autenticacion  
+`helmet` - middlewares de seguridad  
+`connect-cors` - soporte cors para express  
+`connect-redis` - almacen de la sesion en redis  
 
 ---
 
@@ -481,30 +671,123 @@ app.use(function(err, req, res, next) {
 
 ---
 
+## APIs
+
+---
+
 ## SEGURIDAD
 
 [Seguridad en express](http://expressjs.com/en/advanced/best-practice-security.html)
 
-`Cross-site request forgery` - Se evita al usar el middleware csurf  
-`Permisos en procesos` no correr servicios como root y usar ubuntu authbin para puertos sin dar acceso root  
-`HTTP Security Headess` instalar middleware helmet  
+* **Cross-site request forgery** 
+
+`npm install --save csurf` - Se evita al usar el middleware csurf  
+Debe ir precedido por `cookie-parser` y `express-session`  
 
 ```js
-// npm install --save helmet
+var cookieParser = require('cookie-parser'),
+var session = require('express-session');
+var csrf = require("csurf");
+
+app.use(cookieParser('FE28D342-4040-4D0E-B080-B85E85DAF7FD'));
+app.use(session({
+  secret: 'BD564488-5105-4202-8927-5A5C9AE9154E',
+  resave: true,
+  saveUninitialized: true
+}));
+app.use(csrf());
+app.use(function (request, response, next) {
+  response.locals.csrftoken = request.csrfToken();
+  next();
+});
+```
+
+* **Permisos en procesos** 
+
+No correr servicios como root.  
+Los servicios se pueden cambiar de usuario en ejecucion usando GID (group ID) y
+UID (user ID)  
+
+```js
+var app = express();
+http.createServer(app).listen(app.get('port'), function(){
+  console.log("Express server listening on port " + app.get('port'));
+  process.setgid(parseInt(process.env.GID, 10));
+  process.setuid(parseInt(process.env.UID, 10));
+});
+``` 
+
+* **HTTP Security Headess**
+
+Instalar middleware `helmet` que es un conjunto de middlewares de seguridad  
+`npm install --save helmet`  
+
+```js
 var helmet = require('helmet');
 app.use(helmet());
 ```
 
-`Input Validation` instalar middleware express-validation  
+* **Input Validation**
 
-`Seguridad de los paquetes npm` -
+    1. Chequear manualmente los datos con expresiones regulares de las rutas que 
+    aceptan datos externos  
+    2. Deben tambien controlarse el mapeo de objetos de los datos   
+    3. La validacion en el navegador es solo por criterios de usabilidad, no
+    aporta proteccion a la aplicacion web   
+
+`npm install --save express-validator`  
+
+```js
+var validator = require('express-validator');
+// lo aplico despues del body-parser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(validator());
+```
+
+Ahora en los manejadores tenemos acceso a `req.assert` y `req.validationErrors()`  
+
+```js
+app.post('/login', function(req, res){
+  req.assert('password', 'Password is required').notEmpty();
+  req.assert('email', 'A valid email is required').notEmpty().isEmail();
+  var errors = req.validationErrors();
+  if (errors) {
+    res.render('index', {errors: errors});
+  } else {
+    res.render('login', {email: request.email});
+  }
+});
+```
+
+* **Seguridad de los paquetes npm**
 
 ```js
 npm install -g nsp
 nsp check --output summary
 ```
 
-`app.disable('x-powered-by');`
+* **app.disable('x-powered-by');**
+
+---
+
+## TESTING
+
+---
+
+## TIPS
+
+---
+
+## DEPLOY
+
+---
+
+
+
+
+
+
 
 
 

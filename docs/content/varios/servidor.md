@@ -623,6 +623,62 @@ service nginx restart
 Ahoya ya en el navegador
 `http://brusbilis.com/rethinkdb-admin`
 
+### crear usuarios
+
+Un usuario `admin` que no se puede corrar ya existe. Por defecto esta sin 
+contraseña pero se puede poner una con un update.  
+La webUI siempre se conecta como admin y se salta el proceso de autenticacion  
+
+```sql
+// Insertando en la tabla del sistema `users`
+r.db('rethinkdb').table('users').insert({id: 'bob', password: 'secret'})
+
+// update to a new value or remove it by using false
+r.db('rethinkdb').table('users').get('bob').update({password: false})
+```
+
+**Permisos** se almacenan en la tabla del sistema `permissions`
+
+`read` - leer datos de las tablas  
+`write` - modificar datos  
+`connect` - par abrir conexiones http, por seguridad no usar  
+`config` - permite hacer cosas segun el alcance  
+
+**Alcance**
+
+`table` - afecta solo a una tabla  
+`database` - lo anterior mas crear y eliminar tablas  
+`global` - lo anterior mas crear y eliminar databases  
+
+**grant** comando para otorgar permisos  
+
+```js
+// set database scope
+r.db('field_notes').grant('bob', 
+        {read: true, write: true, config: false});
+
+// set table scopes
+r.db('field_notes').table('calendar').grant('bob', 
+        {write: false});
+r.db('field_notes').table('supervisor_only').grant('bob', 
+        {read: false, write: false});
+```
+
+**ejemplo**
+
+la tabla test de ejemplo inicial mejor borrarla y crearla si se quiere de nuevo
+pues parece que permite entrar a todo el mundo .
+
+Si no le pones pass al admin todas las conexiones las interpreta como admin y 
+entra directamente  
+
+```js
+r.db("rethinkdb").table("users").get("admin").update({password: "pass"})
+r.db("rethinkdb").table("users").get("user").update({password: "pass"})
+r.table("users").get("usuario").update({password: "pass"})
+r.db('test').grant('usuario', {read: true, write: true, config: true})
+```
+
 ---
 
 ## PM2

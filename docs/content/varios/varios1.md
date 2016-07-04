@@ -160,6 +160,8 @@ a mas usar (...) para especificar la cadena buscada
 `.replace(/\s/g, "loQueSea")` - Reemplaza todos los espacios en blanco por
 loQueSea   
 
+`/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/` - direccion de correo valida
+
 
 [Aqui](http://code.tutsplus.com/tutorials/8-regular-expressions-you-should-know--net-6149)
 

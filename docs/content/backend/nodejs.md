@@ -184,6 +184,14 @@ app para usarlo
 `npm update` Actualizar paquetes locales  
 `npm install paquete@0.0.0` Instalar version especifica de un paquete  
 
+Actualizar paquetes a la ultima version estable
+
+```sh
+npm install -g npm-check-updates
+npm-check-updates -u
+npm install 
+```
+
 `Semver` versiones semanticas
 ![nodejs](/z-static/images/nodejs/semver.png)
 
