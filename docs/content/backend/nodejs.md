@@ -195,6 +195,13 @@ npm install
 `Semver` versiones semanticas
 ![nodejs](/z-static/images/nodejs/semver.png)
 
+### nvm
+
+1. Es trivial de desinstalar  
+2. No necesita permisos de administrador para instalarse  
+3. Permite tener varias versiones de node facilmente  
+
+
 ---
 
 ## FILE SYSTEM
@@ -545,115 +552,19 @@ export function mult(a, b) { return a * b; }
 
 ---
 
-## RESTful API
-
-[RESTful API](http://www.tutorialspoint.com/nodejs/nodejs_restful_api.htm)
-
-![express](/z-static/images/express/traditional.png)
-![express](/z-static/images/express/restApiAjax.png)
-
----
-
-## HANDLEBARS
-
-[HANDLEBARS](http://handlebarsjs.com/)
-
-**Instalacion**
-
-`npm install --save express-handlebars`  
-
-```
-var handlebars = require('express-handlebars');
-
-app.set('views', __dirname + '/views');
-app.engine('handlebars', handlebars(
-            {defaultLayout: __dirname + '/views/layouts/main'}));
-app.set('view engine', 'handlebars');
-```
-
-**Comentarios**
-
-```html
-{{! super-secret comment }}   // esto no saldra del servidor
-<!-- not-so-secret comment -->
-```
-
-**bloques**
-
-```json
-{
-  currency: {
-    name: 'United States dollars',
-    abbrev: 'USD',
-  },
-  tours: [
-    { name: 'Hood River', price: '$99.95' },
-    { name: 'Oregon Coast', price, '$159.95' },
-  ],
-  specialsUrl: '/january-specials',
-  currencies: [ 'USD', 'GBP', 'BTC' ],
-}
-```
-
-```handlebars
-<ul>
-  {{#each tours}}
-    {{! I'm in a new block...and the context has changed }}
-    <li>
-      {{name}} - {{price}}
-      {{#if ../currencies}}
-        ({{../../currency.abbrev}})
-      {{/if}}
-    </li>
-  {{/each}}
-</ul>
-{{#unless currencies}}
-  <p>All prices in {{currency.name}}.</p>
-{{/unless}}
-{{#if specialsUrl}}
-  {{! I'm in a new block...but the context hasn't changed (sortof) }}
-  <p>Check out our <a href="{{specialsUrl}}">specials!</p>
-{{else}}
-  <p>Please check back often for specials.</p>
-{{/if}}
-<p>
-  {{#each currencies}}
-    <a href="#" class="currency">{{.}}</a>
-  {{else}}
-    Unfortunately, we currently only accept {{currency.name}}.
-  {{/each}}
-</p>
-```
-
-**layouts**
-
-Por defecto express busca las vistas en el subdirectorio `views/layouts`  
-
-**parciales**
-
-Son para reusar componentes en diferentes paginas como por ejemplo un
-componente que muestra el tiempo  
-
-`{{> weather}}` - en la vista weather.handlebars  
-
-```js
-// middleware
-app.use(function(req, res, next){
-  if(!res.locals.partials) res.locals.partials = {};
-  res.locals.partials.weather = getWeatherData();
-  next();
-});
-```
-
-**helpers**
-
-> ![handlebars](/z-static/images/handlebars/bloques.png)
-
----
-
 ## TESTING
 
 ![testing](/z-static/images/testing/testing.png)
+
+Mocha vs Tape
+
+---
+
+### tdd
+
+`test driven development` - primero los test y luego el codigo  
+
+
 
 
 

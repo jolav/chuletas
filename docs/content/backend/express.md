@@ -143,8 +143,10 @@ Para servir contenido estatico se usa el middleware `express.static` incorporado
 en express.  
 
 ```js
-app.use(express.static("public"));
+var publicPath = path.resolve(__dirname, 'public');
+app.use(express.static(publicPath));
 ```
+
 Ya puedes cargar archivos del directorio `public`  
 El nombre del directorio `public` no es parte de la url  
 `http://localhost:3000/css/style.css`   
@@ -295,7 +297,9 @@ app.use(/ruta, middlewareParaEsaRuta);
 * Se ejecutan los middlewares de arriba a abajo
 * Para no terminar el ciclo un middleware debe pasar el control al siguiente
 mediante un next();
-* next('route'); se salta el resto de middlewares del stack de rutas
+* next('route'); se salta el resto de middlewares del stack de rutas  
+* Para terminar un ciclo debemos usar `res.end` o usar `res.send() ó 
+res.sendFile()` que internamente llaman a `res.end`  
 
 ### tipos
 
@@ -354,7 +358,7 @@ informacion importante
 ```js
 npm install morgan
 var logger = require('morgan');
-app.use(logger("common | dev"));
+app.use(logger("common | dev | short | tiny | y mas"));  // usar dev
 ```
 
 `connect-timeout` - establece un temporizador
@@ -483,6 +487,7 @@ El ruteo determina como responde una aplicacion a una peticion de un cliente que
 contiene una URI (o ruta) y un metodo HTTP (GET, POST ...)  
 Cada ruta puede tener una o mas funciones manejadoras que se ejecutan cuando la
 ruta coincide.  
+Las rutas se pueden hacer con expresiones regulares  
 
 ```sh
 protocolo  hostname       port    path       querystring     fragment
@@ -669,9 +674,97 @@ app.use(function(err, req, res, next) {
 
 ![express](/z-static/images/express/codigosEstado.png)
 
+Se produce un error en express cuando llamamos un `next("algo ha pasado")`   
+Se saltara los middleware que haya hasta llegar al primer middleware que maneje errores  
+Express no maneja errores producidos por la palabra clave `throw` y tiene 
+protecciones para estas excepciones. La app retirnara un error 500 y esa peticion 
+fallara pero la app continuara ejecutandose. Sin embargo los errores de sintaxis 
+cascan el programa  
+
+```js
+app.use(function(req, res, next) {
+  if (req.url === "/") {
+    next();
+  } else if (req.url === "/throw") {
+    throw new Error("Gimme that error");
+  } else {
+    next("You didn't visit the root!");
+  }
+});
+
+app.use(function(req, res) {
+  res.send("Welcome to the homepage.");
+});
+
+app.use(function(err, req, res, next) {
+  console.error(err);
+  res.status(500);
+  next(err);
+});
+
+app.use(function(err, req, res, next) {
+  res.send("Got an error: " + err);
+});
+```
+
 ---
 
 ## APIs
+
+[RESTful API](http://www.tutorialspoint.com/nodejs/nodejs_restful_api.htm)
+
+![express](/z-static/images/express/traditional.png)
+![express](/z-static/images/express/restApiAjax.png)
+
+* **CRUD api**
+
+`crear -> POST`  
+`leer -> GET`  
+`actualizar -> PUT`  
+`borrar -> DELETE`  
+
+* **Versiones**
+
+Patron para mantener la retrocompatibilidad
+
+`api1.js`  
+
+```js
+var express = require("express");
+var api = express.Router();
+api.get("/timezone", function(req, res) {
+  res.send("Sample response for /timezone");
+});
+api.get("/all_timezones", function(req, res) {
+  res.send("Sample response for /all_timezones");
+});
+module.exports = api;
+```
+
+`api2.js`  
+
+```js
+var express = require("express");
+var api = express.Router();
+api.get("/timezone", function(req, res) {
+  res.send("API 2: super cool new response for /timezone");
+});
+module.exports = api;
+```
+
+`app.js`  
+
+```js
+var express = require("express");
+var apiVersion1 = require("./api1.js");
+var apiVersion2 = require("./api2.js");
+var app = express();
+app.use("/v1", apiVersion1);
+app.use("/v2", apiVersion2);
+app.listen(3000, function() {
+  console.log("App started on port 3000");
+});
+```
 
 ---
 
@@ -768,10 +861,6 @@ nsp check --output summary
 ```
 
 * **app.disable('x-powered-by');**
-
----
-
-## TESTING
 
 ---
 

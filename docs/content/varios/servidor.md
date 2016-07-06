@@ -707,7 +707,21 @@ pm2 list
 
 ---
 
-### UPSTART
+## FOREVER
+
+`npm install -g forever`  
+
+```sh
+forever start app.js
+```
+
+`forever list`  
+`forever stop X` - X el numero que tiene el proceso en `forever list`  
+
+
+---
+
+## UPSTART
 
 ![debian](/z-static/images/comingSoon2.jpg)
 
