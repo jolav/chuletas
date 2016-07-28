@@ -451,6 +451,22 @@ for ( var i = 0; i < numeros.length; i = i + 1) {
 }
 ```
 
+* Lazy initialization
+ 
+En arrays multidimensionales, el segundo array no se crea por defecto y hay que
+inicializarlo antes de usarlo
+
+```js
+var matriz = [];
+for (var numFila = 0; numFila < filas; numFila++) {
+  // lazy initialization
+  if (!matriz[numFila]) { matriz[numFila] = []; }
+  for (var numColumna = 0; numColumna < cols; numColumna++) {
+    matriz[numFila][numColumna] = data[indice + numFila][numColumna];
+  }
+}
+```
+
 ### Metodos
 
 * **Añadir elementos**
@@ -649,6 +665,8 @@ var r = a.splice(1, 1, 'ache', 'bug');
 //Para borrar por ejemplo el elemento con indice = 3 de un array
 array.splice(indice, 1);
 ```
+
+
 
 ---
 
@@ -1169,7 +1187,9 @@ try {
 }
 ```
 
-### Strict Mode
+---
+
+## STRICT MODE
 
 Se activa poniendo `"use strict"` al comienzo del archivo o del cuerpo de una
 funcion
@@ -1183,6 +1203,27 @@ funcion
 - Las variables instanciadas dentro del contexto de eval() sólo son válidas en ese contexto.   
 - La sentencia `with(){}` ya no se usa  
 - Y mas ...  
+
+**js en cliente**
+
+Envolvemos todo la parte del codigo js en una IIFEs
+
+```js
+(function() { 'use strict'; /* code here */
+  
+.. codigo
+
+}());
+```
+
+**node.js**
+
+añadimos al comienzo del archivo
+
+```js
+/*jslint node: true */
+'use strict';
+```
 
 ---
 
@@ -1332,32 +1373,3 @@ foo.awesome();                 // LET ME INTRODUCE: HIPPO
 
 ---
 
-## EXPRESIONES REGULARES
-
-En Javascript las expresiones regulares han de estar en una sola linea. Los espacios en blanco son significativos  
-
-```js
-var expreg = /ab+c/;
-var expreg = new RegExp('/ab+c/');
-expreg.test(variableATestarConLaexpresionRegular) // da true o false
-```
-
-### Metodos
-
-`regexp.exec(string)` Si la expresion regular casa con el string devuelve un
-array  
-
-* array[0] es la subcadena que casa con la expresion regular
-* array[1] el texto capturado por el primer grupo
-* array[2] el texto capturado por el segundo grupo
-* array[n] el texto capturado por el n grupo
-* Si la expresion regular tiene una bandera g la busqueda empieza en la posicion regexp.lastIndex (inicialmente cero). Si la busqueda es exitosa regexp.lastIndex pasara a ser el siguiente caracter tras la coincidencia. Si falla pasa a 0.  
-* Esto permite buscar varias coincidencias en una sola cadena
-
-`regexp.test(string)` Si la expresion regular casa con el string devuelve
-true, si no false
-```js
-var b = /&.+;/.test('frank & beans'); // b is true
-```
-
----

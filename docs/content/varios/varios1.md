@@ -165,6 +165,35 @@ loQueSea
 
 [Aqui](http://code.tutsplus.com/tutorials/8-regular-expressions-you-should-know--net-6149)
 
+
+### en javascript
+
+En Javascript las expresiones regulares han de estar en una sola linea. Los espacios en blanco son significativos  
+
+```js
+var expreg = /ab+c/;
+var expreg = new RegExp('/ab+c/');
+expreg.test(variableATestarConLaexpresionRegular) // da true o false
+```
+
+* **Metodos**
+
+`regexp.exec(string)` Si la expresion regular casa con el string devuelve un
+array  
+
+* array[0] es la subcadena que casa con la expresion regular
+* array[1] el texto capturado por el primer grupo
+* array[2] el texto capturado por el segundo grupo
+* array[n] el texto capturado por el n grupo
+* Si la expresion regular tiene una bandera g la busqueda empieza en la posicion regexp.lastIndex (inicialmente cero). Si la busqueda es exitosa regexp.lastIndex pasara a ser el siguiente caracter tras la coincidencia. Si falla pasa a 0.  
+* Esto permite buscar varias coincidencias en una sola cadena
+
+`regexp.test(string)` Si la expresion regular casa con el string devuelve
+true, si no false
+```js
+var b = /&.+;/.test('frank & beans'); // b is true
+```
+
 ---
 
 ## MKDOCS
