@@ -625,7 +625,7 @@ Ahoya ya en el navegador
 
 ### crear usuarios
 
-Un usuario `admin` que no se puede corrar ya existe. Por defecto esta sin 
+Un usuario `admin` que no se puede corrar ya existe. Por defecto esta sin
 contraseña pero se puede poner una con un update.  
 La webUI siempre se conecta como admin y se salta el proceso de autenticacion  
 
@@ -654,13 +654,13 @@ r.db('rethinkdb').table('users').get('bob').update({password: false})
 
 ```js
 // set database scope
-r.db('field_notes').grant('bob', 
+r.db('field_notes').grant('bob',
         {read: true, write: true, config: false});
 
 // set table scopes
-r.db('field_notes').table('calendar').grant('bob', 
+r.db('field_notes').table('calendar').grant('bob',
         {write: false});
-r.db('field_notes').table('supervisor_only').grant('bob', 
+r.db('field_notes').table('supervisor_only').grant('bob',
         {read: false, write: false});
 ```
 
@@ -669,7 +669,7 @@ r.db('field_notes').table('supervisor_only').grant('bob',
 la tabla test de ejemplo inicial mejor borrarla y crearla si se quiere de nuevo
 pues parece que permite entrar a todo el mundo .
 
-Si no le pones pass al admin todas las conexiones las interpreta como admin y 
+Si no le pones pass al admin todas las conexiones las interpreta como admin y
 entra directamente  
 
 ```js
@@ -808,8 +808,8 @@ Para ver si me puedo conectar a algun sitio
 [HTTPS certbot](https://certbot.eff.org/)
 
 ```sh
-apt-get install letsencrypt -t jessie-backports
-letsencrypt certonly
+apt-get install certbot -t jessie-backports
+certbot certonly
 ```
 
 Ahora configurar nginx para que sirva todo por SSL port 443
@@ -916,19 +916,30 @@ Se arregla en chrome y en Dolphin
 
 ### Añadir subdominios
 
-Paramos nginx  
+Paramos nginx (no suele hacer falta)
 `service nginx stop`  
 
-`letsencrypt certonly`  
+* **Modo grafico**
+
+`certbot certonly`  
 
 Elegimos la opcion de webroot, y ponemos el nombre del subdominio a añadir. Le
 damos la ruta `/etc/letsencrypt/` y el hara sus cosas, al terminar ya estaran
 los certificados en `/etc/letsencrypt/live` y `/etc/letsencrypt/renewal`  
 
+* **Modo consola** MEJOR
+
+`certbot certonly --webroot -w /var/www/dominio -d dominio.com`
+
 ### Renovacion
 
 Probar con
-`letsencrypt renew --dry-run`
+
+`certbot renew --dry-run`
+
+para realizarlo con
+
+`certbot renew`
 
 
 ---
