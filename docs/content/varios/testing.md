@@ -78,6 +78,14 @@ Convertir imagen el fondo en transparente
 convert input.png -transparent red output.png
 ```
 
+Convertir entre formatos de imagen
+
+```sh
+convert imagen.png imagen.jpg
+// o rebajando compresion
+convert imagen.png -quality 90 imagen.jpg
+```
+
 ---
 
 ## LIVE SERVER
