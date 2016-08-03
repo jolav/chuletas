@@ -1,6 +1,6 @@
 # JQUERY
 
---- 
+---
 
 ## INSTALACION
 
@@ -9,17 +9,17 @@
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"</script>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"</script>
 // Google CDN
-<script 
+<script
 src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js">
 </script>
-<script 
+<script
 src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js">
 </script>
 // Microsoft CDN
-<script 
+<script
 src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.3.min.js">
 </script>
-<script 
+<script
 src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.3.min.js">
 </script>
 ```
@@ -27,7 +27,7 @@ src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.3.min.js">
 ```html
 // Seguro por si falla el CDN usar la copia local del servidor
 <script>
-window.jQuery || 
+window.jQuery ||
 document.write("<script src="js/jquery-1.12.4.js"></script>")
 </script>
 ```
@@ -40,8 +40,8 @@ resto de la pagina
 
 ## SELECTORES
 
-* **Basicos** 
- 
+* **Basicos**
+
 `*` - Todos los elementos  
 `element` - Todos los elementos con ese nombre  
 `#id` - Elementos con ese id  
@@ -51,7 +51,7 @@ resto de la pagina
 * **Jerarquia**  
 
 `ancestor descendant` - Elemento que es descendiente de otro elemento  
-`parent > child` - Elemento hijo directo de otro elemento  (si pones * en 
+`parent > child` - Elemento hijo directo de otro elemento  (si pones * en
 child seleccionas todos los hijos del elemento especificado)  
 `previous + next` -  Elementos que son inmediatamente seguidos por el previo  
 `previous - siblings` - Elementos que son hermanos del previo  
@@ -79,13 +79,13 @@ $(document.activeELement)         // Da el mejor rendimiento
 `:contains("text")` - Elementos con el texto especificado como parametro  
 `:empty` -  Todos los elementos que no no tienen hijos  
 `:parent` - Todos los elementos que tienen un hijo  
-`:has(selector)` - ELementos que al menos tienen un elemento que coincide con 
+`:has(selector)` - ELementos que al menos tienen un elemento que coincide con
 el selector  
 
 * **Filtros de Visibilidad**  
 
 `:hidden` - Todos los elementos ocultos  
-`:visible` - Todos los elementos que consumene espacio en el diseño de la 
+`:visible` - Todos los elementos que consumene espacio en el diseño de la
 pagina  
 
 * **Filtros de hijos**    
@@ -99,22 +99,22 @@ pagina
 
 `[attribute]` - Elementos con el atributo especificado y da igual el valor  
 `[attribute = "value"]` - Elementos con el atributo y el valor especificado   
-`[attribute != "value"]` - Elementos con el atributo especificado pero sin el 
+`[attribute != "value"]` - Elementos con el atributo especificado pero sin el
 valor especificado  
 `[attribute ^= "value"]` - El valor del atributo empieza con este valor   
 `[attribute = "value"]` - El valor del atributo termina con este valor  
 `[attribute* = "value"]` - El valor aparece en cualquier lugar del valor  
-`[attribute| = "value"]` - Igual a una cadena dada o empezando con cadena y 
+`[attribute| = "value"]` - Igual a una cadena dada o empezando con cadena y
 seguir con un guion  
-`[attribute~ = "value"]` - El valor es uno de los valores de la una lista 
+`[attribute~ = "value"]` - El valor es uno de los valores de la una lista
 separada con espacios  
 `[attribute][attribute2]` - Elementos que cumplen todos los selectores  
 
 * **Formularios**  
 
-`:input` - 
+`:input` -
 
-> Todos los elementos de entrada de texto `<button>`, `<input>`, `<select>`, 
+> Todos los elementos de entrada de texto `<button>`, `<input>`, `<select>`,
 > `<textarea>`  
 
 ```js
@@ -122,7 +122,7 @@ separada con espacios
 ```
 
 
-`:text` - 
+`:text` -
 
 > Selecciona todas los elementos `<input>` con un atributo `type`
 > cuyo value es `text` o que no tiene atributo `type`   
@@ -143,7 +143,7 @@ $("input:password");              // Da el mejor rendimiento
 $('input(name="gender"]:radio')   // Da el mejor rendimiento
 ```
 
-`:checkbox` - 
+`:checkbox` -
 
 > ELementos `<input>` cuyos atributos `type` tengan un valor de `checkbox`  
 
@@ -151,10 +151,10 @@ $('input(name="gender"]:radio')   // Da el mejor rendimiento
 $('[type="checkbox"]');           // Da el mejor rendimiento
 ```
 
-`:submit` - 
+`:submit` -
 
 > Todos los elementos `<button>` y `<input>` cuyos atributos `type` tienen un
-> value de `submit` 
+> value de `submit`
 
 ```js
 $('[type="submit"]');              // Da el mejor rendimiento
@@ -165,9 +165,9 @@ $('[type="submit"]');              // Da el mejor rendimiento
 ```js
 $('[type="image"]');              // Da el mejor rendimiento
 ```
-  
+
 `:reset` - Todos los botones de reseteo  
-`:button` - 
+`:button` -
 
 > Todos los elementos `<button>` y `<input>` que tengan un atributo
 > `type` con valor de `button`
@@ -185,20 +185,20 @@ $('[type="image"]');              // Da el mejor rendimiento
 
 ---
 
-## METODOS 
+## METODOS
 
  * **Filtros de contenido**  
 
 *GET - SET CONTENIDO*
-   
+
 `.html(string o funcion)` -  
 
-> Get, solo da la informacion del primer elemento de la seleccion y la 
+> Get, solo da la informacion del primer elemento de la seleccion y la
 > de todos sus descendientes
-  
-`.text(string o funcion)` - 
- 
-> Get, da la informacion de todo los elementos de la seleccion y la de 
+
+`.text(string o funcion)` -
+
+> Get, da la informacion de todo los elementos de la seleccion y la de
 > todos sus descendientes
 
 
@@ -209,7 +209,7 @@ $('[type="image"]');              // Da el mejor rendimiento
 > se aplican  
 
 *ELEMENTOS*  
- 
+
 `.before()` -  
 `.after()` -  
 `.prepend()` -  
@@ -218,24 +218,24 @@ $('[type="image"]');              // Da el mejor rendimiento
 > ![](/z-static/images/jquery/insertElements.png)
 
 `.remove()` - Elimina los elementos del arbol DOM  
-`.clone()` - Crea una copia de los elementos coincidentes incluyendo 
+`.clone()` - Crea una copia de los elementos coincidentes incluyendo
 descendientes y nodos de texto   
-`.unwrap()` -  Elimina los padres de los elementos coincidentes pero respeta 
+`.unwrap()` -  Elimina los padres de los elementos coincidentes pero respeta
 a estos  
 `.detach()` - Igual que `.remove()` pero mantiene una copia en memoria  
-`.empty()` - Elimina los nodos hijo y descendientes de los elementos 
+`.empty()` - Elimina los nodos hijo y descendientes de los elementos
 coincidentes  
 `.add()` - Selecciona todos los elementos que contienen el texto especificado  
 
-*ATRIBUTOS* 
-  
+*ATRIBUTOS*
+
 `.attr()` -  
 
 ```js
 $('li#one').attr('id');            // GET
 $('li#one').attr('id', 'hot');     // SET
-``` 
- 
+```
+
 `.removeAttr()` -  
 `.addClass()` -  
 `.removeClass()` -  
@@ -251,14 +251,14 @@ $('1i').css({                                            // SET multiple
 ```
 
 *VALORES DE FORMULARIO*  
-  
+
 `.val()` -  
 
-> Devuelve el valor del primer elemento `<input>`, `<select>` y `<textarea>` 
+> Devuelve el valor del primer elemento `<input>`, `<select>` y `<textarea>`
 > de la seleccion.  
 > Tambien se puede usar para determinar el valor
-  
-`.isNumeric(valor)` - 
+
+`.isNumeric(valor)` -
 
 > Chequea si el valor es un valor numerico y devuelve `true` si es asi  
 
@@ -271,8 +271,8 @@ $.isNumeric(4.4)          $.isNumeric(+2)         $.isNumeric{OxFF)
 * **Busqueda de elementos**  
 
 *GENERAL*  
-  
-`.find(selector)` - Pilla todos los elementos de la actual seleccion que 
+
+`.find(selector)` - Pilla todos los elementos de la actual seleccion que
 cumplen con el selector  
 `.closest(selector)` - Ancestro mas cercano que cumple con el selector      
 `.parent()` - Padre directo de la actual seleccion   
@@ -285,8 +285,8 @@ cumplen con el selector
 `.prevAll()` - Todos los hermanos previos al elemento actual  
 
 *FILTROS Y TEST*  
-  
-`.filter(selector)` - Encuentra elementos en la seleccion que cumplen con este 
+
+`.filter(selector)` - Encuentra elementos en la seleccion que cumplen con este
 segundo selector  
 `.not() | :not(selector)` - Encuentra elementos que no cumplen con el selector  
 `.has() | :has(selector)` - Encuentra descendientes de los elementos en la seleccion que cumplen con este segundo selector   
@@ -295,10 +295,10 @@ segundo selector
 $('li').not('.hot').addClass('cool');       // Estos selectores
 $('li:not(.hot)').addClass('cool');         // son equivalentes
 ```
-  
-`.is(condicion)` - Devuelve booleano de chequear si la actual seleccion cumple la 
+
+`.is(condicion)` - Devuelve booleano de chequear si la actual seleccion cumple la
 condicion    
-`:contains('texto')` - Selecciona todos los elementos que contienen el texto 
+`:contains('texto')` - Selecciona todos los elementos que contienen el texto
 especificado (distingue may/min)   
 
 *ORDEN DE LA SELECCION*    
@@ -341,12 +341,12 @@ $(function() {
 `.offset()` - Devuelve o establece las coordenadas del elemento relativas a la
 esquina superior izquierda del `documento object`  
 `.position()` - Devuelve o establece las coordenadas del elemento relativas a
-cualquier ancestro que haya sido sacado de su flojo normal. Si no hay ancestro 
+cualquier ancestro que haya sido sacado de su flojo normal. Si no hay ancestro
 fuera del flujo normal pues nos dara lo mismo que `.offset()`  
 `.scrollLeft()` - Devuelve o establece la posicion horizontal de la barra de
 scroll   
 `.scrollTop()` - Devuelve o establece la posicion vertical de la barra de scroll  
- 
+
 * **Efectos y animacion**  
 
 *BASICO*    
@@ -360,7 +360,7 @@ scroll
 `.fadeIn()` - Funde los elementos seleccionados haciendolos opacos  
 `.fadeOut()` - Desdibuja los elementos seleccionados haciendolos transparentes  
 `.fadeTo()` -  Cambia la opacidad de los elementos seleccionados  
-`.fadeToggle()` - Muestra u oculta los elementos cambiando su opacidad al nivel 
+`.fadeToggle()` - Muestra u oculta los elementos cambiando su opacidad al nivel
 contrario del que este  
 
 *SLIDING*    
@@ -421,10 +421,10 @@ $(function() {
 
 ### Get/Set simples/multiples
 
-> Cuando seleccionas uno o mas elementos se devuelve un `objeto jQuery` 
+> Cuando seleccionas uno o mas elementos se devuelve un `objeto jQuery`
 > conocido como `matched set` o `jquery selection`  
 
-* Un solo elemento, cada elemento tiene un indice en esta caso solo uno, el 
+* Un solo elemento, cada elemento tiene un indice en esta caso solo uno, el
 indice cero  
 
 * Multiples elementos, el objeto jquery tiene varios elementos cada uno con
@@ -433,14 +433,14 @@ un indice diferente desde 0 hasta n-1
     dara la informacion del primer elemento  
     * Set : Si usas un metodo para actualizar la informacion se actualizara
     todos los elementos reultantes de la busqueda  
-    
+
 Para evitar estos comportamientos se pueden usar filtros o selecciones mas
-especificas 
+especificas
 
 ### Bucles
 
 `Iteracion implicita`  
-Cuando un selecor devuelve multiples elementos se pueden actualizar todos 
+Cuando un selecor devuelve multiples elementos se pueden actualizar todos
 usando el mismo metodo  
 
 ```js
@@ -477,7 +477,7 @@ $("li[id! ="one"]")
   .fadeln(1400);
 ```
 
-### Ready 
+### Ready
 
 ```js
 $(document).ready(function() {
@@ -499,13 +499,13 @@ Se usa para manejar todos los eventos, necesita dos parametros obligatorios mas
 otros dos opcionales  
 
 > ![jquery1](/z-static/images/jquery/onParameters.png)
- 
+
 > 1. Obligatorio: Evento al que se a responder    
-> 2. Opcional: Selector que filtra la seleccion inicial de elementos. Sera 
+> 2. Opcional: Selector que filtra la seleccion inicial de elementos. Sera
 > sobre ese subconjunto sobre el que se respondera a ese evento  
-> 3. Opcional: Para pasar informacion extra a la funcion que se ejecutara 
+> 3. Opcional: Para pasar informacion extra a la funcion que se ejecutara
 > cuando se dispare el evento  
-> 4. Obligatorio: Codigo a ejecutar como respuesta al evento que es una 
+> 4. Obligatorio: Codigo a ejecutar como respuesta al evento que es una
 > funcion anonima o con nombre  
 > 5. Automatico: Object event (e)
 
@@ -538,7 +538,7 @@ KEYBOARD
 `input`, `keydown`, `keyup`, `keypress`  
 
 MOUSE  
-`click`, `dblclick`, `mouseup`, `mousedown`, `mouseover`, `mousemove`, 
+`click`, `dblclick`, `mouseup`, `mousedown`, `mouseover`, `mousemove`,
 `mouseout`, `hover`  
 
 FORM  
@@ -574,14 +574,14 @@ $('li').on('click', function(e) {
 * **Metodos**
 
 `.load()` - Carga codigo HTML en el elemento seleccionado  
-`$.get(url[, data][, callback][, type])` - Carga datos usando el metodo GET. 
+`$.get(url[, data][, callback][, type])` - Carga datos usando el metodo GET.
 Se usa para pedir datos del servidor  
-`$.post(url[, data][, callback][, type])` - Carga datos usando el metodo POST. 
-Se usa para actualizar datos 
+`$.post(url[, data][, callback][, type])` - Carga datos usando el metodo POST.
+Se usa para actualizar datos
 del servidor  
-`$.getJSON(url[, data][, callback])` - Carga datos JSON usando el metodo GET. 
+`$.getJSON(url[, data][, callback])` - Carga datos JSON usando el metodo GET.
 Se usa para datos JSON   
-`$.getScript(url[, callback])` - Carga y ejecuta datos javascript usando el 
+`$.getScript(url[, callback])` - Carga y ejecuta datos javascript usando el
 metodo GET. Se usa para datos javascript (p ej JSONP)  
 
 > `url` de donde se sacan los datos  
@@ -589,16 +589,16 @@ metodo GET. Se usa para datos javascript (p ej JSONP)
 > `callback` la funcion que se ejecutara cuando recibamos los datos  
 > `type` el tipo de dato que esperamos recibir del servidor  
 
-`$.ajax()` - Se usa para hacer las peticiones. Todos los de arriba en realidad 
-usan este por debajo 
+`$.ajax()` - Se usa para hacer las peticiones. Todos los de arriba en realidad
+usan este por debajo
 
 > `type` - GET ó POST   
 > `url` - Pagina a la que enviar la peticion  
 > `data` - Datos adicionales que van al servidor con la peticion  
-> `success` - Funcion que se ejecuta se la peticion tiene exito (similar a 
+> `success` - Funcion que se ejecuta se la peticion tiene exito (similar a
 > `.done()`)    
 > `error` - Funcion que se ejecuta si la peticion falla (similar a `.fail()`)  
-> `beforeSend` - Funcion que se ejecuta antes de que comienze la peticion (por 
+> `beforeSend` - Funcion que se ejecuta antes de que comienze la peticion (por
 >  ejemplo para poner un icono de cargando)  
 > `complete` - Funcion para ejecutar despues de los eventos de exito o fallo
 > (por ejemplo para quitar el icono de cargando)  
@@ -616,7 +616,7 @@ $('nav a').on('click', function(e) {
     type: "GET",                                       // GET or POST
     url: url,                                          // Path to file
     timeout: 2000,                                     // Waiting time
-    beforeSend: function() {                           // Before Ajax 
+    beforeSend: function() {                           // Before Ajax
       $content.append('<div id="load">Loading</div>'); // Load message
     },
     complete: function() {                             // Once finished
@@ -625,7 +625,7 @@ $('nav a').on('click', function(e) {
     success: function(data) {                          // Show content
       $content.html( $(data).find('#container') ).hide().fadeIn(400);
     },
-    error: function() {                                // Show error msg 
+    error: function() {                                // Show error msg
       $content.html('<div class="container">Please try again soon.</div>');
     }
   });
@@ -657,7 +657,7 @@ function loadRates() {
     // codigo si la peticion ha fallado   
   }).always( function() {                                
     // codigo que se ejecuta siempre
-  }); 
+  });
 }
 ```
 
@@ -666,7 +666,7 @@ function loadRates() {
 > > ![jquery](/z-static/images/jquery/loadingHTML.png)
 
 > 1. Crea un objeto jQuery con el elemento cuya id="content"  
-> 2. La URL de la pagina de donde queremos cargar el HTML. Debe haber un 
+> 2. La URL de la pagina de donde queremos cargar el HTML. Debe haber un
 > espacio entre la URL y el selector del paso 3  
 > 3. Es el fragmento de la pagina HTML cargada que queremos mostrar. En este
 > caso es la seccion con id="content"  
@@ -695,7 +695,7 @@ $('nav a').on('click', function(e) {          // User clicks nav link
 
   $('#container').remove();                   // Remove old content
   // New content
-  $('#content').load(url + ' #container').hide().fadeIn('slow'); 
+  $('#content').load(url + ' #container').hide().fadeIn('slow');
 });
 ```
 
@@ -707,7 +707,7 @@ $('nav a').on('click', function(e) {          // User clicks nav link
 > * Selecciona toda la informacion del formulario  
 > * La pone en un cadena lista para ser enviada al servidor  
 > * Codifica los caracteres que no pueden ser enviados un cada cadena  
-> * Solo envia controles de formulario exitosos, no envia controles 
+> * Solo envia controles de formulario exitosos, no envia controles
 > desactivados ni no seleccionados ni el boton enviar  
 
 ```js

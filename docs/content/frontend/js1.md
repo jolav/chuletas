@@ -452,7 +452,7 @@ for ( var i = 0; i < numeros.length; i = i + 1) {
 ```
 
 * Lazy initialization
- 
+
 En arrays multidimensionales, el segundo array no se crea por defecto y hay que
 inicializarlo antes de usarlo
 
@@ -586,7 +586,17 @@ function priceRange(person) {
 var results = [];                              
 results = people.filter(priceRange);           
 ```
+El callback se invoca con tres elementos  
+1. EL valor del elemento  
+2. El indice del elemento
+3. El objeto Array que estamos filtrando  
 
+```js
+result = result.filter(function (val, i, res) {
+  console.log(val, i, res);
+});
+```
+ 
 `reduce()` - Reduce el array a un solo valor. Ejecuta una funcion suministrada
 para cada valor del array(de izda a derecha). El valor de return se guarda en
 un acumulador  
@@ -600,6 +610,22 @@ function getSum(total, num) {
     return total + num;
 }
 console.log(numbers.reduce(getSum));   // resultado = 125
+
+var array = [4,5,6,7,8];
+var singleVal = 0;
+ singleVal = array.reduce(function(previousVal, currentVal) {
+  return previousVal + currentVal;
+}, 0);
+```
+
+* **Buscar**
+
+`array.indexOf("elemento")` - Busca el elemento en el array y devuelve su posicion o -1 si no lo encuentra
+
+```js
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+var a = fruits.indexOf("Apple");
+// a = 2
 ```
 
 * **Ordenar**
@@ -1210,7 +1236,7 @@ Envolvemos todo la parte del codigo js en una IIFEs
 
 ```js
 (function() { 'use strict'; /* code here */
-  
+
 .. codigo
 
 }());
@@ -1372,4 +1398,3 @@ foo.awesome();                 // LET ME INTRODUCE: HIPPO
 ```
 
 ---
-
