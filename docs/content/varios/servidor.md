@@ -937,10 +937,13 @@ Probar con
 
 `certbot renew --dry-run`
 
-para realizarlo con
+para realizarlo (solo funciona si esta cerca de la fecha de renovacion) con
 
 `certbot renew`
 
+para forzar la Actualizacion
+
+`certbot renew --force-renew`
 
 ---
 
