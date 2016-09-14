@@ -72,6 +72,8 @@ dpkg -r solonombreprograma // desinstalar
 
 ## IMAGE MAGIC
 
+[Ejemplos](https://www.imagemagick.org/Usage/)
+
 Convertir imagen el fondo en transparente
 
 ```sh
@@ -84,6 +86,18 @@ Convertir entre formatos de imagen
 convert imagen.png imagen.jpg
 // o rebajando compresion
 convert imagen.png -quality 90 imagen.jpg
+```
+
+Convierte el color transparente o lo que sea de fondo de la imagen por white (o color que se ponga). EL -alpha es para reducir peso de la imagen
+
+```sh
+convert image.png -background white -alpha remove white.png
+```
+
+Montar imagenes, ejemplo
+
+```sh
+montage -label 'FRONT END' frontEnd.png -label 'BACK END' backEnd.png -label 'DATABASE' database.png -label 'UTILS' utils.png -tile 2x2  -geometry 200x200 total.png
 ```
 
 ---
