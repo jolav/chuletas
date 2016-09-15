@@ -1,5 +1,4 @@
 site_name: brusbilis
-#site_favicon: 'z-static/images/favicon.png'
 site_favicon: 'z-static/images/logo/brusbb.png'
 google_analytics: ['UA-65859401-3', 'auto']
 extra:
