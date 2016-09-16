@@ -405,6 +405,81 @@ http {
 }
 ```
 
+### Actualizado al 15-sep-2016
+
+```nginx
+server {
+        listen 80;
+        listen [::]:80;
+        server_name app.otrodominio.es;
+        #return 301 https://brusbilis.com$request_uri;
+   location / {
+        ssi on;
+        try_files $uri $uri/ =404;
+        root /var/www/carpetaParaElOtroDominio;
+        index index.html index.htm;
+   }
+}
+server {
+        listen 80;
+        listen [::]:80;
+        server_name brusbilis.com www.brusbilis.com;
+        return 301 https://brusbilis.com$request_uri;
+}
+server {
+        listen 80;
+        listen [::]:80;
+        server_name sub.brusbilis.com;
+        return 301 https://sub.brusbilis.com$request_uri;
+}
+server {
+    listen 80;
+    # Listen to your server ip address
+    server_name 89.38.144.25;
+    # Redirect all traffic comming from your-server-ip to your domain
+    return 301 https://brusbilis.com$request_uri;
+}
+server {
+   listen 443 ssl;
+   server_name brusbilis.com;
+   ssl_certificate /etc/letsencrypt/live/brusbilis.com/fullchain.pem;
+   ssl_certificate_key /etc/letsencrypt/live/brusbilis.com/privkey.pem;
+   ssl_session_cache shared:SSL:1m;
+   ssl_session_timeout 5m;
+   ssl_ciphers HIGH:!aNULL:!MD5;
+   ssl_prefer_server_ciphers on;
+   location / {
+        ssi on;
+        try_files $uri $uri/ =404;
+        root /var/www/html;
+        index index.html index.htm;
+   }
+}
+server {
+   listen 443 ssl;
+   server_name sub.brusbilis.com;
+   ssl_certificate /etc/letsencrypt/live/sub.brusbilis.com/fullchain.pem;
+   ssl_certificate_key /etc/letsencrypt/live/sub.brusbilis.com/privkey.pem;
+   ssl_session_cache shared:SSL:1m;
+   ssl_session_timeout 5m;
+   ssl_ciphers HIGH:!aNULL:!MD5;
+   ssl_prefer_server_ciphers on;
+   location / {
+      ssi on;
+      try_files $uri $uri/ =404;
+      root /var/www/dev;
+      index index.html index.htm;
+   }
+   location /rethinkdbAdminNavegador/ {
+       auth_basic "Restricted";
+       auth_basic_user_file /etc/nginx/.rethinkdb.pass;
+       proxy_pass http://127.0.0.1:8080/;
+       proxy_redirect off;
+       proxy_set_header Authorization "";
+   }
+}
+```
+
 ---
 
 ## MYSQL
