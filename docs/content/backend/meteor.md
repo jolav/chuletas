@@ -7,7 +7,7 @@
 ### Instalacion
 
 * Instalar `curl https://install.meteor.com/ | sh`
-* Desinstalar :  Especialmente cuando sale el error de no reconocer modulos el 
+* Desinstalar :  Especialmente cuando sale el error de no reconocer modulos el
 primero de los cuales es fibers.  
 
 ` rm -rf ~/.meteor`  
@@ -41,8 +41,8 @@ Meteor.startup(function)
 // ha ejecutado por lo que permite el acceso a variables globales
 // en el cliente se ejecuta en cuanto el DOM esta listo
 
-Meter aqui todo el codigo que no este en eventos, helpers, metodos, 
-publicacioneso subscripciones para asegurarse que no se ejecuta nada 
+Meter aqui todo el codigo que no este en eventos, helpers, metodos,
+publicacioneso subscripciones para asegurarse que no se ejecuta nada
 antes de que el entorno este preparado
 ```
 
@@ -66,7 +66,7 @@ Assets.getText('data.txt', function(error, result){
 
 ## TEMPLATES
 
-Se inserta en el archivo .html `{{> nombrePlantilla}}` 
+Se inserta en el archivo .html `{{> nombrePlantilla}}`
 
 ```handlebars
 <template name="nombrePlantilla">
@@ -78,7 +78,7 @@ Se inserta en el archivo .html `{{> nombrePlantilla}}`
 
 Cuando cambia un dato de una coleccion las plantillas donde se muestra ese dato cambian inmediatamente.  
 Cuanto mas pequeñas sean las plantillas cuando un dato cambie, solo las plantilas mas pequeñas tendran que cambiar  
- 
+
 ```handlebars
 <template name="todos">
   {{#each todo}}
@@ -151,17 +151,17 @@ Cuanto mas pequeñas sean las plantillas cuando un dato cambie, solo las plantil
 * Las propiedades que añades a la instancia de la plantilla las puedes usar en helpers y manejadores de eventos  
 * Usa los callbacks onCreated y onDestroyed para inicializarlas y limpiarlas
 
-Los objetos instanciados de plantillas existen en : 
- 
+Los objetos instanciados de plantillas existen en :
+
 1. this en callbacks de plantilla onCreated, onRendered y onDestroyed  
 2. el segundo argumento de los manejadores de eventos  
 3. Template.instance() en los helpers  
- 
+
 ---
 
 ## HELPERS
 
-Las funciones de los helpers son reactivas 
+Las funciones de los helpers son reactivas
 
 ### Globales
 
@@ -190,7 +190,7 @@ Template.nombrePlantilla.helpers() {
 }
 ```
 
-Ademas de los helpers de diseño propio tenemos 3 callbacks que se llaman 
+Ademas de los helpers de diseño propio tenemos 3 callbacks que se llaman
 cuando la plantilla de crea, se renderiza y se destruye  
 `onCreated` , `onRendered` , `onDestroyed`  
 `created`, `rendered` y `destroyed` estan deprecados.  
@@ -213,7 +213,7 @@ Template.nombrePlantilla.onDestroyed(function() {
 ```
 
 `Template.instance()`  
-Para acceder a la instancia plantillas desde dentro de los helpers de plantilla 
+Para acceder a la instancia plantillas desde dentro de los helpers de plantilla
 
 ### Pasar datos a helpers
 
@@ -243,7 +243,7 @@ Template.nomnbrePlantilla.helpers({
 
 __Inclusiones helpers__ son diferentes, esperan pares clave-valor u objetos  
 `{{> miPlantilla unaCadena="Aparecere dentro de la plantilla}}`  
-`{{> miPlantilla objetoConDatos}}` 
+`{{> miPlantilla objetoConDatos}}`
 Para pasar una simple variable a una inclusion o a un block helper Meteor lo convierte en un objeto   
 
 ```javascript
@@ -268,9 +268,9 @@ Template.myBlock.helpers({
 ## EVENTOS
 
 Los eventos se asocian a templates  
-Al ocurrir un evento `this` se refiere al objeto en el que salta el evento y 
+Al ocurrir un evento `this` se refiere al objeto en el que salta el evento y
 ese objeto tiene todas propiedades `this.name` `this._id` `this.loquesea`  
-Los manejadores de eventos tienen dos argumentos: el objecto evento y la 
+Los manejadores de eventos tienen dos argumentos: el objecto evento y la
 instancia de la plantilla   
 
 ```javascript
@@ -279,16 +279,15 @@ Template.nombrePlantilla.events() {
     event.preventDefault() // p.ej en form para no recargar la pagina;
     codigo;
   },
-  'keyup [name=nombreQueSea]: function(event, template) {
+  'keyup [name=nombreQueSea]': function(event, template) {
     codigo;
   }
 }
-```
 
 Nombre de las funciones de eventos
 
-1. Nombre del evento : `click`, `dblclick`, `focus`, `blur`, `mouseover`, 
-`change`, `mousenter`, `mouseleave`, `mousedown`, `mouseup`, `keydown`, 
+1. Nombre del evento : `click`, `dblclick`, `focus`, `blur`, `mouseover`,
+`change`, `mousenter`, `mouseleave`, `mousedown`, `mouseup`, `keydown`,
 `keypress`, `keyup`, `submit form`, `change [type=checkbox]`
 2. Selector CSS (tambien en Jquery) que indica el elemento a escuchar
 
@@ -296,12 +295,10 @@ Nombre de las funciones de eventos
 
 ## SPACEBARS
 
-[Manual de Spacebars](https://github.com/meteor/meteor/blob/devel/packages/spacebars/README.md)
-
 ### Template Tags
 
 * Expresiones: valor de un helper o propiedad del objeto para insertar cadenas
- de texto 
+ de texto
 
 ```javascript
 {{ name}}
@@ -313,13 +310,13 @@ n - pasos arriba para llegar al contexto de datos de las plantillas padres
 Template.parentData(0) = Template.currentData() = this en un helper
 ```
 
-* Inclusiones para insertar otras plantillas por el nombre 
+* Inclusiones para insertar otras plantillas por el nombre
 
 ```javascript
 {{> templateName}}
 ```
 
-* Para insertar HTML crudo 
+* Para insertar HTML crudo
 ```javascript
 {{{ contenidoConHtml}}}
 ```
@@ -345,7 +342,7 @@ unless es lo mismo que #if pero con la condicion al reves
 * with
 
 ```javascript
-establece un nuevo contexto de datos a su contenido y plantillas 
+establece un nuevo contexto de datos a su contenido y plantillas
 contenidas
 ```
 
@@ -513,7 +510,7 @@ Meteor.methods({
 ## PUBLICACIONES
 
 Siempre borra el paquete :  
-`meteor remove autopublish` para controlar las publicaciones usando en su lugar 
+`meteor remove autopublish` para controlar las publicaciones usando en su lugar
 
 ```javascript
 // En el servidor
@@ -675,7 +672,7 @@ Meteor por defecto usa string
 
 ```javascript
 // crea "_id" : "6Ar8tad67Tru9TH"
-('mitabla', {idGenerator: 'MONGO'}); 
+('mitabla', {idGenerator: 'MONGO'});
 // crea "_id" : ObjectId ("9Uyt06iG39gh9")
 ('mitabla', {idGenerator: 'STRING'});
 ```
@@ -688,7 +685,7 @@ Minimongo es el encargado de la base de datos en el lado cliente
 
 ```javascript
 coleccion.find();        // Nos devuelve todos los documentos en un cursor
-coleccion.find().fetch() // Nos devuelve todos los documentos en un array 
+coleccion.find().fetch() // Nos devuelve todos los documentos en un array
                          // de objetos donde cada objeto es un documento
 coleccion.find({documentosABuscar},{opcionesDeBúsqueda})
 coleccion.findOne()         // para buscar un solo documento
@@ -728,8 +725,8 @@ Para cambiar campos sin borrar el documento primero operador $set
 
 ## SESSION
 
-La sesion es un almacen de datos global y reactivo. Cada usuario tiene su 
-propio objeto Session 
+La sesion es un almacen de datos global y reactivo. Cada usuario tiene su
+propio objeto Session
 
 ```javascript
 Session.set('nombreVariable', 'valor');
@@ -738,8 +735,8 @@ Session.get('nombreVariable);
 
 `Session.equals('clave', valor)` dentro de un autorun anula la reactividad la proxima vez que la clave cambie a o desde el valor. Cuando se pueda es mas eficiente usar Session.equals() que Session.get()
 
-`paquete reactive-var` Pueden ser creadas y usadas de forma local p ej 
-asignadas a una instancia de una plantilla 
+`paquete reactive-var` Pueden ser creadas y usadas de forma local p ej
+asignadas a una instancia de una plantilla
 
 ```javascript
 var name = new ReactiveVar('valorName');
@@ -752,8 +749,8 @@ Template.colorDelBoton.onCreated(function() {
 }
 ```
 
-`paquete reactive-dict` Sin var es global, con var es local al archivo o 
-funcion donde se declara 
+`paquete reactive-dict` Sin var es global, con var es local al archivo o
+funcion donde se declara
 
 ```javascript
 sesRef = new ReactiveDict('sesionReferencias'); //declaracion global
@@ -771,21 +768,21 @@ sesRef.get('filasPorPagina')
 
 Metodo imperativo `.observe()` funcion que dispara callbacks cuando los documentos seleccionados cambian. Asi podemos cambiar el DOM con esos
  callbacks.   
-Util para widges de terceros como añadir o quitar puntos de una mapa en tiempo real que sean p ej usuarios conectados, los callbacks added y removed para 
+Util para widges de terceros como añadir o quitar puntos de una mapa en tiempo real que sean p ej usuarios conectados, los callbacks added y removed para
 llamar a los métodos dropPin() o removePin() de la API del mapa.  
 
 ```javascript
 Posts.find().observe({
   // when 'added' callback fires, add HTML element
-  added: function(post) { 
+  added: function(post) {
     $('ul').append('<li id="' + post._id + '">' + post.title + '</li>');
   },
   // when 'changed' cb fires,modify HTML element's text
-  changed: function(post) { 
+  changed: function(post) {
     $('ul li#' + post._id).text(post.title);
   },
   // when 'removed' cb fires,remove HTML element
-  removed: function(post) { 
+  removed: function(post) {
     $('ul li#' + post._id).remove();
   }
 });
@@ -829,8 +826,8 @@ Tracker.autorun(function () {
 });
 ```
 
-*  `.stop()` para detener la reactividad de una funcion 
- 
+*  `.stop()` para detener la reactividad de una funcion
+
 ```javascript
 Tracker.autorun(function (c) {
   if (comparacion con variables de sesion o lo que sea) {
@@ -854,7 +851,7 @@ Por ej si un evento cambia una variable de session que hara rerenderizarse la in
 
 Creamos una coleccion local solo en el cliente  
 `Errores = new Mongo.ColLection(null);`
-  
+
 Funcion para añadir errores     
 
 ```javascript
@@ -863,7 +860,7 @@ lanzarError = function(mensaje) {
 }
 ```
 
-Creamos una plantilla `errores.html` y añadimos en la layout donde queramos 
+Creamos una plantilla `errores.html` y añadimos en la layout donde queramos
 `{{> errores}}`  
 
 Integramos el ayudante de plantilla   
@@ -896,7 +893,6 @@ Para pasar datos entre plantillas otra posibilidad es crear colecciones solo de 
 
 `meteor remove insecure`  
 [seguridad 1](http://0rocketscience.blogspot.com.es/2015/07/meteor-security-no-1-meteorcall.html)  
-[seguridad 2](http://justmeteor.com/blog/meteor-security-fundamentals/)  
 
 ---
 
@@ -909,7 +905,7 @@ Para pasar datos entre plantillas otra posibilidad es crear colecciones solo de 
 
 ## DEPLOY
 
-### Hostings 
+### Hostings
 
 ```sh
 DO (digitalocean)
@@ -943,7 +939,7 @@ source /home/usuario/.bash_profile // para recargar la configuracion
 ```
 
 Aqui ya solo queda configurar nginx añadiendo la escucha para meteor/node a las otras que tengamos dentro del virtualhost  
-`nano /etc/nginx/sites-available/brusbilis` 
+`nano /etc/nginx/sites-available/brusbilis`
 
 ```sh
 server {
@@ -971,7 +967,7 @@ server {
 `service nginx restart`  
 Ahora ya `node main.js` desde el subdirectorio bundle  
 
-Paquete de npm pm2 // ejecutar todo lo siguiente como root 
+Paquete de npm pm2 // ejecutar todo lo siguiente como root
 
 ```sh
 npm install pm2 -g
@@ -1037,7 +1033,7 @@ Falta ver como ejecutar mas una aplicacion node a la vez por servidor
 
 [Guia Oficial](https://iron-meteor.github.io/iron-router/)
 
-`Routes` instrucciones que dicen donde ir y que hacer al encontrarse con una 
+`Routes` instrucciones que dicen donde ir y que hacer al encontrarse con una
 URL  
 `Path` direccion URL dentro de la aplicacion, estatica, dinamica o con
  parametros de consulta  
@@ -1072,8 +1068,8 @@ Router.onAfterAction // Se ejecuta despues de haber ejecutado la ruta
 Router.onStop // Cuando la ruta se para, antes de una nueva ruta
 ```
 
-`onBeforeAction` para asegurarnos que antes de acceder a una pagina esta 
-logueado 
+`onBeforeAction` para asegurarnos que antes de acceder a una pagina esta
+logueado
 
 ```javascript
 onBeforeAction: function(){
@@ -1115,7 +1111,7 @@ Router.configure({
 ```
 
 `Plantillas personalizadas`  
- 
+
 ```javascript
 <template name="ApplicationLayout">
   <header>
@@ -1134,7 +1130,7 @@ Router.configure({
 
 ```
 
-Le decimos al router que plantilla usaremos 
+Le decimos al router que plantilla usaremos
 
 ```javascript
 Router.route('/post/:_id', function () {
@@ -1156,7 +1152,7 @@ Tenemos las plantillas
 </template>
 ```
 
-Tambien podemos indicarlo asi 
+Tambien podemos indicarlo asi
 
 ```javascript
 <template name="Post">
@@ -1170,7 +1166,7 @@ Tambien podemos indicarlo asi
 </template>
 ```
 
-Y le decimos el que en la ruta 
+Y le decimos el que en la ruta
 
 ```javascript
 Router.route('/post/:_id', function () {
@@ -1218,9 +1214,9 @@ Router.route('/(.*)', {
 
 ### Ejemplo Basico
 
-Todo el codigo en html que no pase por router aparecera en cada pagina de la 
+Todo el codigo en html que no pase por router aparecera en cada pagina de la
 app  
- 
+
 ```html
 <head>
   <meta charset="UTF-8">
@@ -1269,7 +1265,7 @@ Router.route('/login', {
 
 ### Rutas Dinamicas
 
-`{{ pathFor route='name'}}` Ejemplo en el que si cambiamos el path de la ruta 
+`{{ pathFor route='name'}}` Ejemplo en el que si cambiamos el path de la ruta
 el link seguira funcionando  
 
 ```javascript
@@ -1289,12 +1285,12 @@ Router.route('/', {
 ## ACCOUNTS-PASSWORD
 
 Crea una coleccion `Meteor.users`  
-Nos ofrece el helper `currentUser` que es reactivo y es true si estas logueado 
+Nos ofrece el helper `currentUser` que es reactivo y es true si estas logueado
 y false si no se esta logueado  
 
 ```sh
 Meteor.userId() // nos devuelve el current user Id
-this.userId     // dentro de las publicaciones 
+this.userId     // dentro de las publicaciones
                 // pues Meteor.userId() no funciona ahi
 ```
 
@@ -1321,7 +1317,7 @@ Meteor.logout();
 ```
 
 Loguearse  
- 
+
 ```javascript
 Meteor.loginWithPassword(email, password, function (error) {
   if (error) {
@@ -1342,14 +1338,14 @@ Accounts.ui.config({
 });
 ```
 
-`accounts-ui` es una paquete complementario que provee una interfaz grafica 
-ya diseñada para loguearse 
+`accounts-ui` es una paquete complementario que provee una interfaz grafica
+ya diseñada para loguearse
 
 ```javascript
 // Inserta la interfaz de logueo en una plantilla
-{{> loginButtons}} 
+{{> loginButtons}}
 // para ponerla a la derecha o a la izquierda
-{{> loginButtons align="right"}}) 
+{{> loginButtons align="right"}})
 ```
 
 ---
@@ -1361,7 +1357,6 @@ ya diseñada para loguearse
 `Manuales`    
 [Documentacion oficial basica](http://docs.meteor.com/#/basic/)  
 [Documentacion oficial completa](http://docs.meteor.com/#/full/)  
-[Manual de Meteor](http://manual.meteor.com/)  
 [Guia meteor](//guide.meteor.com)  
 
 `Foros`  
@@ -1375,7 +1370,6 @@ ya diseñada para loguearse
 ### Blogs Meteor
 
 `Activos`  
-[Just meteor](http://justmeteor.com/blog/)  
 [The Meteor Chef](http://themeteorchef.com/)  
 [Discover Meteor](https://www.discovermeteor.com/blog)  
 [Experiments in Meteor](http://experimentsinmeteor.com/)  
@@ -1427,7 +1421,6 @@ ya diseñada para loguearse
 
 ### Spacebars
 
-[Documentacion oficial Spacebars GitHub](https://github.com/meteor/meteor/blob/devel/packages/spacebars/README.md)  
 [Meteor Capture Spacebars](http://meteorcapture.com/spacebars/)  
 
 ### Paquetes
@@ -1478,11 +1471,6 @@ ya diseñada para loguearse
 ### Compendio de recursos
 
 [Meteor help](http://meteorhelp.com/)  
-[Meteor ZEEF](https://meteor-js.zeef.com/rene.schneider) 
+[Meteor ZEEF](https://meteor-js.zeef.com/rene.schneider)
 
 ---
-
-
-
-
-

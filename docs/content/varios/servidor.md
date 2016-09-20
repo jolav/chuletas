@@ -393,6 +393,24 @@ location / {
 }
 ```
 
+Para las rutas ojo porque es desde la raiz del servidor web nginx para esa location
+
+```nginx
+<!-- Head -->
+
+<!--#include virtual="/freecodecamp/plantillas/head.html" -->
+<!--#include file="/plantillas/head.html" -->
+<!--#include file="/freecodecamp/plantillas/head.html" -->
+
+root /var/www/html;
+try_files $uri $uri/ =404;
+index index.html index.htm;
+ssi on;
+location /otraRuta {
+     alias /var/www/otraCarpeta;
+}
+```
+
 ### Seguridad
 
 * **Ocultar la firma del servidor**
@@ -405,18 +423,18 @@ http {
 }
 ```
 
-### Actualizado al 15-sep-2016
+### Actualizado al 20-sep-2016
 
 ```nginx
 server {
         listen 80;
         listen [::]:80;
-        server_name app.otrodominio.es;
+        server_name app.perrygatos.es;
         #return 301 https://brusbilis.com$request_uri;
    location / {
         ssi on;
         try_files $uri $uri/ =404;
-        root /var/www/carpetaParaElOtroDominio;
+        root /var/www/perrygatos;
         index index.html index.htm;
    }
 }
@@ -431,6 +449,12 @@ server {
         listen [::]:80;
         server_name sub.brusbilis.com;
         return 301 https://sub.brusbilis.com$request_uri;
+}
+server {
+        listen 80;
+        listen [::]:80;
+        server_name brusbilis.com/freecodecamp;
+        return 301 https://brusbilis.com/freecodecamp$request_uri;
 }
 server {
     listen 80;
@@ -448,11 +472,12 @@ server {
    ssl_session_timeout 5m;
    ssl_ciphers HIGH:!aNULL:!MD5;
    ssl_prefer_server_ciphers on;
-   location / {
-        ssi on;
-        try_files $uri $uri/ =404;
-        root /var/www/html;
-        index index.html index.htm;
+   root /var/www/html;
+   try_files $uri $uri/ =404;
+   index index.html index.htm;
+   ssi on;
+   location /freecodecamp {
+        alias /var/www/freecodecamp;
    }
 }
 server {
@@ -467,10 +492,10 @@ server {
    location / {
       ssi on;
       try_files $uri $uri/ =404;
-      root /var/www/dev;
+      root /var/www/sub;
       index index.html index.htm;
    }
-   location /rethinkdbAdminNavegador/ {
+   location /gestionWebrethinkDB/ {
        auth_basic "Restricted";
        auth_basic_user_file /etc/nginx/.rethinkdb.pass;
        proxy_pass http://127.0.0.1:8080/;
@@ -478,6 +503,8 @@ server {
        proxy_set_header Authorization "";
    }
 }
+
+
 ```
 
 ---
