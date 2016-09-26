@@ -5,26 +5,21 @@ extra:
     logo: 'z-static/images/logo/brusbb.png'
 
 pages:
-- MENU CHULETAS: 'index.md'
+- MENU :
+    - 'Menu Chuletas': 'index.md'
 - FRONT-END:
     - 'html5': 'frontend/html5.md'
     - 'css3': 'frontend/css3.md'
-    - 'javascript I': 'frontend/js1.md'
-    - 'javascript II': 'frontend/js2.md'
-    - 'javascript APIs': 'frontend/apis.md'
+    - 'javascript': 'frontend/js.md'
     - 'jQuery': 'frontend/jquery.md'
+    - 'trucos frontend': 'frontend/tipsclient.md'
 - BACK-END:
     - 'node.js': 'backend/nodejs.md'
-    - 'express': 'backend/express.md'
-    - 'node.js realtime': 'backend/realTime.md'
-    - 'npm modulos': 'backend/npm1.md'
     - 'bases de datos': 'backend/bbdd.md'
-    - 'meteor': 'backend/meteor.md'
     - 'golang': 'backend/golang.md'
-
+    - 'trucos backend': 'backend/tipsserver.md'
 - VARIOS:
-    - 'debian testing': 'varios/testing.md'
-    - 'debian servidor': 'varios/servidor.md'
+    - 'debian': 'varios/debian.md'
     - 'macOS': 'varios/macOS.md'
     - 'git, mkDocs, expReg': 'varios/varios1.md'
 
