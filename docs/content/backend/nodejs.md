@@ -739,7 +739,7 @@ Ahora para cargar los archivos :
 
 ## TEMPLATES
 
-[Handlebars con express.js](/backend/npm1/#handlebars)
+[Handlebars con express.js](/backend/nodejs/#handlebars)
 
 ---
 

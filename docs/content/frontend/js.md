@@ -1449,11 +1449,11 @@ del lenguaje javascript
 
 ![js2](/z-static/images/js/gjo.png)
 
-#### [String](/frontend/js1/#string)
+#### [String](/frontend/js/#string)
 
-#### [Numero](/frontend/js1/#numeros)
+#### [Numero](/frontend/js/#numeros)
 
-#### [Math](/frontend/js1/#math)
+#### [Math](/frontend/js/#math)
 
 #### Date
 

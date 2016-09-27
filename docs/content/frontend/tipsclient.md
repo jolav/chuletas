@@ -6,18 +6,18 @@
 
 ### Docs
 
-<code>[devdocs](//devdocs.io)</code> - Documentacion de muchas API  
+<code>[devdocs](http://devdocs.io)</code> - Documentacion de muchas API  
 
 ### Imagenes
 
-<code>[tynypng](//tinypng.com)</code> - Comprime imagenes png y jpg  
-<code>[shrinktheweb](//shrinktheweb.com)</code> - Captura imagenes de webs  
+<code>[tynypng](http://tinypng.com)</code> - Comprime imagenes png y jpg  
+<code>[shrinktheweb](http://shrinktheweb.com)</code> - Captura imagenes de webs  
 
 ### Iconos
 
-<code>[font Awesome](//fontawesome.io)</code> - iconos  
-<code>[endlessicons](//endlessicons.com)</code> - iconos  
-<code>[iconfinder.com](//iconfinder.com)</code> - iconos  
+<code>[font Awesome](http://fontawesome.io)</code> - iconos  
+<code>[endlessicons](http://endlessicons.com)</code> - iconos  
+<code>[iconfinder.com](http://iconfinder.com)</code> - iconos  
 
 ### APIs
 
@@ -25,8 +25,8 @@
 
 ### Servicios de Terceros
 
-<code>[Formspree](//formspree.io)</code> - reenvia formulario por correo sin necesidad de codigo de servidor  
-<code>[Owl carousel](//owlgraphic.com/owlcarousel//)</code> - plugin de jquery para un carrusel  
+<code>[Formspree](http://formspree.io)</code> - reenvia formulario por correo sin necesidad de codigo de servidor  
+<code>[Owl carousel](http://owlgraphic.com/owlcarousel)</code> - plugin de jquery para un carrusel  
 
 ---
 
