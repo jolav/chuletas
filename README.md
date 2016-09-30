@@ -12,7 +12,7 @@ Back-End
 * [node.js](https://github.com/brusbilis/chuletas/blob/master/docs/content/backend/nodejs.md)  
 * [bases de datos](https://github.com/brusbilis/chuletas/blob/master/docs/content/backend/bbdd.md)  
 * [golang](https://github.com/brusbilis/chuletas/blob/master/docs/content/backend/golang.md)
-* [Trucos BackEnd](https://github.com/brusbilis/chuletas/blob/master/docs/content/frontend/tipsserver.md)
+* [Trucos BackEnd](https://github.com/brusbilis/chuletas/blob/master/docs/content/backend/tipsserver.md)
 
 
 Varios
