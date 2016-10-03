@@ -73,6 +73,8 @@ Object.assign(div.style, style)
 
 ## D3
 
+<code>[Tutoriales](https://github.com/d3/d3/wiki/Tutorials)</code> -  
+
 ---
 
 ## VUE.JS
