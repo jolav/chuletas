@@ -6,13 +6,13 @@ Front-end
 * [css3](https://github.com/brusbilis/chuletas/blob/master/docs/content/frontend/css3.md)  
 * [javascript](https://github.com/brusbilis/chuletas/blob/master/docs/content/frontend/js.md)  
 * [jQuery](https://github.com/brusbilis/chuletas/blob/master/docs/content/frontend/jquery.md)  
-* [Trucos FrontEnd](https://github.com/brusbilis/chuletas/blob/master/docs/content/frontend/tipsclient.md)
+* [Trucos FrontEnd](https://github.com/brusbilis/chuletas/blob/master/docs/content/frontend/frontendTips.md)
 
 Back-End  
 * [node.js](https://github.com/brusbilis/chuletas/blob/master/docs/content/backend/nodejs.md)  
 * [bases de datos](https://github.com/brusbilis/chuletas/blob/master/docs/content/backend/bbdd.md)  
 * [golang](https://github.com/brusbilis/chuletas/blob/master/docs/content/backend/golang.md)
-* [Trucos BackEnd](https://github.com/brusbilis/chuletas/blob/master/docs/content/backend/tipsserver.md)
+* [Trucos BackEnd](https://github.com/brusbilis/chuletas/blob/master/docs/content/backend/backendTips.md)
 
 
 Varios
