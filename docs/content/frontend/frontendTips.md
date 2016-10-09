@@ -27,6 +27,29 @@
 
 <code>[Backgrounds](https://www.google.es/search?q=free+cdn+repeating+backgrounds&oq=free+cdn+repeating+backgrounds&gs_l=serp.3...25751.26160.0.26652.4.4.0.0.0.0.107.392.2j2.4.0....0...1.1.64.serp..0.3.307...0i19k1j0i13i30i19k1j0i13i5i30i19k1j30i10k1.qaO8MU13Hm0)</code> - backgrounds cdn gratuitos  
 
+### Fonts
+
+`Roboto` -
+```html
+<!-- Roboto -->
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,900"  
+rel="stylesheet">
+```
+
+`Lato` -
+```html
+<!-- Lato -->
+<link href="https://fonts.googleapis.com/css?family=Lato:400,900"
+rel="stylesheet">
+```
+
+`Oxygen` -
+```html
+<!--Oxygen -->
+<link href="https://fonts.googleapis.com/css?family=Oxygen:400,700"
+rel="stylesheet">
+```
+
 ### APIs
 
 <code>[public-apis](https://github.com/toddmotto/public-apis)</code> - Listado de APIs publicas  
@@ -73,7 +96,11 @@ Object.assign(div.style, style)
 
 ## D3
 
+
+<code>[Tutoriales sencillos](https://bl.ocks.org/d3noob) - Tutoriales sencillos y la mayoria actualizados a la version v4  
 <code>[Tutoriales](https://github.com/d3/d3/wiki/Tutorials)</code> -  
+<code>[Cheat Sheet](http://www.jeromecukier.net/wp-content/uploads/2012/10/d3-cheat-sheet.pdf)</code> -  Chuleta para D3, no es para v4 pero es lo que hay  
+<code>[D3 Tips and tricks v4](https://leanpub.com/d3-t-and-t-v4/read)</code> - Libro de D3 v4, aun en construccion.  
 
 ---
 
