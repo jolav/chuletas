@@ -65,7 +65,7 @@ rel="stylesheet">
 
 <code>[Modificar CSS del DOM con javascript](http://www.w3schools.com/jsref/dom_obj_style.asp)</code> -
 
-<code>Object.assign</code> - Para modificar el DOM  
+`Object.assign` - Para modificar el DOM  
 
 ```js
 var div = document.createElement('div')
@@ -102,13 +102,20 @@ Object.assign(div.style, style)
 <code>[Cheat Sheet](http://www.jeromecukier.net/wp-content/uploads/2012/10/d3-cheat-sheet.pdf)</code> -  Chuleta para D3, no es para v4 pero es lo que hay  
 <code>[D3 Tips and tricks v4](https://leanpub.com/d3-t-and-t-v4/read)</code> - Libro de D3 v4, aun en construccion.  
 
----
-
-## VUE.JS
 
 ---
+
+## VUE.JS ???
+
+```html
+<!--  Vue.js for dev, for production use vue.min.js instead -->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+```
+
+
+---
+
+
 
 
 <code></code> -
-
----
