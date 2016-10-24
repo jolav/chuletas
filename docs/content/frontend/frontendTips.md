@@ -50,6 +50,11 @@ rel="stylesheet">
 rel="stylesheet">
 ```
 
+`Titillium Web`
+```html
+<link href="https://fonts.googleapis.com/css?family=Titillium+Web:400,700" rel="stylesheet">
+```
+
 ### APIs
 
 <code>[public-apis](https://github.com/toddmotto/public-apis)</code> - Listado de APIs publicas  
@@ -86,6 +91,10 @@ Object.assign(div.style, style)
 
 ## JAVASCRIPT
 
+### Canvas
+
+<code>[Tutorial](http://joshondesign.com/p/books/canvasdeepdive/toc.html)</code> -- Tutorial de Canvas
+
 ---
 
 ## BOOTSTRAP 4
@@ -94,28 +103,27 @@ Object.assign(div.style, style)
 
 ---
 
-## D3
+## D3  
 
-
-<code>[Tutoriales sencillos](https://bl.ocks.org/d3noob) - Tutoriales sencillos y la mayoria actualizados a la version v4  
-<code>[Tutoriales](https://github.com/d3/d3/wiki/Tutorials)</code> -  
+<code>[Tutoriales sencillos](https://bl.ocks.org/d3noob)</code> - Tutoriales sencillos y la mayoria actualizados a la version v4  
+<code>[Tutoriales](https://github.com/d3/d3/wiki/Tutorials)</code> -  mas tutoriales   
 <code>[Cheat Sheet](http://www.jeromecukier.net/wp-content/uploads/2012/10/d3-cheat-sheet.pdf)</code> -  Chuleta para D3, no es para v4 pero es lo que hay  
 <code>[D3 Tips and tricks v4](https://leanpub.com/d3-t-and-t-v4/read)</code> - Libro de D3 v4, aun en construccion.  
 
-
 ---
 
-## VUE.JS ???
+## VUE.JS
+
+Vue.js  
 
 ```html
-<!--  Vue.js for dev, for production use vue.min.js instead -->
+<!-- Vue.js for dev, for production use vue.min.js instead -->
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 ```
 
 
+
+
+
+
 ---
-
-
-
-
-<code></code> -

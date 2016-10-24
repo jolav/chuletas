@@ -879,6 +879,22 @@ var saludos = function (ape) {
 nombreCompleto("Brus", "Bilis", saludos);
 ```
 
+```js
+function doSomething(callback) {
+    // ...
+
+    // Call the callback
+    callback('stuff', 'goes', 'here');
+}
+
+function foo(a, b, c) {
+    // I'm the callback
+    alert(a + " " + b + " " + c);
+}
+
+doSomething(foo);
+```
+
 ### Recursividad
 
 Una funcion que se llama a si misma es recursiva
@@ -2595,6 +2611,31 @@ localStorage.removeItem("username");
 > usuario limpia sus datos locales  
 > Cada pagina tiene su propio almacen que solo puede interactuar con scripts de
 > la misma pagina   
+
+* **Ejemplo**
+
+```js
+var basicRecipes = [{
+  title: 'Cookies',
+  ingredients: ['Cup shortening', 'Peanut Butter', 'Milk', 'Eggs']
+}, {
+  title: 'Spaghetti',
+  ingredients: ['Noodles', 'Tomato Sauce', 'Meatballs', 'Onion']
+}, {
+  title: 'Rice Pudding',
+  ingredients: ['White Rice', 'Milk', 'Sugar', 'Salt']
+}];
+
+// Estas dos hacen lo mismo
+localStorage.setItem('basicRecipes', JSON.stringify(basicRecipes));
+localStorage.basicRecipes = JSON.stringify(basicRecipes);
+// Dos formas de hacer lo mismo tambien
+var sol = JSON.parse(localStorage.getItem('basicRecipes'));
+console.log(sol[0].title);
+console.log((JSON.parse(localStorage.basicRecipes))[0]);
+// Esto borra toda la localStorage
+localStorage.clear()
+```
 
 ### IndexedDB
 
