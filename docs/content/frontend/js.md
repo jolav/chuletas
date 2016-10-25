@@ -467,6 +467,17 @@ for (var numFila = 0; numFila < filas; numFila++) {
 }
 ```
 
+```js
+var cols = canvas.width / 10;
+var rows = canvas.height / 10;
+for (var i = 0; i < cols; i++) {
+  status[i] = [];
+  for (var j = 0; j < rows; j++) {
+    status[i][j] = 1;
+  }
+}
+```
+
 ### Metodos
 
 * **Añadir elementos**
@@ -3351,6 +3362,16 @@ navegador y el monitor. hay que llamarlo para cada ciclo del bucle
 `cancelAnimationFrame(variable)` - Podemos asignar el valor de arriba a una variable y con ese metodo cancelamos el proceso  
 
 Hay que concentrar el codigo del juego en un objeto global unico
+
+```js
+var onoff;
+function gameLoop() {
+  // haces lo que sea  
+  onoff = requestAnimationFrame(gameLoop);
+}
+// en otro sitio para parar el bucle
+cancelAnimationFrame(onoff);
+```
 
 ```js
 var mijuego = {

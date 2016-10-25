@@ -52,7 +52,7 @@ rel="stylesheet">
 
 `Titillium Web`
 ```html
-<link href="https://fonts.googleapis.com/css?family=Titillium+Web:400,700" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Titillium+Web:400,700"   rel="stylesheet">
 ```
 
 ### APIs
