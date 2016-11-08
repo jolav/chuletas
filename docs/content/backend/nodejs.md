@@ -537,7 +537,7 @@ counter.increment();
 console.log(counter.counter); // 1
 ```
 
-```js
+```JSON
 /* index.html */
 <script type='module' src='./app.js'>
 

@@ -583,6 +583,12 @@ server {
         return 301 https://brusbilis.com/freecodecamp$request_uri;
 }
 server {
+        listen 80;
+        listen [::]:80;
+        server_name brusbilis.com/freecodecamp/5-api/timestamp;
+        return 301 https://brusbilis.com/freecodecamp/5-api/timestamp$request_u$
+}
+server {
     listen 80;
     # Listen to your server ip address
     server_name 89.38.144.25;
@@ -604,6 +610,15 @@ server {
    ssi on;
    location /freecodecamp {
         alias /var/www/freecodecamp;
+   }
+   location /freecodecamp/5-api/timestamp/ {
+        alias /var/www/api/timestamp/;
+        proxy_pass http://127.0.0.1:3000/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
    }
 }
 server {
@@ -918,19 +933,37 @@ Paquete de npm
 
 ### Configuracion
 
-Ejecutar lo siguiente como root
+Para ejecutar los procesos como user y no como root  
+
+```sh
+chmod -R 777 /home/brus/.npm/.pm2
+```
+
+Ejecutar lo siguiente como user
 ```sh
 pm2 start main.js //pm2 levantara automaticamente main.js si se cae
-pm2 startup debian //pm2 se ejecuta al inicio y levantara main.js
+
+// esto dara un comando para ejecutar como root, le quitamos el sudo y lo 
+// ejecutamos como root
+pm2 startup debian //pm2 se ejecuta al inicio y levantara main.js  
+su -c "env PATH=$PATH:/usr/bin pm2 startup debian -u brus --hp /home/brus"
+
+// lo ejecuto como root y como user, hacer pruebas para descartar cual es
+// COMPROBADO: como user sirve y funciona
 pm2 save
 ```
 
 ### Mas comandos
 
 ```sh
-pm2 kill
+pm2 kill // para la ejecucion pero con un reboot se activara de nuevo
 npm remove pm2 -g
 pm2 list
+```
+
+Para cancelar el arranque al inicion del restart, pero se carga todos los procesos. hay que ver como se hace uno a uno
+```sh
+update-rc.d -f pm2-init.sh remove // como root
 ```
 
 ---
