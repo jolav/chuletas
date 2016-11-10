@@ -499,6 +499,17 @@ server {
 }
 ```
 
+* **Cambiar limite de Tamaño de los archivos de subida**
+
+```nginx
+nano /etc/nginx/nginx.conf
+http {      # aqui dentro donde queramos
+    # set client body size to 12M #
+    client_max_body_size 12M;
+}
+service nginx restart
+```
+
 ### Desactivar autoarranque nginx al inicio
 
 `update-rc.d -f nginx disable`
@@ -549,7 +560,7 @@ http {
 }
 ```
 
-### Actualizado al 20-sep-2016
+### Actualizado al 09-11-2016
 
 ```nginx
 server {
@@ -589,6 +600,30 @@ server {
         return 301 https://brusbilis.com/freecodecamp/5-api/timestamp$request_u$
 }
 server {
+        listen 80;
+#       listen [::]:80;   # para evitar que salga con IPv6
+        server_name brusbilis.com/freecodecamp/5-api/parser;
+        return 301 https://brusbilis.com/freecodecamp/5-api/parser$request_uri;
+}
+server {
+        listen 80;
+        listen [::]:80;
+        server_name brusbilis.com/freecodecamp/5-api/url;
+        return 301 https://brusbilis.com/freecodecamp/5-api/url$request_uri;
+}
+server {
+        listen 80;
+        listen [::]:80;
+        server_name brusbilis.com/freecodecamp/5-api/image;
+        return 301 https://brusbilis.com/freecodecamp/5-api/image$request_uri;
+}
+server {
+        listen 80;
+        listen [::]:80;
+        server_name brusbilis.com/freecodecamp/5-api/file;
+        return 301 https://brusbilis.com/freecodecamp/5-api/file$request_uri;
+}
+server {
     listen 80;
     # Listen to your server ip address
     server_name 89.38.144.25;
@@ -620,6 +655,43 @@ server {
         proxy_set_header Host $host;
         proxy_cache_bypass $http_upgrade;
    }
+   location /freecodecamp/5-api/parser/ {
+        proxy_pass http://127.0.0.1:3002/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+        # para pillar la ip de visitante añadir las siguientes dos lineas
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+   }
+   location /freecodecamp/5-api/url/ {
+        proxy_pass http://127.0.0.1:3003/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+   }
+   location /freecodecamp/5-api/image/ {
+        proxy_pass http://127.0.0.1:3004/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+   }
+   location /freecodecamp/5-api/file/ {
+        proxy_pass http://127.0.0.1:3005/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+#       allow POST serving static
+        error_page 405 = $uri;
+   }
 }
 server {
    listen 443 ssl;
@@ -644,8 +716,100 @@ server {
        proxy_set_header Authorization "";
    }
 }
+```
+
+/etc/nginx/nginx.conf
+
+```nginx
+
+user www-data;
+worker_processes 4;
+pid /run/nginx.pid;
+
+events {
+        worker_connections 768;
+        # multi_accept on;
+}
 
 
+http {
+        ##
+        # Basic Settings
+        ##
+        server_tokens off;
+        sendfile on;
+        tcp_nopush on;
+        tcp_nodelay on;
+        keepalive_timeout 65;
+        types_hash_max_size 2048;
+        # server_tokens off;
+
+        server_names_hash_bucket_size 64;
+        # server_name_in_redirect off;
+
+        include /etc/nginx/mime.types;
+        default_type application/octet-stream;
+
+        # set client body size to 12M #
+        client_max_body_size 12M;
+
+        ##
+        # SSL Settings
+        ##
+
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE
+        ssl_prefer_server_ciphers on;
+
+        ##
+        # Logging Settings
+        ##
+
+        access_log /var/log/nginx/access.log;
+        error_log /var/log/nginx/error.log;
+
+        ##
+        # Gzip Settings
+        ##
+
+        gzip on;
+        gzip_disable "msie6";
+
+         gzip_vary on;
+         gzip_proxied any;
+         gzip_comp_level 6;
+         gzip_buffers 16 8k;
+         gzip_http_version 1.1;
+         gzip_types text/plain text/css application/json application/javascript text/xml application/xml$
+
+        ##
+        # Virtual Host Configs
+        ##
+
+        include /etc/nginx/conf.d/*.conf;
+        include /etc/nginx/sites-enabled/*;
+}
+
+
+#mail {
+#       # See sample authentication script at:
+#       # http://wiki.nginx.org/ImapAuthenticateWithApachePhpScript
+#
+#       # auth_http localhost/auth.php;
+#       # pop3_capabilities "TOP" "USER";
+#       # imap_capabilities "IMAP4rev1" "UIDPLUS";
+#
+#       server {
+#               listen     localhost:110;
+#               protocol   pop3;
+#               proxy      on;
+#       }
+#
+#       server {
+#               listen     localhost:143;
+#               protocol   imap;
+#               proxy      on;
+#       }
+#}
 ```
 
 ---
@@ -655,27 +819,32 @@ server {
 ### Instalacion
 
 ```sh
+Aqui con wget cogemos la que toque https://dev.mysql.com/downloads/repo/apt/
+dpkg -i el_paquete_que_hemos_bajado.deb
+nano /etc/apt/sources.list.d/mysql.list // para dejarlo a nuestro gusto
+apt-get update
 apt-get install mysql-server
-mysql_install_db
 mysql_secure_installation
-// poner contraseña al root, luego contestar al root NO, resto ENTER
 ```
 
 ### Configuracion
 
 ```sh
 nano /etc/mysql/my.cnf
-//Asegurarse descomentar la linea para evitar al acceso desde el exterior
+// que nos manda a ...
+nano /etc/mysql/mysql.conf.d/mysqld.cnf
+//Asegurarse de comentar la linea para evitar al acceso desde el exterior
 // Nosotros accederemos con workbench a traves de SSH
-bind-address            = 127.0.0.1
+#bind-address            = 127.0.0.1
+service mysql restart
 
+// para crear otros usuarios , usamos % en lugar de localhost por si queremos
+// acceder desde fuera
 mysql -u root -pContraseñaQueSea
-mysql> GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY
-'ContraseñaQueSea' WITH GRANT OPTION;
-
+mysql>CREATE USER 'userNombre'@'%' IDENTIFIED BY 'passwordQueSea';
+mysql>GRANT ALL ON nombreDB.* TO 'userNombre'@'%';
 mysql> FLUSH PRIVILEGES;
 
-service mysql restart
 ```
 
 ---
@@ -943,10 +1112,11 @@ Ejecutar lo siguiente como user
 ```sh
 pm2 start main.js //pm2 levantara automaticamente main.js si se cae
 
-// esto dara un comando para ejecutar como root, le quitamos el sudo y lo 
+// esto dara un comando para ejecutar como root, le quitamos el sudo y lo
 // ejecutamos como root
 pm2 startup debian //pm2 se ejecuta al inicio y levantara main.js  
 su -c "env PATH=$PATH:/usr/bin pm2 startup debian -u brus --hp /home/brus"
+// Esto solo hace falta una vez, despues para añadir mas procesos servira con // solo pm2 save (como user)
 
 // lo ejecuto como root y como user, hacer pruebas para descartar cual es
 // COMPROBADO: como user sirve y funciona
@@ -959,6 +1129,7 @@ pm2 save
 pm2 kill // para la ejecucion pero con un reboot se activara de nuevo
 npm remove pm2 -g
 pm2 list
+pm2 delete 7 // elimina el proceso especifico con ese id
 ```
 
 Para cancelar el arranque al inicion del restart, pero se carga todos los procesos. hay que ver como se hace uno a uno

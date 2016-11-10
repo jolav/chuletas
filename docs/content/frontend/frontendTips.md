@@ -62,11 +62,19 @@ rel="stylesheet">
 rel="stylesheet">
 ```
 
+`Chewy`
+```html
+<link href="https://fonts.googleapis.com/css?family=Chewy" 
+rel="stylesheet"> 
+```
+
 ### APIs
 
 <code>[public-apis](https://github.com/toddmotto/public-apis)</code> - Listado de APIs publicas  
 
-<code>[Api para el Tiempo (clima](https://darksky.net/dev/account))] - Para el tiempo  
+
+<code>[Api para el tiempo-clima](https://darksky.net/dev/account)</code> - Para el tiempo  
+
 
 ### Servicios de Terceros
 
