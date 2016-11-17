@@ -609,6 +609,18 @@ para enviar los datos y cabeceras de la respuesta
 
 ![express](/z-static/images/express/requestExpress.png)
 
+### CORS
+
+Antes de las rutas añadir las cabeceras  
+
+```js
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+```
+
 ## MAIN FILE
 
 **`app.js` o `main.js`** Cosas que se hacen en este fichero:
@@ -1040,7 +1052,7 @@ app.use(vhost('api.dominio.com', api))
 `passport` - autenticacion  
 `oauth2-server` - autenticacion  
 `helmet` - middlewares de seguridad  
-`connect-cors` - soporte cors para express  
+`cors` - soporte cors para express  
 `connect-redis` - almacen de la sesion en redis  
 
 ---

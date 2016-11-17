@@ -877,6 +877,23 @@ function foo(a, b, c) {
 doSomething(foo);
 ```
 
+```javascript
+// url.js
+db.getList(printList);
+
+function printList (rows) {
+  console.log('rows', rows);
+}
+// database.js
+getList: function (callback) {
+  console.log('list');
+  con.query('SELECT * FROM url', function (err, rows) {
+    if (err) throw err;
+    callback(rows);
+  });
+},
+```
+
 ### Recursividad
 
 Una funcion que se llama a si misma es recursiva

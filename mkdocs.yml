@@ -21,7 +21,7 @@ pages:
 - VARIOS:
     - 'debian': 'varios/debian.md'
     - 'macOS': 'varios/macOS.md'
-    - 'git, mkDocs, expReg': 'varios/varios1.md'
+    - 'git, mkDocs, expReg, imagemagick': 'varios/varios1.md'
 
 markdown_extensions:
     - fenced_code

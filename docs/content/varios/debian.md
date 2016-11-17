@@ -72,38 +72,6 @@ dpkg -r solonombreprograma // desinstalar
 
 ---
 
-## IMAGEMAGICK
-
-[Ejemplos](https://www.imagemagick.org/Usage/)
-
-Convertir imagen el fondo en transparente
-
-```sh
-convert input.png -transparent red output.png
-```
-
-Convertir entre formatos de imagen
-
-```sh
-convert imagen.png imagen.jpg
-// o rebajando compresion
-convert imagen.png -quality 90 imagen.jpg
-```
-
-Convierte el color transparente o lo que sea de fondo de la imagen por white (o color que se ponga). EL -alpha es para reducir peso de la imagen
-
-```sh
-convert image.png -background white -alpha remove white.png
-```
-
-Montar imagenes, ejemplo
-
-```sh
-montage -label 'FRONT END' frontEnd.png -label 'BACK END' backEnd.png -label 'DATABASE' database.png -label 'UTILS' utils.png -tile 2x2  -geometry 200x200 total.png
-```
-
----
-
 ## LIVE SERVER
 
 ```sh
@@ -124,6 +92,13 @@ el puerto 8080.
 ```sh
 ls -lh
 du -ah /ruta
+```
+
+### Limpieza
+
+```sh
+apt-get autoclean &&  apt-get autoremove && apt-get remove --purge `deborphan`  
+dpkg -l | grep -v ^ii | awk '{print $2}' | sed '1,5d'|xargs dpkg --purge   
 ```
 
 ---
