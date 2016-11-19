@@ -325,14 +325,18 @@ convert image.png -background white -alpha remove white.png
 Montar imagenes, ejemplo
 
 ```sh
-montage -label 'FRONT END' frontEnd.png -label 'BACK END' backEnd.png -label 'DATABASE' database.png -label 'UTILS' utils.png -tile 2x2  -geometry 200x200 total.png
+montage -label 'FRONT END' frontEnd.png  
+ -label 'BACK END' backEnd.png   
+ -label 'DATABASE' database.png   
+ -label 'UTILS' utils.png   
+ -tile 2x2  -geometry 200x200 total.png
 ```
 
 Redimensionar imagen respetando al proporcion anchura/altura
 
 ```sh
 //convertir a una anchura
-convert can300x188.png -resize 200 can200.png 
+convert can300x188.png -resize 200 can200.png
 
 // convertir a una altura
 convert -geometry 126 canEmpty200.png canKK.png
