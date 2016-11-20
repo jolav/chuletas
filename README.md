@@ -6,7 +6,7 @@ Front-end
 * [css3](https://github.com/brusbilis/chuletas/blob/master/docs/content/frontend/css3.md)  
 * [javascript](https://github.com/brusbilis/chuletas/blob/master/docs/content/frontend/js.md)  
 * [jQuery](https://github.com/brusbilis/chuletas/blob/master/docs/content/frontend/jquery.md)  
-* [single page apps](https://github.com/brusbilis/chuletas/blob/master/docs/content/frontend/spa.md)  
+* [spa](https://github.com/brusbilis/chuletas/blob/master/docs/content/frontend/spa.md)  
 * [Trucos FrontEnd](https://github.com/brusbilis/chuletas/blob/master/docs/content/frontend/frontendTips.md)
 
 Back-End  

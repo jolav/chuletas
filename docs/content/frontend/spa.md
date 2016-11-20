@@ -6,7 +6,21 @@
 
 can have logic in addition to data, such as validation, default data, and custom functions  
 
+>> ![spa-4](/z-static/images/spa/model.png)
+
 ---  
+
+## SHELL
+
+Shell is the master controller for our SPA, is responsible for:
+
+- Rendering and managing the feature containers  
+- Managing the application state  
+- Coordinating feature modules  
+
+>> ![spa-2](/z-static/images/spa/shell.png)
+
+---
 
 ## ROUTING  
 
@@ -100,6 +114,14 @@ Is linking a UI element in the view (such a a user input) to something in the co
 
 > If your view receives input from the user, and you need the data and view to  stay constantly in sync, use two-way binding.  
 > When you have read-only UI elements, use one-way binding. One-way will keep the view updated when the model changes but doesn’t bother with trying to monitor the view side, because the element is read-only.
+
+### Tasks
+
+- Rendering a template. We need a way to take data, and map it / output it as HTML.  
+- Updating views in response to change events. When model data changes, we need to update the related view(s) to reflect the new data.  
+- Binding behavior to HTML via event handlers. When the user interacts with the view HTML, we need a way to trigger behavior (code).  
+
+>> ![spa-3](/z-static/images/spa/viewTasks.png)
 
 ---  
 

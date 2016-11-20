@@ -34,38 +34,26 @@
 <!-- Roboto -->
 <link href="https://fonts.googleapis.com/css?family=Roboto:400,900"  
 rel="stylesheet">
-```
 
-`Lato` -
-```html
 <!-- Lato -->
 <link href="https://fonts.googleapis.com/css?family=Lato:400,900"
 rel="stylesheet">
-```
 
-`Oxygen` -
-```html
-<!--Oxygen -->
+<!-- Oxygen -->
 <link href="https://fonts.googleapis.com/css?family=Oxygen:400,700"
 rel="stylesheet">
-```
 
-`Titillium Web`
-```html
-<link href="https://fonts.googleapis.com/css?family=Titillium+Web:400,700"
-rel="stylesheet">
-```
+<!-- Titillium -->
+<link href="https://fonts.googleapis.com/css?family=Titillium+Web:400
+,700" rel="stylesheet">
 
-`Maven Pro`
-```html
+<!-- Maven Pro -->
 <link href="https://fonts.googleapis.com/css?family=Maven+Pro:500,900"
 rel="stylesheet">
-```
 
-`Chewy`
-```html
-<link href="https://fonts.googleapis.com/css?family=Chewy" 
-rel="stylesheet"> 
+<!-- Chewy -->
+<link href="https://fonts.googleapis.com/css?family=Chewy"
+rel="stylesheet">
 ```
 
 ### APIs
@@ -80,6 +68,7 @@ rel="stylesheet">
 
 <code>[Formspree](http://formspree.io)</code> - reenvia formulario por correo sin necesidad de codigo de servidor  
 <code>[Owl carousel](http://owlgraphic.com/owlcarousel)</code> - plugin de jquery para un carrusel  
+<code>[HTML to JavaScript Convertor](http://www.accessify.com/tools-and-wizards/developer-tools/html-javascript-convertor/)</code> - conversor online de HTML a una variable string para usar en javascript  
 
 ---
 
