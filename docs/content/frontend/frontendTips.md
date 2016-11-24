@@ -63,6 +63,8 @@ rel="stylesheet">
 
 <code>[Api para el tiempo-clima](https://darksky.net/dev/account)</code> - Para el tiempo  
 
+<code>[Fetch](https://developer.microsoft.com/en-us/microsoft-edge/platform/documentation/dev-guide/performance/fetch-API/)</code> - Para peticiones AJAX en lugar de XHR.  
+
 
 ### Servicios de Terceros
 

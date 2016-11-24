@@ -47,6 +47,7 @@ When a change occurs, the pattern in the new hash string is compared to all the 
 <a href="#routes/contact">Contact Us</a>
 ```  
 
+[Ejemplo de Hashtag](http://joakim.beng.se/blog/posts/a-javascript-router-in-20-lines.html)  
 ### Html5 History API  
 
 **Methods**
