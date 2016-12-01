@@ -54,6 +54,11 @@ rel="stylesheet">
 <!-- Chewy -->
 <link href="https://fonts.googleapis.com/css?family=Chewy"
 rel="stylesheet">
+
+<!-- Gentium Basic -->
+<link href="https://fonts.googleapis.com/css?family=Gentium+Basic:400
+,700" rel="stylesheet">  
+
 ```
 
 ### APIs

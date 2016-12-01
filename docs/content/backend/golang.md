@@ -1,16 +1,19 @@
-# GOLANG 1.6.3
+# GOLANG 1.7.3
 
 ---
 
 ## INSTALACION
 
-Ademas de lo del manual añadir en `nano /home/user/.bashrc`  
+Ademas de lo del manual añadir en `nano /home/user/.bashrc` y `nano /home/user/.profile`
+
 ```sh
 export PATH=$PATH:/usr/local/go/bin
 export GOPATH=$HOME/code/go
 // OPCIONAL para tener disponibles los binarios compilados
 export PATH=$PATH:$GOPATH/bin
 ```
+
+recargar con `source ~/.profile`   
 
 Carpetas que se crean:  
 
@@ -21,7 +24,7 @@ que el compilador las pueda enlazar sin tener que recompilarlas
 
 ---
 
-## OPERADORES
+## OPERADORES  
 
 * **Aritmeticos**
 
@@ -534,7 +537,7 @@ Los map hay que crearlos antes de usarlos
 
 * **Modificando maps**
 
-`m[key] = elem` - Insertando o actualizando un valor
+`m[key] = elem` - Insertando o actualizando un valor  
 `elem = m[key]` - Devuelve el elemento  
 `delete(m, key)` - Borrando un elemento   
 `elem, ok = m[key]` - Testea si existe un valor con una clave determinada  
@@ -1100,7 +1103,7 @@ WantedBy=multi-user.target
 
 ---
 
-# GOLANG 1.6 STANDARD LIBRARY
+# GOLANG STANDARD LIBRARY
 
 ---
 
@@ -1672,6 +1675,49 @@ anterior
 
 Contiene funciones para ordenar datos arbitrario de slices de ints y floats y
 structs definidas por el usuario  
+
+* **s = []strings**
+
+`sort.strings(s)` -  De menor a mayor alfabeticamente  
+
+* ** n = []ints || float32 || float64**
+
+`sort.Ints(n)` -  Ordena los numeros de menor a mayor  
+`sort.IntsAreSorted(n)` -  booleano que devuelve si estan ordenados  
+
+* **custom sorting**
+
+```go
+package main
+
+import "sort"
+import "fmt"
+
+// If I have an array/slice of structs in Go and want to sort them
+// using the sort package it seems to me that I need to implement
+// the whole sort interface which contains 3 methods:
+// https://golang.org/pkg/sort/#Interface  
+
+type ByLength []string
+
+func (s ByLength) Len() int {
+    return len(s)
+}
+
+func (s ByLength) Swap(i, j int) {
+    s[i], s[j] = s[j], s[i]
+}
+
+func (s ByLength) Less(i, j int) bool {
+    return len(s[i]) < len(s[j])
+}
+
+func main() {
+    fruits := []string{"peach", "banana", "kiwi"}
+    sort.Sort(ByLength(fruits))
+    fmt.Println(fruits)
+}
+```
 
 ---
 
