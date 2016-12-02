@@ -186,6 +186,9 @@ app para usarlo
 
 Actualizar paquetes a la ultima version estable
 
+`npm outdated` en el directorio local donde package.json y nos indica como estan los paquetes, si estan todos actualizados no sale ningun resultado  
+`npm update` en el directorio donde esta package.json actualiza los paquetes  
+
 ```sh
 npm install -g npm-check-updates
 npm-check-updates -u
