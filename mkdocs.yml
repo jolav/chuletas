@@ -11,6 +11,8 @@ pages:
     - 'html5': 'frontend/html5.md'
     - 'css3': 'frontend/css3.md'
     - 'javascript': 'frontend/js.md'
+    - 'javascript web deb': 'frontend/jswebdev.md'
+    - 'javascript apis': 'frontend/jsapis.md'
     - 'jQuery': 'frontend/jquery.md'
     - 'spa': 'frontend/spa.md'
     - 'trucos frontend': 'frontend/frontendTips.md'
@@ -19,12 +21,14 @@ pages:
     - 'golang std library': 'backend/gostdlib.md'
     - 'golang web dev': 'backend/gowebdev.md'
     - 'node.js': 'backend/nodejs.md'
+    - 'express.js': 'backend/expressjs.md'
     - 'bases de datos': 'backend/bbdd.md'
     - 'trucos backend': 'backend/backendTips.md'
 - VARIOS:
     - 'debian': 'varios/debian.md'
     - 'macOS': 'varios/macOS.md'
     - 'git, mkDocs, expReg, imagemagick': 'varios/varios1.md'
+    - 'handlebars': 'varios/varios2.md'
 
 markdown_extensions:
     - fenced_code

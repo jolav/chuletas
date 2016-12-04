@@ -1008,7 +1008,13 @@ func Media() {
 
 ### Desinstalar paquetes
 
-`go get -i ruta/paquete...` - teoricamente borras los pkg y bin, los src hay que borrarlos manualmente  
+`go clean -i ruta/paquete...` - teoricamente borras los pkg y bin, los src hay que borrarlos manualmente  
+
+### Actualizar
+
+`go get -u all` -  Actualiza todos  
+
+`go get -u full/package/name` -  Actualizar solo ese paquete
 
 ---
 

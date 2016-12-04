@@ -112,7 +112,7 @@ Object.assign(div.style, style)
 
 ## BOOTSTRAP 4
 
-<code>[chuleta alpha4](https://hackerthemes.com/bootstrap-cheatsheet/)</code> - chuleta  
+<code>[chuleta alpha5](https://hackerthemes.com/bootstrap-cheatsheet/)</code> - chuleta  
 
 ---
 
@@ -124,15 +124,6 @@ Object.assign(div.style, style)
 <code>[D3 Tips and tricks v4](https://leanpub.com/d3-t-and-t-v4/read)</code> - Libro de D3 v4, aun en construccion.  
 
 ---
-
-## VUE.JS
-
-Vue.js  
-
-```html
-<!-- Vue.js for dev, for production use vue.min.js instead -->
-<script src="https://unpkg.com/vue/dist/vue.js"></script>
-```
 
 
 
