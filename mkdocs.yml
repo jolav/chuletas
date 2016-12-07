@@ -17,11 +17,9 @@ pages:
     - 'spa': 'frontend/spa.md'
     - 'trucos frontend': 'frontend/frontendTips.md'
 - BACK-END:
-    - 'golang': 'backend/golang.md'
-    - 'golang std library': 'backend/gostdlib.md'
-    - 'golang web dev': 'backend/gowebdev.md'
     - 'node.js': 'backend/nodejs.md'
     - 'express.js': 'backend/expressjs.md'
+    - 'golang': 'backend/golang.md'
     - 'bases de datos': 'backend/bbdd.md'
     - 'trucos backend': 'backend/backendTips.md'
 - VARIOS:

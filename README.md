@@ -14,11 +14,9 @@ Front-end
 
 Back-End  
 
-* [golang](https://github.com/brusbilis/chuletas/blob/master/docs/content/backend/golang.md)
-* [golang standard library](https://github.com/brusbilis/chuletas/blob/master/docs/content/backend/gostdlib.md)
-* [golang web dev](https://github.com/brusbilis/chuletas/blob/master/docs/content/backend/gowebdev.md)
 * [node.js](https://github.com/brusbilis/chuletas/blob/master/docs/content/backend/nodejs.md)
-* [express.js](https://github.com/brusbilis/chuletas/blob/master/docs/content/backend/expressjs.md)
+* [express.js](https://github.com/brusbilis/chuletas/blob/master/docs/content/backend/expressjs.md)  
+* [golang](https://github.com/brusbilis/chuletas/blob/master/docs/content/backend/golang.md)  
 * [bases de datos](https://github.com/brusbilis/chuletas/blob/master/docs/content/backend/bbdd.md)
 * [Trucos BackEnd](https://github.com/brusbilis/chuletas/blob/master/docs/content/backend/backendTips.md)
 

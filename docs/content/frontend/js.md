@@ -74,6 +74,11 @@ var trees = new Array("redwood", "bay", "cedar", "oak", "maple");
 
 En javascript las variables no tienen tipos, son los valores quienes tienen tipos
 
+- Las variables se pasan siempre por valor, pero cuando una variable se refiere a un objeto (incluyendo arrays) ese valor es una referencia al objeto  
+- Asi cambiar el valor de la variable no cambia el objeto o valor primitivo subyacente, solo apunta la variable a una nueva primitiva u objeto  
+- Al cambiar una propiedad de un objeto referenciado por una variable cambia el objeto que subyacente    
+
+
 ### Alcance
 
 La visibilidad es hacia fuera en las funciones. Yo veo las variables de las funciones externas que me contienen pero no veo las de dentro
@@ -1337,7 +1342,7 @@ addEventListener('load', app.init);
 
 ### Datos: Arrays VS Objects
 
-> Grupos de obejtos se pueden almacenar en arrays o como propiedades de otros objetos
+> Grupos de obejtos se pueden almacenar en arrays o como propiedades de otros objetos  
 
 - **Objetos en un array**
 
@@ -1359,9 +1364,9 @@ var people = {
   Gordon= {rate: 75, active: false} ,
   Nigel = {rate: 120, active: true }
 }
-```
+```  
 
---------------------------------------------------------------------------------
+---
 
 ## ES6
 

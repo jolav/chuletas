@@ -15,3 +15,18 @@ callback(JSON.parse(xhr.responseText.slice(5).slice(0, -6)));
 ```
 
 ---
+
+## Testing
+
+### Apache Bench
+
+-n numero de peticiones  
+-c concurrencias
+
+[Mas info](https://httpd.apache.org/docs/current/programs/ab.html)  
+
+```sh
+ab -n 1000 -c 10 https://brusbilis.com/
+```
+
+---

@@ -43,18 +43,6 @@ para enviar los datos y cabeceras de la respuesta
 
 ![express](/z-static/images/express/requestExpress.png)
 
-### CORS
-
-Antes de las rutas añadir las cabeceras  
-
-```js
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
-```
-
 ## MAIN FILE
 
 **`app.js` o `main.js`** Cosas que se hacen en este fichero:
@@ -221,7 +209,7 @@ por el cliente
 
 ## MIDDLEWARE
 
-### que son
+### Definicion
 
 * Se usan para gestionar las peticiones HTTP hechas al servidor, manejarlas y responderlas.  
 * Son callbacks que se ejecutan cuando ocurre una peticion HTTP.  
@@ -247,8 +235,6 @@ colgada.
 1. `req`: objeto que contiene toda la informacion de la peticion HTTP
 2. `res`: objeto que contiene toda la informacion de la respuesta HTTP
 3. `next`: es el siguiente middleware definido en el orden de middlewares
-
-### como se usan
 
 **Crear un middleware**
 
@@ -347,9 +333,9 @@ var middleware = require('middleware');
 app.use(middleware());
 ```
 
-**Esenciales**
+### Esenciales
 
-`compression` - gzips los datos transferidos. Debe ponerse my arriba para que
+* **`compression`** - gzips los datos transferidos. Debe ponerse my arriba para que
 comprima los datos de otros middlewares y rutas  
 
 ```js
@@ -358,11 +344,11 @@ var compression = require('compression');
 app.use(compression());
 ```
 
-`express-static`  
+* **`express-static`**   
 
 [contenido estatico](#contenido-estatico)
 
-`morgan` - antiguo logger. Lleva registro de todas las peticiones y otra
+* **`morgan`** - antiguo logger. Lleva registro de todas las peticiones y otra
 informacion importante  
 
 ```js
@@ -371,15 +357,32 @@ var logger = require('morgan');
 app.use(logger("common | dev | short | tiny | y mas"));  // usar dev
 ```
 
-`connect-timeout` - establece un temporizador
+* **`cors`** - soporte cors para express  
 
-```js
-npm install connect-timeout
-var timeout = require('connect-timeout');
+```javascript
+cors = require('cors');
+app.use(cors());
 ```
 
-`body-parser` - permite procesar los datos que vienen y convertirlos en objetos
-javascript/node usables.  
+Si no usamos el middleware poner antes de las rutas este codigo para añadir las cabeceras  
+
+```js
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With 
+  Content-Type, Accept");
+  next();
+});
+```
+
+* **`helmet`** - middlewares de seguridad  
+
+```javascript
+var helmet = require('helmet');
+app.use(helmet());
+```
+
+* **`body-parser`** - permite procesar los datos que vienen y convertirlos en objetos javascript/node usables.  
 
 ```js
 npm install body-parser
@@ -388,7 +391,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 ```
 
-`errorhandler` - se usa para manejo basico de errores en desarrollo y
+* **`errorhandler`** - se usa para manejo basico de errores en desarrollo y
 prototipado
 
 ```js
@@ -399,7 +402,7 @@ if (app.get('env') === 'development') {
 }
 ```
 
-`connect-busboy` - para usar el parseador de formularios `busboy`
+* **`connect-busboy`** - para usar el parseador de formularios `busboy`
 
 ```js
 npm install connect-busboy
@@ -407,7 +410,7 @@ var busboy = require('connect-busboy');
 app.use('/upload', busboy({immediate: true }));
 ```
 
-`cookie-parser` - permite acceder los valores de las cookies del usuario del
+* **`cookie-parser`** - permite acceder los valores de las cookies del usuario del
 objeto `req.cookie`
 
 ```js
@@ -416,7 +419,7 @@ var cookieParser = require('cookie-parser');
 app.use(cookieParser());
 ```
 
-`method-override` - permite al servidor soportar metodos http que el cliente no
+* **`method-override`** - permite al servidor soportar metodos http que el cliente no
 soporte.   
 
 ```js
@@ -425,7 +428,7 @@ var methodOverride = require('method-override');
 app.use(methodOverride("loQueToque"));
 ```
 
-`serve-index` - como un `ls` en la terminal   
+* **`serve-index`** - como un `ls` en la terminal   
 
 ```js
 npm install serve-index
@@ -436,14 +439,14 @@ app.use('/shared', serveIndex(
 ));
 ```
 
-`express-session` - permite al servidor usar sesiones web. Necesita tener activo
+* **`express-session`** - permite al servidor usar sesiones web. Necesita tener activo
 antes a cookie-parser.
 
 ```js
 npm install express-session
 ```
 
-`response-time` - añade la cabecera "X-Response-Time" con un tiempo en ms con un numero de 3 digitos por defecto desde el momento en el que la peticion entro en este middleware.
+* **`response-time`** - añade la cabecera "X-Response-Time" con un tiempo en ms con un numero de 3 digitos por defecto desde el momento en el que la peticion entro en este middleware.
 
 ```js
 npm install response-time
@@ -451,7 +454,7 @@ var responseTime = require('response-time');
 app.use(responseTime(4));    // cambio a 4 digitos
 ```
 
-`csurf` - para prevenir CSRF
+* **`csurf`** - para prevenir CSRF
 
 ```js
 npm install csurf
@@ -459,7 +462,7 @@ var csrf = require('csurf');
 app.use(csrf());
 ```
 
-`serve-favicon` - para configurar el favicon que querramos  
+* **`serve-favicon`** - para configurar el favicon que querramos  
 
 ```js
 npm install serve-favicon
@@ -468,7 +471,18 @@ app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(favicon(path.join(__dirname + '/public', 'favicon.ico')));
 ```
 
-`vhost` - para usar diferentes rutas basadas en dominios. Por ejemplo tenemos
+* **`passport` y `express-session`** - autenticacion  
+
+```javascript
+var passport = require('passport');
+var session = require('express-session');
+// required for passport
+app.use(session({ secret: 'kk', saveUninitialized: true, resave: true}));
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+```
+
+* **`vhost`** - para usar diferentes rutas basadas en dominios. Por ejemplo tenemos
 dos apps con express (api y web) para organizar el codigo para diferentes
 rutas basadas en los dominios api.dominio.com y web.dominio.com  
 
@@ -480,14 +494,18 @@ app.use(vhost('www.dominio.com', web))
 app.use(vhost('api.dominio.com', api))
 ```
 
-`cookie-session` - almacen de sesion de cookies  
-`raw-body` - para peticiones como buffers  
-`express-validator` - para sanear y validar datos que se reciben  
-`passport` - autenticacion  
-`oauth2-server` - autenticacion  
-`helmet` - middlewares de seguridad  
-`cors` - soporte cors para express  
-`connect-redis` - almacen de la sesion en redis  
+* **`connect-timeout`** - establece un temporizador
+
+```js
+npm install connect-timeout
+var timeout = require('connect-timeout');
+```
+
+* **`cookie-session`** - almacen de sesion de cookies  
+* **`raw-body`** - para peticiones como buffers  
+* **`express-validator`** - para sanear y validar datos que se reciben  
+* **`oauth2-server`** - autenticacion  
+* **`connect-redis`** - almacen de la sesion en redis  
 
 ---
 
@@ -533,7 +551,7 @@ app.post('/', function (req, res) {             // POST method route
 });
 ```
 
-**parametros en la ruta**
+* **parametros en la ruta**
 
 La ruta puede contener parametros que se capturan en `req.params`
 
@@ -543,7 +561,7 @@ Request URL: http://localhost:3000/users/34/books/8989
 req.params: { "userId": "34", "bookId": "8989" }
 ```
 
-**multiples manejadores de ruta**
+* **multiples manejadores de ruta**
 
 Se puede establecer múltiples callbacks (manejadores) que se comportan como middlewares para gestionar una petición.  
 La unica excepcion es que podrian invocar `next("route")` para evitar los
