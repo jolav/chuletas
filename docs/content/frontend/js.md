@@ -513,7 +513,7 @@ var c = a.shift( );
 
 - **Iteracion**
 
-`forEach()` - Ejecuta una funcion una vez para cada elemento del array.
+`forEach(valor, indice)` - Ejecuta una funcion una vez para cada elemento del array.  
 
 ```javascript
 var people = [
@@ -618,12 +618,26 @@ var singleVal = 0;
 
 - **Buscar**
 
-`array.indexOf("elemento")` - Busca el elemento en el array y devuelve su posicion o -1 si no lo encuentra
+`array.indexOf("elemento")` - Busca el elemento en el array y devuelve su posicion o -1 si no lo encuentra  
 
 ```javascript
 var fruits = ["Banana", "Orange", "Apple", "Mango"];
 var a = fruits.indexOf("Apple");
 // a = 2
+```  
+
+`array.includes(value)` - Devuelve false or true si encuentra o no el elemento dentro del array  
+
+```javascript
+function disemvowel (str) {
+  var vowels = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'];
+  var res = [];
+  str.split('').forEach(function (value, index) {
+    if (!vowels.includes(value)) res.push(value)
+    //if (vowels.indexOf(value) === -1) res.push(value);
+  });
+  return res.join('');
+}
 ```
 
 - **Ordenar**

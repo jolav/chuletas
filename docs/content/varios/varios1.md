@@ -156,7 +156,7 @@ a mas usar (...) para especificar la cadena buscada
 
 ### Expresiones Comunes
 
-`.replace(/\s+/, "")` - Elimina todos los espacios en blancos  
+`.replace(/\s+/g, "")` - Elimina todos los espacios en blancos  
 `.replace(/\s/g, "loQueSea")` - Reemplaza todos los espacios en blanco por
 loQueSea   
 

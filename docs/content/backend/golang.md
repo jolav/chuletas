@@ -1151,6 +1151,7 @@ func check(e error) {
 // y ahora ya solo ponemos
 check(err)
 ```
+
 ---
 
 # GOLANG STANDARD LIBRARY  
@@ -1938,6 +1939,5 @@ func main() {
 ## NET/URL
 
 [URL parsing](https://gobyexample.com/url-parsing)  
-
 
 ---
