@@ -56,6 +56,9 @@ hacerlo con un usuario admin para poder usar sudo
 `brew update paquete` - actualiza el paquete 
 `brew info paquete` - nos da informacion del paquete  
 `brew search paquete` - busca un paquete  
+`brew cleanup` -   
+`brew cleanup paquetes` - elimina las versiones viejas  
+`brew outdated` - lista lo que tiene actualizacion de lo instalado  
 
 ---
 

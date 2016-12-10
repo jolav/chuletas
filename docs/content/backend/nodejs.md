@@ -196,14 +196,31 @@ npm install
 ```
 
 `Semver` versiones semanticas
+
 ![nodejs](/z-static/images/nodejs/semver.png)
 
-### nvm
+---
 
-1. Es trivial de desinstalar  
-2. No necesita permisos de administrador para instalarse  
-3. Permite tener varias versiones de node facilmente  
+## GLOBAL OBJECTS
 
+[Global objects](https://nodejs.org/dist/latest-v4.x/docs/api/globals.html)  
+Disponibles en todos los modulos  
+
+`Class: Buffer` - para manejar datos binarios  
+`__dirname` - directorio actual  
+`__filename` - nombre del archivo que se esta ejecutando  
+`console` - para imprimir datos  
+`exports` - una referencia a `module.exports`, no es global sino local a cada
+modulo  
+`module` - una referencia al modulo actual, no es global sino local a cada
+modulo  
+`process` - objeto proceso    
+`require()` - para usar modulos  
+`setImmediate(cb[, arg][, ...])` - ejecuta el callback inmediatamente  
+`setInterval(cb, delay[, arg][, ...])` - ejecuta el callback cada delay
+milisegundos  
+`setTimeout(cb, delay[, arg][, ...])` - ejecuta el callback una sola vez despues
+de delay milisegundos  
 
 ---
 
@@ -258,30 +275,6 @@ forma sincrona
 `fs.writeFileSync(file, data[, options])` - escribe data al archivo de forma
 sincrona  
 `fs.stat(path, callback)` - consigue informacion del archivo  
-
----
-
-## GLOBAL OBJECTS
-
-[Global objects](https://nodejs.org/dist/latest-v4.x/docs/api/globals.html)  
-Disponibles en todos los modulos  
-
-
-`Class: Buffer` - para manejar datos binarios  
-`__dirname` - directorio actual  
-`__filename` - nombre del archivo que se esta ejecutando  
-`console` - para imprimir datos  
-`exports` - una referencia a `module.exports`, no es global sino local a cada
-modulo  
-`module` - una referencia al modulo actual, no es global sino local a cada
-modulo  
-`process` - objeto proceso    
-`require()` - para usar modulos  
-`setImmediate(cb[, arg][, ...])` - ejecuta el callback inmediatamente  
-`setInterval(cb, delay[, arg][, ...])` - ejecuta el callback cada delay
-milisegundos  
-`setTimeout(cb, delay[, arg][, ...])` - ejecuta el callback una sola vez despues
-de delay milisegundos  
 
 ---
 
@@ -519,7 +512,7 @@ Soporta commonJS y AMD por lo que se puede usar en cliente y servidor
 Se pueden usar en servidor y cliente.  
 Cargan de forma asincrona  
 
-```js
+```javascript
 // lib/counter.js
 var counter = 1;
 function increment() {
@@ -555,19 +548,6 @@ export function mult(a, b) { return a * b; }
 
 ---
 
-## TESTING
-
-![testing](/z-static/images/testing/testing.png)
-
-Mocha vs Tape
-
----
-
-### tdd
-
-`test driven development` - primero los test y luego el codigo  
-
----
 
 
 

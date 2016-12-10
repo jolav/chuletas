@@ -19,7 +19,9 @@ pages:
 - BACK-END:
     - 'node.js': 'backend/nodejs.md'
     - 'express.js': 'backend/expressjs.md'
-    - 'golang': 'backend/golang.md'
+    - 'golang': 'backend/golang.md' 
+    - 'golang standard lib': 'backend/gostdlib.md'
+    - 'golang web dev': 'backend/gowebdev.md'
     - 'bases de datos': 'backend/bbdd.md'
     - 'trucos backend': 'backend/backendTips.md'
 - VARIOS:

@@ -152,7 +152,7 @@ app.get('/each', function (request, response) {
 });
 ```
 
-```js
+```javascript
 // else que se mostrara solo cuando la lista este vacia
 {{#each paragraphs}}
   <p>{{this}}</p>
@@ -162,12 +162,12 @@ app.get('/each', function (request, response) {
 
 // {{@index}} es el numero de iteracion (indice)
 {{#each array}}
-  {{@index}}: {{this}}
+  {{@index }}: {{this}}
 {{/each}}
 
 //  {{@key}} es el nombre de la clave (del par clave/valor)
 {{#each object}}
-  {{@key}}: {{this}}
+  {{@key }}: {{this}}
 {{/each}}
 ```
 

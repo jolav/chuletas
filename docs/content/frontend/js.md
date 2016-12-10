@@ -50,8 +50,8 @@
 
 - **Unitarios**
 
-> `typeof()` - Nos da el tipo de valor
-
+> `typeof(variableQueSea)` - Devuelve una string con el tipo de la variable dato
+  
 > `in` - Devuelve true si la propiedad especificada existe en el objeto especificado
 
 > > `propiedadNombreOrNumero in nombreObjeto`<br>
@@ -71,6 +71,8 @@ var trees = new Array("redwood", "bay", "cedar", "oak", "maple");
 --------------------------------------------------------------------------------
 
 ## VARIABLES
+
+![js1](/z-static/images/js/tiposDatos.png)
 
 En javascript las variables no tienen tipos, son los valores quienes tienen tipos
 
@@ -125,20 +127,12 @@ function myFunction() {
 `String(numero)` - Convierte el numero en una string<br>
 `numero.toString()` - equivale a String(numero) y devuelve una string
 
---------------------------------------------------------------------------------
+---
 
-## DATOS BASICOS
+## NUMEROS
 
-`typeof dato`<br>
-Devuelve una string con el tipo de la variable dato
-
-![js1](/z-static/images/js/tiposDatos.png)
-
-### Numeros
-
-> - Internamente son un numero flotante de 64 bits
-
->   - `NaN (Not a number)` no equivale a ningun valor ni siquiera a el mismo
+Internamente son un numero flotante de 64 bits  
+`NaN (Not a number)` no equivale a ningun valor ni siquiera a el mismo
 
 - Metodos :
 
@@ -148,7 +142,7 @@ Devuelve una string con el tipo de la variable dato
 `numero.toExponential(n)` - Representa el numero en notacion exponencial (devuelve una string)<br>
 `numero.toString()`- equivale a `String(numero)` y devuelve una string
 
-#### Math
+### Math
 
 `Math` es un Objeto Global que actua sobre numeros
 
@@ -165,18 +159,18 @@ Devuelve una string con el tipo de la variable dato
 `Math.random()` - Genera un numero aleatorio entre 0 (inclusivo) y 1 (no inclusivo)
 
 ```javascript
-// Crea un numero aleatorio entre 1-10
-var aleatorio = Math.floor((Math.random() * 10) +1);
+// Crea un numero aleatorio entre min y max ambos inclusivo
+Math.floor(Math.random() * (max - min + 1) + min);
 ```
 
-### String
+## STRING
 
-> - Puede estar entre comillas simples o comillas dobles
-> - Las cadenas tienen un propiedad length. `"cadena".length`
-> - Las cadenas son inmutables. no se pueden cambiar pero si crear nuevas
-> - Para escapar caracteres usamos \ `\n` nueva linea por ejemplo
+> - Puede estar entre comillas simples o comillas dobles  
+> - Las cadenas tienen un propiedad length. `"cadena".length`  
+> - Las cadenas son inmutables. no se pueden cambiar pero si crear nuevas  
+> - Para escapar caracteres usamos \ `\n` nueva linea por ejemplo  
 
-- Metodos
+### Metodos
 
 `parseInt(string)` - Convierte la cadena string en un numero<br>
 `String.fromCharCode()` - Convierte un codigo de letra en una cadena con la letra
@@ -266,151 +260,6 @@ var a = String.fromCharCode(67, 97, 116);
 
 `string.trim(cadena)` - Elimina los espacios en blanco y los saltos de linea del comienzo y del final de la cadena
 
-### Boolean
-
-`true` o `false`
-
-Operadores Logicos
-
-```javascript
-AND --> &&
-OR  --> ||
-NOT --> !
-Operador ternario o operador condicional
-test ? expresion1 : expresion2
-Si test es true devuelve expresion1, si es falso devuelve expresion2
-```
-
-Cuando convertimos un no-booleano a booleano es falso o true?
-
-```javascript
--- Falso
-"" cadena Vacia
-0, -0, NaN
-null, undefined
-false
--- Todo lo demas es true
-```
-
-### Null - Undefined
-
-Se usan para denotar la ausencia de valor<br>
-Muchas operaciones en JS que no producen un valor significativo dan undefined sencillamente porque un valor tienen que dar
-
-`null` es para objetos<br>
-`undefined` es para propiedades, metodos o variables
-
---------------------------------------------------------------------------------
-
-## ESTRUCTURAS DE CONTROL
-
-### if ... else
-
-```html
-if (condicion) {
-  instrucciones_if_condicion_es_true;
-else {
-  instrucciones_if_condicion_es_false;
-}
-```
-
-En cascada
-
-```javascript
-if (condicion1) {
-  instrucciones_if_condicion1_es_true;
-} else if (condicion2) {
-  instrucciones_if_condicion2_es_true;
-} else id (condicion3) {
-  instrucciones_if_condicion3_es_true;
-} ...
-else {
-  instrucciones_if_ninguna_condicion_es_true
-}
-```
-
-### while
-
-`while` El codigo puede que no se ejecute nunca
-
-```javascript
-while (condicion) {
-  instrucciones_while_condicion_es_true;
-}
-```
-
-`do while` El codigo se ejecuta minimo una vez
-
-```javascript
-do {
-  instrucciones_while_condicion_es_true
-while (condicion)
-```
-
-### for
-
-`inicializacion` - Se ejecuta antes que el bucle empiece<br>
-`condicion` - Define la condicion para seguir ejecutando el bucle<br>
-`actualizacion` - Se ejecuta cada vez que el bucle se ha ejecutado
-
-```html
-for (inicializacion; condicion; actualizacion) {
-  codigo_se_ejecuta:con_cada_bucle;
-}
-
-for (var i = 0; i < 10; i++) {
-  document.writeln(i);
-}
-```
-
-### for in
-
-Recorre todas las propiedades de un objeto o array
-
-```javascript
-for (variable in [object | array]) {
-  instrucciones;
-}
-
-for (p in window) {
-  document.writeln(p + "<br/>");
-}
-```
-
-### for each ... in
-
-`DEPRECATED` Recorre todas las propiedades de un objeto
-
-### switch
-
-```javascript
-switch(expresion) {
-  case 'uno':
-    instrucciones;
-    break;
-  case 'dos':
-    instrucciones;
-    break;
-  default:
-    instrucciones_por_defecto;
-    break;
-}
-```
-
-```javascript
-switch (new Date().getDay()) {   //getDay() numero de dia de la semana
-  case 6:
-    text = "Sabado";
-    break;
-  case 0:
-    text = "Domingo";
-    break;
-  default:
-    text = "Entre semana";
-    break;
-}
-```
-
 ---
 
 ## ARRAYS
@@ -450,24 +299,15 @@ for ( var i = 0; i < numeros.length; i = i + 1) {
 En arrays multidimensionales, el segundo array no se crea por defecto y hay que inicializarlo antes de usarlo
 
 ```javascript
-var matriz = [];
-for (var numFila = 0; numFila < filas; numFila++) {
-  // lazy initialization
-  if (!matriz[numFila]) { matriz[numFila] = []; }
-  for (var numColumna = 0; numColumna < cols; numColumna++) {
-    matriz[numFila][numColumna] = data[indice + numFila][numColumna];
+initializeMultiArray: function (cols, rows, value) {
+  var array = [];
+  for (var i = 0; i < cols; i++) {
+    array[i] = [];
+    for (var j = 0; j < rows; j++) {
+      array[i][j] = value;
+    }
   }
-}
-```
-
-```javascript
-var cols = canvas.width / 10;
-var rows = canvas.height / 10;
-for (var i = 0; i < cols; i++) {
-  status[i] = [];
-  for (var j = 0; j < rows; j++) {
-    status[i][j] = 1;
-  }
+  return array;
 }
 ```
 
@@ -664,13 +504,15 @@ var b = a.reverse( );
 
 `map()` - Llama una funcion sobre cada elemento del array y crea un nuevo array con los resultados
 
+
 ```javascript
 var numbers = [4, 9, 16, 25];
 
 function myFunction() {
   x = numbers.map(Math.sqrt);
 // x = [2, 3, 4, 5]
-```
+}
+```  
 
 `array.join(separador)` - crea un string concatenando todos los elementos del array usando el separador indicado que por defecto es ','. Si usas espacio en blanco como separador se unen todos sin separacion
 
@@ -703,18 +545,210 @@ array.splice(indice, 1);
 
 ---
 
+## BOOLEAN
+
+`true` o `false`
+
+Operadores Logicos
+
+```javascript
+AND --> &&
+OR  --> ||
+NOT --> !
+Operador ternario o operador condicional
+test ? expresion1 : expresion2
+Si test es true devuelve expresion1, si es falso devuelve expresion2
+```
+
+Cuando convertimos un no-booleano a booleano es falso o true?
+
+```javascript
+-- Falso
+"" cadena Vacia
+0, -0, NaN
+null, undefined
+false
+-- Todo lo demas es true
+```
+
+---
+
+## NULL - UNDEFINED 
+
+Se usan para denotar la ausencia de valor  
+Muchas operaciones en JS que no producen un valor significativo dan undefined sencillamente porque un valor tienen que dar  
+
+`null` es para objetos  
+`undefined` es para propiedades, metodos o variables
+
+---
+
+## ESTRUCTURAS DE CONTROL
+
+* **if ... else**
+
+```javascript
+if (condicion1) {
+  instrucciones_if_condicion1_es_true;
+} else if (condicion2) {
+  instrucciones_if_condicion2_es_true;
+} else if (condicion3) {
+  instrucciones_if_condicion3_es_true;
+} ...
+else {
+  instrucciones_if_ninguna_condicion_es_true
+}
+```
+
+* **while**
+
+`while` El codigo puede que no se ejecute nunca
+
+```javascript
+while (condicion) {
+  instrucciones_while_condicion_es_true;
+}
+```
+
+`do while` El codigo se ejecuta minimo una vez
+
+```javascript
+do {
+  instrucciones_while_condicion_es_true
+} while (condicion)
+```
+
+* **for**
+
+`inicializacion` - Se ejecuta antes que el bucle empiece<br>
+`condicion` - Define la condicion para seguir ejecutando el bucle<br>
+`actualizacion` - Se ejecuta cada vez que el bucle se ha ejecutado
+
+```html
+for (inicializacion; condicion; actualizacion) {
+  codigo_se_ejecuta:con_cada_bucle;
+}
+
+for (var i = 0; i < 10; i++) {
+  document.writeln(i);
+}
+```
+
+* **for in**
+
+Recorre todas las propiedades de un objeto o array
+
+```javascript
+for (variable in [object | array]) {
+  instrucciones;
+}
+
+for (p in window) {
+  document.writeln(p + "<br/>");
+}
+```
+
+* **for each ... in**
+
+`DEPRECATED` Recorre todas las propiedades de un objeto
+
+* **switch**
+
+```javascript
+switch(expresion) {
+  case 'uno':
+    instrucciones;
+    break;
+  case 'dos':
+    instrucciones;
+    break;
+  default:
+    instrucciones_por_defecto;
+    break;
+}
+```
+
+```javascript
+switch (new Date().getDay()) {   //getDay() numero de dia de la semana
+  case 6:
+    text = "Sabado";
+    break;
+  case 0:
+    text = "Domingo";
+    break;
+  default:
+    text = "Entre semana";
+    break;
+}
+```
+
+---
+
 ## FUNCIONES
 
-### Funciones como objetos
 
-- Las funciones son enlazadas a `Function.prototype` que a su vez esta enlazado a `Object.prototype`
-- Cada funcion se crea con una propiedad prototype cuyo valor es un objeto con una propiedad constructor cuyo valor es la funcion
-- Cada funcion se crea con dos propiedades ocultas
+\- Las funciones son enlazadas a `Function.prototype` que a su vez esta enlazado a `Object.prototype`
+\- Cada funcion se crea con una propiedad prototype cuyo valor es un objeto con una propiedad constructor cuyo valor es la funcion  
+\- Cada funcion se crea con dos propiedades ocultas    
+\- El contexto de la funcion  
+\- El codigo que implementa el comportamiento de la funcion  
+\- Para evitar callback hell y mas faunas mejor usar siempre las funciones todas con nombre  
+  
+* **Parametros y Argumentos**
 
-  - El contexto de la funcion
-  - El codigo que implementa el comportamiento de la funcion
+Pequeña diferencia entre ambos  
 
-- Para evitar callback hell y mas faunas mejor usar siempre las funciones todas con nombre
+- Parametros: son las variables que se definen cuando se declara la funcion
+- Argumentos: son los valores que se pasan a la funcion al invocarla
+- Si a una funcion le pasamos demasiados parametros los que sobran los ignora
+- Si a una funcion le pasamos menos parametros a los que faltan les asigna undefined
+
+`arguments object` - Un objeto similar a un Array que se corresponde con los argumentos pasados a la función.
+
+```javascript
+function fourArguments (a, b, c) {
+  console.log(arguments.length);
+  console.log(arguments[0]);
+  console.log(arguments[3]);
+}
+fourArguments('uno', 'dos', 'tres', 'cuatro');
+```
+
+* **return multiples valores**
+
+Para ello usan un array
+
+```javascript
+funcion getMedidas(anchura, altura, profundidad) {
+  var area = anchura * altura;
+  var volumen = anchura * altura * profundidad;
+  var medidas = [area, volumen];
+  return medidas;
+}
+var area1 = getMedidas(5,4,10)[0];
+var volumen1 = getMedidas(5,4,10)[1];
+```
+
+* **Invocacion** Se realiza `nombrefuncion();`
+
+Cuando invocamos una funcion
+
+```javascript
+1- Se suspende la ejecucion de la funcion actual
+2- Pasa el control y los parametros a la nueva funcion
+3- Tambien se pasan this y arguments
+4- El valor de this depende del patron de invocacion de los cuales
+existen 4
+```
+
+Patrones de invocacion
+
+```javascript
+- Metodos, this se refiere al objecto desde el que se invoca el metodo
+- Funcion, this se refiere al objeto global
+- Constructor, this se refiere al nuevo objeto que se esta construyendo
+- Apply PENDIENTE
+```
 
 ### Tipos de funciones
 
@@ -776,65 +810,23 @@ NAMED
 }());
 ```
 
-### Invocacion
+### Recursividad
 
-- Se realiza `nombrefuncion();`
-
-Cuando invocamos una funcion
+Una funcion que se llama a si misma es recursiva
 
 ```javascript
-1- Se suspende la ejecucion de la funcion actual
-2- Pasa el control y los parametros a la nueva funcion
-3- Tambien se pasan this y arguments
-4- El valor de this depende del patron de invocacion de los cuales
-existen 4
-```
-
-Patrones de invocacion
-
-```javascript
-- Metodos, this se refiere al objecto desde el que se invoca el metodo
-- Funcion, this se refiere al objeto global
-- Constructor, this se refiere al nuevo objeto que se esta construyendo
-- Apply PENDIENTE
-```
-
-### Parametros y Argumentos
-
-Pequeña diferencia entre ambos
-
-- Parametros: son las variables que se definen cuando se declara la funcion
-- Argumentos: son los valores que se pasan a la funcion al invocarla
-- Si a una funcion le pasamos demasiados parametros los que sobran los ignora
-- Si a una funcion le pasamos menos parametros a los que faltan les asigna undefined
-
-`arguments object` - Un objeto similar a un Array que se corresponde con los argumentos pasados a la función.
-
-```javascript
-function fourArguments (a, b, c) {
-  console.log(arguments.length);
-  console.log(arguments[0]);
-  console.log(arguments[3]);
+function power(base, exponent) {
+  if (exponent == 0)
+    return 1;
+  else
+    return base * power(base, exponent - 1);
 }
-fourArguments('uno', 'dos', 'tres', 'cuatro');
-```
+console.log(power(2, 3));              // → 8
+```  
 
-### return multiples valores
+---
 
-Para ello usan un array
-
-```javascript
-funcion getMedidas(anchura, altura, profundidad) {
-  var area = anchura * altura;
-  var volumen = anchura * altura * profundidad;
-  var medidas = [area, volumen];
-  return medidas;
-}
-var area1 = getMedidas(5,4,10)[0];
-var volumen1 = getMedidas(5,4,10)[1];
-```
-
-### Closure
+## CLOSURE
 
 Es una forma de "recordar" y tener acceso a las variables de una funcion una vez que ya ha terminado de ejecutarse.
 
@@ -865,68 +857,6 @@ console.log(wrap1());         // → 1
 console.log(wrap2());         // → 2
 ```
 
-### Callback
-
-Son funciones que se ejecutan una vez que el proceso asincrono que las llama se ha terminado
-
-```javascript
-function nombreCompleto (nombre, apellido, callback) {
-  console.log("Me llamo " + nombre + " " + apellido);
-  callback(apellido);
-}
-var saludos = function (ape) {
-  console.log("Hola, Sr " + ape);
-};
-nombreCompleto("Brus", "Bilis", saludos);
-```
-
-```javascript
-function doSomething(callback) {
-    // ...
-
-    // Call the callback
-    callback('stuff', 'goes', 'here');
-}
-
-function foo(a, b, c) {
-    // I'm the callback
-    alert(a + " " + b + " " + c);
-}
-
-doSomething(foo);
-```
-
-```javascript
-// url.js
-db.getList(printList);
-
-function printList (rows) {
-  console.log('rows', rows);
-}
-// database.js
-getList: function (callback) {
-  console.log('list');
-  con.query('SELECT * FROM url', function (err, rows) {
-    if (err) throw err;
-    callback(rows);
-  });
-},
-```
-
-### Recursividad
-
-Una funcion que se llama a si misma es recursiva
-
-```javascript
-function power(base, exponent) {
-  if (exponent == 0)
-    return 1;
-  else
-    return base * power(base, exponent - 1);
-}
-console.log(power(2, 3));              // → 8
-```  
-
 ---
 
 ## OBJETOS
@@ -935,13 +865,36 @@ Un Objeto es un contenedor de propiedades<br>
 Una propiedad es un nombre y un valor (cualquiera menos undefined)<br>
 Los objetos se pasan siempre por `referencia`
 
-### Crear Objetos
+* **Enumeracion**  
+
+\- `for in` itera sobre todas las propiedades del objeto incluso funciones o propiedades de los prototipos  
+\- Para evitarlo se usan filtros como `typeof !== 'function'` ó `hasOwnProperty`   
+\- Tambien puede usar el `for`  
+
+* **Metodos**  
+
+`object.hasOwnProperty(nombre)` Devuelve true si el objeto tiene la propiedad nombre y false si no. El prototipo no se examina
+
+```javascript
+var a = {member: true};
+var b = Object.create(a);
+var t = a.hasOwnProperty('member'); // t is true
+var u = b.hasOwnProperty('member'); // u is false
+var v = b.member                    // v is true
+```
+
+* **Herencia**
+
+\- En javascript los objetos heredan directamente de otros objetos (prototipos)  
+\- Con el operador `new` podemos montarnos factorias de objetos y hacer un pseudoclasico patron de diseño
+
+### Crear Objetos  
 
 - **Literales**
 
-  - Los valores de las propiedades se pueden obtener de cualquier expresion incluso de otros objetos anidados
-  - Bueno para la creación de nuevos valores de objeto
-  - NO son reusables
+\- Los valores de las propiedades se pueden obtener de cualquier expresion incluso de otros objetos anidados  
+\- Bueno para la creación de nuevos valores de objeto  
+\- NO son reusables  
 
 ```javascript
 var objetoVacio = {};
@@ -1021,7 +974,7 @@ var shape = {
 
 ```javascript
 var width = 600;
-var shape = {width: 300);
+var shape = {width: 300};
 var showWidth = function() {
   document.write(this.width);
 };
@@ -1048,30 +1001,7 @@ var primerPrisionero = creaPrisionero ('Juan', '65891');
 var segundoPrisionero = crearPrisionero ('Pepe', '13698');
 ```
 
-### Enumeracion
-
-- `for in` itera sobre todas las propiedades del objeto incluso funciones o propiedades de los prototipos
-- Para evitarlo se usan filtros como `typeof !== 'function'` ó `hasOwnProperty`
-- Tambien puede usar el `for`
-
-### Metodos
-
-`object.hasOwnProperty(nombre)` Devuelve true si el objeto tiene la propiedad nombre y false si no. El prototipo no se examina
-
-```javascript
-var a = {member: true};
-var b = Object.create(a);
-var t = a.hasOwnProperty('member'); // t is true
-var u = b.hasOwnProperty('member'); // u is false
-var v = b.member                    // v is true
-```
-
-### Herencia
-
-- En javascript los objetos heredan directamente de otros objetos (prototipos)
-- Con el operador `new` podemos montarnos factorias de objetos y hacer un pseudoclasico patron de diseño
-
---------------------------------------------------------------------------------
+---
 
 ## ERRORES
 
@@ -1223,7 +1153,7 @@ try {
 }
 ```
 
---------------------------------------------------------------------------------
+---
 
 ## STRICT MODE
 
@@ -1259,13 +1189,13 @@ añadimos al comienzo del archivo
 'use strict';
 ```
 
---------------------------------------------------------------------------------
+---
 
 ## MODULOS
 
 [Modulos](/backend/nodejs/#modulos)
 
---------------------------------------------------------------------------------
+---
 
 ## PATRONES
 
@@ -1382,78 +1312,55 @@ var people = {
 
 ---
 
-## ES6
+## CALLBACK
 
-### const - let
-
-- **const**
-
-Crea constantes que no se pueden modificar, ha de asignarse el valor en la declaracion
-
-- **let**
-
-Declara variables que no son accesibles mas alla del ambito de creacion<br>
-Ejemplo mejor: para los `for`
-
-### funcion arrow
-
-Para las funciones anonimas
+Son funciones que se ejecutan una vez que el proceso asincrono que las llama se ha terminado
 
 ```javascript
-// ES5
-var multiplicar = function(x, y) {
-  return x * y;
+function nombreCompleto (nombre, apellido, callback) {
+  console.log("Me llamo " + nombre + " " + apellido);
+  callback(apellido);
 }
-// ES6
-var multiplicar = (x, y) => {
-  return x * y
+var saludos = function (ape) {
+  console.log("Hola, Sr " + ape);
 };
+nombreCompleto("Brus", "Bilis", saludos);
 ```
 
-### template strings
-
 ```javascript
-let nombre1 = "JavaScript";  
-let nombre2 = "awesome";  
-console.log(`Sólo quiero decir que ${nombre1} is ${nombre2}`);
-```
+function doSomething(callback) {
+    // ...
 
-### modulos
-
-bar.js
-
-```javascript
-function hello(who) {
-    return "Let me introduce: " + who;
+    // Call the callback
+    callback('stuff', 'goes', 'here');
 }
-export hello;
-```
 
-foo.js
-
-```javascript
-import hello from "bar";      // import only `hello()` from "bar" module
-var hungry = "hippo";
-function awesome() {
-    console.log(
-        hello( hungry ).toUpperCase()
-    );
+function foo(a, b, c) {
+    // I'm the callback
+    alert(a + " " + b + " " + c);
 }
-export awesome;
-```
 
-baz.js
+doSomething(foo);
+```
 
 ```javascript
-module foo from "foo";      // import the entire "foo" and "bar" modules
-module bar from "bar";
-console.log(
-    bar.hello( "rhino" )
-);                             // Let me introduce: rhino
-foo.awesome();                 // LET ME INTRODUCE: HIPPO
+// url.js
+db.getList(printList);
+
+function printList (rows) {
+  console.log('rows', rows);
+}
+// database.js
+getList: function (callback) {
+  console.log('list');
+  con.query('SELECT * FROM url', function (err, rows) {
+    if (err) throw err;
+    callback(rows);
+  });
+},
 ```
 
---------------------------------------------------------------------------------
+---
 
 ## PROMISES
 
@@ -1526,5 +1433,79 @@ var p = new Promise(function(resolve, reject) {
   }
 }());
 ```   
+
+---
+
+
+## ES6
+
+### const - let
+
+- **const**
+
+Crea constantes que no se pueden modificar, ha de asignarse el valor en la declaracion
+
+- **let**
+
+Declara variables que no son accesibles mas alla del ambito de creacion<br>
+Ejemplo mejor: para los `for`
+
+### funcion arrow
+
+Para las funciones anonimas
+
+```javascript
+// ES5
+var multiplicar = function(x, y) {
+  return x * y;
+}
+// ES6
+var multiplicar = (x, y) => {
+  return x * y
+};
+```
+
+### template strings
+
+```javascript
+let nombre1 = "JavaScript";  
+let nombre2 = "awesome";  
+console.log(`Sólo quiero decir que ${nombre1} is ${nombre2}`);
+```
+
+### modulos
+
+bar.js
+
+```javascript
+function hello(who) {
+    return "Let me introduce: " + who;
+}
+export hello;
+```
+
+foo.js
+
+```javascript
+import hello from "bar";      // import only `hello()` from "bar" module
+var hungry = "hippo";
+function awesome() {
+    console.log(
+        hello( hungry ).toUpperCase()
+    );
+}
+export awesome;
+```
+
+baz.js
+
+```javascript
+module foo from "foo";      // import the entire "foo" and "bar" modules
+module bar from "bar";
+console.log(
+    bar.hello( "rhino" )
+);                             // Let me introduce: rhino
+foo.awesome();                 // LET ME INTRODUCE: HIPPO
+```
 
 ---

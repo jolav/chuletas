@@ -256,32 +256,30 @@ for (var i = 0; i < lista.lenth; i++) {
 
 - HTML - Escapar todos estos caracteres para que se muestren como caracteres y no sean procesados como codigo
 
-  ```
-  ![js2](/z-static/images/js/escapeHTML.png)
-  ```
+
+![js2](/z-static/images/js/escapeHTML.png)
+
 
 - Javascript -No incluir datos de fuentes sin confianza.Escapar todos los caracteres ASCII de valor menor a 256 que no sean caracteres alfanumericos
 
 - URLs - Si tienes enlaces que datos que han introducido los usuarios usa el metodo `encodeURIComponent()` para codificar los siguientes caracteres :
 
-  ```
-  ![js2](/z-static/images/js/escapeURLs.png)
-  ```
+![js2](/z-static/images/js/escapeURLs.png)
 
 > **Añadir contenido del usuario**
 
-- Javascript:
+- Javascript:  
 
-  - Usar `textContent` o `innerText`
-  - NO usar `innerHTML`
+\- Usar `textContent` o `innerText`  
+\- NO usar `innerHTML`
 
 - jQuery:
 
-  - Usar `.text()`
-  - NO Usar `.html()` salvo:
+\- Usar `.text()`  
+\- NO Usar `.html()` salvo:
 
-    - No permitir al usuario contenido con markup
-    - Escapar todo el contenido del usuario y añadirlo como texto en lugar de como HTML
+- No permitir al usuario contenido con markup
+- Escapar todo el contenido del usuario y añadirlo como texto en lugar de como HTML
 
 --------------------------------------------------------------------------------
 
@@ -772,6 +770,7 @@ xhr.onload = function() {                // When response has loaded
 
       document.getElementById('content').appendChild(container);
     }
+  }
 }
   // Gets content from XML
   function getNodeValue(obj, tag) {                   
@@ -792,7 +791,7 @@ xhr.send(null);
 > 2. `JSONP`
 > 3. `Cross-Origin resources Sharing CORS` - Añadir informacion extra a las cabeceras HTTP - [Buena Guia para CORS](http://www.html5rocks.com/en/tutorials/cors/?redirect_from_locale=es)
 
-- **JSONP**
+* **JSONP**
 
 ```html
 // data-jsonp.html
@@ -853,9 +852,9 @@ showEvents({
     }
   ]
 });
-````
+```
 
---------------------------------------------------------------------------------
+---
 
 ## JSON
 
@@ -903,7 +902,7 @@ JSON es solo texto plano que envias por internet y luego el navegador convierte 
 
 `JSON.parse()` convierte una cadena de datos JSON en objetos javascript que el navegador pueda usar
 
---------------------------------------------------------------------------------
+---
 
 ## XML
 
@@ -926,7 +925,7 @@ Se puede procesar XML usando los mismos metodos DOM de HTML, por eso es mas faci
 </events>
 ```
 
---------------------------------------------------------------------------------
+---
 
 ## FORMULARIOS
 

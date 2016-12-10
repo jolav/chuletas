@@ -926,8 +926,3 @@ results.forEach(function(result) {
 
 ---
 
-## FILE
-
-![apis](/z-static/images/comingSoon2.jpg)
-
----
