@@ -16,23 +16,23 @@
 
 - Propiedades
 
-`window.innerHeight` - altura (excluding browser chrome/user interface) (px)<br>
-`window.innerWidth` - anchura (excluding browser chrome/user interface) (px)<br>
-`window.pageXOffset` - Distance document has been scrolled horizontally (px)<br>
-`window.pageYOffset` - Distance document has been scrolled vertically (px)<br>
-`window.screenX` - Coordenada X, respecto esquina superior-izquierda (px)<br>
-`window.screenY` - Coordenada Y, respecto esquina superior-izquierda (px) `window.location` - URL actual (o ruta local al archivo)<br>
-`window.document` - Referencia al objeto documento, usado para representar la pagina actual contenida en windows<br>
-`window.history` - Referencia al objeto history de la pestaña o ventana del navegador que contiene detalles de las paginas que han sido vistas en esa ventana o pestaña<br>
-`window.history.length` - numero de historias en el objeto history para esa pestaña o ventana del navegador<br>
-`window.screen` - Hace referencia al objeto screen del monitor<br>
-`window.screen.width` - Anchura de la pantalla del monitor(px)<br>
+`window.innerHeight` - altura (excluding browser chrome/user interface) (px)  
+`window.innerWidth` - anchura (excluding browser chrome/user interface) (px)  
+`window.pageXOffset` - Distance document has been scrolled horizontally (px)  
+`window.pageYOffset` - Distance document has been scrolled vertically (px)  
+`window.screenX` - Coordenada X, respecto esquina superior-izquierda (px)  
+`window.screenY` - Coordenada Y, respecto esquina superior-izquierda (px) `window.location` - URL actual (o ruta local al archivo)  
+`window.document` - Referencia al objeto documento, usado para representar la pagina actual contenida en windows  
+`window.history` - Referencia al objeto history de la pestaña o ventana del navegador que contiene detalles de las paginas que han sido vistas en esa ventana o pestaña  
+`window.history.length` - numero de historias en el objeto history para esa pestaña o ventana del navegador  
+`window.screen` - Hace referencia al objeto screen del monitor  
+`window.screen.width` - Anchura de la pantalla del monitor(px)  
 `window.screen.height` - Altura de la pantalla del monitor (px)
 
 - Metodos
 
-`window.a1ert()` - Crea una caja de dialogo con mensaje. El usuario debe pinchar OK para cerrarla<br>
-`window.open()` - Abre una nueva ventana de navegador cuya URL es la especificada como parametro (no funciona si el navegador tiene bloqueado los pop-up)<br>
+`window.a1ert()` - Crea una caja de dialogo con mensaje. El usuario debe pinchar OK para cerrarla  
+`window.open()` - Abre una nueva ventana de navegador cuya URL es la especificada como parametro (no funciona si el navegador tiene bloqueado los pop-up)  
 `window.print()` - Avisa al navegador que el usuario quiere escribir contenidos de la pagina actual (como si el usuario hubiera pulsado la opcion de imprimir del navegador)
 
 ### Global Javascript Objects
@@ -45,31 +45,9 @@
 
 #### [Numero](/frontend/js/#numeros)
 
-#### [Math](/frontend/js/#math)
+#### [Math](/frontend/jsapis/#math)
 
-#### Date
-
-> - Creamos un objeto Date sobre el que luego aplicaremos los metodos
-
->   ```javascript
->   var fecha = new Date();
->   ```
-
-- Metodos
-
-`getDate()` , `setDate()` - Dia del mes (1-31)<br>
-`getDay()` - Dia de la semana (0-6)<br>
-`getFullYear()` , `setFullYear()` - año (4 digitos)<br>
-`getHours()` , `setHours()` - Hora (0-23)<br>
-`getMilliseconds()` , `setMilliseconds()` - Milisegundos (0-999)<br>
-`getMinutes()` , `setMinutes()` - Minutos (0-59)<br>
-`getMonth()` , `setMonth()` - Mes (0-11)<br>
-`getSeconds()` , `setSeconds()` - Segundos (0-59)<br>
-`getTime()` , `setTime()` - Milisegundos desde 1 Enero 1970 00:00:00 y negativo para cualquier tiempo anterior a esa fecha<br>
-`getTimezoneOffset()` - Minutos de diferencia horaria entre UTC y la hora local<br>
-`toDateString()` - Fecha del tipo `Mon Jan 17 1982`<br>
-`toTimeString()` - Hora del tipo `19:45:15 GMT+0300 (CEST)`<br>
-`toString()` - Devuelve una string con la fecha especificada
+#### [Date](/frontend/jsapis/#date)
 
 ---
 
@@ -87,20 +65,20 @@
 
 ![js2](/z-static/images/js/domTree.png)
 
-- ![js2](/z-static/images/js/docNodes.png)<br>
-  En la parte superior del arbol esta un nodo documento que representa la pagina entera. Es el punto de arranque para todas las rutas por el arbol DOM.<br>
+- ![js2](/z-static/images/js/docNodes.png)  
+  En la parte superior del arbol esta un nodo documento que representa la pagina entera. Es el punto de arranque para todas las rutas por el arbol DOM.  
   Coincide con el `document object`
 
-- ![js2](/z-static/images/js/elementNodes.png)<br>
-  Los nodos elemento es lo que se busca en el arbol DOM antes de acceder a los nodes de atributo y texto<br>
+- ![js2](/z-static/images/js/elementNodes.png)  
+  Los nodos elemento es lo que se busca en el arbol DOM antes de acceder a los nodes de atributo y texto  
   Para eso estan los metodos que permiten buscar y acceder a nodos elemento
 
-- ![js2](/z-static/images/js/attributeNodes.png)<br>
-  Las etiquetas abiertas de los elementos HTML pueden contener atributos que estan representados por nodos atributos en al arbol DOM<br>
+- ![js2](/z-static/images/js/attributeNodes.png)  
+  Las etiquetas abiertas de los elementos HTML pueden contener atributos que estan representados por nodos atributos en al arbol DOM  
   No son hijos del elemento que los tiene, son parte de ese elemento, por eso hay metodos y propiedades especificas para leer y modificar esos atributos
 
-- ![js2](/z-static/images/js/textNodes.png)<br>
-  Una vez accedido al nodo elemento puedes coger el texto dentro del elemento que esta contenido en su propio nodo texto<br>
+- ![js2](/z-static/images/js/textNodes.png)  
+  Una vez accedido al nodo elemento puedes coger el texto dentro del elemento que esta contenido en su propio nodo texto  
   Pueden tener hijos pero seran hijos del elemento que los contiene
 
 ### Objeto document
@@ -111,29 +89,29 @@
 
 - Propiedades
 
-`document.title` - Titulo del documento actual<br>
-`document.lastModified` - Fecha de la ultima modificacion del documento actual<br>
-`document.URL` - Devuelve una cadena con la URL del documento actual<br>
+`document.title` - Titulo del documento actual  
+`document.lastModified` - Fecha de la ultima modificacion del documento actual  
+`document.URL` - Devuelve una cadena con la URL del documento actual  
 `document.domain` - Devuelve el dominio del documento actual
 
 - Metodos
 
-`document.write()` - Escribe texto al documento<br>
-`document.getElementByld()` - Devuelve el elemento que coincide con el valor de id que se pasa<br>
-`document.querySe1ectorA11()` - Devuelve lista de elementos que coincide con el selector CSS que se pasa como parametro<br>
-`document.createElement()` - Crea un nuevo elemento<br>
+`document.write()` - Escribe texto al documento  
+`document.getElementByld()` - Devuelve el elemento que coincide con el valor de id que se pasa  
+`document.querySe1ectorA11()` - Devuelve lista de elementos que coincide con el selector CSS que se pasa como parametro  
+`document.createElement()` - Crea un nuevo elemento  
 `document.createTextNode()` - Crea un nuevo nodo de texto
 
 ### Acceder a elementos
 
 - Seleccionar un elemento
 
-`document.getElementById("name")` - Selecciona el elemento con id="name"<br>
-`document.querySelector("h4")` - Selecciona el primer elemento h4<br>
-_`element`_`.parentNode` - Toma el padre del elemento actual<br>
-_`element`_`.previousSibling` - Coge el hermano previo<br>
-_`element`_`.nextSibling` - Coge el hermano siguiente<br>
-_`element`_`.firstChild` - Coge el primer hijo del actual elemento<br>
+`document.getElementById("name")` - Selecciona el elemento con id="name"  
+`document.querySelector("h4")` - Selecciona el primer elemento h4  
+_`element`_`.parentNode` - Toma el padre del elemento actual  
+_`element`_`.previousSibling` - Coge el hermano previo  
+_`element`_`.nextSibling` - Coge el hermano siguiente  
+_`element`_`.firstChild` - Coge el primer hijo del actual elemento  
 _`element`_`.lastChild` - Coge el ultimo hijo del actual elemento
 
 ```
@@ -142,29 +120,29 @@ _`element`_`.lastChild` - Coge el ultimo hijo del actual elemento
 
 - Seleccionar varios elementos : Los metodos devuelven una `NodeList`
 
-`document.getElementsByClassName("name")` - Selecciona todos los elementos que tienen la clase="name"<br>
-`document.getElementsByTagName("li")` - Coge todos los elementos que tienen el tag name="li"<br>
+`document.getElementsByClassName("name")` - Selecciona todos los elementos que tienen la clase="name"  
+`document.getElementsByTagName("li")` - Coge todos los elementos que tienen el tag name="li"  
 `document.querySelectorAll(h4)` - Selecciona todos los elementos que poseen h4
 
 ### Trabajar con elementos
 
 #### Propiedades
 
-_`element`_`.nodeValue` - Permite acceder al contenido de un nodo texto<br>
-_`element`_`.innerHTML` - Permite acceder a elementos hijo y contenido de texto y de markup<br>
-_`element`_`.textContent` - Permite acceder al texto del elemento y de sus hijos _`element`_`.className` - Valor del atributo class<br>
+_`element`_`.nodeValue` - Permite acceder al contenido de un nodo texto  
+_`element`_`.innerHTML` - Permite acceder a elementos hijo y contenido de texto y de markup  
+_`element`_`.textContent` - Permite acceder al texto del elemento y de sus hijos _`element`_`.className` - Valor del atributo class  
 _`element`_`.id` - Valor del atributo id
 
 ![js2](/z-static/images/js/accessText.png)
 
-- _`element`_`.nodeValue`<br>
+- _`element`_`.nodeValue`  
   Una vez llegas de un elemento a su nodo texto, este tiene la propiedad nodeValue que te da acceso al valor del texto
 
 ```javascript
 document.getElementById("one").firstChild.nextSibling.nodeValue;
 ```
 
-- _`element`_`.textContent`<br>
+- _`element`_`.textContent`  
   Permite acceder al texto del elemento y de sus hijos
 
 ```javascript
@@ -183,13 +161,13 @@ document.getElementByld('one').innerHTML = elContent;         // Set
 
 #### Manipulacion DOM
 
-`document.createElement()` - Crea nodos<br>
-`document.createTextNode()` - Crea nodos de texto<br>
-_`element`_`.appendChild()` - Añade nodos<br>
-_`element`_`.removeChild()` - Elimina nodo<br>
-_`element`_`.hasAttribute(n)` - Chequea si existe el atributo n<br>
-_`element`_`.getAttribute(n)` - Consigue el valor del atributo n<br>
-_`element`_`.setAttribute(n)` - Pone el valor del atributo n<br>
+`document.createElement()` - Crea nodos  
+`document.createTextNode()` - Crea nodos de texto  
+_`element`_`.appendChild()` - Añade nodos  
+_`element`_`.removeChild()` - Elimina nodo  
+_`element`_`.hasAttribute(n)` - Chequea si existe el atributo n  
+_`element`_`.getAttribute(n)` - Consigue el valor del atributo n  
+_`element`_`.setAttribute(n)` - Pone el valor del atributo n  
 _`element`_`.removeAttribute(n)` - Elimina el atributo n
 
 > Crear nuevo contenido en la pagina
@@ -229,7 +207,7 @@ containerEl.removeChild(removeEl);
 
 - Metodos
 
-`item(n)` - devuelve el item con indice numero n<br>
+`item(n)` - devuelve el item con indice numero n  
 `nodeLista[n]` - es mas comun esta sintaxis con corchetes
 
 ```javascript
@@ -251,7 +229,7 @@ for (var i = 0; i < lista.lenth; i++) {
 
 ### XSS Atacks
 
-> **Escapar todo el contenido que generan los usuarios**<br>
+> **Escapar todo el contenido que generan los usuarios**  
 > Todos los datos introducidos por usuarios deben escaparse en el servidor antes de ser mostrados en la pagina.
 
 - HTML - Escapar todos estos caracteres para que se muestren como caracteres y no sean procesados como codigo
@@ -306,58 +284,58 @@ function setup() {
 window.addEventListener('load', setup, false);
 ```
 
-`unload` - La pagina web se esta descargando a causa de haber pedido otra<br>
-`beforeunload` - Justo antes de que el usuario abandone la pagina<br>
-`error` - Navegador encuentra un error de Javascript<br>
-`resize` - Navegador se ha redimensionado<br>
+`unload` - La pagina web se esta descargando a causa de haber pedido otra  
+`beforeunload` - Justo antes de que el usuario abandone la pagina  
+`error` - Navegador encuentra un error de Javascript  
+`resize` - Navegador se ha redimensionado  
 `scroll` - Usuario ha hecho scroll hacia arriba o abajo, puede referirse a la pagina entera o a un elemento especifico como por ejemplo textarea
 
 - Keyboard Events
 
-`keydown` - Pulsar una tecla(se repite mientras la tecla esta presionada)<br>
-`keyup` - Soltar una tecla<br>
+`keydown` - Pulsar una tecla(se repite mientras la tecla esta presionada)  
+`keyup` - Soltar una tecla  
 `keypress` - Mientras se inserta el caracter (se repite mientras la tecla esta presionada)
 
 - Mouse Events
 
-`click` - Pulsar y soltar un boton sobre el mismo elemento<br>
-`dblclick` - Pulsar y soltar un boton dos veces sobre el mismo elemento<br>
-`mousedown` - Pulsar un botón del ratón mientras esta sobre un elemento<br>
-`mouseup` - Soltar un botón del ratón mientras esta sobre un elemento<br>
-`mousemove` - Mover el raton<br>
-`mouseover` - Mover el raton por encima de un elemento<br>
+`click` - Pulsar y soltar un boton sobre el mismo elemento  
+`dblclick` - Pulsar y soltar un boton dos veces sobre el mismo elemento  
+`mousedown` - Pulsar un botón del ratón mientras esta sobre un elemento  
+`mouseup` - Soltar un botón del ratón mientras esta sobre un elemento  
+`mousemove` - Mover el raton  
+`mouseover` - Mover el raton por encima de un elemento  
 `mouseout` - Mover el raton fuera de un elemento
 
 - Focus Events
 
-`focus` , `focusin` - EL elemento gana el foco<br>
+`focus` , `focusin` - EL elemento gana el foco  
 `blur` , `focusout` - EL elemento pierde el foco
 
 - Form Events
 
-`input` - Cambia el valor de cualquier `<input>`, `<textarea>` o elemento con el atributo `contenteditable`<br>
-`change` - Cambia el valor en un `select box`, `checkbox` o `radio button`<br>
-`submit` - Al enviar un formulario (usando un boton o una tecla)<br>
-`reset` - Usuario pincha un boton de resetear formulario (Muy raro verlo)<br>
-`cut` - Usuario corta contenido de un campo del formulario<br>
-`copy` - Usuario copia contenido de un campo del formulario<br>
-`paste` - Usuario pega contenido a un campo del formulario<br>
+`input` - Cambia el valor de cualquier `<input>`, `<textarea>` o elemento con el atributo `contenteditable`  
+`change` - Cambia el valor en un `select box`, `checkbox` o `radio button`  
+`submit` - Al enviar un formulario (usando un boton o una tecla)  
+`reset` - Usuario pincha un boton de resetear formulario (Muy raro verlo)  
+`cut` - Usuario corta contenido de un campo del formulario  
+`copy` - Usuario copia contenido de un campo del formulario  
+`paste` - Usuario pega contenido a un campo del formulario  
 `select` - Usuario selecciona algo de texto en un campo de formulario
 
 - Mutation Events : Ocurren cuando la estructura DOM cambia por un script
 
-`DOMSubtreeModified` - Cambio affecta al documento<br>
-`DOMNodeInserted` - Se ha insertado un nodo como hijo de otro nodo<br>
-`DOMNodeRemoved` - Se ha eliminado un nodo desde otro nodo<br>
-`DOMNodeInsertedIntoDocument` - Se ha insertado un nodo como descendiente de otro nodo<br>
+`DOMSubtreeModified` - Cambio affecta al documento  
+`DOMNodeInserted` - Se ha insertado un nodo como hijo de otro nodo  
+`DOMNodeRemoved` - Se ha eliminado un nodo desde otro nodo  
+`DOMNodeInsertedIntoDocument` - Se ha insertado un nodo como descendiente de otro nodo  
 `DOMNodeRemovedFromDocument` - Se ha eliminado un nodo como descendiente de otro nodo
 
 - HTML5 Events
 
-`DOMContentLoaded` - Salta cuando el arbol DOM (toda la estructura HTML) ya esta cargada) a diferencia de `load` que salta cuando todo el HTML y sus recursos (imagenes, iframes, scripts, css) se han cargado.<br>
-Asi la pagina parece que es mas rapida de cargar. Se asigna al `document` o al `window`<br>
-`hashchange` - Salta cuando hay cambios en la URL a partir del ancla #.<br>
-Funciona sobre el objeto `window` y despues de saltar el objeto `event` tendra dos propiedades `oldURL`, `newURL`<br>
+`DOMContentLoaded` - Salta cuando el arbol DOM (toda la estructura HTML) ya esta cargada) a diferencia de `load` que salta cuando todo el HTML y sus recursos (imagenes, iframes, scripts, css) se han cargado.  
+Asi la pagina parece que es mas rapida de cargar. Se asigna al `document` o al `window`  
+`hashchange` - Salta cuando hay cambios en la URL a partir del ancla #.  
+Funciona sobre el objeto `window` y despues de saltar el objeto `event` tendra dos propiedades `oldURL`, `newURL`  
 `beforeunload` - Salta en el objeto `windows` antes de tirar la pagina. Es el que usan para molestar diciendo si estas seguro de querer abandonar la pagina
 
 ### Manejadores Eventos
@@ -387,8 +365,8 @@ function checkUsername() {
 }
 ```
 
-- Traditional DOM Event Handlers<br>
-  La pega es que solo puedes vincular una funcion a un evento<br>
+- Traditional DOM Event Handlers  
+  La pega es que solo puedes vincular una funcion a un evento  
   _`element`**`.on`**`event`_`=`_`functionName`_;
 
 ```javascript
@@ -399,7 +377,7 @@ var el = document.getElementByld("username") ;
 el.onblur = checkUsername;
 ```
 
-- Event Listeners (DOM level 2 ) `USAR`<br>
+- Event Listeners (DOM level 2 ) `USAR`  
   Permite que un solo evento dispare varios scripts
 
 ### Event Listener
@@ -453,7 +431,7 @@ button.addEventListener("mousedown", function(event) {
 
 ### Event FLow
 
-> Describe el orden en el que los eventos se procesan<br>
+> Describe el orden en el que los eventos se procesan  
 > `Propagacion` : Los eventos registrados en nodos con hijos reciben algunos eventos que ocurren en los hijos. Si pulsamos un buton dentro de un parrafo los manejadores de evento del parrafo tambien recibiran el evento click. Si los dos tienen el evento el manejador mas especifico (el mas interno) va primero
 
 - `bubbling` - el evento se captura y maneja primero por el elemento mas interno y despues de propaga hacua los elementos exteriores
@@ -466,16 +444,16 @@ button.addEventListener("mousedown", function(event) {
 
 - Propiedades
 
-`target` - Objetivo del evento<br>
-`type` - Tipo de evento que se ha disparado<br>
-`cancelable` - Si se puede cancelar el comportamiento predeterminado de un elemento<br>
-`screenX` , `screenY` - Coordenada de la posicion del cursor respecto del monitor<br>
-`pageX` , `pageY` - Coordenada de la posicion del cursor respecto de la pagina<br>
+`target` - Objetivo del evento  
+`type` - Tipo de evento que se ha disparado  
+`cancelable` - Si se puede cancelar el comportamiento predeterminado de un elemento  
+`screenX` , `screenY` - Coordenada de la posicion del cursor respecto del monitor  
+`pageX` , `pageY` - Coordenada de la posicion del cursor respecto de la pagina  
 `clientX` , `clientY` - Coordenada de la posicion del cursor respecto del navegador
 
 - Metodos
 
-`preventDefault()` - Cancela el comportamiento por defecto del evento (si es posible)<br>
+`preventDefault()` - Cancela el comportamiento por defecto del evento (si es posible)  
 `stopPropagation()` - Detiene la propagacion del evento por bubbling o capturing
 
 - Event listener sin parametros
@@ -575,8 +553,8 @@ addEventListener("mousemove", function(event) {
 
 ### Conceptos
 
-> Ajax permite pedir datos al servidor y cargarlos sin tener que refrescar la pagina entera<br>
-> Los servidores usan para enviar los datos HTML, XML o JSON<br>
+> Ajax permite pedir datos al servidor y cargarlos sin tener que refrescar la pagina entera  
+> Los servidores usan para enviar los datos HTML, XML o JSON  
 > Ajax usa un modelo asicrono, permite hacer cosas mientras el navegador espera los datos del servidor para cargarlos
 
 > ![js2](/z-static/images/js/ajax/ajaxFlow.png)
@@ -629,17 +607,17 @@ addEventListener("mousemove", function(event) {
 // data.html
 <div class="event">
   <img src="img/map-ca.png" alt="Map of California" />
-  <p><b>Los Angeles, CA</b><br>
+  <p><b>Los Angeles, CA</b>  
   May 1</p>
 </div>
 <div class="event">
   <img src="img/map-tx.png" alt="Map of MI casa" />
-  <p><b>Austin, TX</b><br>
+  <p><b>Austin, TX</b>  
   May 15</p>
 </div>
 <div class="event">
   <img src="img/map-ny.png" alt="Map of New York" />
-  <p><b>New York, NY</b><br>
+  <p><b>New York, NY</b>  
   May 30</p>
 </div>
 ```
@@ -722,7 +700,7 @@ xhr.onload = function() {               // When readystate changes
       newContent += '<img src="' + responseObject.events[i].map + '" ';
       newContent += 'alt="' + responseObject.events[i].location + '" />';
       newContent += '<p><b>' + responseObject.events[i].location +
-                                                        '</b><br>';
+                                                        '</b>  ';
       newContent += responseObject.events[i].date + '</p>';
       newContent += '</div>';
     }
@@ -784,7 +762,7 @@ xhr.send(null);
 
 ### Datos de otros servidores
 
-> Por seguridad AJAX no carga respùestas de otros dominios (conocidas como `cross-domain requests`)<br>
+> Por seguridad AJAX no carga respùestas de otros dominios (conocidas como `cross-domain requests`)  
 > Alternativas
 
 > 1. `Proxy` - Crear un archivo en mi servidor que recoge los datos del servidor remoto. Asi las demas paginas de mi web pueden pedir los datos de ese archivo que actua de proxy
@@ -822,7 +800,7 @@ function showEvents(data) {           // Callback when JSON loads
     newContent += '<div class="event">';
     newContent += '<img src="' + data.events[i].map + '" ';
     newContent += 'alt="' + data.events[i].location + '" />';
-    newContent += '<p><b>' + data.events[i].location + '</b><br>';
+    newContent += '<p><b>' + data.events[i].location + '</b>  ';
     newContent += data.events[i].date + '</p>';
     newContent += '</div>';
   }
@@ -906,7 +884,7 @@ JSON es solo texto plano que envias por internet y luego el navegador convierte 
 
 ## XML
 
-Parecido a HTML pero las etiquetas describen el tipo de dato que hay dentro<br>
+Parecido a HTML pero las etiquetas describen el tipo de dato que hay dentro  
 Se puede procesar XML usando los mismos metodos DOM de HTML, por eso es mas facil usando jQuery
 
 ```xml
@@ -975,40 +953,40 @@ Cada elemento `<form>` de la pagina tiene tambien una coleccion de elementos que
 
 - **Propiedades**
 
-`action` - La URL a que el formulario es enviado para ser procesado<br>
-`method` - si se envia por GET o POST<br>
-`name` - se usa poco, lo mas comun es seleccionar un formulario por su atributo id<br>
+`action` - La URL a que el formulario es enviado para ser procesado  
+`method` - si se envia por GET o POST  
+`name` - se usa poco, lo mas comun es seleccionar un formulario por su atributo id  
 `elements` - una coleccion de elementos en el formulario con los que el usuario puede interactuar. Se puede acceder a ellos por los indices o por los valores de sus atributos ´name´
 
 - **Metodos**
 
-`submit()` - Tiene el mismo efecto que pinchar el boton submit<br>
+`submit()` - Tiene el mismo efecto que pinchar el boton submit  
 `reset()` - Resetea el formulario a los valores iniciales como si la pagina se hubiera recargado
 
 - **Eventos**
 
-`submit` - Se dispara cuando el formulario es enviado<br>
+`submit` - Se dispara cuando el formulario es enviado  
 `reset` - Se dispara cuando se resetea el formulario
 
 ### Controles del formulario
 
 - **Propiedades**
 
-`value` - En una entrada de texto es el texto que el usuario introduce, es el valor del atributo `value`<br>
-`type` - Cuando un formulario se crea usando el elemento `<input>` esto define el tipo del elemento (text, radio, checkbox, password ..)<br>
-`name` - Devuelve o establece el valor de atributo `name`<br>
-`defaultValue` - Es el valor inicial de una entrada de texto cuando la pagina se renderiza<br>
-`form` - El formulario al que el control pertenece<br>
-`disabled` - Inhabilita el elemento del formulario<br>
-`checked` - Indica que checkboxes o botones de radio han sido chequeados. Es un booleano que indica true si esta chequeado<br>
-`defaultChecked` - El valor inicial de un checkbox o radio button (booleano)<br>
+`value` - En una entrada de texto es el texto que el usuario introduce, es el valor del atributo `value`  
+`type` - Cuando un formulario se crea usando el elemento `<input>` esto define el tipo del elemento (text, radio, checkbox, password ..)  
+`name` - Devuelve o establece el valor de atributo `name`  
+`defaultValue` - Es el valor inicial de una entrada de texto cuando la pagina se renderiza  
+`form` - El formulario al que el control pertenece  
+`disabled` - Inhabilita el elemento del formulario  
+`checked` - Indica que checkboxes o botones de radio han sido chequeados. Es un booleano que indica true si esta chequeado  
+`defaultChecked` - El valor inicial de un checkbox o radio button (booleano)  
 `selected` - Indica que un elemento de una select box esta seleccionado. Es un booleano que indica true si esta seleccionado.
 
 - **Metodos**
 
-`focus()` - Le da el foco a un elemento<br>
-`blur()` - Le quita el fofo al elemento<br>
-`select()` - Selecciona e ilumina el contenido de texto de un elemento de entrada de texto<br>
+`focus()` - Le da el foco a un elemento  
+`blur()` - Le quita el fofo al elemento  
+`select()` - Selecciona e ilumina el contenido de texto de un elemento de entrada de texto  
 `click()` - Dispara un
 
 > - evento `click` en botones, checkboxes y carga de archivos.
@@ -1017,11 +995,11 @@ Cada elemento `<form>` de la pagina tiene tambien una coleccion de elementos que
 
 - **Eventos**
 
-`blur` - Salta cuando el usuario sale de un campo<br>
-`focus` - Salta cuando el usuario entra en un campo<br>
-`click` - Salta cuando el usuario pincha un elemento<br>
-`change` - Salta cuando el valor de un elemento cambia<br>
-`input` - Salta cuando cambia el valor de los elementos `<input>` ó `<textarea>`<br>
+`blur` - Salta cuando el usuario sale de un campo  
+`focus` - Salta cuando el usuario entra en un campo  
+`click` - Salta cuando el usuario pincha un elemento  
+`change` - Salta cuando el valor de un elemento cambia  
+`input` - Salta cuando cambia el valor de los elementos `<input>` ó `<textarea>`  
 `keydown`, `keyup`, `keypress` - Salta cuando se interactua con el teclado
 
 ---

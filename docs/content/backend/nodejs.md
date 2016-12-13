@@ -1,4 +1,4 @@
-# NODEJS 4
+# NODEJS 6.9.2
 
 ---
 
@@ -107,67 +107,6 @@ fs.readFile('foo.txt', 'utf8', function(err, data) {
 });
 ```
 
-3. Propagacion de errores, en sincrono se usa el comando throw.
-Pero en asincrono CPS se hace pasando el error al siguiente callback
-
-```javascript
-var fs = require('fs');
-function readJSON(filename, callback) {
-  fs.readFile(filename, 'utf8', function(err, data) {
-    var parsed;
-    if(err)
-      return callback(err) //propagate error and exit the current function
-    try {
-      parsed = JSON.parse(da);     //parse the file contents
-    } catch(err) {
-      return callback(err); //catch parsing errors
-    }
-    callback(null, parsed);        //no errors, propagate just the data
-  });
-};
-```
-
-4. Uncaught exceptions, se realizan con el try-catch visto en el ejemplo justo
-arriba
-
-### clase EventEmitter
-
-* **Observer Pattern (Patron del observador)** define un objeto llamado .
-sujeto que puede notificar a un conjunto de observadores (u oyentes) cuando ha
-ocurrido un cambio en su estado  
-Esto se consigue en nodejs a traves de la clase `EventEmitter`
-
-```javascript
-var EventEmitter = require('events').EventEmitter;
-var eeInstance = new EventEmitter();
-```
-
-* **Metodos de EventEmitter**   
-Los `listener` son funciones que se ejecutan al realizarse el evento
-
-```javascript
-on(event, listener);
-once(event, listener);
-emit(event, [arg1], [...]);
-removeListener(event, listener);
-```
-
-```js
-var events = require('events');
-var eventEmitter = new events.EventEmitter();
-
-var connectHandler = function connected() {
-   console.log('connection succesful.');
-   eventEmitter.emit('data_received');
-}
-eventEmitter.on('connection', connectHandler);
-eventEmitter.on('data_received', function(){
-   console.log('data received succesfully.');
-});
-eventEmitter.emit('connection');
-console.log("Program Ended.");
-```
-
 ---
 
 ## NPM
@@ -201,9 +140,9 @@ npm install
 
 ---
 
-## GLOBAL OBJECTS
+## GLOBAL OBJECTS 
 
-[Global objects](https://nodejs.org/dist/latest-v4.x/docs/api/globals.html)  
+[Global objects](https://nodejs.org/dist/latest-v6.x/docs/api/globals.html)  
 Disponibles en todos los modulos  
 
 `Class: Buffer` - para manejar datos binarios  
@@ -214,7 +153,14 @@ Disponibles en todos los modulos
 modulo  
 `module` - una referencia al modulo actual, no es global sino local a cada
 modulo  
-`process` - objeto proceso    
+`process` - objeto proceso  
+process.platform  
+process.version  
+process.uptime()  
+process.memoryUsage()  
+process.cpuUsage()  
+process.abort  
+process.exit    
 `require()` - para usar modulos  
 `setImmediate(cb[, arg][, ...])` - ejecuta el callback inmediatamente  
 `setInterval(cb, delay[, arg][, ...])` - ejecuta el callback cada delay
@@ -224,9 +170,11 @@ de delay milisegundos
 
 ---
 
-## FILE SYSTEM
+## CORE MODULOS
 
-[File System](https://nodejs.org/dist/latest-v4.x/docs/api/fs.html)
+### fs
+
+[File System](https://nodejs.org/dist/latest-v6.x/docs/api/fs.html)
 
 `fs.appendFile(file, data[, options], callback)` - añadir datos al final del
 fichero   
@@ -276,151 +224,24 @@ forma sincrona
 sincrona  
 `fs.stat(path, callback)` - consigue informacion del archivo  
 
+
+### os
+
+`const os = require('os')`  
+
+`console.log('Hostname: ' + os.hostname())`  
+`console.log('OS type: ' + os.type())`  
+`console.log('OS platform: ' + os.platform())`  
+`console.log('OS release: ' + os.release())`  
+`console.log('OS uptime: ' + (os.uptime() / 60 / 60 / 24).toFixed(1) + ' days')`  
+`console.log('CPU architecture: ' + os.arch())`  
+`console.log('Number of CPUs: ' + os.cpus().length)`  
+`console.log('Total memory: ' + (os.totalmem() / 1e6).toFixed(1) + ' MB')`  
+`console.log('Free memory: ' + (os.freemem() / 1e6).toFixed(1) + ' MB')` 
+
 ---
 
-## MODULOS
-
-[Libro](https://addyosmani.com/resources/essentialjsdesignpatterns/book/#modulepatternjavascript)
-
-### object literal
-
-```js
-var myModule = {
-  myProperty: "someValue",
-  myConfig: {
-    useCaching: true,
-    language: "en"
-  },
-  saySomething: function () {
-    console.log( "Where is Paul Irish today?" );
-  },
-  reportMyConfig: function () {
-    console.log( "Caching is: " +
-        ( this.myConfig.useCaching ? "enabled" : "disabled") );
-  },
-  updateMyConfig: function( newConfig ) {
-     if ( typeof newConfig === "object" ) {
-      this.myConfig = newConfig;
-      console.log( this.myConfig.language );
-    }
-  }
-};
-myModule.saySomething();                // Where is Paul Irish today?
-myModule.reportMyConfig();              // Caching is: enabled
-myModule.updateMyConfig({               // fr
-  language: "fr",
-  useCaching: false
-});
-myModule.reportMyConfig();              // Caching is: disabled
-```
-
-### module pattern
-
-Se usa para replicar el concepto de clases para guardar metodos y variables
-publicas y privadas dentro de un objeto.  
-Eso nos permite crear una API publica para los metodos que queramos  
-
-* **Closures anonimos**
-
-```js
-(function () {
-	// ... all vars and functions are in this scope only
-	// still maintains access to all globals
-}());
-```
-
-* **Global Import**
-
-```js
-(function ($, YAHOO) {
-	// now have access to globals jQuery (as $) and YAHOO in this code
-}(jQuery, YAHOO));
-```
-
-* **Module Export**
-
-```js
-var Modulo = (function () {
-  var mod = {};
-  var privadaVariable = 1;
-  function privadoMetodo () {
-    return privadaVariable++;
-  }
-  mod.moduloPropiedad = 'Hola';
-  mod.moduloMetodo = function () {
-    return privadoMetodo();
-  };
-  return mod;
-})();
-console.log(Modulo.moduloPropiedad);                  // Hola
-console.log(Modulo.moduloMetodo());                   // 1
-console.log(Modulo.moduloMetodo());                   // 2
-```
-
-* **Object Interface**
-
-```js
-var weekDay = function() {
-  var names = ["Sunday", "Monday", "Tuesday", "Wednesday","Thursday",
-                                              "Friday", "Saturday"];
-  return {
-    name: function(number) {
-      return names[number];
-    },
-    number: function(name) {
-      return names.indexOf(name);
-    }
-  };
-}();
-console.log(weekDay.name(weekDay.number("Sunday")));    // → Sunday
-```
-
-
-* **Revealing module pattern**
-
-Autoejecutable
-
-```js
-var myRevealingModule = (function () {
-  var privateVar = "Ben Cherry";
-  var publicVar = "Hey there!";
-  function privateFunction() {
-    console.log( "Name:" + privateVar );
-  }
-  function publicSetName( strName ) {
-    privateVar = strName;
-  }
-  function publicGetName() {
-    privateFunction();
-  }
-  // Reveal public pointers to
-  // private functions and properties
-  return {
-    setName: publicSetName,
-    greeting: publicVar,
-    getName: publicGetName
-  };
-})();
-myRevealingModule.setName( "Paul Kinlan" );
-```
-
-Con creacion manual de objetos
-
-```js
-function User(){
-  var username, password;
-  function doLogin(user,pw) {
-    username = user;
-    password = pw;
-  }
-  var publicAPI = {
-    login: doLogin
-  };
-  return publicAPI;
-}
-var fred = User();                              // crea un modulo User  
-fred.login("fred", "Battery34");
-```
+## THIRD-PARTY MODULOS
 
 ### commonJS
 
@@ -454,7 +275,7 @@ mientras lee bloquea el navegador para que no haga nada mas.
 Con [browserify](http://browserify.org/) podemos usar `require("modulo")` en el
 navegador  
 
-### AMD
+### amd
 
 `AMD definicion asincrona de modulos` Envolver el codigo del modulo en una
 funcion `define` para que se llame al modulo cuando ya se han cargado las
@@ -501,11 +322,11 @@ define(['jquery'], function ($) {
 No puede usarse en el servidor  
 Con [requirejs](http://requirejs.org/) podemos usarlo en el servidor  
 
-### UMD
+### umd
 
 Soporta commonJS y AMD por lo que se puede usar en cliente y servidor   
 
-### ES6
+### es6
 
 **INCOMPLETO**
 

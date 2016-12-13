@@ -1,74 +1,101 @@
 # JAVASCRIPT
 
-`console.log()`<br>
-`prompt("introduce datos aqui")`<br>
-`confirm("Aceptas si o no")`<br>
+`console.log()`    
+`prompt("introduce datos aqui")`    
+`confirm("Aceptas si o no")`    
 `alert("Ventana en la pantalla")`
 
-`//` Comentarios de una linea<br>
+`//` Comentarios de una linea    
 `/* ... /*` Comentarios multilinea
 
---------------------------------------------------------------------------------
+---
 
 ## OPERADORES
 
 - **Aritmeticos**
 
-> `+` Suma<br>
-> `-` Resta<br>
-> `*` Multiplicacion<br>
-> `/` Division<br>
-> `%` Modulo, lo que sobra de la division entera<br>
-> `++` Incremento<br>
+> `+` Suma    
+> `-` Resta    
+> `*` Multiplicacion    
+> `/` Division    
+> `%` Modulo, lo que sobra de la division entera    
+> `++` Incremento    
 > `--` Decremento
 
 - **Asignacion**
 
-> `=` x = y<br>
-> `+=` x = x + y<br>
-> `-=` x = x - y<br>
-> `*=` x = x * y<br>
-> `/=` x = x / y<br>
+> `=` x = y    
+> `+=` x = x + y    
+> `-=` x = x - y    
+> `*=` x = x * y    
+> `/=` x = x / y    
 > `%=` x = x % y
 
 - **Comparacion**
 
-> `==` igual<br>
-> `===` igual valor e igual tipo<br>
-> `!=` no igual<br>
-> `!==` no igual valor ni igual tipo<br>
-> `>` mayor que<br>
-> `<` menor que<br>
-> `<=` mayor o igual que<br>
+> `==` igual    
+> `===` igual valor e igual tipo    
+> `!=` no igual    
+> `!==` no igual valor ni igual tipo    
+> `>` mayor que    
+> `<` menor que    
+> `<=` mayor o igual que    
 > `>=` menor o igual que
 
 - **Logicos**
 
-> `&&` AND<br>
-> `||` OR<br>
+> `&&` AND    
+> `||` OR    
 > `!` NOT
+
+- **Ternario**
+
+`condición ? true : false`  
+
+```javascript
+var edad = 21
+var mayorEdad = (edad > 18 ? alert("Eres mayor"): alert("Eres menor"));
+```
 
 - **Unitarios**
 
-> `typeof(variableQueSea)` - Devuelve una string con el tipo de la variable dato
-  
-> `in` - Devuelve true si la propiedad especificada existe en el objeto especificado
+`typeof(variableQueSea)` o `typeof valor` - Devuelve una string con el tipo de la variable dato  
 
-> > `propiedadNombreOrNumero in nombreObjeto`<br>
-> > `propiedadNombreOrNumero` es una string que representa al nombre de una propiedad o un numero que es el indice de un array<br>
-> > `nombreObjeto` es el nombre de un objeto
+```javascript
+typeof(undefined)       // "undefined"
+typeof(null)            // "object"
+typeof(valor booleano)  // "boolean"
+typeof(valor numerico)  // "number"
+typeof(cadena)          // "string"
+typeof(funcion)         // "function"
+typeof(otros valores)   // "object"
+// null devolviendo object es un bug que no se puede arreglar debido  
+// a todo el codigo ya existente que cascaria
+```
+
+`valor instanceof Constr` - devuelve true si el valor ha sido creado por el constructor Constr  
+
+```javascript
+{} instanceof Object // true
+[] instanceof Object // true, Array es un subconstructor de Object
+null instanceof Object // false
+var b = new Bar(); b instanceof bar; // true
+```
+  
+`in` - Devuelve true si la propiedad especificada existe en el objeto especificado
+
+> `propiedadNombreOrNumero in nombreObjeto`    
 
 ```javascript
 var trees = new Array("redwood", "bay", "cedar", "oak", "maple");
-0 in trees;        // returns true
-3 in trees;        // returns true
-6 in trees;        // returns false
-"bay" in trees;    // returns false (you must specify the index number,
-                   // not the value at that index)
-"length" in trees; // returns true (length is an Array property)
+0 in trees;        // true
+3 in trees;        // true
+6 in trees;        // false
+"bay" in trees;    // false (especificar indice, no valor en ese indice
+"length" in trees; // true (length is una propiedad de Array)
 ```
 
---------------------------------------------------------------------------------
+---
 
 ## VARIABLES
 
@@ -85,9 +112,9 @@ En javascript las variables no tienen tipos, son los valores quienes tienen tipo
 
 La visibilidad es hacia fuera en las funciones. Yo veo las variables de las funciones externas que me contienen pero no veo las de dentro
 
-**Global**
+* **Global**
 
-- Declarada fuera de una funcion
+\- Declarada fuera de una funcion
 
 ```javascript
 var carName = 'volvo';  
@@ -97,7 +124,7 @@ function myFunction() {
 }
 ```
 
-- Si asigno un valor a una variable no declarada, esta se convierte en global
+\- Si asigno un valor a una variable no declarada, esta se convierte en global
 
 ```javascript
 // codigo aqui puede usar carName
@@ -107,7 +134,17 @@ function myFunction() {
 }
 ```
 
-**Local**
+\- Shadowing
+
+```javascript
+var carName = 'volvo';  
+function myFunction() {
+  var carName = "seat";
+  console.log(carName); // seat, la var local oculta a la global
+}
+```
+
+* **Local**
 
 Variables declaradas dentro de una funcion permanecen locales a esa funcion
 
@@ -119,49 +156,53 @@ function myFunction() {
 }
 ```
 
+* **Hoisting**  
+
+Significa mover al comienzo del alcance o rango de vision (scope)  
+
+Todas las declaraciones de variables son `hoisted` (levantadas) - La declaracion se mueve al comienzo de la funcion aunque la asignacion permanece donde estan  
+
+```javascript
+function foo () {
+  console.log(tmp); // undefined en vez de cascar por tmp is not defined 
+  if (false) {
+    var tmp = 3; // aqui no entra
+  }
+}
+// es por el hoisted que hace que la funcion se ejecute asi
+function foo() {
+  var tmp; // hoisted declaration , aqui se hace la declaracion
+  console.log(tmp);
+  if (false) {
+    tmp = 3; // aqui permanece la asignacion 
+  }
+}
+```
+
 ### Conversion de tipos
 
-`Number(string)` - Convierte cadena string en un numero<br>
-`parseInt(string)` - Convierte la cadena string en un numero entero<br>
-`parseFloat(string)` - Convierte la cadena string en un numero flotante<br>
-`String(numero)` - Convierte el numero en una string<br>
-`numero.toString()` - equivale a String(numero) y devuelve una string
+`Number(string)` - Convierte cadena string en un numero  
+`parseInt(string)` - Convierte la cadena string en un numero entero  
+`parseFloat(string)` - Convierte la cadena string en un numero flotante  
+`String(numero)` - Convierte el numero en una string  
+`numero.toString()` - equivale a String(numero) y devuelve una string  
+`Array.toString()` - convierte un array en una string con los elementos separados por una coma  
 
 ---
 
-## NUMEROS
+## NUMEROS 
 
 Internamente son un numero flotante de 64 bits  
-`NaN (Not a number)` no equivale a ningun valor ni siquiera a el mismo
+`NaN (Not a number)` - no equivale a ningun valor ni siquiera a el mismo  
+`Infinity` - es mayor que cualquier otro numero (excepto NaN) y es menor que cualquier numero (excepto NaN). util como valores por defecto para buscar minimos y maximos  
 
 - Metodos :
 
-`isNan(numero)` - Detecta si es numero o no<br>
-`numero.toFixed(n)` - Redondea a n decimales (devuelve una string)<br>
-`numero.toPrecision(n)` - Redondea a n digitos decimales incluidos (devuelve una string)<br>
-`numero.toExponential(n)` - Representa el numero en notacion exponencial (devuelve una string)<br>
-`numero.toString()`- equivale a `String(numero)` y devuelve una string
-
-### Math
-
-`Math` es un Objeto Global que actua sobre numeros
-
-- Propiedades
-
-`Math.PI` - Devuelve pi 3.14159265359
-
-- Metodos
-
-`Math.round(num)` - Redondea num al entero mas cercano<br>
-`Math.sqrt(num)` - Devuelve la raiz cuadrada del numero positivo num<br>
-`Math.ceil(num)` - Redondea al entero mas cercano por arriba<br>
-`Math.floor(num)` - Redondea al entero mas cercano por abajo<br>
-`Math.random()` - Genera un numero aleatorio entre 0 (inclusivo) y 1 (no inclusivo)
-
-```javascript
-// Crea un numero aleatorio entre min y max ambos inclusivo
-Math.floor(Math.random() * (max - min + 1) + min);
-```
+`isNan(numero)` - Detecta si es numero o no  
+`numero.toFixed(n)` - Redondea a n decimales (devuelve una string)  
+`numero.toPrecision(n)` - Redondea a n digitos decimales incluidos (devuelve una string)  
+`numero.toExponential(n)` - Representa el numero en notacion exponencial (devuelve una string)  
+`numero.toString()`- equivale a `String(numero)` y devuelve una string  
 
 ## STRING
 
@@ -172,7 +213,7 @@ Math.floor(Math.random() * (max - min + 1) + min);
 
 ### Metodos
 
-`parseInt(string)` - Convierte la cadena string en un numero<br>
+`parseInt(string)` - Convierte la cadena string en un numero  
 `String.fromCharCode()` - Convierte un codigo de letra en una cadena con la letra
 
 ```javascript
@@ -200,7 +241,7 @@ var initial = name.charCodeAt(0);   // initial is 67
 var s = 'C'.concat('a', 't');       // s es 'Cat'
 ```
 
-`string.indexOf(cadenaBuscada, pos)` - Busca una cadenaBuscada en la string y si la encuentra devuelve la posicion del primer caracter, si no devuelve -1.<br>
+`string.indexOf(cadenaBuscada, pos)` - Busca una cadenaBuscada en la string y si la encuentra devuelve la posicion del primer caracter, si no devuelve -1.    
 El parametro opcional pos indica a partir de donde buscar
 
 ```javascript
@@ -213,10 +254,9 @@ p = text.indexOf('ss', 6);          // p es -1
 `string.lastIndexOf(cadenaBuscada, pos)` - Como indexOf pero busca desde atras hacia adelante
 
 ```javascript
-var text = 'Mississippi';
-var p = text.indexOf('ss');         // p es 5
-p = text.indexOf('ss', 3);          // p es 2
-p = text.indexOf('ss', 6);          // p es 5
+"canal".lastIndexOf("a")      // returns 3
+"canal".lastIndexOf("a",2)    // returns 1
+"canal".lastIndexOf("a",0)    // returns -1
 ```
 
 `string.replace(valorBuscado, valorNuevo)` - Reemplaza el valorBuscado por el valorNuevo solo una vez salvo que el valorBuscado sea una expresion regular
@@ -233,14 +273,15 @@ var text = 'Por la mañana " yo me levanto';
 var pos = text.search(/["']/);          // pos es 14
 ```
 
-`string.slice(comiezo, fin)` - Crea una nueva string desde la posicion comienzo incluida hasta la posicion fin NO incluida
+`string.slice(comienzo, fin)` - Crea una nueva string desde la posicion comienzo incluida hasta la posicion fin NO incluida. Fin es opcional y por defecto es string.length  
 
 ```javascript
 var cadena = 'Hola mundo';
-var res = cadena.slice(1, 4);           // res es 'ola'
+var res = cadena.slice(1, 4);        // res es 'ola'
+var res = cadena.slice(2);           // res es 'la mundo'
 ```
 
-`string.split(separador, limite)` - Crea un array de cadenas al separar el string original en piezas separadas por el parametro separador<br>
+`string.split(separador, limite)` - Crea un array de cadenas al separar el string original en piezas separadas por el parametro separador    
 Limite es el limite de nuevas cadenas
 
 ```javascript
@@ -248,14 +289,22 @@ var cadena = "Como lo llevas hoy amigo";
 var res = cadena.split(" ", 4)  // res es ['Como','lo','llevas','hoy']
 ```
 
-`string.substring(comienzo, fin)` - Usar `string.slice()` en su lugar<br>
-`string.toLowerCase()` - Convierte la string a minusculas<br>
-`string.toUpperCase()` - Convierte la string a mayusculas<br>
+`string.substring(comienzo, fin)` - Usar `string.slice()` en su lugar    
+`string.toLowerCase()` - Convierte la string a minusculas    
+`string.toUpperCase()` - Convierte la string a mayusculas    
 `string.fromCharCode(car1, car2, ...)`
 
 ```javascript
 var a = String.fromCharCode(67, 97, 116);
 // a is 'Cat'
+```
+
+`string.match(regexp)` - busca la regexp en la cadena string y devuelve las coincidencias en un array  
+
+```javascript
+var str = "The rain in SPAIN stays mainly in the plain";
+var res = str.match(/ain/g); 
+console.log(res) // [ 'ain', 'ain', 'ain' ]
 ```
 
 `string.trim(cadena)` - Elimina los espacios en blanco y los saltos de linea del comienzo y del final de la cadena
@@ -264,7 +313,7 @@ var a = String.fromCharCode(67, 97, 116);
 
 ## ARRAYS
 
-Los arrays en Javascript son falsos arrays pero aun asi renta su uso<br>
+Los arrays en Javascript son falsos arrays pero aun asi renta su uso    
 Heredan de `Array.prototype` muchos metodos muy utiles
 
 - Creacion de Arrays
@@ -313,9 +362,15 @@ initializeMultiArray: function (cols, rows, value) {
 
 ### Metodos
 
+D `Destructivos` - modifican los arrays sobre los que se invocan  
+
+ND `No Destructivos` - NO modifican los arrays sobre los que se invocan  
+
+
+
 - **Añadir elementos**
 
-`array.push(item1, item2, ...)` - Añade los items al final del array. Pero cada item que añade lo hace como un array item
+D `array.push(item1, item2, ...)` - Añade los items al final del array. Pero cada item que añade lo hace como un array item
 
 ```javascript
 var a = ['a', 'b', 'c'];
@@ -325,7 +380,7 @@ var c = a.push(b, true);
 // c is 5
 ```
 
-`array.unshift(item1, item2, ...)` - como push pero añade los items al principio del array
+D `array.unshift(item1, item2, ...)` - como push pero añade los items al principio del array. Devuelve la nueva length
 
 ```javascript
 var a = ['a', 'b', 'c'];
@@ -336,24 +391,24 @@ var r = a.unshift('?', '@');
 
 - **Eliminar elementos**
 
-`array.pop()` - Elimina y devuelve el ultimo elemento del array. Si vacio devuelve undefined
+D `array.pop()` - Elimina y devuelve el ultimo elemento del array. Si el array vacio devuelve undefined
 
 ```javascript
 var a = ['a', 'b', 'c'];
-var c = a.pop( ); // a is ['a', 'b'] & c is 'c'
+var c = a.pop(); // a is ['a', 'b'] , c is 'c'
 ```
 
-`array.shift()` - elimina el primer elemento del array y lo devuelve Si el array esta vacio devuelve undefined
+D `array.shift()` - elimina el primer elemento del array y lo devuelve. Si el array esta vacio devuelve undefined
 
 ```javascript
 var a = ['a', 'b', 'c'];
-var c = a.shift( );
+var c = a.shift();
 // a es ['b', 'c'] , c is 'a'
 ```
 
 - **Iteracion**
 
-`forEach(valor, indice)` - Ejecuta una funcion una vez para cada elemento del array.  
+ND `forEach(valor, indice)` - Ejecuta una funcion una vez para cada elemento del array.  
 
 ```javascript
 var people = [
@@ -370,7 +425,7 @@ people.forEach(function(person) {
 });
 ```
 
-`some()` - Comprueba si algunos elementos del array pasan un test definido por una funcion
+ND `some()` - Comprueba si algunos elementos del array pasan un test definido por una funcion. Al primer elemento que da true se acaba de iteracion  
 
 ```javascript
 var ages = [3, 10, 18, 20];
@@ -383,7 +438,7 @@ function myFunction() {
 // res = true
 ```
 
-`every()` - Comprueba si todos los elementos del array pasan un test definido por una funcion
+ND `every()` - Comprueba si todos los elementos del array pasan un test definido por una funcion. Al primer elemento que da false se acaba la iteracion  
 
 ```javascript
 var ages = [3, 10, 18, 20];
@@ -398,7 +453,7 @@ function myFunction() {
 
 - **Combinar**
 
-`array.concat(item1, item2 ...)` - Va añadiendo los items
+ND `array.concat(item1, item2 ...)` - Va añadiendo los items, array no cambia  
 
 ```javascript
 var a = ['a', 'b', 'c'];
@@ -409,7 +464,7 @@ var c = a.concat(b, true);
 
 - **Filtrar**
 
-`filter()` - Crea un nuevo array con todos los elementos que pasan un test especificado en una funcion
+ND `filter()` - Crea un nuevo array con todos los elementos que pasan un test especificado en una funcion
 
 ```javascript
 var people = [
@@ -437,7 +492,7 @@ result = result.filter(function (val, i, res) {
 });
 ```
 
-`reduce()` - Reduce el array a un solo valor. Ejecuta una funcion suministrada para cada valor del array(de izda a derecha). El valor de return se guarda en un acumulador
+ND `reduce()` - Reduce el array a un solo valor. Ejecuta una funcion suministrada para cada valor del array(de izda a derecha). El valor de return se guarda en un acumulador
 
 ```javascript
 var total = [0, 1, 2, 3].reduce(function(a, b){ return a + b; });
@@ -458,13 +513,23 @@ var singleVal = 0;
 
 - **Buscar**
 
-`array.indexOf("elemento")` - Busca el elemento en el array y devuelve su posicion o -1 si no lo encuentra  
+ND `array.indexOf("elemento")` - Busca el elemento en el array y devuelve su posicion o -1 si no lo encuentra  
 
 ```javascript
 var fruits = ["Banana", "Orange", "Apple", "Mango"];
 var a = fruits.indexOf("Apple");
 // a = 2
 ```  
+
+ND `array.lastIndexOf` - Como indexOf pero desde atras hacia adelante
+
+```javascript
+var array = [2, 5, 9, 2];
+array.lastIndexOf(2);       // 3
+array.lastIndexOf(7);       // -1
+array.lastIndexOf(2, 3);    // 3
+array.lastIndexOf(2, 2);    // 0
+```
 
 `array.includes(value)` - Devuelve false or true si encuentra o no el elemento dentro del array  
 
@@ -482,7 +547,7 @@ function disemvowel (str) {
 
 - **Ordenar**
 
-`array.sort(funcionDeComparacion)` - Por defecto la comparacion la hace asumiendo que todos los elementos son strings
+D `array.sort(funcionDeComparacion)` - Por defecto la comparacion la hace asumiendo que todos los elementos son strings
 
 ```javascript
 var n = [4, 8, 15, 16, 23, 42];
@@ -492,7 +557,7 @@ n.sort(function (a, b) {
 // n is [4, 8, 15, 16, 23, 42];
 ```
 
-`array.reverse()` - invierte todos los elementos del array
+D `array.reverse()` - invierte todos los elementos del array y devuelve una referencia al array original (pero ya modificado)  
 
 ```javascript
 var a = ['a', 'b', 'c'];
@@ -502,7 +567,7 @@ var b = a.reverse( );
 
 - **Modificar**
 
-`map()` - Llama una funcion sobre cada elemento del array y crea un nuevo array con los resultados
+ND `map()` - Llama una funcion sobre cada elemento del array y crea un nuevo array con los resultados
 
 
 ```javascript
@@ -514,7 +579,7 @@ function myFunction() {
 }
 ```  
 
-`array.join(separador)` - crea un string concatenando todos los elementos del array usando el separador indicado que por defecto es ','. Si usas espacio en blanco como separador se unen todos sin separacion
+ND `array.join(separador)` - crea un string concatenando todos los elementos del array usando el separador indicado que por defecto es ','. Si usas espacio en blanco como separador se unen todos sin separacion
 
 ```javascript
 var a = ['a', 'b', 'c'];
@@ -522,7 +587,7 @@ a.push('d');
 var c = a.join(''); // c is 'abcd';
 ```
 
-`array.slice(comienzo, fin)` - copia una parte del array desde el array[comienzo] incluido hasta el array[fin] NO incluido. Fin es opcional y por defecto es array.length
+ND `array.slice(comienzo, fin)` - copia una parte del array desde el array[comienzo] incluido hasta el array[fin] NO incluido. Fin es opcional y por defecto es array.length
 
 ```javascript
 var a = ['a', 'b', 'c'];
@@ -531,7 +596,10 @@ var c = a.slice(1); // c es ['b', 'c']
 var d = a.slice(1, 2); // d es ['b']
 ```
 
-`array.splice(comienzo, borrarCont, item1, item2, ...)` - Elimina elementos reemplazandolos por los nuevos item. array[comienzo] a partir de aqui (el incluido) elimina los siguientes borrarCont e inserta los items en su lugar Devuelve los elementos borrados
+D `array.splice(comienzo, borrarCont, item1, item2, ...)` - Elimina elementos reemplazandolos otros nuevos (item1, ...).   
+El primer elemento eliminado es rarray[comienzo] y a partir de aqui (el incluido) elimina los siguientes borrarCont.  
+Inserta los items en su lugar .  
+Devuelve los elementos borrados
 
 ```javascript
 var a = ['a', 'b', 'c'];
@@ -549,37 +617,60 @@ array.splice(indice, 1);
 
 `true` o `false`
 
-Operadores Logicos
+* **Operadores Logicos**
 
 ```javascript
 AND --> &&
 OR  --> ||
 NOT --> !
-Operador ternario o operador condicional
+```
+
+* **Operador ternario u operador condicional**  
+
 test ? expresion1 : expresion2
 Si test es true devuelve expresion1, si es falso devuelve expresion2
-```
 
-Cuando convertimos un no-booleano a booleano es falso o true?
+* **Convertir valor no-booleano a booleano** 
 
-```javascript
--- Falso
-"" cadena Vacia
-0, -0, NaN
-null, undefined
-false
--- Todo lo demas es true
-```
+\- `false` -  
+> string : cadena Vacia ""    
+> numbers : 0, -0, NaN  
+> null, undefined  
+> boolean : false  
+
+\- `true`- Todo lo demas  
 
 ---
 
 ## NULL - UNDEFINED 
 
 Se usan para denotar la ausencia de valor  
-Muchas operaciones en JS que no producen un valor significativo dan undefined sencillamente porque un valor tienen que dar  
+
+Operaciones que producen `undefined`:  
+- Variables sin inicializar  
+- Parametros perdidos  
+- Leer propiedades inexistentes  
+- Los return de funciones que no devuelven nada explicitamente   
+
+Operaciones que producen `null`:  
+- El ultimo elemento de la cadena de prototipo   
+- RegExp.prototype.exec() si no encuentra un valor que case    
+
 
 `null` es para objetos  
-`undefined` es para propiedades, metodos o variables
+`undefined` es para propiedades, metodos o variables que no han sido inicializadas  
+
+chequear si algo es `undefined` ó `null`  
+
+```javascript
+if (x === undefined || x === null) {
+  ...
+}
+// o aprovechar que tanto undefined como null se consideran false
+if (!x) {
+  ...
+}
+```
 
 ---
 
@@ -620,8 +711,8 @@ do {
 
 * **for**
 
-`inicializacion` - Se ejecuta antes que el bucle empiece<br>
-`condicion` - Define la condicion para seguir ejecutando el bucle<br>
+`inicializacion` - Se ejecuta antes que el bucle empiece    
+`condicion` - Define la condicion para seguir ejecutando el bucle    
 `actualizacion` - Se ejecuta cada vez que el bucle se ha ejecutado
 
 ```html
@@ -636,21 +727,30 @@ for (var i = 0; i < 10; i++) {
 
 * **for in**
 
-Recorre todas las propiedades de un objeto o array
+Recorre todas las propiedades de un objeto o array incluidas las heredadas  
 
 ```javascript
 for (variable in [object | array]) {
   instrucciones;
 }
-
 for (p in window) {
   document.writeln(p + "<br/>");
 }
 ```
 
+Para evitar las propiedades heredadas se usa `hasOwnProperty`  
+
+```javascript
+for (var key in person) {
+  if (person.hasOwnProperty(key)) {
+    console.log(key);
+  }
+}
+```
+
 * **for each ... in**
 
-`DEPRECATED` Recorre todas las propiedades de un objeto
+`DEPRECATED` NO USAR  
 
 * **switch**
 
@@ -686,13 +786,12 @@ switch (new Date().getDay()) {   //getDay() numero de dia de la semana
 
 ## FUNCIONES
 
+Las funciones son enlazadas a `Function.prototype` que a su vez esta enlazado a `Object.prototype`  
+Cada funcion se crea con una propiedad prototype cuyo valor es un objeto con una propiedad constructor cuyo valor es la funcion  
+Cada funcion se crea con dos propiedades ocultas    
+- El contexto de la funcion  
+- El codigo que implementa el comportamiento de la funcion  
 
-\- Las funciones son enlazadas a `Function.prototype` que a su vez esta enlazado a `Object.prototype`
-\- Cada funcion se crea con una propiedad prototype cuyo valor es un objeto con una propiedad constructor cuyo valor es la funcion  
-\- Cada funcion se crea con dos propiedades ocultas    
-\- El contexto de la funcion  
-\- El codigo que implementa el comportamiento de la funcion  
-\- Para evitar callback hell y mas faunas mejor usar siempre las funciones todas con nombre  
   
 * **Parametros y Argumentos**
 
@@ -703,7 +802,7 @@ Pequeña diferencia entre ambos
 - Si a una funcion le pasamos demasiados parametros los que sobran los ignora
 - Si a una funcion le pasamos menos parametros a los que faltan les asigna undefined
 
-`arguments object` - Un objeto similar a un Array que se corresponde con los argumentos pasados a la función.
+`arguments object` - Un objeto similar a un Array (pero sin ninguno de sus metodos) que se corresponde con los argumentos pasados a la función.
 
 ```javascript
 function fourArguments (a, b, c) {
@@ -712,7 +811,30 @@ function fourArguments (a, b, c) {
   console.log(arguments[3]);
 }
 fourArguments('uno', 'dos', 'tres', 'cuatro');
+// 
+function sinParametros () {
+  return arguments;
+}
+var args = sinParametros("uno","dos","tres","cuatro","cinco")
+args.length // 5
 ```
+
+Asignar valores por defecto a los parametros  
+
+```javascript
+function pair(x, y) { 
+  x = x || 0; 
+  y = y || 0; 
+  return[x,y];
+}
+```
+* **Hoisting**  
+
+Significa mover al comienzo del alcance o rango de vision (scope)  
+
+Las declaraciones de funciones son completamente `hoisted` por ello se puede llamar a una funcion antes de que sea declarada  
+
+Las expresiones de funciones no son `hoisted` y por ello no se pueden llamar antes de ser declaradas  
 
 * **return multiples valores**
 
@@ -754,7 +876,7 @@ Patrones de invocacion
 
 - **Named functions**
 
-> - Declaracion de funciones (function declaration) :las puedes llamar cuando quieras antes de que se lean, incluso en el onload
+> - Declaracion de funciones `function declaration` - las puedes llamar cuando quieras antes de que se lean, incluso en el onload
 
 ```javascript
 function nombreFuncion () {
@@ -762,7 +884,7 @@ function nombreFuncion () {
 }
 ```
 
-> - Expresiones de funciones (function expressions) : no se pueden usar hasta que este encontrada y definida
+> - Expresiones de funciones `function expressions` - no se pueden usar hasta que este encontrada y definida
 
 ```javascript
 ANONIMAS
@@ -785,9 +907,9 @@ function () {
 
 - **Autoejecutables**
 
-Immediately Invoked Function Expressions (IIFEs)<br>
-Una vez declarada se llama a si misma para inicializarse y estar ya disponible para otras partes de la aplicacion<br>
-Se usa para declarar variables que no afectan al resto del codigo fuera de la funcion pues contiene la visibilidad de las variables<br>
+Immediately Invoked Function Expressions (IIFEs)    
+Una vez declarada se llama a si misma para inicializarse y estar ya disponible para otras partes de la aplicacion    
+Se usa para declarar variables que no afectan al resto del codigo fuera de la funcion pues contiene la visibilidad de las variables    
 Pueden usar tambien `return`
 
 ```javascript
@@ -839,7 +961,9 @@ function crearContador(x) {
   }
   return sumarCantidad
 }
-var sumarUno = crearContador(1);
+var sumarADos = crearContador(2);
+console.log(sumarADos(1)); // 3
+console.log(sumarADos(5)); // 7
 ```
 
 Closure ejemplo2
@@ -861,17 +985,13 @@ console.log(wrap2());         // → 2
 
 ## OBJETOS
 
-Un Objeto es un contenedor de propiedades<br>
-Una propiedad es un nombre y un valor (cualquiera menos undefined)<br>
-Los objetos se pasan siempre por `referencia`
+> Un Objeto es un contenedor de propiedades  
+> Una propiedad es un nombre y un valor (cualquiera menos undefined)  
+> Los objetos se pasan siempre por `referencia`  
 
-* **Enumeracion**  
 
-\- `for in` itera sobre todas las propiedades del objeto incluso funciones o propiedades de los prototipos  
-\- Para evitarlo se usan filtros como `typeof !== 'function'` ó `hasOwnProperty`   
-\- Tambien puede usar el `for`  
-
-* **Metodos**  
+`for in - `Itera sobre todas las propiedades del objeto incluso funciones o propiedades de los prototipos. Para evitarlo se usan filtros como `typeof !== 'function'` ó `hasOwnProperty`     
+Tambien puede usar el `for`  
 
 `object.hasOwnProperty(nombre)` Devuelve true si el objeto tiene la propiedad nombre y false si no. El prototipo no se examina
 
@@ -883,14 +1003,29 @@ var u = b.hasOwnProperty('member'); // u is false
 var v = b.member                    // v is true
 ```
 
-* **Herencia**
+`get` - usuario.name -> devuelve "Pepe"    
+`set` - usuario.name = "Manolo"  
+`usuario.newProperty = "ciudad"` - crea una nueva propiedad  
+`ciudad in usuario` - devuelve true  
+`usuario.ciudad !== undefined` = true  
+`delete uuario.ciudad` - elimina la propiedad del objeto    
 
-\- En javascript los objetos heredan directamente de otros objetos (prototipos)  
-\- Con el operador `new` podemos montarnos factorias de objetos y hacer un pseudoclasico patron de diseño
+* **bind** 
+
+Extraer metodos de un objeto
+
+```javascript
+var func = usuario.diHola;
+func() // typeof : cannot read property "name" of undefined
+
+var func = usuario.diHola.bind(usuario);
+// bind crea una nueva funcion cuyo this siempre tendra el valor pasado
+func() // "Hola de parte de Pepe"
+```
 
 ### Crear Objetos  
 
-- **Literales**
+* **Literales**
 
 \- Los valores de las propiedades se pueden obtener de cualquier expresion incluso de otros objetos anidados  
 \- Bueno para la creación de nuevos valores de objeto  
@@ -899,9 +1034,9 @@ var v = b.member                    // v is true
 ```javascript
 var objetoVacio = {};
 
-var miObjeto = {
+var usuario = {
   diHola : function() {
-    alert("Hola");
+    alert("Hola de parte de", this.name);
   },
   name : "Pepe",
   edad : 50,
@@ -912,25 +1047,27 @@ var miObjeto = {
 };
 ```
 
-- **Constructor**
+* **Constructores**  
 
-```javascript
-// NORMAL
+Herencia  
+\- En javascript los objetos heredan directamente de otros objetos (prototipos)   
+\- Con el operador `new` podemos montarnos factorias de objetos y hacer un pseudoclasico patron de diseño
 
-var persona = new Object();
-persona.nombre = 'Ivan';
-persona.edad = '50';
-```
+Son factorias de objetos, similar a las clases de otros lenguajes  
 
 ```javascript
 // REUSABLE
-
-function myPersona (a, b) {
-  this.name = a;
-  this.edad = b;
+function Punto(x, y) { 
+  this.x = x;
+  this.y = y; 
 }
-var actor1 = new myPersona ('Juan', '30');
-var actor2 = new myPersona ('Manu', '18');
+Punto.prototype.dist = function () {
+  return Math.sqrt(this.x*this.x + this.y*this.y);
+};
+var p1 = new Punto(2, 7);
+var p2 = new Punto(3, 4));
+p1.y      // 7
+p2.dist   // 5
 ```
 
 ### this
@@ -1009,20 +1146,20 @@ var segundoPrisionero = crearPrisionero ('Pepe', '13698');
 
 > Se corresponden con el alcance o visibilidad de las variables
 
-> - `Contexto Global`: codigo que esta en el script pero no en una funcion. Solo hay un contexto global en una pagina
-> - `Contexto de funcion`: codigo que se ejecuta dentro de una funcion. Cada funcion tiene su propio contexto
+\- `Contexto Global`: codigo que esta en el script pero no en una funcion. Solo hay un contexto global en una pagina  
+\- `Contexto de funcion`: codigo que se ejecuta dentro de una funcion. Cada funcion tiene su propio contexto  
 
 > Cada vez que un script entra en un nuevo contexto de ejecucion hay dos fases :
 
-> - `Preparacion`:, se crea un nuevo alcance. Se crean variables, funciones y argumentos y se determina el valor de `this`.
-> - `Ejecucion`: ahora se pueden asignar valores a las variables, se referencian las funciones y se ejecuta su codigo y se ejecutan tambien las sentencias
+\- `Preparacion`:, se crea un nuevo alcance. Se crean variables, funciones y argumentos y se determina el valor de `this`.  
+\- `Ejecucion`: ahora se pueden asignar valores a las variables, se referencian las funciones y se ejecuta su codigo y se ejecutan tambien las sentencias  
 
-- **Objeto variables**
+> **Objeto variables**
 
-> - Cada contexto de ejecucion tiene su propio objeto `variables` que tiene las variables, funciones y parametros que estan disponibles para ese contexto.
-> - Cada contxto de ejecucion tiene tambien acceso al padre de objeto `variables`
+\- Cada contexto de ejecucion tiene su propio objeto `variables` que tiene las variables, funciones y parametros que estan disponibles para ese contexto.  
+\- Cada contxto de ejecucion tiene tambien acceso al padre de objeto `variables`  
 
-- **Excepciones**
+> **Excepciones**
 
 Cuando se produce un error, mira en su contexto a ver si hay codigo para manejar el error, si no lo hay sube hacia arriba por el stack buscando codigo para manejar el error. Si llega al contexto global y no lo encuentra termina la ejecucion del script y crea un objeto `Error`
 
@@ -1030,56 +1167,20 @@ Cuando se produce un error, mira en su contexto a ver si hay codigo para manejar
 
 - **Tipos de objetos error**
 
-`Error` - error generico `SyntaxError` - no se ha respetado la sintaxis<br>
-`ReferenceError` - se ha referenciado una variable que o no esta declarada o esta fuera del alcance<br>
-`TypeError` - hay un inesperado tipo de datos que no puede ser forzado<br>
-`RangeError` - numeros en un rango no aceptable +0 `URIError` - metodos del tipo encodeURI() decodeURI() mal usados<br>
+`Error` - error generico  
+`SyntaxError` - no se ha respetado la sintaxis    
+`ReferenceError` - se ha referenciado una variable que o no esta declarada o esta fuera del alcance    
+`TypeError` - hay un inesperado tipo de datos que no puede ser forzado    
+`RangeError` - numeros en un rango no aceptable +0   
+`URIError` - metodos del tipo encodeURI() decodeURI() mal usados    
 `EvalError` - funcion eval() mal usada
 
 - **Propiedades**
 
-`name` - tipo de ejecucion<br>
-`message` - descripcion<br>
-`fileNumber` - nombre del archivo javascript<br>
+`name` - tipo de ejecucion    
+`message` - descripcion    
+`fileNumber` - nombre del archivo javascript    
 `lineNumber` - numero de la linea con error
-
-### Depuracion
-
-> - **¿ Donde esta el fallo ?**
-
-1. Hay que acotar al maximo el area donde esta el problema.
-
-2. El mensaje de error te dice:
-
-  - el script donde esta el problema
-  - el numero de linea donde el script ya no puede continuar. Lo normal es que el fallo este antes
-  - el tipo de error
-
-3. Prueba a ver hasta donde se ejecuta el script uando mensajes en la consola para ello
-4. Usa breakpoints para parar la ejecucion e inspeccionar los valores almacenados en las variables
-
-> - **¿ Cual es el fallo ?**
-
-1. En los breakpoints si ves valores normales busca antes
-2. Parte el codigo en partes mas pequeñas para testearlas
-
-  - usa la consola para escribir los valores de las variables
-  - llama a las funciones desde la consola para ver si devuelven lo que se espera de ellas
-  - comprueba si los objetos existen y tienen los metodos y propiedades que se espera que tengan
-
-3. Comprueba el numero de parametros de una funcion o el numero de elementos de un array.
-
-> - **Trucos**
-
-- Prueba otro navegador, a veces los errores son especificos del navegador
-- Manda numeros a la consola a ver cuando se para la ejecucion del programa
-- Comenta partes del codigo para ir acotando zonas
-- StackOverflow es tu amigo
-- Herramientas de validacion de codigo online:
-
-  - [jslint](http://jslint.com)
-  - [jshint](http://jshint.com)
-  - [jsonlint](http://jsonlint.com)
 
 ### Manejo excepciones
 
@@ -1093,17 +1194,6 @@ try {
 } finally {
   // esto siempre se ejecuta
 }
-```
-
-```javascript
-var intentalo = function ( ) {
-  try {
-    add("adelante");
-  } catch (exception) {
-    document.writeln(exception.name + ': ' + exception.message);
-  }
-}
-intentalo( );
 ```
 
 ### Throwing errors
@@ -1132,76 +1222,160 @@ document.getElementById('area').innerHTML = calcArea(width, height);
 ```
 
 ```javascript
-function promptDirection (question) {
-  var result = prompt(question, '');
-  if (result.toLowerCase() == 'left') return 'L';
-  if (result.toLowerCase() == 'right') return 'R';
-  throw new Error('Invalid direction: ' + result);
+function getPerson (id) {
+  if (id < 0) {
+    throw new Error('ID must not be negative: ' + id);
+  }
+  return { id: id }; // normally: retrieved from database
 }
-
-function look () {
-  if (promptDirection('Which way?') == 'L')
-    return 'a house';
-  else
-    return 'two angry bears';
-}
-
-try {
-  console.log('You see', look());
-} catch (error) {
-  console.log('Something went wrong: ' + error);
+function getPersons (ids) {
+  var result = [];
+  ids.forEach(function (id) {
+    try {
+      var person = getPerson(id);
+      result.push(person);
+    } catch (exception) {
+      console.log(exception);
+    }
+  });
+  return result;
 }
 ```
 
 ---
 
-## STRICT MODE
+## PROGRAMACION ASINCRONA
 
-Se activa poniendo `"use strict"` al comienzo del archivo o del cuerpo de una funcion
+* **Tareas Asincronas**
 
-- No permite usar variables no declaradas
-- No se puede borrar una variable u objeto usando `delete`
-- No se puede definir la misma propiedad dos veces
-- No permite los nombres de parametros duplicados
-- En una funcion si no se conoce `this` en lugar de usar el objeto global `window` sera `undefined`
-- Las variables instanciadas dentro del contexto de eval() sólo son válidas en ese contexto.
-- La sentencia `with(){}` ya no se usa
-- Y mas ...
+\- Peticiones de red (llamadas AJAX, peticiones al servidor... etc)  
+\- Operaciones con el sistema de archivos (leer/escribir archivos ... etc)  
+\- Operaciones retrasadas a proposito (alarmas, repeticiones periodicas.. etc)  
 
-**js en cliente**
+### Callback
 
-Envolvemos todo la parte del codigo js en una IIFEs
+Son funciones que se ejecutan una vez que el proceso asincrono que las llama se ha terminado
 
 ```javascript
-(function() { 'use strict'; /* code here */
+function nombreCompleto (nombre, apellido, callback) {
+  console.log("Me llamo " + nombre + " " + apellido);
+  callback(apellido);
+}
+var saludos = function (ape) {
+  console.log("Hola, Sr " + ape);
+};
+nombreCompleto("Brus", "Bilis", saludos);
+```
 
-.. codigo
+```javascript
+// url.js
+db.getList(printList);
 
+function printList (rows) {
+  console.log('rows', rows);
+}
+// database.js
+getList: function (callback) {
+  console.log('list');
+  con.query('SELECT * FROM url', function (err, rows) {
+    if (err) throw err;   // error-first callbacks convencion
+    callback(rows);
+  });
+},
+```
+
+### Promises
+
+```javascript
+var p = new Promise(function(resolve, reject) {  
+   if (/* condition */) {
+      resolve(/* value */);  // fulfilled successfully
+   }
+   else {
+      reject(/* reason */);  // error, rejected
+   }
+});
+```
+
+```javascript
+(function () {
+  'use strict';
+
+  var body = document.querySelector('body');
+  var myImage = new Image();
+  // Call the function with the URL we want to load, but then chain
+  // the promise then() method on to the end of it. This contains two
+  // callbacks
+  imgLoad('darth.jpg').then(function (response) {
+    // The first runs when the promise resolves, with the 
+    // request.response specified within the resolve() method.
+    var imageURL = window.URL.createObjectURL(response);
+    myImage.src = imageURL;
+    body.appendChild(myImage);
+  // The second runs when the promise is rejected, and logs the 
+  //Error specified with the reject() method.
+  }, function (Error) {
+    console.log(Error);
+  });
+/* otra sintaxis
+  }).catch(function (Error) {
+    console.log(Error);
+  });
+*/
+
+  // tambien podemos almacenar la promesa en una variable para una
+  // sintaxis mas clara
+  // var p = imgLoad(url);
+  // p.then(bla bla);
+  // p.catch(bla bla);
+
+  function imgLoad (url) {
+    // Create new promise with the Promise() constructor. This has as
+    // its argument a function with two parameters, resolve and reject
+    return new Promise(function (resolve, reject) {
+      // Standard XHR to load an image
+      var request = new XMLHttpRequest();
+      request.open('GET', url);
+      request.responseType = 'blob';
+      // When the request loads, check whether it was successful
+      request.onload = function () {
+        if (request.status === 200) {
+          // If successful, resolve the promise by passing back the 
+          // request response
+          resolve(request.response);
+        } else {
+          // If it fails, reject the promise with a error message
+          reject(Error("Image didn't load successfully; error code:" +
+            request.statusText));
+        }
+      };
+      request.onerror = function () {
+        // Also deal with the case when the entire request fails to 
+        // begin with
+        // This is probably a network error, so reject the promise
+        // with an appropriate message
+        reject(Error('There was a network error.'));
+      };
+      // Send the request
+      request.send();
+    });
+  }
 }());
-```
-
-**node.js**
-
-añadimos al comienzo del archivo
-
-```javascript
-/*jslint node: true */
-'use strict';
-```
+```   
 
 ---
 
-## MODULOS
+## PATRONES DE DISEÑO
 
-[Modulos](/backend/nodejs/#modulos)
+[Libro bueno de patrones de diseño](https://addyosmani.com/resources/essentialjsdesignpatterns/book/#modulepatternjavascript)
 
----
+Se usa para replicar el concepto de clases para guardar metodos y variables
+publicas y privadas dentro de un objeto.  
+Eso nos permite crear una API publica para los metodos que queramos 
 
-## PATRONES
+### Funciones IIFE 
 
-### Reducir variables globales
-
-`funciones autoejecutables IIFEs`
+* **funciones autoejecutables IIFEs**
 
 ```javascript
 (function () {
@@ -1210,33 +1384,13 @@ añadimos al comienzo del archivo
 }());
 ```
 
-`Importacion global`
+* **Importacion global**
 
 ```javascript
 (function ($, YAHOO) {
     // Nos da acceso a las globales jQuery (as $) y YAHOO aqui dentro
 }(jQuery, YAHOO));
 ```
-
-`var MiAPP = {}` y la convierto en el contenedor de todo para mi aplicacion.
-
-```javascript
-MiAPP.objetoVacio = {};
-
-MiAPP.miObjeto = {
-  diHola = function() {
-    alert("Hola");
-  },
-  name: "Pepe",
-  edad: 50,
-  nacimiento: {               // los objetos se pueden anidar
-    fecha: "01-01-1980",
-    lugar: "La Tierra"
-  }
-};
-```
-
-### Objetos IIFE y mezclas
 
 ```javascript
 var app = (function () {
@@ -1284,9 +1438,97 @@ var Dungeon = {
 addEventListener('load', app.init);
 ```
 
-### Datos: Arrays VS Objects
+* **Con creacion manual de objetos**
 
-> Grupos de obejtos se pueden almacenar en arrays o como propiedades de otros objetos  
+```js
+function User(){
+  var username, password;
+  function doLogin(user,pw) {
+    username = user;
+    password = pw;
+  }
+  var publicAPI = {
+    login: doLogin
+  };
+  return publicAPI;
+}
+var fred = User();                              // crea un modulo User  
+fred.login("fred", "Battery34");
+```
+
+* **Module Export**
+
+```js
+var Modulo = (function () {
+  var mod = {};
+  var privadaVariable = 1;
+  function privadoMetodo () {
+    return privadaVariable++;
+  }
+  mod.moduloPropiedad = 'Hola';
+  mod.moduloMetodo = function () {
+    return privadoMetodo();
+  };
+  return mod;
+})();
+console.log(Modulo.moduloPropiedad);                  // Hola
+console.log(Modulo.moduloMetodo());                   // 1
+console.log(Modulo.moduloMetodo());                   // 2
+```
+
+* **Object Interface**
+
+```js
+var weekDay = function() {
+  var names = ["Sunday", "Monday", "Tuesday", "Wednesday","Thursday",
+                                              "Friday", "Saturday"];
+  return {
+    name: function(number) {
+      return names[number];
+    },
+    number: function(name) {
+      return names.indexOf(name);
+    }
+  };
+}();
+console.log(weekDay.name(weekDay.number("Sunday")));    // → Sunday
+```
+
+### Object literal
+
+```js
+var myModule = {
+  myProperty: "someValue",
+  myConfig: {
+    useCaching: true,
+    language: "en"
+  },
+  saySomething: function () {
+    console.log( "Where is Paul Irish today?" );
+  },
+  reportMyConfig: function () {
+    console.log( "Caching is: " +
+        ( this.myConfig.useCaching ? "enabled" : "disabled") );
+  },
+  updateMyConfig: function( newConfig ) {
+     if ( typeof newConfig === "object" ) {
+      this.myConfig = newConfig;
+      console.log( this.myConfig.language );
+    }
+  }
+};
+myModule.saySomething();                // Where is Paul Irish today?
+myModule.reportMyConfig();              // Caching is: enabled
+myModule.updateMyConfig({               // fr
+  language: "fr",
+  useCaching: false
+});
+myModule.reportMyConfig();              // Caching is: disabled
+```
+
+### Datos: Arrays vs Objects
+
+> Grupos de objetos se pueden almacenar en arrays o como propiedades de otros objetos  
 
 - **Objetos en un array**
 
@@ -1312,131 +1554,6 @@ var people = {
 
 ---
 
-## CALLBACK
-
-Son funciones que se ejecutan una vez que el proceso asincrono que las llama se ha terminado
-
-```javascript
-function nombreCompleto (nombre, apellido, callback) {
-  console.log("Me llamo " + nombre + " " + apellido);
-  callback(apellido);
-}
-var saludos = function (ape) {
-  console.log("Hola, Sr " + ape);
-};
-nombreCompleto("Brus", "Bilis", saludos);
-```
-
-```javascript
-function doSomething(callback) {
-    // ...
-
-    // Call the callback
-    callback('stuff', 'goes', 'here');
-}
-
-function foo(a, b, c) {
-    // I'm the callback
-    alert(a + " " + b + " " + c);
-}
-
-doSomething(foo);
-```
-
-```javascript
-// url.js
-db.getList(printList);
-
-function printList (rows) {
-  console.log('rows', rows);
-}
-// database.js
-getList: function (callback) {
-  console.log('list');
-  con.query('SELECT * FROM url', function (err, rows) {
-    if (err) throw err;
-    callback(rows);
-  });
-},
-```
-
----
-
-## PROMISES
-
-```javascript
-var p = new Promise(function(resolve, reject) {  
-   if (/* condition */) {
-      resolve(/* value */);  // fulfilled successfully
-   }
-   else {
-      reject(/* reason */);  // error, rejected
-   }
-});
-```
-
-```javascript
-(function () {
-  'use strict';
-  /* code here */
-
-  // Get a reference to the body element, and create a new image object
-  var body = document.querySelector('body');
-  var myImage = new Image();
-  // Call the function with the URL we want to load, but then chain the
-  // promise then() method on to the end of it. This contains two callbacks
-  imgLoad('darth.jpg').then(function (response) {
-    // The first runs when the promise resolves, with the request.reponse
-    // specified within the resolve() method.
-    var imageURL = window.URL.createObjectURL(response);
-    myImage.src = imageURL;
-    body.appendChild(myImage);
-  // The second runs when the promise
-  // is rejected, and logs the Error specified with the reject() method.
-  }, function (Error) {
-    console.log(Error);
-  });
-/* otra sintaxis
-  }).catch(function (Error) {
-    console.log(Error);
-  });
-*/
-
-  function imgLoad (url) {
-    // Create new promise with the Promise() constructor
-    // This has as its argument a function
-    // with two parameters, resolve and reject
-    return new Promise(function (resolve, reject) {
-      // Standard XHR to load an image
-      var request = new XMLHttpRequest();
-      request.open('GET', url);
-      request.responseType = 'blob';
-      // When the request loads, check whether it was successful
-      request.onload = function () {
-        if (request.status === 200) {
-          // If successful, resolve the promise by passing back the request response
-          resolve(request.response);
-        } else {
-          // If it fails, reject the promise with a error message
-          reject(Error("Image didn't load successfully; error code:" +
-            request.statusText));
-        }
-      };
-      request.onerror = function () {
-        // Also deal with the case when the entire request fails to begin     with
-        // This is probably a network error, so reject the promise with an appropriate message
-        reject(Error('There was a network error.'));
-      };
-      // Send the request
-      request.send();
-    });
-  }
-}());
-```   
-
----
-
-
 ## ES6
 
 ### const - let
@@ -1447,7 +1564,7 @@ Crea constantes que no se pueden modificar, ha de asignarse el valor en la decla
 
 - **let**
 
-Declara variables que no son accesibles mas alla del ambito de creacion<br>
+Declara variables que no son accesibles mas alla del ambito de creacion  
 Ejemplo mejor: para los `for`
 
 ### funcion arrow
@@ -1507,5 +1624,9 @@ console.log(
 );                             // Let me introduce: rhino
 foo.awesome();                 // LET ME INTRODUCE: HIPPO
 ```
+
+### maps y sets
+
+### iterators y generators
 
 ---

@@ -152,23 +152,11 @@ a mas usar (...) para especificar la cadena buscada
 
 `{}[]()^$.|*+?\` y `-` entre corchetes deben ser escapados con contrabarra `\`
 
----
+### Javascript
 
-### Expresiones Comunes
-
-`.replace(/\s+/g, "")` - Elimina todos los espacios en blancos  
-`.replace(/\s/g, "loQueSea")` - Reemplaza todos los espacios en blanco por
-loQueSea   
-
-`/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/` - direccion de correo valida
-
-
-[Aqui](http://code.tutsplus.com/tutorials/8-regular-expressions-you-should-know--net-6149)
-
-
-### en javascript
-
-En Javascript las expresiones regulares han de estar en una sola linea. Los espacios en blanco son significativos  
+En Javascript las expresiones regulares han de estar en una sola linea.  
+Los espacios en blanco son significativos  
+Delimitadas por barras /  
 
 ```js
 var expreg = /ab+c/;
@@ -192,7 +180,19 @@ array
 true, si no false
 ```js
 var b = /&.+;/.test('frank & beans'); // b is true
-```
+```  
+
+`string.replace(expreg, nueva)` - en la cadena string reemplaza lo que casa con la expresion regular por la string nueva  
+
+### ExpReg Comunes
+
+`.replace(/\s+/g, "")` - Elimina todos los espacios en blancos  
+`.replace(/\s/g, "loQueSea")` - Reemplaza todos los espacios en blanco por
+loQueSea   
+
+`/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/` - direccion de correo valida
+
+[Aqui](http://code.tutsplus.com/tutorials/8-regular-expressions-you-should-know--net-6149)
 
 ---
 
