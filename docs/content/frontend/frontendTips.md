@@ -43,12 +43,11 @@ rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Oxygen:400,700"
 rel="stylesheet">
 
-<!-- Titillium -->
-<link href="https://fonts.googleapis.com/css?family=Titillium+Web:400
-,700" rel="stylesheet">
+<!-- Titillium Web -->
+<link href="https://fonts.googleapis.com/css?family=Titillium+Web:400,700" rel="stylesheet">
 
 <!-- Maven Pro -->
-<link href="https://fonts.googleapis.com/css?family=Maven+Pro:500,900"
+<link href="https://fonts.googleapis.com/css?family=Maven+Pro:400,500,900"
 rel="stylesheet">
 
 <!-- Chewy -->
@@ -59,6 +58,8 @@ rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Gentium+Basic:400
 ,700" rel="stylesheet">  
 
+<!-- Poppins -->
+<link href="https://fonts.googleapis.com/css?family=Poppins:400,700" rel="stylesheet"> 
 ```
 
 ### APIs

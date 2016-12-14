@@ -1125,7 +1125,6 @@ forever start app.js
 `forever list`  
 `forever stop X` - X el numero que tiene el proceso en `forever list`  
 
-
 ---
 
 ## UPSTART
@@ -1146,7 +1145,13 @@ dpkg -i paqueteDescargado.deb
 
 Si debian protesta de dependencias instala las que pida. Estas son las mas posibles:
 > `perl libnet-ssleay-perl openssl libpam-runtime libio-pty-perl python
-> libauthen-pam-perl libio-pty-perl apt-show-versions`
+> libauthen-pam-perl libio-pty-perl apt-show-versions`  
+
+* **Instalar modulos**
+
+`nginx`- [https://www.justindhoffman.com/project/nginx-webmin-module](https://www.justindhoffman.com/project/nginx-webmin-module)  
+
+Se instala desde webmin -> webmin configuration -> webmin modules  
 
 ### Actualizacion
 

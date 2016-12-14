@@ -6,6 +6,27 @@
 
 `import net/http`    
 
+### get
+
+Hacer peticiones `get`  
+
+```go
+func getHttpRequest() {
+    url := "https://brusbilis.com/freecodecamp/5-api/allApis/image/api/recent"
+	resp, err := http.Get(url)
+	if err != nil {
+		log.Fatal(err)
+	}	
+    fmt.Println(resp)
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	}	
+    fmt.Printf("%s", body)
+}
+```  
+
 ---
 
 ## HTML/TEMPLATE
@@ -303,5 +324,13 @@ func main() {
 ## NET/URL
 
 [URL parsing](https://gobyexample.com/url-parsing)  
+
+---
+
+## UTILIDADES  
+
+### fresh
+
+[https://github.com/pilu/fresh](https://github.com/pilu/fresh) - Especie de nodemon para golang.   
 
 ---

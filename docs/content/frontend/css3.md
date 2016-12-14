@@ -4,7 +4,7 @@
 
 ## INTRODUCCION
 
-### Enlaces a css
+* **Enlaces a css**
 
 Externo
 
@@ -35,28 +35,31 @@ Interno - NO USAR
 </head>
 ```
 
-### Selectores CSS
+### Selectores
+
+* **Selectores CSS**
 
 ![css1](/z-static/images/css3/cssSelectors.png)
 
-### Selectores de atributos
+* **Selectores de atributos**
 
 ![css2](/z-static/images/css3/atributeSelectors.png)
 
-### Regla de la cascada CSS
+### Cascada y herencia
 
-* Ultima Regla: la ultima regla aplicada es la que manda  
-* `!important` añadiendo esto despues de la regla asi toma prioridad
+* **Cascada**
+
+\- Ultima Regla: la ultima regla aplicada es la que manda  
+\- `!important` añadiendo esto despues de la regla asi toma prioridad
 ```css
   color: blue !important;
 ```
+\- Especificidad : prevalecera la regla del selector que sea mas especifico  
+> `h3` es mas especifico que `*`  
+> `p otro` es mas especifico que `p`  
+> `p#intro` es mas especifico que `p`  
 
-* Especificidad : prevalecera la regladel selector que sea mas especifico  
-`h3` es mas especifico que `*`  
-`p otro` es mas especifico que `p`  
-`p#intro` es mas especifico que `p`  
-
-### Herencia
+* **Herencia**
 
 Casi todos los selectores anidados dentro de otros heredan las propiedades
 asignadas al selector exterior. Por ejemplo un color en body tambien se
@@ -79,7 +82,7 @@ body {
 
 ## COLOR
 
-### color
+`color` -  
 
 ```css
 h1 {
@@ -90,7 +93,7 @@ p {
 	 color: rgb(100,100,90);}          /* rgb value */
 ```
 
-### background color
+`background color`-
 
 ```css
 body {
@@ -103,7 +106,7 @@ p {
 	 background-color: red; }
 ```
 
-### opacity, rgba
+`opacity`, `rgba`-  
 
 ```css
 p.one {
@@ -118,21 +121,27 @@ p.two {
 
 ## TEXTO
 
-### font-family
+`cursor` - Controla el tipo de cursor del raton que se muestra
+`auto|crosshair|default|pointer|move|text|wait|help|url("cursor.png")`  
 
-Familias : `serif`, `sans-serif`, `cursive`, `fantasy` y `monospace`
+```css
+a {
+  cursor: move;}
+```
+
+`font-family` - Familias : `serif`, `sans-serif`, `cursive`, `fantasy` y `monospace`  
 
 ```css
 font-family: Arial, Verdana, sans-serif
 ```
 
-### font-size
+`font-size` -
 
 * Pixel: Por defecto en los navegadores el texto es de 16px
 * Porcentaje : porcentaje sobre los 16px estandar, p.ej 75% es 12px
 * em : unidad equivalente a la anchura de la m
 
-### font-face
+`font-face` - 
 
 ```css
 @font-face {
@@ -144,22 +153,11 @@ font-family: Arial, Verdana, sans-serif
     url('fonts/chunkfive.svg#ChunkFiveRegular') format('svg');}
 ```
 
-### font-weight
+`font-weight` - `normal|bold`  
 
-* normal  
-* bold  
+`font-style` - `normal|italic|oblique`  
 
-`font-weight: bold;`
-
-### font-style
-
-* normal
-* italic
-* oblique
-
-`font-style: italic`
-
-### text-transform
+`text-transform`- 
 
 * uppercase : convierte el texto a mayusculas
 * lowercase : convierte el texto a minusculas
@@ -170,7 +168,7 @@ h1 {
   text-transform: uppercase;}
 ```
 
-### text-decoration
+`text-decoration`- 
 
 * none : elimina cualquier decoracion del texto
 * underline : subraya el texto
@@ -183,19 +181,14 @@ a {
 	 text-decoration: none;}
 ```
 
-### line-height
-
-* distancia entre lineas
+`line-height`- distancia entre lineas  
 
 ```css
 p {
   line-height: 1.4em; }
 ```
 
-### letter-spacing, word-spacing
-
-* distancia entre letras
-* distancia entre palabras, por defecto es 0.25em
+`letter-spacing`, `word-spacing` - distancia entre letras, distancia entre palabras, por defecto es 0.25em  
 
 ```css
 h1, h2 {
@@ -206,7 +199,7 @@ h1, h2 {
   word-spacing: 1em; }
 ```
 
-### text-align
+`text-align`- 
 
 * left : el texto se alinea a la izquierda
 * right : el texto se alinea a la derecha
@@ -218,7 +211,7 @@ h1 {
   text-align: left; }
 ```
 
-### vertical-align
+`vertical-align`- 
 
 Usada con elementos en linea como `<img>` `<em>` `<strong>` y es muy similar al
 atributo `align` de `<img>`
@@ -237,16 +230,14 @@ Valores :
   vertical-align: text-bottom;}
 ```
 
-### text-indent
-
-* indenta el texto
+`text-indent`- indenta el texto  
 
 ```css
 h2 {
   text-indent: 20px; }
 ```
 
-### text-shadow
+`text-shadow` - 
 
 1. distancia a izda o dcha de la sombra
 2. distancia arriba o abajo de la sombra
@@ -258,9 +249,7 @@ p {
   text-shadow: 2px 2px 1px #222222}
 ```
 
-### :first-letter , :first-line (pseudo-elementos)
-
-Para especificar diferentes valores a la primera letra o primera linea del texto  
+`:first-letter`, `:first-line` (pseudo-elementos) -  Para especificar diferentes valores a la primera letra o primera linea del texto    
 
 ```css
 p.intro:first-letter {
@@ -269,10 +258,7 @@ p.intro:first-line {
   font-weight: bold;}
 ```
 
-### :link, :visited (pseudo-clases)
-
-Los navegadores muestran los enlaces en azul y subrayados por defecto y cambian
-el color cuando han sido visitados
+`:link`, `:visited` (pseudo-clases) - Los navegadores muestran los enlaces en azul y subrayados por defecto y cambian el color cuando han sido visitados  
 
 * :link : para poner estilos a enlaces no visitados
 * :visited : para poner estilos a enlaces visitados
@@ -290,7 +276,7 @@ a:active {
   color: darkcyan;}
 ```
 
-### :hover, :active, :focus (pseudo-clases)
+`:hover`, `:active`, `:focus` (pseudo-clases) - 
 
 * :hover : se aplica cuando el raton esta encima (no funciona en tactiles)
 * :active : se aplica cuando se pulsa algo
@@ -315,21 +301,10 @@ cajetinTexto.text:focus {
 
 ## BOXES
 
-### width, height
+### Dimensiones
 
-Por defecto las cajas tienen el tamaño justo para contener a su elemento.
-
-Podemos establecer nosotros ese tamaño usando
-
-1. `pixeles`  
-2. `porcentajes` relativos a la ventana del navegador o a la caja en que ya esta
-si esta dentro de otra caja
-3. `ems`  
-
-Atributos
-
-* width : anchura
-* height : altura
+`width`, `height`- Por defecto las cajas tienen el tamaño justo para contener a su elemento. Podemos establecer nosotros ese tamaño usando  `pixeles`, o `porcentajes` relativos a la ventana del navegador o a la caja en que ya esta
+si esta dentro de otra caja, o `ems`    
 
 ```css
 div.box {
@@ -338,29 +313,11 @@ div.box {
   background-color: #bbbbaa;}
 ```
 
-### min-width, max-width
+`min-width`, `max-width` - Minimo y maximo anchura que una caja de un elemento puede tener  
 
-Minimo y maximo anchura que una caja de un elemento puede tener
+`min-height`, `max-height`- Minimo y maximo anchura que una caja de un elemento puede tener  
 
-```css
-td.description {
-  min-width: 450px;
-  max-width: 650px;
-```
-
-### min-height, max-height
-
-Minimo y maximo anchura que una caja de un elemento puede tener
-
-```css
-p {
-  min-height: 10px;
-  max-height: 30px;}
-```
-
-### overflow
-
-Indica como actuar si el contenido dentro de la caja es mayor que la caja.
+`overflow`- Indica como actuar si el contenido dentro de la caja es mayor que la caja.  
 
 * hidden : el contenido extra que no cabe sencillamente se esconde  
 * scroll : aparece un scroll para acceder a ese contenido extra
@@ -372,10 +329,9 @@ p.two {
   overflow: scroll;}
 ```
 
-### display
+### Visibilidad
 
-Permite convertir un elemento en linea en un bloque o al reves. Tambien vale para
-esconder un elemento en la pagina
+`display`- Permite convertir un elemento en linea en un bloque o al reves. Tambien vale para esconder un elemento en la pagina  
 
 * inline : convierte un elemento de bloque en un elemento en linea
 * block : convierte un elemento en linea en un elemento de bloque
@@ -391,9 +347,7 @@ li.coming-soon {
   display: none;}
 ```
 
-### visibility
-
-Permite esconder cajas pero deja un espacio donde se supone que esta
+`visibility`- Permite esconder cajas pero deja un espacio donde se supone que esta  
 
 * hidden : esconde el elemento
 * visible : muestra el elemento
@@ -403,7 +357,7 @@ li.coming-soon {
 	 visibility: hidden;}
 ```
 
-### box-shadow
+`box-shadow`- 
 
 1. distancia a izda o dcha de la sombra
 2. distancia arriba o abajo de la sombra
@@ -416,18 +370,14 @@ p {
   box-shadow: 2px 2px 1px 5px #777777}
 ```
 
-### border-padding-margin  
+### Bordes
+
+`border-padding-margin`- 
 
 ![css4](/z-static/images/css3/borderPaddingMargin.png)
 
-
-### border
-
-#### border-width : espesor de la linea de borde
-
-> * `thin`, `medium` `thick`
-> * `border-top-width`, `border-right-width`, `border-bottom-width`
-> y `border-left-width` en orden de las agujas del reloj empezando por top
+`border-width` - espesor de la linea de borde `thin|medium|thick`.  
+`border-top-width`, `border-right-width`, `border-bottom-width`  `border-left-width` en orden de las agujas del reloj empezando por top   
 
 ```css
 p.one {
@@ -438,28 +388,15 @@ p.three {
   border-width: 1px 4px 12px 4px;}
 ```
 
-#### border-style : define el tipo de borde
-
-* solid
-* dotted
-* dashed
-* double
-* groove
-* ridge
-* inset
-* outset
-* hidden/none
-
-Puedes elegir bordes individuales `border-top-style ...`
+`border-style`- define el tipo de borde `solid|dotted|dashed|double|groove|ridge|inset|outset|hidden/none`.  
+`border-top-style ...` - Puedes elegir bordes individuales  
 
 ```css
 p.one {border-style: dashed;}
 ```
 
-#### border-color : elegir color para el borde
-
-Tambien se pueden elegir los colores del borde para cada lado con
-`border-top-color ...`
+`border-color` - elegir color para el borde  
+`border-top-color ...` - Tambien se puede elegir el color para cada borde  
 
 ```css
 p.one {
@@ -468,40 +405,28 @@ p.two {
   border-color: #bbbbaa blue orange #0088dd;}
 ```
 
-#### border-image
+`border-image`- Permite usar imagenes como bordes de las cajas  
 
-Permite usar imagenes como bordes de las cajas
-
-
-
-#### border-radius
-
-`border-top-right-radius`  
-`border-bottom-right-radius`  
-`border-bottom-left-radius`  
-`border-top-left-radius`  
+`border-radius` -  
+`border-top-right-radius` -  
+`border-bottom-right-radius` -   
+`border-bottom-left-radius` -  
+`border-top-left-radius` -  
 
 ```css
 p {
   border-radius: 5px, 10px, 5px, 10px; }
-```
-
-Para crear redondeados mas complejos
-```css
 p.one {
   border-radius: 80px 50px; }
 p.two  {
   border-top-left-radius: 80px 50px;}
 ```
 
-### margin
+### Margenes
 
-Espacio entre el borde y la caja. Lo normal en px aunque tambien se puede en ems
-o porcentajes.
-
-Si dos cajas se solapan usaremos el mayor de los dos margenes y el otro no
-
-Tambien individualmente para cada lado `margin-top, margin-right ...`
+`margin` - Espacio entre el borde y la caja. Lo normal en px aunque tambien se puede en ems o porcentajes.  
+Si dos cajas se solapan usaremos el mayor de los dos margenes y el otro no  
+Tambien individualmente para cada lado `margin-top, margin-right ...`  
 
 ```css
 p.example1 {
@@ -510,12 +435,7 @@ p.example2 {
   margin: 10px;}
 ```
 
-### padding
-
-Espacio entre el borde y el contenido. Lo normal es en px pero se pueden usar
-ems o porcentajes (% de la ventana del navegador o de la caja donde este
-contenido el elemento) .
-
+`padding`- Espacio entre el borde y el contenido. Lo normal es en px pero se pueden usar ems o porcentajes (% de la ventana del navegador o de la caja donde este contenido el elemento).  
 Existen tambien individualmente para cada lado `padding-top, padding-right ...`
 
 ```css
@@ -525,15 +445,12 @@ p.example2 {
   padding: 10px;}
 ```
 
-### centrando contenido
-
-* Para centrar una caja en la pagina ( o centrarla dentro del elemento en el que
-esta
+`centrando contenido` - Para centrar una caja en la pagina ( o centrarla dentro del elemento en el que esta  
 > 1. Establecer una `width` para la caja (sino tomara toda la anchura de la
 > pagina)
 > 2. Poner `margin-left: auto` y `margin-rigth: auto`
 
-```css
+```css3
 p {
   width: 300px;
   padding: 50px;
@@ -546,54 +463,31 @@ p.example {
 
 ## LISTAS
 
-### list-style
-
-Permite declaras las siguientes opciones `type, imagen y position` en cualquier
-orden.
+`list-style` - Permite declaras las siguientes opciones `type, imagen y position` en cualquier orden.  
 
 ```css
 ul {
   list-style: inside circle; }
 ```
 
-### list-style-type
+`list-style-type` - Para poner el estilo al marcador de las listas  
 
-Para poner el estilo al marcador de las listas
-
-Listas ordenadas
-> * decimal
-> * decimal-leading-zero
-> * lower-alpha
-> * upper-alpha
-> * lower-roman
-> * upper-roman
-
-
-Listas desordenadas
-> * none
-> * disc
-> * circle
-> * square
+\- Listas ordenadas `decimal|decimal-leading-zero|lower-alpha|upper-alpha|lower-roman|upper-roman`  
+\- Listas desordenadas `none|disc|circle|square`
 
 ```css
 ol {
   list-style-type: lower-roman;}
 ```
 
-### list-style-imagen
-
-Usar una imagen como marcador de listas. Se puede usar en `<ul>` y `<li>`
+`list-style-imagen` - Usar una imagen como marcador de listas. Se puede usar en `<ul>` y `<li>`  
 
 ```css
 ul {
   list-style-image: url("images/star.png");}
 ```
 
-### list-style-position
-
-Por defecto el marcador de lista aparece `outside` del indentado de la lista.
-Podemos cambiarlo por `inside` para que el marcador entre en la caja del texto
-el cual esta indentado
+`list-style-position` - Por defecto el marcador de lista aparece `outside` del indentado de la lista. Podemos cambiarlo por `inside` para que el marcador entre en la caja del texto el cual esta indentado  
 
 ```css
 ul.t1 {
@@ -606,16 +500,20 @@ ul.t2 {
 
 ## TABLAS
 
-### Propiedades
+Consejos:
 
-* width : poner la anchura de la tabla `<table>`  
-* padding : de las celdas `<th> y <td>`  
-* text-transform : en las cabeceras `<th>`  
-* letter-spacing, font-size : para diferenciar el texto de las cabeceras `<th>`
-* border-top, border-bottom : para fiferenciar los bordes de la cabecera `<th>`
-* text-align : para alinear el texto de las celdas a conveniencia `<th> <td>`
-* background-color : cambiar el color de fondo alternando filas
-* :hover : iluminar la fila con el puntero encima
+* Diferenciar cabeceras en negrita, mayusculas o algo mas
+* Oscurecer filas alternativas
+* Columnas con numeros alinearlos a la derecha
+
+`width` : poner la anchura de la tabla `<table>`  
+`padding` : de las celdas `<th> y <td>`  
+`text-transform` : en las cabeceras `<th>`  
+`letter-spacing, font-size` : para diferenciar el texto de las cabeceras `<th>`  
+`border-top, border-bottom` : para fiferenciar los bordes de la cabecera `<th>`  
+`text-align `: para alinear el texto de las celdas a conveniencia `<th> <td>`  
+`background-color` : cambiar el color de fondo alternando filas  
+`:hover` : iluminar la fila con el puntero encima  
 
 ```css
 body {
@@ -640,19 +538,7 @@ tr:hover {
   text-align: right;}
 ```
 
-Consejos:
-
-* Diferenciar cabeceras en negrita, mayusculas o algo mas
-* Oscurecer filas alternativas
-* Columnas con numeros alinearlos a la derecha
-
-
-### empty-cells
-
-Para indicar en las celdas vacias si mostramos los bordes o no
-* show : los bordes aparecen
-* hide : los bordes se ocultan
-* inherit : se comporta como la tabla que le contiene
+`empty-cells` - `show|hide|inherit` indicar en las celdas vacias si mostramos los bordes o no o hereda el comportamiento de la tabla que le contiene   
 
 ```css
 table.one {
@@ -661,12 +547,9 @@ table.two {
   empty-cells: hide;}
 ```
 
-### border-spacing, border-collapse
-
 `border-spacing` ajusta la distancia entre celdas adyacentes, por defecto es
 minima. Se pone en px. Si pones dos valores son la separacion horizontal y la
-vertical
-
+vertical  
 `border-collapse` los bordes se juntan en un solo borde
 
 ```css
@@ -678,30 +561,9 @@ table.two {
 
 ---
 
-## CURSOR
-
-Controla el tipo de cursor del raton que se muestra
-
-* auto
-* crosshair
-* default
-* pointer
-* move
-* text
-* wait
-* help
-* url("cursor.png");
-
-```css
-a {
-  cursor: move;}
-```
-
----
-
 ## FORMULARIOS
 
-### Dar estilo a entradas de texto
+* **Dar estilo a entradas de texto**
 
 ```css
 input {
@@ -728,7 +590,7 @@ input#web {
 
 ![css5](/z-static/images/css3/textInputs.png)
 
-### Dar estilo a botones submit
+* **Dar estilo a botones submit**
 
 ```css
 input#submit {
@@ -761,7 +623,7 @@ input#submit:hover {                // cambia la apariencia del boton
 
 ![css6](/z-static/images/css3/submitButton.png)
 
-### Poner estilo a fieldsets y legends
+* **Poner estilo a fieldsets y legends**
 
 ```css
 fieldset {
@@ -782,7 +644,7 @@ legend {
 ![css7](/z-static/images/css3/fieldset.png)
 
 
-### Alinear formularios
+* **Alinear formularios**
 
 ```css
 div {
@@ -807,27 +669,13 @@ div {
 
 ## LAYOUT
 
-### Tipos de posicionamiento
 
-* `position: static` normal o estatico es el usado por defecto
-* `position: relative` relativo
-* `position: absolute` absoluto
-* `position: fixed` fijo , es como el absoluto pero inamovible
-* `position: inherit`, hereda la posicion del padre
-* `float: loquesea`, flotante
+### Tipos posicionamiento  
 
-#### Normal `position: static`
+`position: static` normal o estatico es el usado por defecto. Los elementos de bloque se ponen uno a continuacion de otro ocupando todo el ancho de la ventana del navegador salvo que lo limite con `width.  
 
-Los elementos de bloque se ponen uno a continuacion de otro ocupando todo el
-ancho de la ventana del navegador salvo que lo limite con `width:`
-
-#### Relativo `position: relative`
-
-Los elementos se posicionan en relacion a donde deberian estar en posicion
-normal.
-
-Los desplazamos dando valor a `top, bottom, left, right`.
-Estos valores se ponen en px, porcentajes o ems
+`position: relative` - Los elementos se posicionan en relacion a donde deberian estar en posicion normal.  
+Los desplazamos dando valor a `top, bottom, left, right`. Estos valores se ponen en px, porcentajes o ems  
 
 ```css
 p.example {
@@ -836,10 +684,7 @@ p.example {
   left: 100px;}
 ```
 
-#### Absoluto `position: absolute`
-
-El elemento se posiciona de forma absolita respecto a su elemento contenedor y
-el resto de elementos de la pagina le ignoran
+`position: absolute` - El elemento se posiciona de forma absolita respecto a su elemento contenedor y el resto de elementos de la pagina le ignoran  
 
 ```css
 h1 {
@@ -849,13 +694,8 @@ h1 {
   width: 250px;}
 ```
 
-#### Fijo `position: fixed`
-
-Como el absoluto pero el elemento ahora es inamovible, su posicion permanece
-igual independiente del resto de elemntos e incluso si se sube o baja en la
-ventana del navegador.
-
-Util para hacer menus fijos por ejemplo en la parte superior de la ventana
+`position: fixed` - Como el absoluto pero el elemento ahora es inamovible, su posicion permanece igual independiente del resto de elemntos e incluso si se sube o baja en la ventana del navegador.  
+Util para hacer menus fijos por ejemplo en la parte superior de la ventana  
 
 ```css
 h1 {
@@ -868,13 +708,11 @@ h1 {
   background-color: #efefef;}
 ```
 
-#### Flotante `float: ledt|right`
+`position: inherit`, hereda la posicion del padre  
 
-Desplaza los elementos todo lo que puede hacia la dcha o izda segun la propiedad
-`float`.
-
+`float: left|right` - Desplaza los elementos todo lo que puede hacia la dcha o izda segun la propiedad `float`.   
 Cualquier otro elemento dentro del elemento contenedor fluira alrededor del
-elemento que flota
+elemento que flota  
 
 ```css
 blockquote {
@@ -889,22 +727,17 @@ blockquote {
    border-bottom: 1px solid #665544;}
 ```
 
-##### `clear`
+* **propiedades de apoyo**
 
-`clear: left|right|both|none` indica que ningun otro elemento del mismo
-contenedot debe tocar el lado indicado de ese elemento
+`clear: left|right|both|none` - indica que ningun otro elemento del mismo
+contenedot debe tocar el lado indicado de ese elemento  
 
 ```css
 .clear {
   clear: left;}
 ```
 
-##### `overflow`
-
-`overflow: auto; width:100%`
-
-Si todos los elemento de un contenedor son flotantes puede hacer problemas en
-ciertos navegadores a la hora de mostrar los bordes
+`overflow: auto; width:100%` - Si todos los elemento de un contenedor son flotantes puede hacer problemas en ciertos navegadores a la hora de mostrar los bordes  
 
 ```css
 div {
@@ -913,23 +746,11 @@ div {
   width: 100%;}
 ```
 
-##### `multicolumna`
+`multicolumna` - Crear diseños multicolumna con floats. Usar un `<div>` para cada columna y con las siguientes propiedades `width`, `float` y `margin` para cerrar un hueco entre las columnas  
 
-Crear diseños multicolumna con floats
-
-Usar un `<div>` para cada columna y con las siguientes propiedades :  
-
-* `width`  
-* `float`  
-* `margin` para cerar un hueco entre las columnas
-
-### Superponiendo elementos `z-index`
-
-Al usar posicionamiento relativo, fijo o absoluto los elementos se pueden
-solapar. Si es asi el ultimo que aparece en el codigo HTML es el que se ve.
-
+`z-index` - Al usar posicionamiento relativo, fijo o absoluto los elementos se pueden solapar. Si es asi el ultimo que aparece en el codigo HTML es el que se ve.  
 Para controlar eso esta la propiedad `z-index`, se ve el elemento con el mayor
-valor de esa propiedad
+valor de esa propiedad  
 
 ```css
 h1 {
@@ -939,9 +760,7 @@ h1 {
 
 ### Tipos de Layout
 
-Recomendacion ; anchura paginas 960px
-
-#### Anchura fija
+* **Anchura fija**
 
 La anchura se especifica en pixeles (a veces tambien la altura)
 
@@ -968,7 +787,7 @@ li {
   padding: 5px;}
 ```
 
-#### Liquidos
+* **Liquidos**
 
 La anchura se especifica en porcentajes.
 
@@ -1002,7 +821,7 @@ li {
   background-color: #efefef;}
 ```
 
-#### Diseño 960px
+* **Diseño 960px**
 
 ![css11](/z-static/images/css3/960pixelWide.png)
 
@@ -1010,7 +829,7 @@ li {
 
 ## IMAGENES
 
-### Controlar tamaño
+* **Controlar tamaño**
 
 Creas tres clases de imagenes, pequeñas, medianas y grandes. Despues a cada
 imagen le pones la clase a la que pertenece y asi automaticamente se pone a ese
@@ -1028,7 +847,7 @@ img.small {
   height: 100px;}
 ```
 
-### Alinear imagenes
+* **Alinear imagenes**
 
 Se recomienda usar `float` en lugar de `align`. Creamos clases `align-left`
 `align-right` y luego a las imagenes les añadimos la clase que nos interese
@@ -1042,7 +861,7 @@ img.align-right	{
   margin-left: 10px;}
 ```
 
-### Centrar imagenes
+* **Centrar imagenes**
 
 Debemos convertir la imagen en en elemento de bloque y luego usar `margin`
 
@@ -1052,9 +871,9 @@ img.align-center {
   margin: 0px auto;}
 ```
 
-### background
+* **background**
 
-Orden de las propiedades:
+`background` - Orden de las propiedades:
 
 1. background-color
 2. background-image
@@ -1067,16 +886,14 @@ body {
   background: #ffffff url("images/tulip.gif") no-repeat top right;}
 ```
 
-#### background-image
-
-la imagen se ponde de fondo del elemento al que se lo asignamos
+`background-image` - la imagen se ponde de fondo del elemento al que se lo asignamos
 
 ```css
 p	{
   background-image: url("images/pattern.gif");}
 ```
 
-#### background-repeat
+`background-repeat`- 
 
 * `repeat` la imagen se repite horizontal y verticalmente
 * `repeat-x` la imagen solo se repite horizontalmente
@@ -1089,7 +906,7 @@ body {
   background-repeat: repeat-x;}
 ```
 
-#### background-attachment
+`background-attachment`- 
 
 * `fixed` la imagen permanece fija
 * `scroll` la imagen se mueve con el scroll
@@ -1101,18 +918,11 @@ body {
   background-attachment: fixed;}
 ```
 
-#### background-position
-
-Para especificar donde sale una imagen que no se repite.
-
-La propiedad tiene dos valores:
+`background-position`- Para especificar donde sale una imagen que no se repite.
+La propiedad tiene dos valores: Si solo se indica uno el segundo valor sera `center`. Tambien se puede usar px o porcentajes   
 
 1. posicion horizontal `left|center|right`
 2. posicion vertical `top|center|bottom`
-
-Si solo se indica uno el segundo valor sera `center`
-
-Tambien se puede usar px o porcentajes
 
 ```css
 body {
@@ -1159,6 +969,43 @@ a#add-to-basket:active {
   background-position: 0px -80px;}
 a#framing-options:active {
   background-position: -175px -80px;}
+```
+
+---
+
+## TRANSITION
+
+### Ejemplo
+
+```css3
+.tecla {
+  color: deepskyblue;
+  background: rgba(0, 0, 0, 0.4);
+  text-shadow: 0 0 1px black;
+  transition: background-color 0.2s;
+}
+.pulsada {
+  background-color: orange;
+  transform: scale(1.1, 1.1);
+}
+```
+
+```html
+<div class="tecla" id="0">A<span class="sonido">clap</span></div>
+```
+
+```javascript
+function pressKey (e) {
+  var valor = mapa.indexOf(e.key.toUpperCase());
+  if (valor !== -1) {
+    document.getElementById(valor).addEventListener('transitionend',
+      function () {
+        document.getElementById(valor).classList.remove('pulsada');
+      });
+    document.getElementById(valor).classList.add('pulsada');
+    audio[valor].play();
+  }
+}
 ```
 
 ---

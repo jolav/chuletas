@@ -31,33 +31,6 @@ Elementos que aparecen a continuacion en la misma linea del anterior
 
 ![html4](/z-static/images/html5/inlineElementsList.png)
 
-### Iframe
-
-Es una ventana dentro de la pagina donde puedes ver otra pagina  
-
-No pongo ejemplo pues se lleva mal con https y avisa de fallo de seguridad  
-
-```html
-<iframe src="http://brusbilis.com" width="450" height="350">
-</iframe>
-```
-
-### meta
-
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Informacion sobre la web</title>
-    <meta name="description" content="max 155, sale en la busqueda" />
-    <meta name="keywords" content="palabras usadas para la busqueda" />
-    <meta http-equiv="author" content="Autor de la pagina" />
-    <meta http-equiv="expires" content="Fri, 04 Apr 2014 23:59:59 GMT"/>
-  </head>
-  <body>
-  </body>
-</html>
-```
 ### Caracteres de escape
 
 ![html5](/z-static/images/html5/escapeCharacters.png)
@@ -66,10 +39,10 @@ No pongo ejemplo pues se lleva mal con https y avisa de fallo de seguridad
 
 ## TEXTO
 
-### Elementos para estructurar la pagina
+**white space collapsing :** Dos o mas espacios o lineas juntos el navegador 
+solo mostrara uno    
 
->**white space collapsing :** Dos o mas espacios o lineas juntos el navegador 
-solo mostrara uno  
+* **Elementos para estructurar la pagina**
 
 ```html
 <p> paragraph </p>
@@ -82,7 +55,7 @@ solo mostrara uno
 <hr /> horizontal rules
 ```
 
-### Elementos semanticos
+* **Elementos semanticos**
 
 ```html
 <strong> contenido importante </strong>  
@@ -102,7 +75,7 @@ solo mostrara uno
 
 ## LISTAS
 
-### Listas Ordenadas
+* **Ordenadas**
 
 ```html
 <ol>
@@ -117,7 +90,7 @@ solo mostrara uno
   <li>tercero</li>
 </ol>
 
-### Listas desordenadas
+* **Desordenadas**
 
 ```html
 <ul>
@@ -132,7 +105,7 @@ solo mostrara uno
   <li>tercero</li>
 </ul>
 
-### Listas de deficiones
+* **Listas de deficiones**
 
 ```html
 <dl>
@@ -157,31 +130,31 @@ solo mostrara uno
 
 ## ENLACES
 
-* A paginas externas
+* **A paginas externas**
 
 ```html
 <a href="http://www.brusbilis.com">href como url absoluta</a>
 ```
 
-* A paginas del mismo sitio
+* **A paginas del mismo sitio**
 
 ```html
 <a href="../info/contacto.html">Contacto href como url relativa</a>
 ```
 
-* A direcciones de correo
+* **A direcciones de correo**
 
 ```html
 <a href="mailto:info@brusbilis.com">Mandar correo</a>
 ```
 
-* A una nueva pestaña
+* **A una nueva pestaña**
 
 ```html
 <a href="http://www.imdb.com" target="_blank">Movie Database</a>
 ```
 
-* A una parte de la misma pagina
+* **A una parte de la misma pagina**
 
 ```html
 <h1 id="top">Bla bla bla</h1>
@@ -190,7 +163,7 @@ solo mostrara uno
 <a href="#top">Subir</a>
 ```
 
-* A una parte de otra pagina
+* **A una parte de otra pagina**
 
 ```html
 <a href="URL relativa o absoluta/#top">Enlace</a>
@@ -296,8 +269,6 @@ CODIGO VIEJO (Ahora por CSS)
 
 ## FORMULARIOS
 
-### Basico
-
 `action`  
 `method`  
 `id`  
@@ -318,7 +289,9 @@ usuario lo pinche encima
 </form>
 ```
 
-### `textarea`  
+### Elementos  
+
+* **`textarea`**
 
 cols y rows son las dos CODIGO VIEJO, mejor con CSS
 
@@ -332,7 +305,7 @@ cols y rows son las dos CODIGO VIEJO, mejor con CSS
 </textarea>
 ```
 
-### `radio button`  
+* **`radio button`**  
 
 Puedes elegir una opcion
 
@@ -355,7 +328,7 @@ Puedes elegir una opcion
 </form>
 ```
 
-### `checkbox`  
+* **`checkbox`**
 
 Pues elegir cero, una o mas opciones de las disponibles  
 
@@ -379,7 +352,7 @@ Pues elegir cero, una o mas opciones de las disponibles
 </form>
 ```
 
-### `select : drop down list`  
+* **`select : drop down list`**
 
 <form action="http://brusbilis.com/chuletas/frontend/html5/#formularios">
   <p>Opcion a elegir ?</p>
@@ -401,7 +374,7 @@ Pues elegir cero, una o mas opciones de las disponibles
 </form>
 ```
 
-### `multiple select box`  
+* **`multiple select box`**
 
 <form action="http://brusbilis.com/chuletas/frontend/html5/#formularios">
   <p>Opcion a elegir ?</p>
@@ -427,7 +400,7 @@ Pues elegir cero, una o mas opciones de las disponibles
 </form>
 ```  
 
-### `file input box`  
+* **`file input box`**
 
 <form action="http://brusbilis.com/chuletas/frontend/html5/#formularios">
   <p>Subir un archivo</p>
@@ -443,7 +416,7 @@ Pues elegir cero, una o mas opciones de las disponibles
 </form>
 ```
 
-### `image button`  
+* **`image button`**
 
 <form action="http://brusbilis.com/chuletas/frontend/html5/#formularios" >
   <p>Texto de lo que sea</p>
@@ -459,7 +432,7 @@ Pues elegir cero, una o mas opciones de las disponibles
 </form>
 ```
 
-### `button and hidden controls`  
+* **`button and hidden controls`**
 
 <form action="http://brusbilis.com/chuletas/frontend/html5/#formularios">
   <button>
@@ -477,13 +450,13 @@ Pues elegir cero, una o mas opciones de las disponibles
 </form>  
 ```
 
-### `labeling form controls`  
+* **`labeling form controls`**
 
 ```html
 uso de etiquetas <label></label> para accesibilidad
 ```
 
-### `grouping form elements`  
+* **`grouping form elements`**
 
 <fieldset>
   <legend>Detalles contacto</legend>
@@ -513,7 +486,7 @@ uso de etiquetas <label></label> para accesibilidad
 </fieldset>
 ```
 
-### Validacion de formularios con HTML5
+### Validacion
 
 <form action="http://brusbilis.com/chuletas/frontend/html5/#formularios">
   Usuario<input type="text" name="usuario" required="required"/> <br />
@@ -529,9 +502,9 @@ uso de etiquetas <label></label> para accesibilidad
 </form>
 ```
 
-### Tipos de texto para INPUT
+### Tipos de INPUT
 
-#### Fecha
+* **Fecha**
 
 <form action="http://brusbilis.com/chuletas/frontend/html5/#formularios">
   <p>Elige Fecha</p>
@@ -543,7 +516,7 @@ uso de etiquetas <label></label> para accesibilidad
 <input type="date">
 ```
 
-#### Correo
+* **Correo**
 
 <form action="http://brusbilis.com/chuletas/frontend/html5/#formularios">
   <p>Correo</p>
@@ -555,7 +528,7 @@ uso de etiquetas <label></label> para accesibilidad
 <input type="email">
 ```
 
-#### URL
+* **URL**
 
 <form action="http://brusbilis.com/chuletas/frontend/html5/#formularios">
   <p>URL</p>
@@ -567,7 +540,7 @@ uso de etiquetas <label></label> para accesibilidad
 <input type="url">
 ```
 
-####  Telefono
+* **Telefono**
 
 <form action="http://brusbilis.com/chuletas/frontend/html5/#formularios">
   <p>Telefono</p>
@@ -579,7 +552,7 @@ uso de etiquetas <label></label> para accesibilidad
 <input type="tel">
 ```
 
-#### Numero
+* **Numero**
 
 <form action="http://brusbilis.com/chuletas/frontend/html5/#formularios">
   <p>Numero</p>
@@ -591,7 +564,7 @@ uso de etiquetas <label></label> para accesibilidad
 <input type="number">
 ```
 
-#### Range
+* **Range**
 
 <form action="http://brusbilis.com/chuletas/frontend/html5/#formularios">
   <p>Numero</p>
@@ -603,7 +576,7 @@ uso de etiquetas <label></label> para accesibilidad
 <input type="range">
 ```
 
-#### Color
+* **Color**
 
 <form action="http://brusbilis.com/chuletas/frontend/html5/#formularios">
   <p>Color</p>
@@ -615,7 +588,7 @@ uso de etiquetas <label></label> para accesibilidad
 <input type="color">
 ```
 
-####  Search
+* **Search**
 
 <form action="http://brusbilis.com/chuletas/frontend/html5/#formularios">
   <p>Search</p>
@@ -695,7 +668,7 @@ Para poner diferentes formatos usamos `<source>`
 <img src="/z-static/images/html5/newLayout.png" alt="html6" width="320"/>
 
 
-### header, footer, nav
+* **header, footer, nav**
 
 <header>
   <h4>Yoko's Kitchen</h4>
@@ -731,7 +704,7 @@ Para poner diferentes formatos usamos `<source>`
 </footer>
 ```
 
-### article
+* **article**
 
 <article>
   <hgroup>
@@ -769,7 +742,7 @@ Para poner diferentes formatos usamos `<source>`
 </article>
 ```
 
-### aside, section
+* **aside, section**
 
 <aside>
   <section class="popular-recipes">
@@ -808,7 +781,7 @@ Para poner diferentes formatos usamos `<source>`
 </aside>
 ```
 
-### hgroup
+* **hgroup**
 
 <hgroup>
   <h3>Japanese Vegetarian</h3>
@@ -822,7 +795,7 @@ Para poner diferentes formatos usamos `<source>`
 </hgroup>
 ```
 
-### figure, figcaption
+* **figure, figcaption**
 
 `<figure>` se usa para tener juntas y asociar las imagenes con sus
 pies de fotos `<figcaption>`
@@ -843,7 +816,7 @@ Pero tambien se puede usar para contener
 </figure>
 ```
 
-### div
+* **div**
 
 `<div>` queda para todo lo que no sea claramente algo de lo anterior y para
 tener juntos elementos relacionados o envolver partes de la pagina
@@ -864,7 +837,7 @@ tener juntos elementos relacionados o envolver partes de la pagina
 </div><!-- .wrapper -->
 ```
 
-### Convertir un bloque en un enlace
+* **Convertir bloque en enlace**
 
 Envolvemos el elemento a converir en enlace con `<a>`
 
