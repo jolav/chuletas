@@ -20,6 +20,10 @@ callback(JSON.parse(xhr.responseText.slice(5).slice(0, -6)));
 
 ### Apache Bench
 
+Curiosamente en debian no viene instalado pero si en MacOS.
+
+`apt-get install apache2-utils` -  
+
 -n numero de peticiones  
 -c concurrencias
 

@@ -4,7 +4,9 @@
 
 ## INSTALACION
 
-Ademas de lo del manual añadir en `nano /home/user/.bashrc` y `nano /home/user/.profile`
+Ademas de lo del manual añadir en   
+debian : `nano /home/user/.bashrc` y `nano /home/user/.profile`  
+macOs : `nano /home/user/.bashrc` y `nano /home/user/.bash_profile`  
 
 ```sh
 export PATH=$PATH:/usr/local/go/bin
@@ -21,6 +23,48 @@ Carpetas que se crean:
 * `pkg` - contiene los versiones compiladas de las librerias disponibles para
 que el compilador las pueda enlazar sin tener que recompilarlas  
 * `src` -  contiene todo el codigo organizado por rutas de import  
+
+---
+
+## GO TOOL
+
+```sh
+	go command [arguments]
+
+The commands are:
+
+	build       compile packages and dependencies
+	clean       remove object files
+	doc         show documentation for package or symbol
+	env         print Go environment information
+	fix         run go tool fix on packages
+	fmt         run gofmt on package sources
+	generate    generate Go files by processing source
+	get         download and install packages and dependencies
+	install     compile and install packages and dependencies
+	list        list packages
+	run         compile and run Go program
+	test        test packages
+	tool        run specified go tool
+	version     print Go version
+	vet         run go tool vet on packages
+
+Use "go help [command]" for more information about a command.
+
+Additional help topics:
+
+	c           calling between Go and C
+	buildmode   description of build modes
+	filetype    file types
+	gopath      GOPATH environment variable
+	environment environment variables
+	importpath  import path syntax
+	packages    description of package lists
+	testflag    description of testing flags
+	testfunc    description of testing functions
+
+Use "go help [topic]" for more information about that topic.
+```
 
 ---
 
@@ -257,6 +301,23 @@ const ( // iota is reset to 0
 
 ## POINTERS y MUTABILIDAD
 
+### Punteros vs Valor  
+
+Todo en Go se pasa por valor.  
+Para cada parametro que se pasa se crea una nueva copia y se pasa a la funcion o metodo como parametro. La copia se coloca en una direccion de memoria diferente.  
+Si la variable se pasa como un puntero, se crea una nueva copia del puntero apuntado a la misma direccion de memoria que el original  
+
+`int` - valor    
+`float` - valor  
+`string` - referencia   
+`boolean` - valor     
+`arrays` - valor  
+`slices` - referencia  
+`maps` - referencia  
+`functions` - referencia      
+`interfaces` - referencia    
+`channels` - referencia    
+
 ### Punteros
 
 Por defecto Go pasa los argumentos por valor (crea una copia)  
@@ -265,6 +326,9 @@ datos que usan valores por referencia como slices y maps.
 
 `&` - para conseguir el puntero de un valor lo ponemos delante de su nombre  
 `*` - para desreferenciar un puntero y que nos de acceso a su valor  
+
+`&var` el el puntero de var  
+`*var` es el valor de var  
 
 ```go
 i := 42
@@ -520,7 +584,9 @@ Los slice hay que crearlos antes de usarlos
 * **Nil slices**
 
 `var z []int` - El valor cero de un slice es nil. Un slice nil tiene una
-longitud de cero
+longitud de cero  
+
+[Slice tricks](/backend/gostdlib.md#append) 
 
 ---
 
@@ -981,7 +1047,7 @@ func main() {
 * `import . "fmt"` -  Permite acceder al contenido directamente sin tener que
 ir precedido de fmt  
 * `import _ "fmt"` - Elimina las advertencia del compilado sobre ese paquete
-si no se usa y  ejecuta si hay las funciones de inicializacion, El resto del
+si no se usa y  ejecuta si hay las funciones de inicializacion (`func init() {}`), El resto del
 paquete permanece inaccesible.  
 
 ### Crear paquetes  
@@ -1081,6 +1147,17 @@ func TestAverage(t *testing.T) {
 * **Cross Compile**
 
 `GOOS=linux GOARCH=amd64 go build`  
+
+`android arm`  
+`darwin 386|amd64|arm|arm64|`  
+`dragonfly amd64`  
+`freebsd 386|amd64|arm`  
+`linux 386|amd64|arm|arm64|ppc64|ppc64le|mips64|mips64le`  
+`netbsd 386|amd64|arm`   
+`openbsd 386|amd64|arm`  
+`plan9 386|amd64`  
+`solaris amd64`  
+`windows 386|amd64`  
 
 * **ejecutar**
 

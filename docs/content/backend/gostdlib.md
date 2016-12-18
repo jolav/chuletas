@@ -58,6 +58,27 @@ espacio
 separados por un espacio en sucesivos argumentos. Saltos de linea acaban con la
 lectura de datos  
 
+* **verbos**
+
+\- General  
+`%v` - valor en formato por defecto. En structs `%+v` añade los nombres de los campos  
+`%T` - tipo del valor  
+`%#v` - representacion del tipo del valor con sintaxis de golang  
+\- Booleano   
+`%t` - booleano, devuelve palabra true o false   
+\- Integer   
+`%b` - devuelve en base 2  
+`%c` - devuelve caracter representado por el correspondiente codigo Unicode    
+`%d` - devuelve en base 10   
+`%U` - formato Unicode  
+\- Floating point   
+`f%` - notacion decimal sin exponentes    
+`e%` - notacion decimal con exponentes
+\- Strings y []byte
+`%s` -  cadenas normales  
+`%q` -  para escapar comillas dobles  
+`%x` - convierte a base hexadecimal    
+
 ---
 
 ## STRINGS
@@ -79,6 +100,7 @@ parte por otra n veces (o todas las que se pueda si pasamos -1)
 string en una lista de strings usando otra string como separador  
 `strings.ToLower("test")` = "TEST "- convierte la cadena a minusculas  
 `strings.ToUpper("TEST")` = "test" - convierte la cadena a mayusculas  
+`strings.Fields("cadena que sea)` = como split usando espacios en blanco . Equivalente a `strings.Split(text, " ")`  
 
 Convertir string en slice of bytes y viceversa  
 `arr := []byte("test")`  
@@ -88,6 +110,13 @@ Fuera del paquete string
 
 `len("aquiunacadena")` - nos da la longitud de la string     
 `"cadena"[3]` - nos da el codigo ASCII del caracter de indice 3, "e" = 101  
+
+---
+
+## APPEND 
+
+[Slice tricks](https://github.com/golang/go/wiki/SliceTricks)  
+
 
 ---
 
