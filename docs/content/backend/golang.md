@@ -124,22 +124,6 @@ func main() {
 }
 ```
 
-### Zero Values
-
-Cuando se declaran variables sin un valor explicito se les asigna el valor zero  
-
->>> `int` - 0  
->>> `float` - 0.0   
->>> `string` - ""   
->>> `boolean` - false  
->>> `pointers` - nil  
->>> `map` - nil  
->>> `slices` - nil  
->>> `array` - array listo para usar con sus elementos a zero value que sea  
->>> `functions` - nil
->>> `interfaces` - nil  
->>> `channels` -nil  
-
 ### Declaracion
 
 * **Declaracion de variables**
@@ -193,6 +177,21 @@ x := new(int)
 
 Necesario para `slices` `maps` y `channels`  
 
+* **Zero Values**
+
+Cuando se declaran variables sin un valor explicito se les asigna el valor zero  
+>>> `int` - 0  
+>>> `float` - 0.0   
+>>> `string` - ""   
+>>> `boolean` - false  
+>>> `pointers` - nil  
+>>> `map` - nil  
+>>> `slices` - nil  
+>>> `array` - array listo para usar con sus elementos a zero value que sea  
+>>> `functions` - nil
+>>> `interfaces` - nil  
+>>> `channels` -nil  
+
 ### Alcance
 
 El alcance es la region del programa donde una variable definida existe  
@@ -219,7 +218,113 @@ f := float64(i)
 u := uint(f)
 ```
 
-### Type Assertion
+* **strconv**
+
+[Paquete de la libreria standar strconv](/backend/gostdlib#strconv)
+
+* **Type Assertion**
+
+### Punteros
+
+* **Punteros vs Valor**  
+
+Todo en Go se pasa por valor, pero ...    
+Cuando se declara una variable de tipo de referencia se crea un valor llamado `header value` que contiene un puntero a la estructura de datos subyacente necesaria para segun cada tipo de referencia.  
+Cada tipo de referencia contiene campos unicos para gestionar la estructura de datos subyacente propia.  
+El `header value` contiene un puntero, por lo tanto puedes pasar una copia de cualquier tipo de referencia y compartir la estructura subyacente intrinsicamente al compartir el puntero.   
+
+`int` - valor    
+`float` - valor  
+`string` -  variable de tipo de referencia, pero funciona como valor     
+`boolean` - valor     
+`arrays` - valor  
+`slices` -  variable de tipo de referencia  
+`maps` -  variable de tipo de referencia  
+`functions` -  variable de tipo de referencia      
+`interfaces` -  variable de tipo de referencia    
+`channels` -  variable de tipo de referencia    
+
+
+[Leer esto](https://stackoverflow.com/questions/23542989/pointers-vs-values-in-parameters-and-return-values)   
+
+* **Punteros**
+
+Por defecto Go pasa los argumentos por valor (crea una copia)  
+Para pasarlos por referencia hay que pasar punteros o usar estructuras de
+datos que usan valores por referencia como slices y maps.  
+
+`&` - para conseguir el puntero de un valor lo ponemos delante de su nombre  
+`*` - para desreferenciar un puntero y que nos de acceso a su valor  
+
+Si `p` es un puntero a `x`  
+`&x` -->  `p = &x` p es el puntero de x (contiene la direccion de memoria de x)
+`*p` --> `*p = x` *p es el valor de x  
+
+```go
+i := 42
+p := &i             // Genera un puntero a i
+fmt.Println(*p)     // lee i a traves del puntero p
+*p = 21             // establece i a traves del puntero p
+```
+
+```go
+func zero(x *int) {
+    *x = 0
+}
+func main() {
+    x := 5
+    zero(&x)  
+    fmt.Println(x) // x is 0
+}
+```
+
+* **new**
+
+`new` - coge un tipo como argumento, asigna suficiente memoria para ese tipo
+de dato y devuelve un puntero que apunta a esa memoria. Luego el GC (garbage
+collector lo limpia todo)  
+
+```go
+func zero(x *int) {
+    *x = 5
+}
+func main() {
+    x := new(int)
+    zero(x)  
+    fmt.Println(*x) // x is 5
+}
+```
+
+* **Mutabilidad**
+
+Solo las constantes son inmutables.  
+Sin embargo como los argumentos se pasan por valor, una funcion que recibe y
+modifica un argumento no muta el valor original  
+
+* Ejemplo
+
+```go
+func addOne(x int) {
+	x++
+}
+func main() {
+	x := 0
+	addOne(x)
+	fmt.Println(x)         // x da 0
+}
+```
+
+```go
+// Si usamos punteros
+func addOne(x *int) {
+	*x++
+}
+func main() {
+	x := 0
+	addOne(&x)
+	fmt.Println(x)          // x da 1
+}
+```
 
 ---
 
@@ -299,108 +404,6 @@ const ( // iota is reset to 0
 
 ---
 
-## POINTERS y MUTABILIDAD
-
-### Punteros vs Valor  
-
-Todo en Go se pasa por valor.  
-Para cada parametro que se pasa se crea una nueva copia y se pasa a la funcion o metodo como parametro. La copia se coloca en una direccion de memoria diferente.  
-Si la variable se pasa como un puntero, se crea una nueva copia del puntero apuntado a la misma direccion de memoria que el original  
-
-`int` - valor    
-`float` - valor  
-`string` - referencia   
-`boolean` - valor     
-`arrays` - valor  
-`slices` - referencia  
-`maps` - referencia  
-`functions` - referencia      
-`interfaces` - referencia    
-`channels` - referencia    
-
-### Punteros
-
-Por defecto Go pasa los argumentos por valor (crea una copia)  
-Para pasarlos por referencia hay que pasar punteros o usar estructuras de
-datos que usan valores por referencia como slices y maps.  
-
-`&` - para conseguir el puntero de un valor lo ponemos delante de su nombre  
-`*` - para desreferenciar un puntero y que nos de acceso a su valor  
-
-`&var` el el puntero de var  
-`*var` es el valor de var  
-
-```go
-i := 42
-p := &i             // Genera un puntero a i
-fmt.Println(*p)     // lee i a traves del puntero p
-*p = 21             // establece i a traves del puntero p
-```
-
-```go
-func zero(x *int) {
-    *x = 0
-}
-func main() {
-    x := 5
-    zero(&x)  
-    fmt.Println(x) // x is 0
-}
-```
-
-* **new**
-
-`new` - coge un tipo como argumento, asigna suficiente memoria para ese tipo
-de dato y devuelve un puntero que apunta a esa memoria. Luego el GC (garbage
-collector lo limpia todo)  
-
-```go
-func zero(x *int) {
-    *x = 5
-}
-func main() {
-    x := new(int)
-    zero(x)  
-    fmt.Println(*x) // x is 5
-}
-```
-
-### Mutabilidad
-
-Solo las constantes son inmutables.  
-Sin embargo como los argumentos se pasan por valor, una funcion que recibe y
-modifica un argumento no muta el valor original  
-
-* Ejemplo
-
-```go
-func addOne(x int) {
-	x++
-}
-func main() {
-	x := 0
-	addOne(x)
-	fmt.Println(x)         // x da 0
-}
-```
-
-```go
-// Si usamos punteros
-func addOne(x *int) {
-	*x++
-}
-func main() {
-	x := 0
-	addOne(&x)
-	fmt.Println(x)          // x da 1
-}
-```
-
-### POINTERS vs VALUE  
-
-[Leer esto](https://stackoverflow.com/questions/23542989/pointers-vs-values-in-parameters-and-return-values)   
-
----
 ## ESTRUCTURAS DE CONTROL
 
 ### for
@@ -539,10 +542,14 @@ Omites una iteracion
 * No se pueden redimensionar  
 * Se pueden inicializar al declararlos  
     `a := [2]string{"hello", "world!"}`  
-    `a := [...]string{"hello", "world!"}` ´o incluso usando una ellipsis  
+    `a := [...]string{"hello", "world!"}` usando una ellipsis para indicar un numero un numero variable de elementos que en este caso son dos  
+    `a := [5]int{1: 10, 2: 20}` - inicializando solo algunos valores  
 * `printìng arrays`  
     `fmt.Printf("%q\n", a)    // ["hello" "world!"]`
 * `len(array)`  
+* MultiDimensionales  
+    `var a [4][2]int`  
+    `array := [4][2]int{{10, 11}, {20, 21}, {30, 31}, {40, 41}}`      
 
 
 ---
@@ -583,10 +590,15 @@ Los slice hay que crearlos antes de usarlos
 
 * **Nil slices**
 
+Declaracion  
 `var z []int` - El valor cero de un slice es nil. Un slice nil tiene una
 longitud de cero  
+Inicializacion  
+`z := make([]int, 0)`  
+`z := []int{}`  
+Las tres formas son lo mismo    
 
-[Slice tricks](/backend/gostdlib.md#append) 
+[Append](/backend/gostdlib.md#append) 
 
 ---
 
@@ -604,6 +616,10 @@ Los map hay que crearlos antes de usarlos
 `amigos := map[string]int{"Juan":50, "Elena":21, "Carlos":41,}`
 > * `make` - creas un nil map vacio  
 `amigos := make(map[string]int)`  
+
+Si lo declaramos pero no lo inicializamos, al intentar añadir elementos no compilara 
+
+> * `amigos := map[string]int{}` - declarado pero no inicializado  
 
 * **Modificando maps**
 
@@ -671,8 +687,10 @@ func main() {
 
 ### Metodos
 
-El receptor del metodo esta entre la palabra clave `function` y el nombre del
-metodo
+Un metodo es una funcion con el primer argumento implicito llamado receptor.  
+`func (ReceiverType r) func_name (parameters) (results)`  
+
+El `receptor (receiver)` del metodo esta entre la palabra clave `function` y el nombre del metodo
 
 `func (u User) Greeting() string` - nos permite llamarla con u.Greeting()  
 
@@ -718,6 +736,38 @@ punteros:
 * evitar copiar el valor con cada llamada al metodo (pasarlo por referencia)  
 * para poder modificar el valor que pasamos  
 
+```go
+type User struct {
+    name    string
+    email   string
+}
+
+func (u user) notify() {
+    fmt.Printf("Mandar correo a %s<%s>\n", u.name, u.email)
+}
+
+// sin el puntero del receptor el correo no se cambiaria.
+func (u *user) changeEmail(email string) {
+    u.email = email
+}
+```
+
+```
+TIP
+After declaring a new type, try to answer this question before 
+declaring methods for the type: 
+Does adding or removing something from a value of this type need to
+create a new value or mutate the existing one? 
+- If the answer is create a new value, then use value receivers for 
+your methods. 
+- If the answer is mutate the value, then use pointer receivers. 
+
+This also applies to how values of this type should be passed to 
+other parts of your program. It’s important to be consistent. 
+The idea is to not focus on what the method is doing with the value,
+but to focus on what the nature of the value is.
+```
+
 ### Composicion
 
 ```go
@@ -736,53 +786,150 @@ Podemos acceder a la Struct de User:
 `a.User.Name`  
 `a.Name`
 
-
 ---
 
 ## INTERFACES
 
+[Explicacion de interfaces](http://jordanorelli.com/post/32665860244/how-to-use-interfaces-in-go)
+
+[Mas Explicacion de interfaces](https://go-book.appspot.com/interfaces.html) 
+
+[Mas aun sobre interfaces](https://www.goinggo.net/2014/05/methods-interfaces-and-embedded-types.html)   
+
 * Es un conjunto de metodos  
-* Puede tener cualquier valor que implementen esos metodos  
+* Es un tipo de datos
 
 ```go
-type usuario struct {
-	nombre, apellido string
+package main
+
+import "fmt"
+
+type cat struct {
+	name string
 }
 
-func (u usuario) getNombre() string {
-	return fmt.Sprintf("%s %s", u.nombre, u.apellido)
+func (c *cat) born() {
+	fmt.Println(c.name, "is born Miaouu")
 }
 
-type cliente struct {
-	Id             int
-	nombreCompleto string
+type dog struct {
+	name string
 }
 
-func (c *cliente) getNombre() string {
-	return c.nombreCompleto
+func (d *dog) born() {
+	fmt.Println(d.name, "is born Wharff")
 }
 
-type llamar interface {
-	getNombre() string
+type animal interface {
+	born()
 }
 
-func saludar(n llamar) string {
-	return fmt.Sprintf("Sr %s", n.getNombre())
+func born(a animal) {
+	a.born()
 }
 
 func main() {
-	u := usuario{"nombre", "apellido"}
-	fmt.Println(saludar(u))
-	c := &cliente{42, "nombre2"}
-	fmt.Println(saludar(c))
+	Jasper := &cat{"JASPER"}
+	Lucy := &dog{"Lucy"}
+	Max := new(dog)
+	Max.name = "Max"
+	Max.born()
+	// call born function
+	born(Jasper)
+	born(Lucy)
+	born(Max)
 }
 ```
+
+```go
+package main
+
+import "fmt"
+
+type Human struct {
+	name  string
+	age   int
+	phone string
+}
+
+type Student struct {
+	Human  //an anonymous field of type Human
+	school string
+	loan   float32
+}
+
+// A human likes to stay... err... *say* hi
+func (h *Human) SayHi() {
+	fmt.Printf("Hi, I am %s you can call me on %s\n", h.name, h.phone)
+}
+
+// A human can sing a song, preferrably to a familiar tune!
+func (h *Human) Sing(lyrics string) {
+	fmt.Println("La la, la la la, la la la la la...", lyrics)
+}
+
+// A Human man likes to guzzle his beer!
+func (h *Human) Guzzle(beerStein string) {
+	fmt.Println("Guzzle Guzzle Guzzle...", beerStein)
+}
+
+// A Student borrows some money
+func (s *Student) BorrowMoney(amount float32) {
+	s.loan += amount // (again and again and...)
+}
+
+func Prestar(y YoungChap, amount float32) {
+	y.BorrowMoney(amount)
+
+}
+
+// INTERFACES
+type Men interface {
+	SayHi()
+	Sing(lyrics string)
+	Guzzle(beerStein string)
+}
+
+type YoungChap interface {
+	SayHi()
+	Sing(song string)
+	BorrowMoney(amount float32)
+}
+
+func main() {
+	mike := Student{Human{"Mike", 25, "222-222-XXX"}, "MIT", 150.50}
+	mike.BorrowMoney(10)
+	mike.BorrowMoney(10)
+	Prestar(&mike, 100)
+	fmt.Println("Debe ..", mike.loan)
+}
+```
+
+* **interfaces vacias** 
+
+1- Todo tiene un `type`, puedes definir un nuevo `type` por ejemplo `T` que tiene tres metodos `A`, `B` y `C`  
+2- El conjunto de metodos especificos de un `type` se llama `interface type`. En nuestro ejemplo `T_interface = (A, B, C)`  
+3- Puedes crear un nuevo `interface type` definiendo los metodos que tiene. Pro ejemplo creo `MyInterface = (A)`  
+4- Cuando especificas una variable de tipo `interface type` le puedes asignar solo los tipos que esten en una interface que sea un superset de tu interface, vamos que todos los metodos de `MyInterface` deben estar en `T_interface`
+
+Conclusion : Todos los tipos de variables satisfacen la `empty interface`. Por tanto una funcion que tiene una `interface{}` como argumento admite cualquier valor sea el que sea. Pero dentro de la funcion el runtime de Go convierte ese valor a un valor `interface{}`
+
+```go
+func DoSomething(v interface{}) {
+   // la funcion acepta cualquier valor una vez dentro
+   // v es del tipo interface{}
+}
+```
+
+EL valor de una interfaz son dos `word` de datos:  
+\- una `word` es un puntero a una tabla de metodos para el valor del `type` subyacente  
+\- la otra `word` es un puntero a los datos actuales de ese valor  
 
 ---
 
 ## FUNCTIONS
 
-### Call Stack
+* **Call Stack**
 
 ```go
 func main() {
@@ -798,7 +945,7 @@ func f2() int {
 
 >>> ![go](/z-static/images/go/callStack.png)
 
-### Argumentos
+* **Argumentos**
 
 * Argumentos que reciben. Las funciones pueden recibir 0 o mas argumentos todos tipados despues del nombre de la variable.    
 
@@ -812,7 +959,8 @@ func add(x, y int) int {   // int afecta a todos los parametros (x, y)
 ```
 
 ```go
-func add(args ...int) int {
+// ... funciones que aceptan un numero variable de parametros
+func add(args ...int) int {   
     total := 0
     for _, v := range args {
         total += v
@@ -837,7 +985,7 @@ func location(name, city string) (region, continent string) {
 }
 ```
 
-### Closures
+* **Closures**
 
 ```go
 func generadorPares() func() uint {
@@ -856,7 +1004,7 @@ func main() {
 }
 ```
 
-### Recursion
+* **Recursion**
 
 ```go
 func factorial(x uint) uint {   
@@ -865,6 +1013,57 @@ func factorial(x uint) uint {
     }
     return x * factorial(x-1)
 }
+```
+
+### type function
+
+```go
+package main
+import "fmt"
+
+type test_int func(int) bool
+
+// isOdd takes an ints and returns a bool set to true if the
+// int parameter is odd, or false if not.
+// isOdd is of type func(int) bool which is what test_int
+// is declared to be.
+
+func isOdd(integer int) bool {
+    if integer%2 == 0 {
+        return false
+    }
+    return true
+}
+
+// Same comment for isEven
+func isEven(integer int) bool {
+    if integer%2 == 0 {
+        return true
+    }
+    return false
+}
+
+// We could've written:
+// func filter(slice []int, f func(int) bool) []int
+func filter(slice []int, f test_int) []int {
+    var result []int
+    for _, value := range slice {
+        if f(value) {
+            result = append(result, value)
+        }
+    }
+    return result
+}
+
+func main(){
+    slice := []int {1, 2, 3, 4, 5, 7}
+    fmt.Println("slice = ", slice)
+    odd := filter(slice, isOdd)
+    fmt.Println("Odd elements of slice are: ", odd)
+    even := filter(slice, isEven)
+    fmt.Println("Even elements of slice are: ", even)
+}
+
 ```
 
 ### defer

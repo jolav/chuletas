@@ -115,8 +115,9 @@ Fuera del paquete string
 
 ## APPEND 
 
-[Slice tricks](https://github.com/golang/go/wiki/SliceTricks)  
+[Slice tricks](https://github.com/golang/go/wiki/SliceTricks) 
 
+`func append(slice []T, elements...T) []T.`
 
 ---
 
