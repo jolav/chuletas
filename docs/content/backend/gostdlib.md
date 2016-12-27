@@ -225,9 +225,9 @@ func main() {
 
 * **Command line arguments**
 
-el primer valor del slice de argumentos es el path del programa
+el primer valor del slice de argumentos es el nombre del comando path incluido
 
-`argsWithProg := os.Args`- slice completo path incluido  
+`argsWithProg := os.Args`- slice completo con comando nombre path incluido  
 `argsWithoutProg := os.Args[1:]` - slice solo de argumentos  
 `arg := os.Args[x]` - devuelve argumento de posicion X  
 

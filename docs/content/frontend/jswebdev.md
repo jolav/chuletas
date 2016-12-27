@@ -197,6 +197,12 @@ var containerEl = removeEl.parentNode;
 containerEl.removeChild(removeEl);
 ```
 
+#### Style Objects
+
+[Style Objects](http://www.w3schools.com/jsref/dom_obj_style.asp)  
+
+`document.getElementById("myH1").style.color = "red";`
+
 ### NodeLists
 
 > Son `collections`, parecen `arrays` y estan numerados como tal pero no lo son

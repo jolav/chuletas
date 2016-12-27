@@ -12,7 +12,7 @@ macOs : `nano /home/user/.bashrc` y `nano /home/user/.bash_profile`
 export PATH=$PATH:/usr/local/go/bin
 export GOPATH=$HOME/code/go
 // OPCIONAL para tener disponibles los binarios compilados
-export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:$GOPATH/bin/binLinux|binMac
 ```
 
 recargar con `source ~/.profile`   
@@ -192,6 +192,30 @@ Cuando se declaran variables sin un valor explicito se les asigna el valor zero
 >>> `interfaces` - nil  
 >>> `channels` -nil  
 
+* **type**
+
+```go
+package tempconv
+
+import "fmt"
+
+type Celsius float64
+type Fahrenheit float64
+
+const (
+    AbsoluteZeroC   Celsius = -273.15
+    FreezingC       Celsius = 0
+    BoilingC        Celsius = 100
+)
+
+func CToF(c Celsius) Fahrenheit { 
+    return Fahrenheit(c*9/5 + 32) 
+    }
+func FToC(f Fahrenheit) Celsius { 
+    return Celsius((f - 32) * 5 / 9) 
+}
+```
+
 ### Alcance
 
 El alcance es la region del programa donde una variable definida existe  
@@ -199,8 +223,8 @@ Tipos de variables segun donde se declaren:
 
 * `local variables` - dentro de una funcion o un bloque. Fuera de ese entorno
 no existen    
-* `global variables` - fuera de todas las funciones o bloques. Accesibles desde
-cualquier parte del programa  
+* `package variables` - fuera de todas las funciones o bloques. Accesibles desde
+cualquier parte del paquete    
 * `formal parameters` - en la definicion de los parametros de una funcion. Se
 tratan como locales para esa funcion y tienen preferencia sobre las globales    
 

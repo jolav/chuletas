@@ -42,6 +42,10 @@ hacerlo con un usuario admin para poder usar sudo
 
 [Homebrew](http://brew.sh)  
 
+al Path  
+
+`export PATH=/usr/local/bin:/usr/local/sbin:$PATH`  
+
 ### Instalar
 
 `ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
@@ -59,6 +63,8 @@ hacerlo con un usuario admin para poder usar sudo
 `brew cleanup` -   
 `brew cleanup paquetes` - elimina las versiones viejas  
 `brew outdated` - lista lo que tiene actualizacion de lo instalado  
+
+
 
 ---
 

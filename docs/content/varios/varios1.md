@@ -4,7 +4,7 @@
 
 ## GIT
 
-### Instalacion
+* **Instalacion**
 
 ```sh
 // repo para Ubuntu
@@ -22,8 +22,7 @@ git config --list
 nano ~/.gitconfig
 ```
 
-
-### Conceptos
+* **Conceptos**
 
 ```sh
 Staging area --> lugar donde agrupamos ficheros antes del commit
@@ -31,7 +30,7 @@ Commit --> es una instantanea (snapshot) de nuestra repositorio
 HEAD --> es un puntero que apunta a tu ultimo commit
 ```
 
-### Advertencias de ficheros
+* **Advertencias de ficheros**
 
 ```sh
 staged --> preparados para el commit
@@ -93,6 +92,16 @@ Crea una copia local del repositorio remoto
 `git checkout nombreOtraRama` Cambia a esa otra rama  
 `git merge nombreOtraRama` Desde la master mezclamos master con nombreOtraRama  
 `git branch -d nombreRama` Borra la rama de nombre nombreRama  
+
+### de .gitignore a github  
+
+Si añadimos algo a .gitignore ya no se commiteara pero tampoco desaparece lo existente en github. Para que se elimine de github ...
+
+```sh
+git rm -r --cached some-directory
+git commit -m 'Remove the now ignored directory "some-directory"'
+git push origin master // normalmente con git push vale
+```
 
 ---
 
