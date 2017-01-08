@@ -124,6 +124,13 @@ func main() {
 }
 ```
 
+TypeOf(variable)
+
+```go
+import ("reflect")
+fmt.Println("....", reflect.TypeOf(variable))
+```
+
 ### Declaracion
 
 * **Declaracion de variables**

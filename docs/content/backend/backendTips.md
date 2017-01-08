@@ -34,3 +34,32 @@ ab -n 1000 -c 10 https://brusbilis.com/
 ```
 
 ---
+
+## EJS
+
+### Pasar variables
+
+Pasar variables de servidor a javascript a traves de ejs  
+
+```ejs
+<% if (active) { %>
+  <script>
+    var active = <%- JSON.stringify(active) %>;  
+  </script>
+<% } %>
+
+<% if (user) { %>
+  <script>
+    var user = <%- JSON.stringify(user) %>;
+  </script>
+<% } else { %>
+   <script>
+    var user;
+  </script>
+<% } %>
+```
+
+o Usar AJAX  
+
+
+---
