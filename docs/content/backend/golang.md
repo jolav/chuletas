@@ -66,6 +66,8 @@ Additional help topics:
 Use "go help [topic]" for more information about that topic.
 ```
 
+`go run *.go` - When you give it a go file as an argument, it will not look for other go files. You can also do go build *.go  
+
 ---
 
 ## OPERADORES  
@@ -255,6 +257,27 @@ u := uint(f)
 
 * **Type Assertion**
 
+```go
+func diffArray(s1, s2 interface{}) []string {
+	var aux1 []int
+   	fmt.Println(reflect.TypeOf(s1))
+	var a1, a2 []string
+	if reflect.TypeOf(s1) == reflect.TypeOf(aux1) { // s1,s2 son []int
+		a1, a2 = convertIntToString(s1.([]int), s2.([]int))
+        // pasamos s1,s2 como []int y usando type assertion
+	} else {
+		a1, a2 = s1.([]string), s2.([]string)
+	}
+	// aqui ya a1,a2 son []string
+
+func diffTwoArrays() {
+	diffArray([]int{1, 2, 3, 5}, []int{1, 2, 3, 4, 5}))
+	diffArray([]string{"diorite", "andesite", "grass", "dirt", 
+    "pink wool", "dead shrub"}, 
+    []string{"diorite", "andesite", "grass", "dirt", "dead shrub"})
+}
+```
+
 ### Punteros
 
 * **Punteros vs Valor**  
@@ -307,6 +330,25 @@ func main() {
     zero(&x)  
     fmt.Println(x) // x is 0
 }
+```
+
+
+```go
+func  main()  {
+  var i int = 7
+  var p *int
+  p =  &i
+
+  fmt.Println("i : " , i)
+  fmt.Println("memory address of i : ", &i)
+  fmt.Println("p : " , p)
+  fmt.Println("*p : " , *p)
+}
+[output]
+i :  7
+memory address of i :  0x10328000
+p :  0x10328000
+*p :  7
 ```
 
 * **new**
@@ -713,6 +755,47 @@ func main() {
     fmt.Println(c.x, c.y, c.r)
     c.x = 10
     c.y = 5
+}
+```
+
+```go
+// todo en uno
+var addCases = []struct {
+	in   string
+	want string
+}{
+	{
+		"2011-04-25",
+		"2043-01-01T01:46:40",
+	},
+	{
+		"1977-06-13",
+		"2009-02-19T01:46:40",
+	},
+}
+
+// mas claro
+type addCases2 []struct {
+	in   string
+	want string
+}
+ac := addCases2{
+    {
+        "2011-04-25",
+        "2043-01-01T01:46:40",
+    },
+    {
+        "1977-06-13",
+        "2009-02-19T01:46:40",
+    },
+}
+
+// para verlos 
+for i, v := range addCases {
+    fmt.Println(i, v.in)
+}
+for i, v := range ac {
+    fmt.Println(i, v)
 }
 ```
 
@@ -1391,7 +1474,9 @@ func TestAverage(t *testing.T) {
 
 * **ejecutar**
 
-`./binarioGo &`- la & hace que se libere la consola  
+`nohup ./binarioGo &`  
+- la & hace que se libere la consola  
+- nohup hace que al cerrar o salir de la consola no se aborte el proceso  
 
 
 ### Systemd
@@ -1469,6 +1554,88 @@ check(err)
 ```
 
 ---
+
+## LINKS
+
+* **Go**
+
+<code>[Lets learn Go!](https://go-book.appspot.com/index.html)</code>  
+<code>[Interfaces](http://jordanorelli.com/post/32665860244/how-to-use-interfaces-in-go)</code>  
+<code>[Tipos de funcion](http://jordanorelli.com/post/42369331748/function-types-in-go-golang)</code>  
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+
+* **Articulos y Blogs**
+
+<code>[Jacob Martin](https://jacobmartins.com/article-list/)</code> - Articulos y tutoriales   
+<code>[Dinosaurscode](https://dinosaurscode.xyz/posts/)</code>  
+<code>[thepolyglotdeveloper.com](https://www.thepolyglotdeveloper.com/category/golang/)</code> - Articulos y tutoriales  
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+
+* **Web Dev**
+
+<code>[Writing Web Applications](https://golang.org/doc/articles/wiki/)</code> - Tutorial basico de la wiki de golnag.org  
+<code>[How I Start](https://howistart.org/posts/go/1)</code>  - Tutorial con multiples APIs del tiempo   
+
+<code>[Build Web Application with Golang](https://astaxie.gitbooks.io/build-web-application-with-golang/content/en/)</code> - Libro      
+<code>[webapp-with-golang-anti-textbook](https://thewhitetulip.gitbooks.io/webapp-with-golang-anti-textbook/content/)</code> - Libro  
+<code>[Go Web Applications](https://waimengmoan.gitbooks.io/go-applications/content/)</code> - Libro 
+
+<code>[Anatomy of a Go Web Application](http://tech.townsourced.com/post/anatomy-of-a-go-web-app/)</code> - 
+Estructura de una aplicacion web basica  
+<code>[Anatomy of a Go Web Application](http://tech.townsourced.com/post/anatomy-of-a-go-web-app-authentication/)</code> - Authentication
+<code>[Go Web App Example - Entry Point, File Structure, Models, and Routes](http://www.josephspurrier.com/go-web-app-example/)</code> - Estructura de una aplicacion web basica   
+<code>[Blue Jay - Go Toolkit for the Web](https://blue-jay.github.io/)</code> - Estructura de una aplicacion web ya bastante compleja 
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+
+* **Librerias**
+
+<code>[database/sql](http://go-database-sql.org/index.html)</code>  
+<code>[go-sql-driver/mysql](https://github.com/go-sql-driver/mysql)</code>  
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+
+
+* **Deploy security**
+
+<code>[Quick security wins in Golang (Part 1)](https://blog.komand.com/quick-security-wins-in-golang)</code>  
+<code>[https://github.com/unrolled/secure](https://github.com/unrolled/secure)</code> - Middleware de seguridad  
+<code>[Achieving a Perfect SSL Labs Score with Go](https://blog.bracebin.com/achieving-perfect-ssl-labs-score-with-go)</code>  
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+
+---
+
 
 
 

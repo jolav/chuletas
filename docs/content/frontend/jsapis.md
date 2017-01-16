@@ -42,7 +42,7 @@ if (Modernizr.awesomeNewFeature) {
 - Metodos
 
 `Math.abs(num)` - Devuelve el valor absoluto de num  
-`Math.round(num)` - Redondea num al entero mas cercano 
+`Math.round(num)` - Redondea num al entero mas cercano   
 `Math.sqrt(num)` - Devuelve la raiz cuadrada del numero positivo num  
 `Math.ceil(num)` - Redondea al entero mas cercano por arriba  
 `Math.floor(num)` - Redondea al entero mas cercano por abajo  

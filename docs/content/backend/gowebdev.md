@@ -12,7 +12,8 @@ Hacer peticiones `get`
 
 ```go
 func getHttpRequest() {
-    url := "https://brusbilis.com/freecodecamp/5-api/allApis/image/api/recent"
+    url := 
+	"https://brusbilis.com/freecodecamp/5-api/allApis/image/api/recent"
 	resp, err := http.Get(url)
 	if err != nil {
 		log.Fatal(err)
@@ -332,5 +333,23 @@ func main() {
 ### fresh
 
 [https://github.com/pilu/fresh](https://github.com/pilu/fresh) - Especie de nodemon para golang.   
+
+archivo de configuracion que se ejecuta con `fresh -c ruta/al/archivo`  
+
+```sh
+root:              .
+tmp_path:          ./tmp
+build_name:        runner-build
+build_log:         runner-build-errors.log
+valid_ext:         .go, .tpl, .tmpl, .html, .css, .js
+ignored:           assets, tmp, pintelest
+build_delay:       600
+colors:            1
+log_color_main:    cyan
+log_color_build:   yellow
+log_color_runner:  green
+log_color_watcher: magenta
+log_color_app:
+```
 
 ---

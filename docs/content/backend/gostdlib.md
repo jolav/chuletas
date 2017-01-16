@@ -97,10 +97,10 @@ las junta en una separadas por otra string ("-" en el ejemplo)
 `strings.Replace("aaaa", "a", "b", 2)` = "bbaa" - reemplaza en una cadena una
 parte por otra n veces (o todas las que se pueda si pasamos -1)  
 `strings.Split("a-b-c-d-e", "-")` = []string{"a","b","c","d","e"} - Parte una
-string en una lista de strings usando otra string como separador  
+string en un array de strings usando otra string como separador  
 `strings.ToLower("test")` = "TEST "- convierte la cadena a minusculas  
 `strings.ToUpper("TEST")` = "test" - convierte la cadena a mayusculas  
-`strings.Fields("cadena que sea)` = como split usando espacios en blanco . Equivalente a `strings.Split(text, " ")`  
+`strings.Fields("cadena que sea)` = como split usando espacios en blanco. es equivalente a si usaramos `strings.Split(text, " ")`  
 
 Convertir string en slice of bytes y viceversa  
 `arr := []byte("test")`  
@@ -110,6 +110,24 @@ Fuera del paquete string
 
 `len("aquiunacadena")` - nos da la longitud de la string     
 `"cadena"[3]` - nos da el codigo ASCII del caracter de indice 3, "e" = 101  
+`string(cadena[n])` - nos da el caracter de la cadena en la posicion n  
+
+---
+
+## STRCONV
+
+`import "strconv"` - conversiones entre numeros y strings  
+
+`i, err := strconv.Atoi("-42")` - string to int  
+`s, err := strconv.Itoa(-42)` - int to string  
+`b, err := strconv.ParseBool("true")` - string to boolean  
+`f, err := strconv.ParseFloat("3.1415", 64)` - string to float  
+`i, err := strconv.ParseInt("-42", 10, 64)` - string to int  
+`u, err := strconv.ParseUint("42", 10, 64)` - string to uint  
+`s := strconv.FormatBool(true)` - boolean value to string  
+`s := strconv.FormatFloat(3.1415, 'E', -1, 64)` - float to string  
+`s := strconv.FormatInt(-42, 16)` - int to string  
+`s := strconv.FormatUint(42, 16)` - uint to string  
 
 ---
 
@@ -329,6 +347,20 @@ then.Add(diff)
 then.Add(-diff)
 ```
 
+* **String to Time**
+
+```go
+func getParsedStart(start string) time.Time {
+	layout1 := "2006-01-02" // Layout numbers?
+	layout2 := "2006-01-02T15:04:05"
+	t, err := time.Parse(layout1, start)
+	if err != nil {
+		t, err = time.Parse(layout2, start)
+	}
+	return t
+}
+```
+
 ### Timestamp
 
 `Unix epoch`
@@ -381,6 +413,14 @@ fmt.Println("Ticker stopped")
 
 ---
 
+## MATH
+
+`import "math"`  
+
+`math.Floor(x float64) float64` - devuelve el entero (int) mas grande poisble menor o igual que x  
+
+---
+
 ## MATH/RAND
 
 `import "math/rand"`  
@@ -394,20 +434,9 @@ fmt.Println("Ticker stopped")
 
 ---
 
-## STRCONV
+## DATABASE/SQL
 
-`import "strconv"` - conversiones entre numeros y strings  
-
-`i, err := strconv.Atoi("-42")` - string to int  
-`s, err := strconv.Itoa(-42)` - int to string  
-`b, err := strconv.ParseBool("true")` - string to boolean  
-`f, err := strconv.ParseFloat("3.1415", 64)` - string to float  
-`i, err := strconv.ParseInt("-42", 10, 64)` - string to int  
-`u, err := strconv.ParseUint("42", 10, 64)` - string to uint  
-`s := strconv.FormatBool(true)` - boolean value to string  
-`s := strconv.FormatFloat(3.1415, 'E', -1, 64)` - float to string  
-`s := strconv.FormatInt(-42, 16)` - int to string  
-`s := strconv.FormatUint(42, 16)` - uint to string  
+[database/sql](http://go-database-sql.org/index.html)
 
 ---
 
