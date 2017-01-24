@@ -673,6 +673,28 @@ Las tres formas son lo mismo
 
 [Append](/backend/gostdlib.md#append) 
 
+* **BiDimensional**
+
+```go
+// allocate composed 2d array
+a := make([][]int, row)
+for i := range a {
+	a[i] = make([]int, col)
+}
+
+// allocate composed 2d array
+a := make([][]int, row)
+e := make([]int, row * col)
+for i := range a {
+	a[i] = e[i*col:(i+1)*col]
+}
+
+// otra posibilidad
+func get(r, c int) int {
+	return e[r*cols+c]
+}
+```
+
 ---
 
 ## MAPS
@@ -1223,20 +1245,23 @@ func main() {
 
 ### goroutines
 
-`go f(x)` comienza la ejecucion de una nueva goroutine que es una funcion capaz
-de ejecutarse concurrentemente con otras funciones.  
+`go f(x)` comienza la ejecucion de una nueva goroutine que es una funcion capaz de ejecutarse concurrentemente con otras funciones.  
 
 ```go
-func say(s string) {
-    for i := 0; i < 5; i++ {
-        time.Sleep(100 * time.Millisecond)
-        fmt.Println(s)
-    }
+// sin wait, el programa main puede acabar antes de que las goroutines 
+// hagan lo que tengan que hacer
+func parallelLetFreq() {
+	var wg sync.WaitGroup
+	wg.Add(3)   // suma 3 a las goroutines a esperar
+	go count("1", &wg)
+	go count("2", &wg)
+	go count("3", &wg)
+	wg.Wait() // espera a todas las goroutines (3 en este caso)
 }
 
-func main() {
-    go say("world")
-    say("hello")
+func count(n int, wg *sync.WaitGroup) {
+	defer wg.Done() // al terminar la funcion terminar goroutine
+	fmt.Println("Number --> ", n))
 }
 ```
 

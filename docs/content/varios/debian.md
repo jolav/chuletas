@@ -92,6 +92,7 @@ el puerto 8080.
 ```sh
 ls -lh
 du -ah /ruta
+du -h -d1
 ```
 
 ### Limpieza
@@ -535,163 +536,7 @@ http {
 }
 ```
 
-### Actualizado al 09-11-2016
-
-```nginx
-server {
-        listen 80;
-        listen [::]:80;
-        server_name app.perrygatos.es;
-        #return 301 https://brusbilis.com$request_uri;
-   location / {
-        ssi on;
-        try_files $uri $uri/ =404;
-        root /var/www/perrygatos;
-        index index.html index.htm;
-   }
-}
-server {
-        listen 80;
-        listen [::]:80;
-        server_name brusbilis.com www.brusbilis.com;
-        return 301 https://brusbilis.com$request_uri;
-}
-server {
-        listen 80;
-        listen [::]:80;
-        server_name sub.brusbilis.com;
-        return 301 https://sub.brusbilis.com$request_uri;
-}
-server {
-        listen 80;
-        listen [::]:80;
-        server_name brusbilis.com/freecodecamp;
-        return 301 https://brusbilis.com/freecodecamp$request_uri;
-}
-server {
-        listen 80;
-        listen [::]:80;
-        server_name brusbilis.com/freecodecamp/5-api/timestamp;
-        return 301 https://brusbilis.com/freecodecamp/5-api/timestamp$request_u$
-}
-server {
-        listen 80;
-#       listen [::]:80;   # para evitar que salga con IPv6
-        server_name brusbilis.com/freecodecamp/5-api/parser;
-        return 301 https://brusbilis.com/freecodecamp/5-api/parser$request_uri;
-}
-server {
-        listen 80;
-        listen [::]:80;
-        server_name brusbilis.com/freecodecamp/5-api/url;
-        return 301 https://brusbilis.com/freecodecamp/5-api/url$request_uri;
-}
-server {
-        listen 80;
-        listen [::]:80;
-        server_name brusbilis.com/freecodecamp/5-api/image;
-        return 301 https://brusbilis.com/freecodecamp/5-api/image$request_uri;
-}
-server {
-        listen 80;
-        listen [::]:80;
-        server_name brusbilis.com/freecodecamp/5-api/file;
-        return 301 https://brusbilis.com/freecodecamp/5-api/file$request_uri;
-}
-server {
-    listen 80;
-    # Listen to your server ip address
-    server_name 89.38.144.25;
-    # Redirect all traffic comming from your-server-ip to your domain
-    return 301 https://brusbilis.com$request_uri;
-}
-server {
-   listen 443 ssl;
-   server_name brusbilis.com;
-   ssl_certificate /etc/letsencrypt/live/brusbilis.com/fullchain.pem;
-   ssl_certificate_key /etc/letsencrypt/live/brusbilis.com/privkey.pem;
-   ssl_session_cache shared:SSL:1m;
-   ssl_session_timeout 5m;
-   ssl_ciphers HIGH:!aNULL:!MD5;
-   ssl_prefer_server_ciphers on;
-   root /var/www/html;
-   try_files $uri $uri/ =404;
-   index index.html index.htm;
-   ssi on;
-   location /freecodecamp {
-        alias /var/www/freecodecamp;
-   }
-   location /freecodecamp/5-api/timestamp/ {
-        alias /var/www/api/timestamp/;
-        proxy_pass http://127.0.0.1:3000/;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-   }
-   location /freecodecamp/5-api/parser/ {
-        proxy_pass http://127.0.0.1:3002/;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-        # para pillar la ip de visitante añadir las siguientes dos lineas
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-   }
-   location /freecodecamp/5-api/url/ {
-        proxy_pass http://127.0.0.1:3003/;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-   }
-   location /freecodecamp/5-api/image/ {
-        proxy_pass http://127.0.0.1:3004/;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-   }
-   location /freecodecamp/5-api/file/ {
-        proxy_pass http://127.0.0.1:3005/;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-#       allow POST serving static
-        error_page 405 = $uri;
-   }
-}
-server {
-   listen 443 ssl;
-   server_name sub.brusbilis.com;
-   ssl_certificate /etc/letsencrypt/live/sub.brusbilis.com/fullchain.pem;
-   ssl_certificate_key /etc/letsencrypt/live/sub.brusbilis.com/privkey.pem;
-   ssl_session_cache shared:SSL:1m;
-   ssl_session_timeout 5m;
-   ssl_ciphers HIGH:!aNULL:!MD5;
-   ssl_prefer_server_ciphers on;
-   location / {
-      ssi on;
-      try_files $uri $uri/ =404;
-      root /var/www/sub;
-      index index.html index.htm;
-   }
-   location /gestionWebrethinkDB/ {
-       auth_basic "Restricted";
-       auth_basic_user_file /etc/nginx/.rethinkdb.pass;
-       proxy_pass http://127.0.0.1:8080/;
-       proxy_redirect off;
-       proxy_set_header Authorization "";
-   }
-}
-```
+### nginx.conf
 
 /etc/nginx/nginx.conf
 
@@ -785,6 +630,226 @@ http {
 #               proxy      on;
 #       }
 #}
+```
+
+### Actualizado al 24-01-2017
+
+```nginx
+server {
+        listen 80;
+        listen [::]:80;
+        server_name app.perrygatos.es;
+        #return 301 https://brusbilis.com$request_uri;
+   location / {
+        ssi on;
+        try_files $uri $uri/ =404;
+        root /var/www/perrygatos;
+        index index.html index.htm;
+   }
+}
+server {
+	listen 80;
+	listen [::]:80;
+	server_name brusbilis.com www.brusbilis.com;
+	return 301 https://brusbilis.com$request_uri;
+}
+server {
+        listen 80;
+        listen [::]:80;
+        server_name sub.brusbilis.com;
+        return 301 https://sub.brusbilis.com$request_uri;
+}
+server {
+        listen 80;
+        listen [::]:80;
+        server_name brusbilis.com/freecodecamp;
+        return 301 https://brusbilis.com/freecodecamp$request_uri;
+}
+server {
+        listen 80;
+        listen [::]:80;
+        server_name brusbilis.com/freecodecamp/5-api/allApis;
+        return 301 https://brusbilis.com/freecodecamp/5-api/allApis$request_uri;
+}
+server {
+        listen 80;
+        listen [::]:80;
+        server_name brusbilis.com/freecodecamp/5-api/timestamp;
+        return 301 https://brusbilis.com/freecodecamp/5-api/timestamp$request_uri;
+}
+server {
+        listen 80;
+#        listen [::]:80;
+        server_name brusbilis.com/freecodecamp/5-api/parser;
+        return 301 https://brusbilis.com/freecodecamp/5-api/parser$request_uri;
+}
+server {
+        listen 80;
+        listen [::]:80;
+        server_name brusbilis.com/freecodecamp/5-api/url;
+        return 301 https://brusbilis.com/freecodecamp/5-api/url$request_uri;
+}
+server {
+        listen 80;
+        listen [::]:80;
+        server_name brusbilis.com/freecodecamp/5-api/image;
+        return 301 https://brusbilis.com/freecodecamp/5-api/image$request_uri;
+}
+server {
+        listen 80;
+        listen [::]:80;
+        server_name brusbilis.com/freecodecamp/5-api/file;
+        return 301 https://brusbilis.com/freecodecamp/5-api/file$request_uri;
+}
+server {
+        listen 80;
+        listen [::]:80;
+        server_name brusbilis.com/freecodecamp/6-backEnd/pintelest;
+        return 301 https://brusbilis.com/freecodecamp/6-backEnd/pintelest$request_uri;
+}
+server {
+        listen 80;
+        listen [::]:80;
+        server_name brusbilis.com/freecodecamp/6-backEnd;
+        return 301 https://brusbilis.com/freecodecamp/6-backEnd$request_uri;
+}
+server {
+    listen 80;
+    # Listen to your server ip address
+    server_name 89.38.144.25; 
+    # Redirect all traffic comming from your-server-ip to your domain
+    return 301 https://brusbilis.com$request_uri;
+}
+server {
+   listen 443 ssl;
+   server_name brusbilis.com;
+   ssl_certificate /etc/letsencrypt/live/brusbilis.com/fullchain.pem;
+   ssl_certificate_key /etc/letsencrypt/live/brusbilis.com/privkey.pem;
+   ssl_session_cache shared:SSL:1m;
+   ssl_session_timeout 5m;
+   ssl_ciphers HIGH:!aNULL:!MD5;
+   ssl_prefer_server_ciphers on;
+   root /var/www/html;
+   try_files $uri $uri/ =404;
+   index index.html index.htm;
+   ssi on;
+   location /freecodecamp {
+        alias /var/www/freecodecamp;
+   }
+   location /freecodecamp/5-api/timestamp/ {
+	proxy_pass http://127.0.0.1:3001/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+   }
+   location /freecodecamp/5-api/parser/ {
+        proxy_pass http://127.0.0.1:3002/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+	# para pillar la ip de visitante añadir las siguientes dos lineas
+	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	proxy_set_header X-Forwarded-Proto $scheme;
+   }
+   location /freecodecamp/5-api/url/ {
+        proxy_pass http://127.0.0.1:3003/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+   }
+   location /freecodecamp/5-api/image/ {
+        proxy_pass http://127.0.0.1:3004/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+   }
+   location /freecodecamp/5-api/file/ {
+        proxy_pass http://127.0.0.1:3005/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+#	allow POST serving static	
+	error_page 405 = $uri;
+   }
+   location /freecodecamp/5-api/allApis/ {
+        proxy_pass http://127.0.0.1:3011/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+# 	para pillar la ip de visitante añadir las siguientes dos lineas api parser
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+#       allow POST serving static para la api file
+        error_page 405 = $uri;
+   }
+   location /freecodecamp/6-backEnd/pintelest/ {
+        proxy_pass http://127.0.0.1:3006/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+   }
+   location /freecodecamp/6-backEnd/ {
+        proxy_pass http://127.0.0.1:3007/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+   }
+}
+server {
+   listen 443 ssl;
+   server_name sub.brusbilis.com;
+   ssl_certificate /etc/letsencrypt/live/sub.brusbilis.com/fullchain.pem;
+   ssl_certificate_key /etc/letsencrypt/live/sub.brusbilis.com/privkey.pem;
+   ssl_session_cache shared:SSL:1m;
+   ssl_session_timeout 5m;
+   ssl_ciphers HIGH:!aNULL:!MD5;
+   ssl_prefer_server_ciphers on;
+   location / {
+      ssi on;
+      try_files $uri $uri/ =404;
+      root /var/www/sub;
+      index index.html index.htm;
+   }
+   location /gestionWebRethinkDB/ {
+       auth_basic "Restricted";
+       auth_basic_user_file /etc/nginx/.rethinkdb.pass;
+       proxy_pass http://127.0.0.1:8080/;
+       proxy_redirect off;
+       proxy_set_header Authorization "";
+   }
+   location /cm/ {
+	proxy_pass http://127.0.0.1:3010/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+   }
+   location /go/ {
+        proxy_pass http://127.0.0.1:3020/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+   }
+}
 ```
 
 ---

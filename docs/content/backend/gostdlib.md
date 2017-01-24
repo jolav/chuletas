@@ -119,11 +119,51 @@ Fuera del paquete string
 `import "strconv"` - conversiones entre numeros y strings  
 
 `i, err := strconv.Atoi("-42")` - string to int  
-`s, err := strconv.Itoa(-42)` - int to string  
+`s, err := strcontype URL struct {
+
+	Scheme     string
+
+	Opaque     string    // encoded opaque data
+
+	User       *Userinfo // username and password information
+
+	Host       string    // host or host:port
+
+	Path       string
+
+	RawPath    string // encoded path hint (Go 1.5 and later only; see EscapedPath method)
+
+	ForceQuery bool   // append a query ('?') even if RawQuery is empty
+
+	RawQuery   string // encoded query values, without '?'
+
+	Fragment   string // fragment for references, without '#'
+
+}v.Itoa(-42)` - int to string  
 `b, err := strconv.ParseBool("true")` - string to boolean  
 `f, err := strconv.ParseFloat("3.1415", 64)` - string to float  
 `i, err := strconv.ParseInt("-42", 10, 64)` - string to int  
-`u, err := strconv.ParseUint("42", 10, 64)` - string to uint  
+`u, err := strcontype URL struct {
+
+	Scheme     string
+
+	Opaque     string    // encoded opaque data
+
+	User       *Userinfo // username and password information
+
+	Host       string    // host or host:port
+
+	Path       string
+
+	RawPath    string // encoded path hint (Go 1.5 and later only; see EscapedPath method)
+
+	ForceQuery bool   // append a query ('?') even if RawQuery is empty
+
+	RawQuery   string // encoded query values, without '?'
+
+	Fragment   string // fragment for references, without '#'
+
+}v.ParseUint("42", 10, 64)` - string to uint  
 `s := strconv.FormatBool(true)` - boolean value to string  
 `s := strconv.FormatFloat(3.1415, 'E', -1, 64)` - float to string  
 `s := strconv.FormatInt(-42, 16)` - int to string  
@@ -134,6 +174,8 @@ Fuera del paquete string
 ## APPEND 
 
 [Slice tricks](https://github.com/golang/go/wiki/SliceTricks) 
+
+[More](https://www.reddit.com/r/golang/comments/283vpk/help_with_slices_and_passbyreference/)
 
 `func append(slice []T, elements...T) []T.`
 
@@ -155,17 +197,25 @@ soporta escribir a traves del metodo Write
 
 `import io/ioutil`    
 
-* **leer un archivo**  
+* **leer y escribir un archivo**  
+
+Mas control a traves de un `File struct` del paquete OS
 
 ```go
-func main() {
-    bs, err := ioutil.ReadFile("test.txt")
-    if err != nil {
-        return
-    }
-    str := string(bs)
-    fmt.Println(str)
+data := []byte("Hello World!\n")
+
+// write 
+err := ioutil.WriteFile("data1", data, 0644)
+if err != nil {
+    panic(err)
 }
+
+//read
+read, err := ioutil.ReadFile("data1")
+if err != nil {
+    return
+}
+fmt.Print(string(read1))
 ```
 
 ---
@@ -176,28 +226,46 @@ func main() {
 
 ### Archivos
 
-* **leer un archivo**  
+* **leer escribir un archivo**  
 
 ```go
-func main() {
-    file, err := os.Open("test.txt")
-    if err != nil {
-        // handle the error here
-        return
-    }
-    defer file.Close()
-    stat, err := file.Stat()              // get the file size
-    if err != nil {
-        return
-    }
-    bs := make([]byte, stat.Size())       // read the file
-    _, err = file.Read(bs)
-    if err != nil {
-        return
-    }
-    str := string(bs)
-    fmt.Println(str)
+// Una forma
+file, err := os.Open("test.txt")
+if err != nil {
+    // handle the error here
 }
+defer file.Close()
+stat, err := file.Stat()              // get the file size
+if err != nil {
+    return
+}
+bs := make([]byte, stat.Size())       // read the file
+_, err = file.Read(bs)
+if err != nil {
+    return
+}
+str := string(bs)
+fmt.Println(str)
+```
+
+```go
+// otra forma
+data := []byte("Hello World!\n")
+
+// write to file and read from file using the File struct
+file1, _ := os.Create("data2")
+defer file1.Close()
+
+bytes, _ := file1.Write(data)
+fmt.Printf("Wrote %d bytes to file\n", bytes)
+
+file2, _ := os.Open("data2")
+defer file2.Close()
+
+read2 := make([]byte, len(data))
+bytes, _ = file2.Read(read2)
+fmt.Printf("Read %d bytes from file\n", bytes)
+fmt.Println(string(read2))
 ```
 
 * **crear un archivo**  
@@ -206,7 +274,6 @@ func main() {
 func main() {
   file, err := os.Create("test.txt")
   if err != nil {
-      // handle the error here
       return
   }
   defer file.Close()
@@ -307,8 +374,56 @@ fmt.Println(r.MatchString(patron))
 
 [Golang JSON](https://blog.golang.org/json-and-go)  
 
-`json.Marshal(struct object)` - Go data to JSON  
-`json.Unmarshal(dataJson, &structObject)` - JSON to Go data  
+`dataJson, err := json.Marshal(structObject)` - Go struct data to JSON data    
+`dataJson, err:= json.MarshalIndent(strObj, "", "  ")` - bien preformateado  
+
+
+`err := json.Unmarshal(dataJson, &structObject)` - JSON data to Go struct data  
+
+```go
+urlDir := "https://brusbilis.com/api/que/queramos"
+resp, err := http.Get(urlDir)
+if err != nil {
+    log.Fatal(err)
+}
+defer resp.Body.Close()
+
+body, err := ioutil.ReadAll(resp.Body)
+if err != nil {
+    log.Fatal(err)
+}
+body = body[5 : len(body)-6] // quitar mis pegatinas de <pre></pre>
+
+var s structObject
+err = json.Unmarshal(body, &s)
+fmt.Println(s)
+```
+
+* **Convertir json to go struct**  
+
+[JSON-to-Go online](https://mholt.github.io/json-to-go/)
+
+`json:"-"` ignora ese campo tanto al convertir a json o al convertir desde json  
+`json:"nombreCampo,omitempy` - no se incluye el campo al convertir a json si ese campo ya tiene un valor por defecto.
+
+* **Decoder**
+
+Ademas de `Unmarshal/Marshal` existe `Decoder/Encoder`, que se debe usar si los datos vienen de una stream io.Reader como por ejemplo el Body de una http.Request.  
+Si los datos estan en una string o en memoria mejor usar Unmarshal
+
+```go
+type configuration struct { lo que sea }
+
+file, _ := os.Open("conf.json")
+defer file.Close()
+decoder := json.NewDecoder(file)
+conf := configuration{}
+err := decoder.Decode(&conf)
+if err != nil {
+    fmt.Println("Error:", err)
+}
+fmt.Println(conf)
+```
 
 ---
 
@@ -418,6 +533,7 @@ fmt.Println("Ticker stopped")
 `import "math"`  
 
 `math.Floor(x float64) float64` - devuelve el entero (int) mas grande poisble menor o igual que x  
+`math.Pow(x,y float64) float64` - x elevado a y    
 
 ---
 

@@ -6,9 +6,466 @@
 
 `import net/http`    
 
-### get
+### Static
 
-Hacer peticiones `get`  
+```go
+// sirve el directorio entero
+func main() {		
+	dir := http.Dir("./files")
+	http.ListenAndServe(":8080", http.FileServer(dir))
+	http.HandleFunc("/", readme)
+}
+```
+
+```go
+// ServeFile sirve un archivo o un directorio como 3er argumento
+func main() {
+	http.HandleFunc("/", public)
+	http.ListenAndServe(":8080", nil)
+}
+func public(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "./files/hola.html")
+	//	http.ServeFile(w, r, "./files/")
+}
+```
+
+```go
+// sirve el directorio ./files en la ruta /static/
+// ./files puede estar en cualquier sitio del sistema de archivos
+// no solo en el dir de la aplicacion
+func main() {
+	dir := http.Dir("./files/")
+	handler := http.StripPrefix("/static/", http.FileServer(dir))
+	http.Handle("/static/", handler)
+
+	http.HandleFunc("/", homePage)
+	http.ListenAndServe(":8080", nil)
+}
+```
+
+### Handler
+
+\- Handlers son cualquier struct que tiene un metodo `ServeHTTP(w http.ResponseWriter, r *http.Request)` con dos parametros: una interface HTTPResponseWriter y un puntero a una Request struct.  
+\- Handler functions son funciones que se comportan como handlers. Tienen la misma firma que el metodo ServeHTTP y se utiizan para procesar peticiones (Requests)  
+\- Handlers y handler functions se pueden encadenar para permitir el procesado en partes de peticiones mediante la separacion de asuntos.  
+\- Multiplexers(routers) tambien son handlers. ServeMux es un router de peticiones HTTP. Acepta peticiones HTTP y las redirige al handler adecuado segun la URL de la peticion.  
+`DefaultServeMux` es una instancia de `ServeMux` que se usa como router por defecto
+ 
+
+* **Handler**
+
+```go
+// multi handler and chain handler
+package main
+
+import (
+	"fmt"
+	"net/http"
+)
+
+type helloHandler struct{}
+
+func (h *helloHandler) ServeHTTP(w http.ResponseWriter, r *http.Request){
+	fmt.Fprintf(w, "Hello!")
+}
+
+type worldHandler struct{}
+
+func (h *worldHandler) ServeHTTP(w http.ResponseWriter, r *http.Request){
+	fmt.Fprintf(w, "World!")
+}
+
+func log(h http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
+		fmt.Printf("Handler called - %T\n", h)
+		h.ServeHTTP(w, r)
+	})
+}
+
+func protect(h http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
+		// some code to make sure the user is authorized
+		h.ServeHTTP(w, r)
+	})
+}
+
+func main() {
+	hello := helloHandler{}
+	world := worldHandler{}
+
+	server := http.Server{
+		Addr: "127.0.0.1:8080",
+	}
+
+	http.Handle("/hello", protect(log(&hello)))
+	http.Handle("/world", &world)
+
+	server.ListenAndServe()
+}
+```
+
+* **HandleFunc**
+
+```go 
+package main
+
+import (
+	"fmt"
+	"net/http"
+	"reflect"
+	"runtime"
+)
+
+func hello(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Hello!")
+}
+
+func world(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "World!")
+}
+
+func log(h http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		name := runtime.FuncForPC(reflect.ValueOf(h).Pointer()).Name()
+		fmt.Println("Handler function called - " + name)
+		h(w, r)
+	}
+}
+
+func main() {
+	server := http.Server{
+		Addr: "127.0.0.1:8080",
+	}
+	http.HandleFunc("/hello", log(hello))
+	http.HandleFunc("/world", world)
+
+	server.ListenAndServe()
+}
+```
+
+### Request
+
+* **URL**
+
+```go
+https://golang.org/src/net/url/url.go
+type URL struct {
+	Scheme     string
+	Opaque     string    // encoded opaque data
+	User       *Userinfo // username and password information
+	Host       string    // host or host:port
+	Path       string
+	RawPath    string // encoded path hint 
+	ForceQuery bool   // append a query ('?') even if RawQuery is empty
+	RawQuery   string // encoded query values, without '?'
+	Fragment   string // fragment for references, without '#'
+}
+algunos metodos
+// EscapedPath returns the escaped form of u.Path.
+func (u *URL) EscapedPath() string {}
+// IsAbs reports whether the URL is absolute.
+func (u *URL) IsAbs() bool {}
+// Query parses RawQuery and returns the corresponding values.
+func (u *URL) Query() Values {}
+type Values map[string][]string
+```
+
+* **Headers**
+
+`type Header`  
+`func (h Header) Add(key, value string)`  
+`func (h Header) Del(key string)`  
+`func (h Header) Get(key string) string`  
+`func (h Header) Set(key, value string)`  
+`func (h Header) Write(w io.Writer) error`  
+`func (h Header) WriteSubset(w io.Writer, exclude map[string]bool) error`  
+
+```go
+func headers(w http.ResponseWriter, r *http.Request) {
+	h := r.Header
+	// h := r.Header["Accept-Encoding"]  // devuelve un map de strings
+	// h := r.Header.Get("Accept-Encoding") // devuelve string
+	fmt.Fprintln(w, h)
+}
+http.HandleFunc("/headers", headers)
+```
+
+
+* **Body**
+
+```go
+
+func body(w http.ResponseWriter, r *http.Request) {
+	len := r.ContentLength
+	body := make([]byte, len)
+	r.Body.Read(body)
+	fmt.Fprintln(w, string(body))
+}
+	http.HandleFunc("/body", body)
+```
+
+### ResponseWriter
+
+La interface `ResponseWriter` tiene tres metodos:  
+\- `Write` - coge un []bytes y lo escribe en el body de la respuesta HTTP. Si la cabecera no especifica content-type usa los los primeros 512 bytes de datos para detectar el tipo de contenido   
+\- `WriteHeader` - envia un numero entero que representa el codigo de estado de la respuesta HTTP. Despues de usar este metodo no se puede escribir ni modificar nada en la cabecera. Si no se use este metodo por defecto cuando se llama a `Write` se envia el codigo `200 OK`  
+Es muy util para enviar codigos de errores  
+\- `Header` - devuelve un map de campos de la cabecera que se pueden modificar y que seran enviados en la respuesta al cliente  
+
+```go
+type post struct {
+	User    string
+	Langs []string
+}
+
+func writeExample(w http.ResponseWriter, r *http.Request) {
+	str := `<html>
+<head><title>Write Example</title></head>
+<body><h1>Hello World</h1></body>
+</html>`
+	w.Write([]byte(str))
+}
+
+func writeHeaderExample(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(501)
+	fmt.Fprintln(w, "Not implemented yet")
+}
+
+func headerExample(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Location", "https://brusbilis.com")
+	w.WriteHeader(302)
+}
+
+func jsonExample(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	post := &post{
+		User:    "brusbilis",
+		Langs: []string{"Go", "HTML", "Javascript"},
+	}
+	json, _ := json.Marshal(post)
+	w.Write(json)
+}
+
+func main() {
+	server := http.Server{
+		Addr: "127.0.0.1:8080",
+	}
+	http.HandleFunc("/write", writeExample)
+	http.HandleFunc("/writeheader", writeHeaderExample)
+	http.HandleFunc("/redirect", headerExample)
+	http.HandleFunc("/json", jsonExample)
+	server.ListenAndServe()
+}
+```
+
+### Middleware
+
+```go
+type Middleware []http.Handler
+
+// Adds a handler to the middleware
+func (m *Middleware) Add(handler http.Handler) {
+    *m = append(*m, handler)
+}
+func (m Middleware) ServeHTTP(w http.ResponseWriter, r *http. ➥Request) {
+  // Process the middleware
+}
+```
+
+### Cookies
+
+```go
+https://golang.org/src/net/http/cookie.go
+
+type Cookie struct {
+	Name  			string
+	Value 			string
+	Path     	  string    // optional
+	Domain      string    // optional
+	Expires     time.Time // optional
+	RawExpires  string    // for reading cookies only
+	// MaxAge=0 means no 'Max-Age' attribute specified.
+	// MaxAge<0 means delete cookie now, equivalently 'Max-Age: 0'
+	// MaxAge>0 means Max-Age attribute present and given in seconds
+	MaxAge   		int
+	Secure   		bool
+	HttpOnly 		bool
+	Raw      		string
+	Unparsed 		[]string // Raw text of unparsed attribute-value pairs
+}
+```
+
+Si no se usa el campo `Expires` la cookie es de sesion o temporal y se eliminan del navegador cuando este se cierra. De lo contrario la cookie es persistente y dura hasta que expire o se elimine. Usar `MaxAge` en lugar de `Expires` que esta deprecada  
+
+```go
+package main
+
+import (
+	"encoding/base64"
+	"fmt"
+	"net/http"
+	"time"
+)
+
+func setCookie(w http.ResponseWriter, r *http.Request) {
+	c1 := http.Cookie{
+		Name:     "first cookie",
+		Value:    "Valor de la primera galleta",
+		HttpOnly: true,
+	}
+	c2 := http.Cookie{
+		Name:     "second cookie",
+		Value:    "Valor de la segunda galleta",
+		HttpOnly: true,
+	}
+	http.SetCookie(w, &c1)
+	http.SetCookie(w, &c2)
+}
+
+func getCookie(w http.ResponseWriter, r *http.Request) {
+	c1, err := r.Cookie("first cookie")
+	if err != nil {
+		fmt.Fprintln(w, "Cannot get the first cookie")
+	}
+	cs := r.Cookies()
+	fmt.Fprintln(w, c1)
+	fmt.Fprintln(w, cs)
+}
+
+func setMessage(w http.ResponseWriter, r *http.Request) {
+	msg := []byte("Hello World!")
+	c := http.Cookie{
+		Name:  "flash",
+		Value: base64.URLEncoding.EncodeToString(msg),
+	}
+	http.SetCookie(w, &c)
+}
+
+func showMessage(w http.ResponseWriter, r *http.Request) {
+	c, err := r.Cookie("flash")
+	if err != nil {
+		if err == http.ErrNoCookie {
+			fmt.Fprintln(w, "No message found")
+		}
+	} else {
+		rc := http.Cookie{
+			Name:    "flash",
+			MaxAge:  -1,
+			Expires: time.Unix(1, 0),
+		}
+		http.SetCookie(w, &rc)
+		val, _ := base64.URLEncoding.DecodeString(c.Value)
+		fmt.Fprintln(w, string(val))
+	}
+}
+
+func main() {
+	server := http.Server{
+		Addr: "127.0.0.1:8080",
+	}
+	http.HandleFunc("/setCookie", setCookie)
+	http.HandleFunc("/getCookie", getCookie)
+	http.HandleFunc("/setMessage", setMessage)
+	http.HandleFunc("/showMessage", showMessage)
+	server.ListenAndServe()
+}
+```
+
+### Forms
+
+1º - Parseamos la peticion con `ParseForm o ParseMultipartForm`  
+2º - Accedemos al formulario  
+
+```html
+// formulario para process1
+<form action="http://127.0.0.1:8080/process1?hello=world&thread=123" 
+method="post" enctype="application/x-www-form-urlencoded">
+	<input type="text" name="hello" value="brusbilis" />
+	<input type="text" name="post" value="1234" />
+	<input type="submit" />
+</form>
+<!--
+Obtendriamos map[thread:[123] hello:[brusbilis world] post:[1234]]
+Tenemos los valores de la URL mas los del formulario
+Para sacar solo un campo usamos notacion r.Form["post"] 
+
+Si usamos r.PostForm se ignoran los pares de la URL y solo se usan los
+del formulario resultando map[post:[1234] hello:[brusbilis]]
+
+Tambien existe ParseMultipartForm  
+-->
+// formulario para process2 y process3
+<form action="http://localhost:8080/process?hello=world&thread=123"
+method="post" enctype="multipart/form-data">
+	<input type="text" name="hello" value="brusbilis" />
+	<input type="text" name="post" value="1234" />
+	<input type="file" name="uploaded">
+	<input type="submit">
+</form>
+```
+
+```go
+package main
+
+import (
+	"fmt"
+	"io/ioutil"
+	"net/http"
+)
+
+func process1(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+	fmt.Fprintln(w, r.Form)
+	// 	fmt.Fprintln(w, r.PostForm)
+}
+
+func process2(w http.ResponseWriter, r *http.Request) {
+	file, _, err := r.FormFile("uploaded")
+	if err == nil {
+		data, err := ioutil.ReadAll(file)
+		if err == nil {
+			fmt.Fprintln(w, string(data))
+		}
+	}
+}
+
+func process3(w http.ResponseWriter, r *http.Request) {
+	r.ParseMultipartForm(1024)
+	fileHeader := r.MultipartForm.File["uploaded"][0]
+	file, err := fileHeader.Open()
+	if err == nil {
+		data, err := ioutil.ReadAll(file)
+		if err == nil {
+			fmt.Fprintln(w, string(data))
+		}
+	}
+}
+
+func main() {
+	server := http.Server{
+		Addr: "127.0.0.1:8080",
+	}
+	http.HandleFunc("/process1", process1)
+	http.HandleFunc("/process2", process2)
+	http.HandleFunc("/process3", process3)
+
+	server.ListenAndServe()
+}
+```
+
+![gowebdev](/z-static/images/go/forms.png)
+
+### Cliente HTTP
+
+
+`type Client`  
+`func (c *Client) Do(req *Request) (*Response, error)`  
+`func (c *Client) Get(url string) (resp *Response, err error)`  
+`func (c *Client) Head(url string) (resp *Response, err error)`  
+`func (c *Client) Post(url string, bodyType string, body io.Reader) (resp *Response, err error)`  
+`func (c *Client) PostForm(url string, data url.Values) (resp *Response, err error)`  
+
+Ejemplo Hacer peticiones `get`  
 
 ```go
 func getHttpRequest() {
