@@ -102,6 +102,15 @@ apt-get autoclean &&  apt-get autoremove && apt-get remove --purge `deborphan`
 dpkg -l | grep -v ^ii | awk '{print $2}' | sed '1,5d'|xargs dpkg --purge   
 ```
 
+### Buscar procesos
+
+```sh
+pgrep nombreABuscar
+ps
+// luego
+kill numeroProceso
+```
+
 ---
 
 ## ADDUSER

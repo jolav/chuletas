@@ -29,7 +29,6 @@
 
 ### Fonts
 
-`Roboto` -
 ```html
 <!-- Roboto -->
 <link href="https://fonts.googleapis.com/css?family=Roboto:400,900"  
@@ -44,7 +43,8 @@ rel="stylesheet">
 rel="stylesheet">
 
 <!-- Titillium Web -->
-<link href="https://fonts.googleapis.com/css?family=Titillium+Web:400,700" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Titillium+Web:400,700"
+rel="stylesheet">
 
 <!-- Maven Pro -->
 <link href="https://fonts.googleapis.com/css?family=Maven+Pro:400,500,900"
@@ -55,11 +55,16 @@ rel="stylesheet">
 rel="stylesheet">
 
 <!-- Gentium Basic -->
-<link href="https://fonts.googleapis.com/css?family=Gentium+Basic:400
-,700" rel="stylesheet">  
+<link href="https://fonts.googleapis.com/css?family=Gentium+Basic:400,700"
+rel="stylesheet">  
 
 <!-- Poppins -->
-<link href="https://fonts.googleapis.com/css?family=Poppins:400,700" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Poppins:400,700"
+rel="stylesheet"> 
+
+<!-- Pacifico -->
+<link href="https://fonts.googleapis.com/css?family=Pacifico"
+rel="stylesheet">
 ```
 
 ### APIs
@@ -113,7 +118,7 @@ Object.assign(div.style, style)
 
 ## BOOTSTRAP 4
 
-<code>[chuleta alpha5](https://hackerthemes.com/bootstrap-cheatsheet/)</code> - chuleta  
+<code>[chuleta alpha6](https://hackerthemes.com/bootstrap-cheatsheet/)</code> - chuleta  
 
 ---
 

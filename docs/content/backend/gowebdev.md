@@ -260,6 +260,8 @@ func main() {
 
 ### Middleware
 
+[Buscar algo mejor](https://www.google.es/search?q=middleware+golang&ie=utf-8&oe=utf-8&client=firefox-b&gfe_rd=cr&ei=a4uGWMuFEems8wfuxYi4Dw)  
+
 ```go
 type Middleware []http.Handler
 
@@ -370,6 +372,10 @@ func main() {
 	server.ListenAndServe()
 }
 ```
+
+### Sessions
+
+[Astaxie Sessions and Cookies](https://astaxie.gitbooks.io/build-web-application-with-golang/content/en/06.0.html)
 
 ### Forms
 
@@ -485,6 +491,126 @@ func getHttpRequest() {
 }
 ```  
 
+### ServeMux
+
+```go
+func mainNormal() {
+	// assets for all apps
+	assets := http.FileServer(http.Dir("_public"))
+	http.Handle("/", http.StripPrefix("/", assets))
+
+	// assets for individual apps
+	votingRes := http.FileServer(http.Dir("voting/assets"))
+	http.Handle("/voting/assets/", 
+		http.StripPrefix("/voting/assets/", votingRes))
+
+	book := http.FileServer(http.Dir("./book/"))
+	nightlife := http.FileServer(http.Dir("./nightlife/"))
+	stock := http.FileServer(http.Dir("./stock/"))
+
+	http.Handle("/book/", http.StripPrefix("/book", book))
+	http.Handle("/nightlife/", http.StripPrefix("/nightlife", nightlife))
+	http.Handle("/stock/", http.StripPrefix("/stock", stock))
+
+	// any /voting/* will redirect to voting.Voting
+	http.HandleFunc("/voting/", voting.Router)
+
+	// any /pintelest/* will redirect to voting.Voting
+	http.HandleFunc("/pintelest/", nodePintelest)
+
+	server := http.Server{
+		Addr: "localhost:3006",
+	}
+	server.ListenAndServe()
+}
+```
+
+```go
+func mainMux() {
+	mux := http.NewServeMux()
+
+	// assets for all apps
+	assets := http.FileServer(http.Dir("_public"))
+	mux.Handle("/", http.StripPrefix("/", assets))
+
+	// assets for individual apps
+	votingRes := http.FileServer(http.Dir("voting/assets"))
+	mux.Handle("/voting/assets/", 
+		http.StripPrefix("/voting/assets/", votingRes))
+
+	book := http.FileServer(http.Dir("./book/"))
+	nightlife := http.FileServer(http.Dir("./nightlife/"))
+	stock := http.FileServer(http.Dir("./stock/"))
+
+	mux.Handle("/book/", http.StripPrefix("/book", book))
+	mux.Handle("/nightlife/", http.StripPrefix("/nightlife", nightlife))
+	mux.Handle("/stock/", http.StripPrefix("/stock", stock))
+
+	mux.HandleFunc("/voting/", voting.Router)
+	//mux.HandleFunc("/voting/p/", nodePintelest)
+
+	// any /pintelest/* will redirect to nodePintelest
+	mux.HandleFunc("/pintelest/", nodePintelest)
+
+	server := http.Server{
+		Addr:    "localhost:3006",
+		Handler: mux,
+	}
+	server.ListenAndServe()
+}
+```
+
+```go
+// http://codepodu.com/subdomains-with-golang/
+type Subdomains map[string]http.Handler
+func (subdomains Subdomains) ServeHTTP(w http.ResponseWriter, 
+							r *http.Request) {
+	domainParts := strings.Split(r.Host, ".")
+	if mux := subdomains[domainParts[0]]; mux != nil {
+		// Let the appropriate mux serve the request
+		mux.ServeHTTP(w, r)
+	} else {
+		// Handle 404
+		http.Error(w, "Not found", 404)
+	}
+}
+type Mux struct {
+	http.Handler
+}
+func (mux Mux) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	mux.ServeHTTP(w, r)
+}
+
+func adminHandlerOne(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "It's adminHandlerOne , Hello, %q", r.URL.Path[1:])
+}
+func adminHandlerTwo(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "It's adminHandlerTwo , Hello, %q", r.URL.Path[1:])
+}
+func analyticsHandlerOne(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "It's analyticsHandlerOne , Hello, %q", r.URL.Path[1:])
+}
+func analyticsHandlerTwo(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "It's analyticsHandlerTwo , Hello, %q", r.URL.Path[1:])
+}
+
+func main() {
+	adminMux := http.NewServeMux()
+	adminMux.HandleFunc("/admin/pathone", adminHandlerOne)
+	adminMux.HandleFunc("/admin/pathtwo", adminHandlerTwo)
+
+	analyticsMux := http.NewServeMux()
+	analyticsMux.HandleFunc("/analytics/pathone", analyticsHandlerOne)
+	analyticsMux.HandleFunc("/analytics/pathtwo", analyticsHandlerTwo)
+
+	subdomains := make(Subdomains)
+	subdomains["admin"] = adminMux
+	subdomains["analytics"] = analyticsMux
+
+	http.ListenAndServe(":8080", subdomains)
+}
+```
+
 ---
 
 ## HTML/TEMPLATE
@@ -539,7 +665,7 @@ func main() {
 
 * `{{.}}` abreviatura para el objeto actual
 
-* `{{ FieldName}}` campo FieldName del objecto actual
+* `{{ .FieldName}}` campo FieldName del objecto actual
 
 * Arrays and slices
 
@@ -657,29 +783,35 @@ aplicarle escape a HTML al objeto
 
 ### Variables
 
-```go
-texto := "{{with $3 := `hello`}}{{$3}}{{end}}!\n"
-t := template.Must(template.New("name").Parse(texto))
-t.Execute(os.Stdout, nil)                  
-```
-
-// Resultado -> hello!
+Pasar variables a templates
 
 ```go
-texto1 := "{{with $x3 := `hola`}}{{$x3}}{{end}}!\n"
-t1 := template.Must(template.New("name1").Parse(texto1))
-t1.Execute(os.Stdout, nil)
-```
+// usando anonymous structs
+var templates = template.Must(template.ParseGlob("templates/*"))
 
-// Resultado -> hola!
+func handle(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	templates.ExecuteTemplate(w, "page.html", struct {
+		PageTitle string
+		Message string
+		User string
+		}{"Template example: struct", "Hello", "World"})
+}
+```
 
 ```go
-texto2 := "{{with $x_1 := `hey`}}{{$x_1}} {{.}} {{$x_1}}{{end}}!\n"
-t2 := template.Must(template.New("name2").Parse(texto2))
-t2.Execute(os.Stdout, nil)
-```
+// usando Maps
+var templates = template.Must(template.ParseGlob("templates/*"))
 
-// Resultado -> hey hey hey!
+func handle(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	m := make(map[string]interface{})
+	m["PageTitle"] = "Template example: map"
+	m["Message"] = "Hello"
+	m["User"] = "World"
+	templates.ExecuteTemplate(w, "page.html", m)
+}
+```
 
 ### Funciones
 
@@ -775,6 +907,43 @@ func main() {
   	name := "world"
   	t.Execute(os.Stdout, name)
 }
+```
+
+### Pasar vars a js 
+
+Pasar variables golang a cliente js
+
+```html
+<!-- guest.html-->
+<script type="text/javascript">
+  // Pass golang vars to client js
+  //window.addEventListener('load', voting.init({{.}}))
+  var golang = {{.}} // pasa como variable global objeto
+  //var golang = "{{ .}}"; // lo pasa como string
+  window.addEventListener('load', function () {
+    voting.init()
+  })
+</script>
+```
+
+```go
+// voting.go
+func guest(w http.ResponseWriter, r *http.Request) {
+	var data aPoll
+	data = aPoll{Question: "Puñetera pregunta a responder en la super encuesta del copon?"}
+	tmpl["guest.html"].ExecuteTemplate(w, "guest.html", data)
+}
+```
+
+```javascript
+var voting = (function () {
+  function init () {
+    console.log("Data from golang', golang);
+  }
+	return {
+    init: init
+  };
+}());
 ```
 
 ---

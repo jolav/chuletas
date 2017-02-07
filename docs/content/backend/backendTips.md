@@ -2,6 +2,15 @@
 
 ---
 
+## RECURSOS
+
+### Go
+
+<code>[curl-to-Go](https://mholt.github.io/curl-to-go/)</code> - Convierte comandos curl en codigo Go    
+<code>[JSON-to-Go](https://mholt.github.io/json-to-go/)</code> - Convierte JSON en structs para Go  
+
+---
+
 ## APIS
 
 ### Formato de los datos
