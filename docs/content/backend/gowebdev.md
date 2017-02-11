@@ -930,7 +930,7 @@ Pasar variables golang a cliente js
 // voting.go
 func guest(w http.ResponseWriter, r *http.Request) {
 	var data aPoll
-	data = aPoll{Question: "Puñetera pregunta a responder en la super encuesta del copon?"}
+	data = aPoll{Question: "Texto de la cuestion"}
 	tmpl["guest.html"].ExecuteTemplate(w, "guest.html", data)
 }
 ```
@@ -938,7 +938,7 @@ func guest(w http.ResponseWriter, r *http.Request) {
 ```javascript
 var voting = (function () {
   function init () {
-    console.log("Data from golang', golang);
+    console.log("Data from golang", golang);
   }
 	return {
     init: init

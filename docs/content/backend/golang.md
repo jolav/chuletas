@@ -13,6 +13,9 @@ export PATH=$PATH:/usr/local/go/bin
 export GOPATH=$HOME/code/go
 // OPCIONAL para tener disponibles los binarios compilados
 export PATH=$PATH:$GOPATH/bin/binLinux|binMac
+
+// esto creo que no hace falta, de hecho no lo uso
+export GOBIN=$PATH:$GOPATH/bin/binLinux 
 ```
 
 recargar con `source ~/.profile`   
