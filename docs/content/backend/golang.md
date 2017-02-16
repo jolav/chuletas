@@ -1511,38 +1511,65 @@ func TestAverage(t *testing.T) {
 
 `systemctl status servidorGO` nos da informacion del servicio
 
-`Service name`: servidorGO.service
 
-```sh
-/etc/systemd/servidorGO.service
-/etc/systemd/system/servidorGO.service
-/etc/systemd/system/multi-user.target.wants/servidorGO.service
-/sys/fs/cgroup/systemd/system.slice/servidorGO.service
+```sh  
+// crear servicio
+nano /etc/systemd/servidorGO.service  
+cp servidorGO.service /etc/systemd/system 
+service enable servidorGO.service 
 ```
 
-Systemd configuration  
-`nano /etc/systemd/servidorGO.service`
+```sh
+// eliminar servicio
+systemctl stop [servicename]
+systemctl disable [servicename]
+rm /etc/systemd/system/[servicename]
+rm /etc/systemd/system/[servicename] symlinks that might be related
+systemctl daemon-reload
+systemctl reset-failed
+```
 
 ```sh
 [Unit]
-Description=Webhook
+Description=Apis from old-v1 Freecodecamop Curriculum
 
 [Service]
 User=brus
 Group=www-data
-Restart=on-failure                    // o always ???
-ExecStart=/home/brus/Go/src/Pruebas/servidor //servidor es el binario
+Restart=on-failure   // o always ???
+WorkingDirectory=/var/www/freecodecamp/old-v1/3-backEnd/apis/go
+ExecStart=/var/www/freecodecamp/old-v1/3-backEnd/apis/go/apis
 
 [Install]
 WantedBy=multi-user.target
 ```
 
-* Activar el servicio y arrancar automaticamente al inicio    
-`systemctl enable application.service`
-* Desactivar el servicio de iniciar automaticamente   
-`systemctl disable application.service`  
+* **Comandos**
+
+`service name status`  
+`service name start`  
+
+`systemctl enable name.service`  
+`systemctl disable name.service`   
+`systemctl start name.service`  
+`systemctl stop name.service`  
+`systemctl restart name.service`  
+`systemctl status name.service`  
+`systemctl reload name.service` 
+
+```sh
+// archivos que tiene que terminar habiendo
+/etc/systemd/servidorGO.service
+/etc/systemd/system/servidorGO.service
+/etc/systemd/system/multi-user.target.wants/servidorGO.service
+/sys/fs/cgroup/systemd/system.slice/servidorGO.service
+``` 
 
 [Buena guia de systemctl](https://www.digitalocean.com/community/tutorials/how-to-use-systemctl-to-manage-systemd-services-and-units)
+
+[Para arreglarlo](https://superuser.com/questions/997938/how-do-i-figure-out-why-systemctl-service-systemd-modules-load-fails)
+
+[WorkingDirectory](https://unix.stackexchange.com/questions/200654/executing-chdir-before-starting-systemd-service)
 
 ---
 
