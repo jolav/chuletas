@@ -174,7 +174,7 @@ solo mostrara uno
 ## IMAGENES
 
 Ponerlas todas en una carpeta `/imagenes`  
-Salvarlas a resolucion de 72 ppi(pices per inch), los monitores no dan mas y asi ahorramos peso en la imagen  
+Salvarlas a resolucion de 72 ppi(pixels per inch), los monitores no dan mas y asi ahorramos peso en la imagen  
 
 ```html
 <img src="URL relativa o absoluta a la imagen" />
@@ -668,134 +668,9 @@ Para poner diferentes formatos usamos `<source>`
 <img src="/z-static/images/html5/newLayout.png" alt="html6" width="320"/>
 
 
-* **header, footer, nav**
+* **header, footer, nav, article, aside, section**
 
-<header>
-  <h4>Yoko's Kitchen</h4>
-  <nav>
-    <ul>
-      <li><a href="" class="current">home</a></li>
-      <li><a href="">classes</a></li>
-      <li><a href="">catering</a></li>
-      <li><a href="">about</a></li>
-      <li><a href="">contact</a></li>
-    </ul>
-  </nav>
-</header>
-<footer>
-	 &copy; 2011 Yoko's Kitchen
-</footer>
-
-```html
-<header>
-  <h4>Yoko's Kitchen</h4>
-  <nav>
-    <ul>
-      <li><a href="" class="current">home</a></li>
-      <li><a href="">classes</a></li>
-      <li><a href="">catering</a></li>
-      <li><a href="">about</a></li>
-      <li><a href="">contact</a></li>
-    </ul>
-  </nav>
-</header>
-<footer>
-	 &copy; 2011 Yoko's Kitchen
-</footer>
-```
-
-* **article**
-
-<article>
-  <hgroup>
-    <h2>Japanese Vegetarian</h2>
-    <h3>Five week course in London</h3>
-  </hgroup>
-  <p>A five week introduction to traditional Japanese vegetarian meals,
-   teaching you a selection of rice and noodle dishes.</p>
-</article>
-<article>
-  <hgroup>
-    <h2>Sauces Masterclass</h2>
-    <h3>One day workshop</h3>
-  </hgroup>
-  <p>An intensive one-day course looking at how to create the most 
-    delicious sauces for use in a range of Japanese cookery.</p>
-</article>
-
-```html
-<article>
-  <hgroup>
-    <h2>Japanese Vegetarian</h2>
-    <h3>Five week course in London</h3>
-  </hgroup>
-  <p>A five week introduction to traditional Japanese vegetarian 
-    meals, teaching you a selection of rice and noodle dishes.</p>
-</article>
-<article>
-  <hgroup>
-    <h2>Sauces Masterclass</h2>
-    <h3>One day workshop</h3>
-  </hgroup>
-  <p>An intensive one-day course looking at how to create the most 
-    delicious sauces for use in a range of Japanese cookery.</p>
-</article>
-```
-
-* **aside, section**
-
-<aside>
-  <section class="popular-recipes">
-    <h3>Popular Recipes</h3>
-    <a href="">Yakitori (grilled chicken)</a><br/>
-    <a href="">Tsukune (minced chicken patties)</a><br/>
-    <a href="">Okonomiyaki (savory pancakes)</a><br/>
-    <a href="">Mizutaki (chicken stew)</a><br/>
-  </section>
-  <section class="contact-details">
-    <h3>Contact</h3>
-    <p>Yoko's Kitchen<br />
-    27 Redchurch Street<br />
-    Shoreditch<br />
-    London E2 7DP</p>
-  </section>
-</aside>
-
-
-```html
-<aside>
-  <section class="popular-recipes">
-    <h3>Popular Recipes</h3>
-    <a href="">Yakitori (grilled chicken)</a><br/>
-    <a href="">Tsukune (minced chicken patties)</a><br/>
-    <a href="">Okonomiyaki (savory pancakes)</a><br/>
-    <a href="">Mizutaki (chicken stew)</a><br/>
-  </section>
-  <section class="contact-details">
-    <h3>Contact</h3>
-    <p>Yoko's Kitchen<br />
-    27 Redchurch Street<br />
-    Shoreditch<br />
-    London E2 7DP</p>
-  </section>
-</aside>
-```
-
-* **hgroup**
-
-<hgroup>
-  <h3>Japanese Vegetarian</h3>
-  <h4>Five week course in London</h4>
-</hgroup>
-
-```html
-<hgroup>
-  <h3>Japanese Vegetarian</h3>
-  <h4>Five week course in London</h4>
-</hgroup>
-```
-
-* **figure, figcaption**
+* **hgroup, figure, figcaption**
 
 `<figure>` se usa para tener juntas y asociar las imagenes con sus
 pies de fotos `<figcaption>`
