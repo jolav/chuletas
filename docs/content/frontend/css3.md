@@ -1009,3 +1009,12 @@ function pressKey (e) {
 ```
 
 ---
+
+## FLEXBOX
+
+[FlexBox Guia](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
+
+[Patrones de diseño con Flexbox](http://www.flexboxpatterns.com/home)
+
+[Cheatsheet](https://www.alsacreations.com/xmedia/tools/flexbox-cheatsheet.pdf)
+
