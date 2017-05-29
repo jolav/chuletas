@@ -157,7 +157,7 @@ solo mostrara uno
 * **A una parte de la misma pagina**
 
 ```html
-<h1 id="top">Bla bla bla</h1>
+<h1 id="top">Bla bla bla</h1> ó <h1 name="top">Bla bla bla</h1>
 ...
 ...
 <a href="#top">Subir</a>

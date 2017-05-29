@@ -107,6 +107,13 @@ git push origin master // normalmente con git push vale
 
 ## EXPRESIONES REGULARES
 
+* **Flags**
+
+Se añaden despues de la expresion regular para indicar algo
+
+`/expReg/i` - ignora mayusculas o minusculas  
+`/expReg/g` - repetir la busqueda a traves de la cadena entera  
+
 * **Basicos**
 
 `.` - cualquier cosa  
@@ -150,11 +157,10 @@ a mas usar (...) para especificar la cadena buscada
 
 `X*` - 0 ó mas repeticiones de X  
 `X+` - 1 ó mas repeticiones de X  
-`X?` - 0 ó instancias de X  
+`X?` - 0 ó instancias de X, vamos que es opcional  
 `X{m}` - exactamente m instancias de X  
 `X{m,}` - al menos m instancias de X  
 `X{m,n}` - entre m y n instancias(incluidas) de X  
-`g` - repetir la busqueda a traves de la cadena entera  
 
 
 * **Especiales**
@@ -192,6 +198,14 @@ var b = /&.+;/.test('frank & beans'); // b is true
 ```  
 
 `string.replace(expreg, nueva)` - en la cadena string reemplaza lo que casa con la expresion regular por la string nueva  
+
+`string.match(regexp)` - busca la regexp en la cadena string y devuelve las coincidencias en un array
+
+```js
+var str = "The rain in SPAIN stays mainly in the plain";
+var res = str.match(/ain/g); 
+console.log(res) // [ 'ain', 'ain', 'ain' ]
+```
 
 ### ExpReg Comunes
 
