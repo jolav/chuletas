@@ -57,7 +57,9 @@ al Path
 `brew install paquete` - instala ese paquete en `/usr/local/Cellar`  
 `brew uninstall paquete` - desintala el paquete  
 `brew update` - actualiza brew  
-`brew update paquete` - actualiza el paquete 
+`brew upgrade` - actualiza todos los paquetes  
+`brew upgrade paquete` - actualiza el paquete  
+`brew ourdated -g` - lista los paquetes con actualizaciones pendientes   
 `brew info paquete` - nos da informacion del paquete  
 `brew search paquete` - busca un paquete  
 `brew cleanup` -   
