@@ -34,6 +34,7 @@ markdown_extensions:
     - fenced_code
 
 theme_dir: 'brus-docs-theme'
+#theme: windmill
 site_dir: 'chuletas'
 docs_dir: 'docs/content'
 extra_css:

@@ -1,4 +1,4 @@
-# GOLANG 1.8.2
+# GOLANG 1.8.3
 
 ---
 
@@ -301,9 +301,6 @@ El `header value` contiene un puntero, por lo tanto puedes pasar una copia de cu
 `interfaces` -  variable de tipo de referencia    
 `channels` -  variable de tipo de referencia    
 
-
-[Leer esto](https://stackoverflow.com/questions/23542989/pointers-vs-values-in-parameters-and-return-values)   
-
 * **Punteros**
 
 Por defecto Go pasa los argumentos por valor (crea una copia)  
@@ -334,7 +331,6 @@ func main() {
     fmt.Println(x) // x is 0
 }
 ```
-
 
 ```go
 func  main()  {
@@ -399,6 +395,29 @@ func main() {
 	x := 0
 	addOne(&x)
 	fmt.Println(x)          // x da 1
+}
+```
+
+[LECTURA FUNDAMENTAL, stackoverflow pointer vs values](https://stackoverflow.com/questions/23542989/pointers-vs-values-in-parameters-and-return-values)   
+
+```go
+type data struct {
+    val int
+}
+
+func myfunc() data {
+    // devuelve una copia del struct
+    return data{val: 1}  
+}
+
+func myfunc() *data {
+    // devuelve un puntero al struct creado dentro de la funcion
+    return &data{}
+}
+
+func myfunc(d *data) {
+    // recibe un struct ya existente y sobreescribe su valor
+    d.val = 1
 }
 ```
 
@@ -821,6 +840,29 @@ for i, v := range addCases {
 }
 for i, v := range ac {
     fmt.Println(i, v)
+}
+```
+
+```go
+func show() {
+	fmt.Println(t[0].hola)
+	fmt.Println(test2[1].hola2)
+}
+
+type test []struct {
+	hola string
+}
+
+var t = test{
+	{"prueba1"},
+	{"prueba2"},
+}
+
+var test2 = []struct {
+	hola2 string
+}{
+	{"prueba3"},
+	{"prueba4"},
 }
 ```
 

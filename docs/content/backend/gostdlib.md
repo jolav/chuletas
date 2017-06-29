@@ -28,13 +28,16 @@ fmt.Printf("%T\n", p)                   // main.point
 fmt.Printf("%d\n", 123)                 // 123
 
 // Imprime el caracter que corresponde al entero
-fmt.Printf("%c\n", 33)                  // !
+fmt.Printf("%c\n", 65)                  // a
 
 // Imprime floats
 fmt.Printf("%f\n", 78.9)                // 78.90000
 
 // Imprime string basicas `%s`.
 fmt.Printf("%s\n", "\"string\"")        // "string"
+
+// Imprimir Booleano
+fmt.Printf("%t\n", a ==b)               // true o false
 
 // Imprime un puntero`%p`.
 fmt.Printf("%p\n", &p)                  // 0x42135100
@@ -119,51 +122,11 @@ Fuera del paquete string
 `import "strconv"` - conversiones entre numeros y strings  
 
 `i, err := strconv.Atoi("-42")` - string to int  
-`s, err := strcontype URL struct {
-
-	Scheme     string
-
-	Opaque     string    // encoded opaque data
-
-	User       *Userinfo // username and password information
-
-	Host       string    // host or host:port
-
-	Path       string
-
-	RawPath    string // encoded path hint (Go 1.5 and later only; see EscapedPath method)
-
-	ForceQuery bool   // append a query ('?') even if RawQuery is empty
-
-	RawQuery   string // encoded query values, without '?'
-
-	Fragment   string // fragment for references, without '#'
-
-}v.Itoa(-42)` - int to string  
+`s, err := strconv.Itoa(-42)` - int to string  
 `b, err := strconv.ParseBool("true")` - string to boolean  
 `f, err := strconv.ParseFloat("3.1415", 64)` - string to float  
 `i, err := strconv.ParseInt("-42", 10, 64)` - string to int  
-`u, err := strcontype URL struct {
-
-	Scheme     string
-
-	Opaque     string    // encoded opaque data
-
-	User       *Userinfo // username and password information
-
-	Host       string    // host or host:port
-
-	Path       string
-
-	RawPath    string // encoded path hint (Go 1.5 and later only; see EscapedPath method)
-
-	ForceQuery bool   // append a query ('?') even if RawQuery is empty
-
-	RawQuery   string // encoded query values, without '?'
-
-	Fragment   string // fragment for references, without '#'
-
-}v.ParseUint("42", 10, 64)` - string to uint  
+`u, err := strconv.ParseUint("42", 10, 64)` - string to uint  
 `s := strconv.FormatBool(true)` - boolean value to string  
 `s := strconv.FormatFloat(3.1415, 'E', -1, 64)` - float to string  
 `s := strconv.FormatInt(-42, 16)` - int to string  
@@ -366,6 +329,12 @@ r, _ := regexp.Compile("p([a-z]+)ch")
 fmt.Println(r.MatchString(patron))
 ```
 
+```go
+// Por ejemplo cambiar en la cadena s los guiones bajos por guiones
+r := regexp.MustCompile("_")
+s = r.ReplaceAllString(s, `-`)
+```
+
 ---
 
 ## JSON
@@ -460,6 +429,9 @@ diff.Nanoseconds()
 // avanzar o retroceder en el tiempo
 then.Add(diff)
 then.Add(-diff)
+
+// sumar tiempo
+tiempoQueSea.Add( 1000 * time.Hours)
 ```
 
 * **String to Time**
