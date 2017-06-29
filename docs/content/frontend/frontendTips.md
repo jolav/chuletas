@@ -69,6 +69,14 @@ rel="stylesheet">
 <!-- Indie Flower -->
 <link href="https://fonts.googleapis.com/css?family=Indie+Flower"
 rel="stylesheet"> 
+
+<!-- Righteous -->
+<link href="https://fonts.googleapis.com/css?family=Righteous" 
+rel="stylesheet"> 
+
+<!-- Orbitron -->
+<link href="https://fonts.googleapis.com/css?family=Orbitron:400,700" 
+rel="stylesheet"> 
 ```
 
 ### APIs
