@@ -56,6 +56,9 @@ Copiar la fuente a `/usr/share/fonts`
 gpg -c archivo.txt                // cifra a archivo binario
 gpg -ca archivo.txt               // cifra a archivo texto
 gpg --output salida.txt -d archivo.(gpg o txt)        // descifrar
+
+// para eliminar de la memoria la clave y que la pida al descomprimir
+echo RELOADAGENT | gpg-connect-agent
 ```
 
 ---
@@ -868,7 +871,8 @@ server {
 ### Instalacion
 
 ```sh
-Aqui con wget cogemos la que toque https://dev.mysql.com/downloads/repo/apt/
+Aqui con wget cogemos la version que toque 
+https://dev.mysql.com/downloads/repo/apt/ 
 dpkg -i el_paquete_que_hemos_bajado.deb
 nano /etc/apt/sources.list.d/mysql.list // para dejarlo a nuestro gusto
 apt-get update
@@ -882,18 +886,17 @@ mysql_secure_installation
 nano /etc/mysql/my.cnf
 // que nos manda a ...
 nano /etc/mysql/mysql.conf.d/mysqld.cnf
-//Asegurarse de comentar la linea para evitar al acceso desde el exterior
+//Asegurarse de descomentar la linea para evitar al acceso desde el exterior
 // Nosotros accederemos con workbench a traves de SSH
-#bind-address            = 127.0.0.1
+bind-address            = 127.0.0.1
 service mysql restart
 
-// para crear otros usuarios , usamos % en lugar de localhost por si queremos
-// acceder desde fuera
+// para crear otros usuarios , usamos % en lugar de localhost por si 
+// queremos acceder desde fuera
 mysql -u root -pContraseñaQueSea
 mysql>CREATE USER 'userNombre'@'%' IDENTIFIED BY 'passwordQueSea';
 mysql>GRANT ALL ON nombreDB.* TO 'userNombre'@'%';
 mysql> FLUSH PRIVILEGES;
-
 ```
 
 ---

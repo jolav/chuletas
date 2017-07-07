@@ -121,8 +121,8 @@ Fuera del paquete string
 
 `import "strconv"` - conversiones entre numeros y strings  
 
+`s := strconv.Itoa(-42)` - int to string  
 `i, err := strconv.Atoi("-42")` - string to int  
-`s, err := strconv.Itoa(-42)` - int to string  
 `b, err := strconv.ParseBool("true")` - string to boolean  
 `f, err := strconv.ParseFloat("3.1415", 64)` - string to float  
 `i, err := strconv.ParseInt("-42", 10, 64)` - string to int  

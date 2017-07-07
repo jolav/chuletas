@@ -950,6 +950,28 @@ var voting = (function () {
 
 ## NET/URL
 
+### Añadir parametros a URL
+
+```go
+// sobre una URL existente
+values := r.URL.Query()
+values.Add("nombreNuevoParamatro", valor)
+values.Get("nombreDelValor", valor)
+r.URL.RawQuery = values.Encode()
+fmt.Println(r.URL.String())
+fmt.Println(values["nombreNuevoParametro"])
+
+// construyendo una URL
+urlData, err := url.Parse("https://apisquesea.com/custom/v1?q=")
+params := url.Values{}
+params.Add("q", r.URL.Query().Get("q"))
+params.Add("cx", c.APIImage.CseID)
+params.Add("key", c.APIImage.Key)
+params.Add("num", r.URL.Query().Get("num"))
+params.Add("offset", r.URL.Query().Get("offset"))
+urlData.RawQuery = params.Encode()
+```
+
 [URL parsing](https://gobyexample.com/url-parsing)  
 
 ---
