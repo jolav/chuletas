@@ -101,8 +101,11 @@ du -h -d1
 ### Limpieza
 
 ```sh
-apt-get autoclean &&  apt-get autoremove && apt-get remove --purge `deborphan`  
-dpkg -l | grep -v ^ii | awk '{print $2}' | sed '1,5d'|xargs dpkg --purge   
+apt-get autoclean &&  apt-get autoremove && apt-get remove 
+--purge `deborphan`  
+
+dpkg -l | grep -v ^ii | awk '{print $2}' | sed '1,5d'|xargs
+ dpkg --purge   
 ```
 
 ### Buscar procesos
@@ -112,6 +115,17 @@ pgrep nombreABuscar
 ps
 // luego
 kill numeroProceso
+```
+
+### Find
+
+
+```sh
+// Buscar Archivos
+find /ruta -name nombreArchivo
+
+// Buscar directorios
+find /ruta -type d -name nombreDirectorio
 ```
 
 ---
@@ -278,7 +292,8 @@ maxretry = 6
 `service fail2ban restart`  
 `service fail2ban status`
 
-Los log de baneos estan en `var/log/fail2ban.log`  
+Los log de baneos estan en `/var/log/fail2ban.log`   
+Tambien se puede cotillear en `/var/log/auth.log`  
 
 ---
 
@@ -546,6 +561,21 @@ nano /etc/nginx/nginx.conf
 http {
   server_tokens off;
 }
+```
+
+* **Cabeceras**
+
+ojo que algunas pueden restringir el comportamiento de las aplicaciones que tengamos  
+
+```nginx
+# Headers to be added:
+add_header Strict-Transport-Security "max-age=315360000";
+add_header X-Frame-Options "DENY";
+add_header X-Content-Type-Options "nosniff";
+add_header X-XSS-Protection "1; mode=block";
+add_header Content-Security-Policy "default-src 'self'";
+add_header Public-Key-Pins 'pin-sha256="base64+primary=="; 
+pin-sha256="base64+backup=="; max-age=5184000; includeSubdomains; report-uri="https://www.example.com/hpkp-report"';
 ```
 
 ### nginx.conf

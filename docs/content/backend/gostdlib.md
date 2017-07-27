@@ -189,6 +189,12 @@ fmt.Print(string(read1))
 
 ### Archivos
 
+* **Saber donde estamos**
+
+```go
+os.Getwd()
+```
+
 * **leer escribir un archivo**  
 
 ```go
@@ -394,6 +400,81 @@ if err != nil {
 fmt.Println(conf)
 ```
 
+* **Parsing Interfaces**
+
+Parsing into an Interface  
+If you have truly no idea what your JSON might look like, you can parse it into a generic interface{}. If you’re not familiar an empty interface{} is a way of defining a variable in Go as “this could be anything”. At runtime Go will then allocate the appropriate memory to fit whatever you decide to store in it.  
+This is what it looks like:  
+
+```go
+var parsed interface{}
+err := json.Unmarshal(data, &parsed)
+``` 
+
+Actually using parsed is a bit laborious, as Go can’t use it without knowing what type it is. You can end up with code which tries the kitchen sink:
+
+```go
+switch parsed.(type) {
+    case int:
+        someGreatIntFunction(parsed.(int))
+    case map:
+        someMapThing(parsed.(map))
+    default:
+        panic("JSON type not understood")
+}
+```
+
+You can also do similar type assertions inline:
+
+```go
+intVal, ok := parsed.(int)
+if !ok {
+    panic("JSON value must be an int")
+}
+```
+
+Fortunately however, it’s rare to truly have no idea what a value might be. If, for example, you know your JSON value is an object, you can parse it into a map[string]interface{}. This gives you the advantage of being able to refer to specific keys. An example:
+
+```go
+var parsed map[string]interface{}
+data := []byte(`
+    {
+        "id": "k34rAT4",
+        "age": 24
+    }
+`)
+err := json.Unmarshal(data, &parsed)
+```
+
+You can then refer to specific keys without a problem:
+
+```go
+parsed["id"]
+````
+
+You still have interfaces as the value of your map however, so you must do type assertions to use them:
+
+```go
+idString := parsed["id"].(string)
+```
+
+Go uses these six types for all values parsed into interfaces:
+
+```go
+bool, for JSON booleans
+float64, for JSON numbers
+string, for JSON strings
+[]interface{}, for JSON arrays
+map[string]interface{}, for JSON objects
+nil for JSON null
+```
+
+Meaning, your numbers will always be of typefloat64, and will need to be casted to int, for example. If you have a particular need to get ints directly, you can use the UseNumber method. Which gives you an object which can be converted to either a float64 or an int at your discretion.
+
+Similarly, all objects decoded into an interface will be map[string]interface{}, and will need to be manually mapped to whatever struct you may wish to place them in.
+
+[Sobre JSON](https://eager.io/blog/go-and-json/)
+
 ---
 
 ## TIME
@@ -436,16 +517,17 @@ tiempoQueSea.Add( 1000 * time.Hours)
 
 * **String to Time**
 
+
 ```go
-func getParsedStart(start string) time.Time {
-	layout1 := "2006-01-02" // Layout numbers?
-	layout2 := "2006-01-02T15:04:05"
-	t, err := time.Parse(layout1, start)
-	if err != nil {
-		t, err = time.Parse(layout2, start)
-	}
-	return t
+// pasar una fecha a string segun un determinado formato
+layout := "2006-01-02 15:04:05"  
+t, err := time.Parse(layout1, start)
+if err != nil {
+    fmt.Prinltln(err)
 }
+
+// Hora actual a string con determinado formato  
+horaActual = time.Now().Format(layout)
 ```
 
 ### Timestamp
@@ -519,6 +601,24 @@ fmt.Println("Ticker stopped")
 
 `s1 := rand.NewSource(time.Now().UnixNano())`- semilla para que no sea siempre igual  
 `r1 := rand.New(s1)`- para ir cambiando la semilla  
+
+`rand.Seed(time.Now().UTC().UnixNano())` - otra forma de cambiar la semilla para que no siempre sea igual  
+
+```go
+func init() {
+	//fmt.Println(`Init from package tracker`)
+	r = rand.New(rand.NewSource(time.Now().UnixNano()))
+}
+var r *rand.Rand
+func createRandomString() string {
+	const chars = "abcdefghijklmnopqrstuvwxyz0123456789"
+	result := ""
+	for i := 0; i < lenID; i++ {
+		result += string(chars[r.Intn(len(chars))])
+	}
+	return result
+}
+```
 
 ---
 

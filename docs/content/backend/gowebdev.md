@@ -421,7 +421,8 @@ import (
 
 func process1(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
-	fmt.Fprintln(w, r.Form)
+	fmt.Fprintln(w, r.Form["campo"][0])
+	fmt.Prinltln(w, r.Form.Get("campo"))
 	// 	fmt.Fprintln(w, r.PostForm)
 }
 
@@ -811,6 +812,24 @@ func handle(w http.ResponseWriter, r *http.Request) {
 	m["User"] = "World"
 	templates.ExecuteTemplate(w, "page.html", m)
 }
+```
+
+```go
+// mapa
+m := map[string]interface{}{
+	"imgs": imgs, // {{range .imgs.Image}}{{.}}{{end}}
+	"user": p,    //{{.user.Name}}
+}
+
+// struct , Images []Image
+type Data struct {
+	I Images
+	P Profile
+}
+var d Data
+d.I = imgs // {{range .I.Image}}{{.}}{{end}}
+d.P = p    // {{.P.Name}}*/
+t.Execute(w, &m) 
 ```
 
 ### Funciones
