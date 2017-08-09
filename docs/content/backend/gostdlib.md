@@ -181,6 +181,14 @@ if err != nil {
 fmt.Print(string(read1))
 ```
 
+* **Limitar tamaño io**
+
+```go
+defer resp.Body.Close()
+limitReader := &io.LimitedReader{R: resp.Body, N: 2e6} // (2mb)
+body, err := ioutil.ReadAll(limitReader)
+```
+
 ---
 
 ## OS

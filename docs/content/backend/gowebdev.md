@@ -474,21 +474,27 @@ func main() {
 
 Ejemplo Hacer peticiones `get`  
 
+Poner en el main o donde sea para asegurarse que tiene un tiempo maximo de espera y no se queda colgado esperando hasta el infinito (que es el valor por defecto)
+https://reddit.com/r/golang/comments/45mzie/dont_use_gos_default_http_client/
+
+```go
+http.DefaultClient.Timeout = 10 * time.Second
+```
+
 ```go
 func getHttpRequest() {
-    url := 
-	"https://brusbilis.com/freecodecamp/5-api/allApis/image/api/recent"
+	url := "https://codetabs.com/api/geoip/v1/myip/" 
 	resp, err := http.Get(url)
 	if err != nil {
 		log.Fatal(err)
-	}	
-    fmt.Println(resp)
+	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	decoder := json.NewDecoder(resp.Body)
+	err = decoder.Decode(&geo)
 	if err != nil {
-		log.Fatal(err)
-	}	
-    fmt.Printf("%s", body)
+		panic(err)
+	}
+	aux.SendDataToClient(w, r, geo)
 }
 ```  
 

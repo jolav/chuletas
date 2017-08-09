@@ -894,6 +894,29 @@ server {
 }
 ```
 
+### Custom 404
+
+```sh
+mkdir /var/www/error y ahi ponemos 404.html 404.css , js, png ...
+
+server {
+   error_page 404 /404.html;
+   location = /404.html {
+        root /var/www/error;
+        internal;
+   }
+   location = /404.css {
+        root /var/www/error;
+   }
+   location = /caution.png {
+        root /var/www/error;
+   }
+}
+
+Ahora desde el 404.html llamamos a los recursos con ruta absoluta
+<link rel="stylesheet" type="text/css" href="/404.css">
+```
+
 ---
 
 ## MYSQL

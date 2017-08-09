@@ -76,7 +76,12 @@ rel="stylesheet">
 
 <!-- Orbitron -->
 <link href="https://fonts.googleapis.com/css?family=Orbitron:400,700" 
-rel="stylesheet"> 
+rel="stylesheet">
+
+<!-- Bangers -->
+<link href="https://fonts.googleapis.com/css?family=Bangers" 
+rel="stylesheet">
+ 
 ```
 
 ### APIs
