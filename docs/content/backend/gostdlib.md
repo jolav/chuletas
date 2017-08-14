@@ -104,6 +104,8 @@ string en un array de strings usando otra string como separador
 `strings.ToLower("test")` = "TEST "- convierte la cadena a minusculas  
 `strings.ToUpper("TEST")` = "test" - convierte la cadena a mayusculas  
 `strings.Fields("cadena que sea)` = como split usando espacios en blanco. es equivalente a si usaramos `strings.Split(text, " ")`  
+`strings.Trim("cadena","loquecorta")` = elimina en cadena todas las loquecorta pero solo del comienzo y del final    
+strings.Trim(" !!! Achtung! Achtung! !!! ", "! ") == ["Achtung! Achtung"]  
 
 Convertir string en slice of bytes y viceversa  
 `arr := []byte("test")`  
@@ -536,6 +538,12 @@ if err != nil {
 
 // Hora actual a string con determinado formato  
 horaActual = time.Now().Format(layout)
+```
+
+* **Time to String**
+
+```go
+myString = myTime.String()
 ```
 
 ### Timestamp

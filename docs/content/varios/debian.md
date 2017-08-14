@@ -352,80 +352,12 @@ Cuando este hecho
 
 ### Redireccion por nombre
 
-Contenido de brusbilis. Aqui son todos host virtuales que escuchan por el mismo puerto, el 80. Asi que el redireccionamiento se hace por nombre
-
-El primer virtualHost que sirve brusbilis.com y www.brusbilis.com esta preparado para ejecutar paginas PHP, el resto no.
-
 ```nginx
 server {
-    listen 80;
-    listen [::]:80;
-
-    server_name brusbilis.com www.brusbilis.com;
-
-    root /var/www/html;
-    index index.html index.php;
-
-    location / {
-        try_files $uri $uri/ =404;
-    }
-	# pass PHP scripts to FastCGI server listening on the php-fpm socket
-    location ~ \.php$ {
-        try_files $uri =404;
-        fastcgi_pass unix:/var/run/php5-fpm.sock;
-        fastcgi_index index.php;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        include fastcgi_params;
-    }
-}
-
-server {
-    listen 80;
-    listen [::]:80;
-
-    server_name meteorHelp.brusbilis.com;
-
-    root /var/www/meteorHelp;
-    index index.html meteorHelp.html;
-
-    location / {
-            try_files $uri $uri/ =404;
-    }
-}
-
-server {
-    listen 80;
-    listen [::]:80;
-
-    server_name debian.brusbilis.com;
-
-    root /var/www/debian;
-    index index.html debian.html;
-
-    location / {
-            try_files $uri $uri/ =404;
-    }
-}
-
- # METEOR EN PRODUCCION
-server {
-    listen 80 ;
-    listen [::]:80 ;
-
-    server_name	aplicateca.brusbilis.com;
-
-    location / {
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header Host $http_host;
-        proxy_set_header X-NginX-Proxy true;
-        proxy_pass http://127.0.0.1:3000/;
-        proxy_redirect off;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-        proxy_set_header   X-Forwarded-Proto $scheme;
-    }
+        listen 80;
+        listen [::]:80;
+        server_name brusbilis.com;
+        return 301 https://brusbilis.com$request_uri;
 }
 ```
 
@@ -436,24 +368,10 @@ Redirigir acceso por direccion IP al nombre del dominio
 ```nginx
 server {
     listen 80;
-
     # Listen to your server ip address
-    server_name your-server-ip;
-
+    server_name XXX.XXX.XXX.XXX;
     # Redirect all traffic comming from your-server-ip to your domain
-    return 301 $scheme://example.com$request_uri;
-}
-```
-
-```nginx
-server {
-    listen 80;
-
-    # Listen to your server ip address
-    server_name 89.38.144.25;
-
-    # Redirect all traffic comming from your-server-ip to your domain
-    return 301 $scheme://brusbilis.com$request_uri;
+    return 301 https://brusbilis.com$request_uri;
 }
 ```
 
@@ -466,7 +384,6 @@ OPCION A
 server {
     listen   80;
     server_name www.brusbilis.com;
-
     location /blog/rss {
       rewrite ^ http://brusbilis.com permanent;
     }
@@ -478,47 +395,71 @@ server   {
 }
 ```
 
-### Instalacion en local
-
-`nano /etc/nginx/nginx.conf`
-
-```sh
-# user www-data;
-user brus;
-```
+### nginx.conf
 
 ```nginx
-server {
-  listen       3000;
+http {
 
-  server_name  localhost;
+        ##
+        # Basic Settings
+        ##
 
-  root /ruta/BrusBilis/html/plantilla;
-  index index.html index.htm ;
+        # set client body size to 50M #
+        client_max_body_size 50M;
 
-  location / {
-          ssi on;
-  }
+        server_tokens off;
+        sendfile on;
+        tcp_nopush on;
+        tcp_nodelay on;
+        keepalive_timeout 65;
+        types_hash_max_size 2048;
+
+        # limit requests
+        limit_req_zone  $binary_remote_addr  zone=one:10m   rate=2r/s;
+
+        server_names_hash_bucket_size 64;
+        # server_name_in_redirect off;
+
+        include /etc/nginx/mime.types;
+        default_type application/octet-stream;
+
+        ##
+        # SSL Settings
+        ##
+
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE
+        ssl_prefer_server_ciphers on;
+        ssl_ciphers EECDH+CHACHA20:EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256:EECDH+3DES:RSA+3DES:!MD5;
+        ##
+        # Logging Settings
+        ##
+
+        access_log /var/log/nginx/access.log;
+        error_log /var/log/nginx/error.log;
+
+        ##
+        # Gzip Settings
+        ##
+        gzip on;
+        gzip_disable "msie6";
+
+        gzip_vary on;
+        gzip_proxied any;
+        gzip_comp_level 6;
+        gzip_buffers 16 8k;
+        gzip_http_version 1.1;
+        gzip_types text/plain text/css application/json application/javascript text/xml appl$
+
+        ##
+        # Virtual Host Configs
+        ##
+
+        include /etc/nginx/conf.d/*.conf;
+        include /etc/nginx/sites-enabled/*;
 }
 ```
 
-* **Cambiar limite de Tamaño de los archivos de subida**
-
-```nginx
-nano /etc/nginx/nginx.conf
-http {      # aqui dentro donde queramos
-    # set client body size to 12M #
-    client_max_body_size 12M;
-}
-service nginx restart
-```
-
-### Desactivar autoarranque nginx al inicio
-
-`update-rc.d -f nginx disable`
-
-
-### Server Side Includes
+* **Server Side Includes**
 
 [Server Side Includes](http://nginx.org/en/docs/http/ngx_http_ssi_module.html)
 
@@ -551,8 +492,6 @@ location /otraRuta {
 }
 ```
 
-### Seguridad
-
 * **Ocultar la firma del servidor**
 
 ```nginx
@@ -578,281 +517,81 @@ add_header Public-Key-Pins 'pin-sha256="base64+primary==";
 pin-sha256="base64+backup=="; max-age=5184000; includeSubdomains; report-uri="https://www.example.com/hpkp-report"';
 ```
 
-### nginx.conf
-
-/etc/nginx/nginx.conf
+* **Limitar tamaño archivos subida**
 
 ```nginx
-
-user www-data;
-worker_processes 4;
-pid /run/nginx.pid;
-
-events {
-        worker_connections 768;
-        # multi_accept on;
-}
-
-
-http {
-        ##
-        # Basic Settings
-        ##
-        server_tokens off;
-        sendfile on;
-        tcp_nopush on;
-        tcp_nodelay on;
-        keepalive_timeout 65;
-        types_hash_max_size 2048;
-        # server_tokens off;
-
-        server_names_hash_bucket_size 64;
-        # server_name_in_redirect off;
-
-        include /etc/nginx/mime.types;
-        default_type application/octet-stream;
-
-        # set client body size to 12M #
-        client_max_body_size 12M;
-
-        ##
-        # SSL Settings
-        ##
-
-        ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE
-        ssl_prefer_server_ciphers on;
-
-        ##
-        # Logging Settings
-        ##
-
-        access_log /var/log/nginx/access.log;
-        error_log /var/log/nginx/error.log;
-
-        ##
-        # Gzip Settings
-        ##
-
-        gzip on;
-        gzip_disable "msie6";
-
-         gzip_vary on;
-         gzip_proxied any;
-         gzip_comp_level 6;
-         gzip_buffers 16 8k;
-         gzip_http_version 1.1;
-         gzip_types text/plain text/css application/json application/javascript text/xml application/xml$
-
-        ##
-        # Virtual Host Configs
-        ##
-
-        include /etc/nginx/conf.d/*.conf;
-        include /etc/nginx/sites-enabled/*;
-}
-
-
-#mail {
-#       # See sample authentication script at:
-#       # http://wiki.nginx.org/ImapAuthenticateWithApachePhpScript
-#
-#       # auth_http localhost/auth.php;
-#       # pop3_capabilities "TOP" "USER";
-#       # imap_capabilities "IMAP4rev1" "UIDPLUS";
-#
-#       server {
-#               listen     localhost:110;
-#               protocol   pop3;
-#               proxy      on;
-#       }
-#
-#       server {
-#               listen     localhost:143;
-#               protocol   imap;
-#               proxy      on;
-#       }
-#}
+        client_max_body_size 50M;
 ```
 
-### Actualizado al 24-01-2017
+* **Rate Limit**
 
 ```nginx
-server {
-        listen 80;
-        listen [::]:80;
-        server_name app.perrygatos.es;
-        #return 301 https://brusbilis.com$request_uri;
-   location / {
-        ssi on;
-        try_files $uri $uri/ =404;
-        root /var/www/perrygatos;
-        index index.html index.htm;
-   }
+/etc/nginx/nginx.conf, aqui definimos por ejemplo la zona= one
+// con 10mb de storage y un ratio de 2 requests por segundo
+# limit requests
+limit_req_zone  $binary_remote_addr  zone=one:10m   rate=2r/s;
+
+//luego hay que aplicarlo, mejor en location que en server
+// le ponemos un valor de burst para permitir mas juego
+location /freecodecamp/6-backEnd/ {
+        # requests limit
+        limit_req zone=one burst=20;
 }
-server {
-	listen 80;
-	listen [::]:80;
-	server_name brusbilis.com www.brusbilis.com;
-	return 301 https://brusbilis.com$request_uri;
+```
+
+* **HTTP2**
+
+```nginx
+/etc/nginx/nginx.conf usar solo cifrados muy seguros
+ssl_ciphers EECDH+CHACHA20:EECDH+AES128:RSA+AES128:EECDH+AES256:
+RSA+AES256:EECDH+3DES:RSA+3DES:!MD5;
+
+// hay que generar una nuevas claves, lo mejor en /etc/nginx/ssl
+openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048
+
+/etc/nginx/sites-available/archivo
+
+// http2 solo funciona con https asi que en el bloque de listen 443
+listen 443 ssl http2 default_server;
+listen [::]:443 ssl http2 default_server;
+#server_name isipets.com;
+
+# my cipher
+ssl_dhparam  /etc/nginx/ssl/dhparam.pem;
+
+// para mejorar rendimiento
+ssl_session_cache shared:SSL:5m;
+ssl_session_timeout 1h;
+
+// para forzar siempre https subdominios incluidos
+add_header Strict-Transport-Security "max-age=15768000; 
+includeSubDomains";
+
+```
+
+* **Cache**
+
+```nginx
+// en sites-availables bloque propio
+# Expires map
+map $sent_http_content_type $expires {
+    default                    off;
+    text/html                  epoch;
+    text/css                   7d;
+    application/javascript     7d;
+    ~image/                    max;
 }
-server {
-        listen 80;
-        listen [::]:80;
-        server_name sub.brusbilis.com;
-        return 301 https://sub.brusbilis.com$request_uri;
-}
-server {
-        listen 80;
-        listen [::]:80;
-        server_name brusbilis.com/freecodecamp;
-        return 301 https://brusbilis.com/freecodecamp$request_uri;
-}
-server {
-        listen 80;
-        listen [::]:80;
-        server_name brusbilis.com/freecodecamp/5-api/allApis;
-        return 301 https://brusbilis.com/freecodecamp/5-api/allApis$request_uri;
-}
-server {
-        listen 80;
-        listen [::]:80;
-        server_name brusbilis.com/freecodecamp/5-api/timestamp;
-        return 301 https://brusbilis.com/freecodecamp/5-api/timestamp$request_uri;
-}
-server {
-        listen 80;
-#        listen [::]:80;
-        server_name brusbilis.com/freecodecamp/5-api/parser;
-        return 301 https://brusbilis.com/freecodecamp/5-api/parser$request_uri;
-}
-server {
-        listen 80;
-        listen [::]:80;
-        server_name brusbilis.com/freecodecamp/5-api/url;
-        return 301 https://brusbilis.com/freecodecamp/5-api/url$request_uri;
-}
-server {
-        listen 80;
-        listen [::]:80;
-        server_name brusbilis.com/freecodecamp/5-api/image;
-        return 301 https://brusbilis.com/freecodecamp/5-api/image$request_uri;
-}
-server {
-        listen 80;
-        listen [::]:80;
-        server_name brusbilis.com/freecodecamp/5-api/file;
-        return 301 https://brusbilis.com/freecodecamp/5-api/file$request_uri;
-}
-server {
-        listen 80;
-        listen [::]:80;
-        server_name brusbilis.com/freecodecamp/6-backEnd/pintelest;
-        return 301 https://brusbilis.com/freecodecamp/6-backEnd/pintelest$request_uri;
-}
-server {
-        listen 80;
-        listen [::]:80;
-        server_name brusbilis.com/freecodecamp/6-backEnd;
-        return 301 https://brusbilis.com/freecodecamp/6-backEnd$request_uri;
-}
-server {
-    listen 80;
-    # Listen to your server ip address
-    server_name 89.38.144.25; 
-    # Redirect all traffic comming from your-server-ip to your domain
-    return 301 https://brusbilis.com$request_uri;
-}
-server {
-   listen 443 ssl;
-   server_name brusbilis.com;
-   ssl_certificate /etc/letsencrypt/live/brusbilis.com/fullchain.pem;
-   ssl_certificate_key /etc/letsencrypt/live/brusbilis.com/privkey.pem;
-   ssl_session_cache shared:SSL:1m;
-   ssl_session_timeout 5m;
-   ssl_ciphers HIGH:!aNULL:!MD5;
-   ssl_prefer_server_ciphers on;
-   root /var/www/html;
-   try_files $uri $uri/ =404;
-   index index.html index.htm;
-   ssi on;
-   location /freecodecamp {
-        alias /var/www/freecodecamp;
-   }
-   location /freecodecamp/5-api/timestamp/ {
-	proxy_pass http://127.0.0.1:3001/;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-   }
-   location /freecodecamp/5-api/parser/ {
-        proxy_pass http://127.0.0.1:3002/;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-	# para pillar la ip de visitante añadir las siguientes dos lineas
-	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-	proxy_set_header X-Forwarded-Proto $scheme;
-   }
-   location /freecodecamp/5-api/url/ {
-        proxy_pass http://127.0.0.1:3003/;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-   }
-   location /freecodecamp/5-api/image/ {
-        proxy_pass http://127.0.0.1:3004/;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-   }
-   location /freecodecamp/5-api/file/ {
-        proxy_pass http://127.0.0.1:3005/;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-#	allow POST serving static	
-	error_page 405 = $uri;
-   }
-   location /freecodecamp/5-api/allApis/ {
-        proxy_pass http://127.0.0.1:3011/;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-# 	para pillar la ip de visitante añadir las siguientes dos lineas api parser
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-#       allow POST serving static para la api file
-        error_page 405 = $uri;
-   }
-   location /freecodecamp/6-backEnd/pintelest/ {
-        proxy_pass http://127.0.0.1:3006/;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-   }
-   location /freecodecamp/6-backEnd/ {
-        proxy_pass http://127.0.0.1:3007/;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-   }
-}
+// luego en el bloque server que queramos añadir
+        expires $expires;
+```
+
+* **Zona protegida**
+
+gestionWebRethinkDB - zona protegida  
+cm - aplicacion nodejs  
+go - aplicacion golang
+
+```nginx
 server {
    listen 443 ssl;
    server_name sub.brusbilis.com;
@@ -915,6 +654,103 @@ server {
 
 Ahora desde el 404.html llamamos a los recursos con ruta absoluta
 <link rel="stylesheet" type="text/css" href="/404.css">
+```
+
+### brusbilis.com 08/17
+
+```nginx
+# Expires map
+map $sent_http_content_type $expires {
+    default                    off;
+    text/html                  epoch;
+    text/css                   max;
+    application/javascript     max;
+    ~image/                    max;
+}
+server {
+	listen 80;
+	listen [::]:80;
+	server_name www.brusbilis.com brusbilis.com;
+	return 301 https://brusbilis.com$request_uri;
+}
+server {
+    listen 80;
+    # Listen to your server ip address
+    server_name XXX.XXX.XXX.XXX; 
+    # Redirect all traffic comming from your-server-ip to your domain
+    return 301 https://brusbilis.com$request_uri;
+}
+server {
+   listen 443 ssl http2 default_server;
+   listen [::]:443 ssl http2 default_server;
+   #listen 443 ssl;
+   server_name brusbilis.com;
+   ssl_certificate /etc/letsencrypt/live/brusbilis.com/fullchain.pem;
+   ssl_certificate_key /etc/letsencrypt/live/brusbilis.com/privkey.pem;
+   ssl_session_cache shared:SSL:5m;
+   ssl_session_timeout 1h;
+   ssl_ciphers HIGH:!aNULL:!MD5;
+   ssl_prefer_server_ciphers on;
+   # my cipher
+   ssl_dhparam  /etc/nginx/ssl/dhparam.pem;
+   # Headers to be added:
+   add_header Strict-Transport-Security "max-age=15768000; includeSubDomains";
+   add_header X-Frame-Options "DENY";
+   add_header X-Content-Type-Options "nosniff";
+   add_header X-XSS-Protection "1; mode=block";
+   #add_header Content-Security-Policy "default-src 'self'";
+    
+   expires $expires;
+   root /var/www/html;
+   try_files $uri $uri/ =404;
+   index index.html index.htm;
+   ssi on;
+   location /freecodecamp {
+        alias /var/www/freecodecamp;
+   }
+   location /chuletas {
+	alias /var/www/chuletas;
+   }
+   location /freecodecamp/5-api/ {
+	# requests limit
+	limit_req zone=one burst=20;
+	proxy_pass http://127.0.0.1:3501/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+	# para pillar la ip de visitante añadir las siguientes dos lineas
+	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	proxy_set_header X-Forwarded-Proto $scheme;
+   }
+   location /freecodecamp/6-backEnd/ {	
+	# requests limit
+	limit_req zone=one burst=20;
+        proxy_pass http://127.0.0.1:3503/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+        # para pillar la ip de visitante añadir las siguientes dos lineas
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+   }
+   location /freecodecamp/7-bonus2/ {
+	# requests limit
+	limit_req zone=one burst=20;
+        proxy_pass http://127.0.0.1:3502/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+        # para pillar la ip de visitante añadir las siguientes dos lineas
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+   }
+}
 ```
 
 ---
@@ -1193,7 +1029,7 @@ entra directamente
 r.db("rethinkdb").table("users").get("admin").update({password: "pass"})
 r.db("rethinkdb").table("users").get("user").update({password: "pass"})
 r.table("users").get("usuario").update({password: "pass"})
-r.db('test').grant('usuario', {read: true, write: true, config: true})
+r.db('test').grant('usuario', {read: true, write: true, cnginxonfig: true})
 ```
 
 ---
@@ -1350,128 +1186,54 @@ Para ver si me puedo conectar a algun sitio
 [HTTPS certbot](https://certbot.eff.org/)
 
 ```sh
-apt-get install certbot -t jessie-backports
+apt-get install certbot 
 certbot certonly
 ```
 
 Ahora configurar nginx para que sirva todo por SSL port 443
 
+### Comandos
+
+`certbot certonly` - para crear mas.
+Usar la opcion standalone y creamos todos los dominios juntos (dominio.com y www.dominio.com) que luego todo lo hace mas facil.  
+Hay que parar nginx `service nginx stop` 
+
 ```sh
-nano /etc/nginx/sites-available/archivo
-// No olvidar despues
-cp /etc/nginx/sites-available/archivo /etc/nginx/sites-enabled/archivo
-service nginx restart
+certbot certonly
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+
+How would you like to authenticate with the ACME CA?
+-------------------------------------------------------------------------
+1: Place files in webroot directory (webroot)
+2: Spin up a temporary webserver (standalone)
+-------------------------------------------------------------------------
+Select the appropriate number [1-2] then [enter] (press 'c' to cancel): 2
+Please enter in your domain name(s) (comma and/or space separated)  (Enter
+'c' to cancel):brusbilis.com www.brusbilis.com
+Obtaining a new certificate
+Performing the following challenges:
+tls-sni-01 challenge for brusbilis.com
+tls-sni-01 challenge for www.brusbilis.com
+Waiting for verification...
+Cleaning up challenges
+Generating key (2048 bits): /etc/letsencrypt/keys/0067_key-certbot.pem
+Creating CSR: /etc/letsencrypt/csr/0067_csr-certbot.pem
+
+IMPORTANT NOTES:
+ - Congratulations! Your certificate and chain have been saved at
+   /etc/letsencrypt/live/brusbilis.com/fullchain.pem. Your cert will
+   expire on 2017-11-11. To obtain a new or tweaked version of this
+   certificate in the future, simply run certbot again. To
+   non-interactively renew *all* of your certificates, run "certbot
+   renew"
+ - If you like Certbot, please consider supporting our work by:
+
+   Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
+   Donating to EFF:                    https://eff.org/donate-le
 ```
 
-Añadir posibilidad de peticion https
+`certbot delete` - para borrar un certificado 
 
-```nginx
-# HTTPS server
-server {
-   listen 443 ssl;
-   server_name brusbilis.com;
-   ssl_certificate /etc/letsencrypt/live/brusbilis.com/cert.pem;
-   ssl_certificate_key /etc/letsencrypt/live/brusbilis.com/privkey.pem;
-   ssl_session_cache shared:SSL:1m;
-   ssl_session_timeout 5m;
-   ssl_ciphers HIGH:!aNULL:!MD5;
-   ssl_prefer_server_ciphers on;
-   location / {
-      root /var/www/html;
-      index index.html index.htm;
-   }
-}
-```
-
-Pero lo que queremos es forzar siempre a HTTPS
-
-```nginx
-server {
-        listen 80;
-        listen [::]:80;
-
-        server_name brusbilis.com www.brusbilis.com;
-        return 301 https://brusbilis.com$request_uri;
-}
-server {
-        listen 80;
-        listen [::]:80;
-        server_name aplicateca.brusbilis.com;
-
-        return 301 https://aplicateca.brusbilis.com$request_uri;
-}
-server {
-    listen 80;
-
-    # Listen to your server ip address
-    server_name 89.38.144.25;
-
-    # Redirect all traffic comming from your-server-ip to your domain
-    return 301 $scheme://brusbilis.com$request_uri;
-}
-# HTTPS server
-server {
-   listen 443 ssl;
-   server_name brusbilis.com;
-   ssl_certificate /etc/letsencrypt/live/brusbilis.com/cert.pem;
-   ssl_certificate_key /etc/letsencrypt/live/brusbilis.com/privkey.pem;
-   ssl_session_cache shared:SSL:1m;
-   ssl_session_timeout 5m;
-   ssl_ciphers HIGH:!aNULL:!MD5;
-   ssl_prefer_server_ciphers on;
-   location / {
-        ssi on;
-        try_files $uri $uri/ =404;
-        root /var/www/html;
-        index index.html index.htm;
-   }
-}
-
-# HTTPS server
-server {
-   listen 443 ssl;
-   server_name aplicateca.brusbilis.com;
-   ssl_certificate /etc/letsencrypt/live/aplicateca.brusbilis.com
-                                                        /cert.pem;
-   ssl_certificate_key /etc/letsencrypt/live/aplicateca.brusbilis.com
-                                                        /privkey.pem;
-   ssl_session_cache shared:SSL:1m;
-   ssl_session_timeout 5m;
-   ssl_ciphers HIGH:!aNULL:!MD5;
-   ssl_prefer_server_ciphers on;
-   location / {
-        ssi on;
-        try_files $uri $uri/ =404;
-        root /var/www/aplicateca;
-        index index.html index.htm;
-   }
-}
-```
-
-Daba algun problema en navegadores de android "Your connection is not private"
-
-Al cambiar  
-`ssl_certificate /etc/letsencrypt/live/snakify.org/cert.pem;`   
-por  
-`ssl_certificate     /etc/letsencrypt/live/snakify.org/fullchain.pem;`  
-Se arregla en chrome y en Dolphin
-
-### Añadir subdominios
-
-Paramos nginx (no suele hacer falta)
-`service nginx stop`  
-
-* **Modo grafico**
-
-`certbot certonly`  
-
-Elegimos la opcion de webroot, y ponemos el nombre del subdominio a añadir. Le
-damos la ruta `/etc/letsencrypt/` y el hara sus cosas, al terminar ya estaran
-los certificados en `/etc/letsencrypt/live` y `/etc/letsencrypt/renewal`  
-
-* **Modo consola** MEJOR
-
-`certbot certonly --webroot -w /var/www/dominio -d dominio.com`
 
 ### Renovacion
 
@@ -1488,3 +1250,12 @@ para forzar la Actualizacion
 `certbot renew --force-renew`
 
 ---
+
+
+nano /etc/nginx/nginx.conf
+
+nano /etc/nginx/sites-available/isi2
+
+cp /etc/nginx/sites-available/isi2 /etc/nginx/sites-enabled/isi2
+
+service nginx restart
