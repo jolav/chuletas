@@ -1558,7 +1558,8 @@ func TestAverage(t *testing.T) {
 // crear servicio
 nano /etc/systemd/servidorGO.service  
 cp servidorGO.service /etc/systemd/system 
-service enable servidorGO.service 
+systemcl enable servidorGO.service 
+service servidorGO.service start
 ```
 
 ```sh

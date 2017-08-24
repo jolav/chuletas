@@ -483,7 +483,7 @@ http.DefaultClient.Timeout = 10 * time.Second
 
 ```go
 func getHttpRequest() {
-	url := "https://codetabs.com/api/geoip/v1/myip/" 
+	url := "https://codetabs.com/tools/geoip/geoip.html" 
 	resp, err := http.Get(url)
 	if err != nil {
 		log.Fatal(err)
