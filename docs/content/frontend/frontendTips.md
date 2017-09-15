@@ -81,7 +81,13 @@ rel="stylesheet">
 <!-- Bangers -->
 <link href="https://fonts.googleapis.com/css?family=Bangers" 
 rel="stylesheet">
- 
+
+<!-- Varela Round -->
+<link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
+
+<!-- Open Sans -->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans"   rel="stylesheet"> 
+
 ```
 
 ### APIs
