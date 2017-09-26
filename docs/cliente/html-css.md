@@ -1,8 +1,10 @@
-# HTML5
+# HTML Y CSS
 
 ---
 
-## ESTRUCTURA
+## HTML
+
+### **ESTRUCTURA**
 
 ```html
 <!DOCTYPE html>
@@ -15,7 +17,7 @@
 </html>
 ```
 
-### Block Elements
+**Block Elements**
 
 ELementos que siempre empiezan en una nueva linea
 
@@ -24,7 +26,7 @@ ELementos que siempre empiezan en una nueva linea
 ![html2](/_img/html-css/blockElementsList.png)
 
 
-### Inline Elements
+**Inline Elements**
 
 Elementos que aparecen a continuacion en la misma linea del anterior
 
@@ -32,15 +34,15 @@ Elementos que aparecen a continuacion en la misma linea del anterior
 
 ![html4](/_img/html-css/inlineElementsList.png)
 
-### Caracteres de escape
+**Caracteres de escape**
 
 ![html5](/_img/html-css/escapeCharacters.png)
 
 ---
 
-## TEXTO
+### **TEXTO**
 
-**white space collapsing :** Dos o mas espacios o lineas juntos el navegador 
+* **white space collapsing :** Dos o mas espacios o lineas juntos el navegador 
 solo mostrara uno    
 
 * **Elementos para estructurar la pagina**
@@ -74,7 +76,7 @@ solo mostrara uno
 
 ---
 
-## LISTAS
+### **LISTAS**
 
 * **Ordenadas**
 
@@ -129,7 +131,7 @@ solo mostrara uno
 
 ---
 
-## ENLACES
+### **ENLACES**
 
 * **A paginas externas**
 
@@ -172,7 +174,7 @@ solo mostrara uno
 
 ---
 
-## IMAGENES
+### **IMAGENES**
 
 Ponerlas todas en una carpeta `/imagenes`  
 Salvarlas a resolucion de 72 ppi(pixels per inch), los monitores no dan mas y asi ahorramos peso en la imagen  
@@ -220,7 +222,7 @@ Pero tambien se puede usar para contener
 
 ---
 
-## TABLAS
+### **TABLAS**
 
 `<table>` para crear la tabla  
 `<tr>` fila  
@@ -268,7 +270,7 @@ CODIGO VIEJO (Ahora por CSS)
 
 ---
 
-## FORMULARIOS
+### **FORMULARIOS**
 
 `action`  
 `method`  
@@ -289,8 +291,6 @@ usuario lo pinche encima
   <input type="submit" value="Lo que sale en el boton para enviar" />
 </form>
 ```
-
-### Elementos  
 
 * **`textarea`**
 
@@ -422,7 +422,7 @@ Pues elegir cero, una o mas opciones de las disponibles
 <form action="http://brusbilis.com/chuletas/frontend/html5/#formularios" >
   <p>Texto de lo que sea</p>
   <input type="text" name="email" />
-  <input type="image" src="images/subscribe.jpg" width="100" height="20" />
+  <input type="image" src="" width="100" height="20" />
 </form>
 
 ```html
@@ -437,7 +437,7 @@ Pues elegir cero, una o mas opciones de las disponibles
 
 <form action="http://brusbilis.com/chuletas/frontend/html5/#formularios">
   <button>
-    <img src="images/add.gif" alt="add" width="10" height="10" /> Add
+    <img src="" alt="add" width="10" height="10" /> Add
   </button>
   <input type="hidden" name="nombreQueQueramos" value="valorAPasar" />
 </form>  
@@ -445,7 +445,7 @@ Pues elegir cero, una o mas opciones de las disponibles
 ```html  
 <form action="http://rutaquegestionaelform" >
   <button>
-    <img src="images/add.gif" alt="add" width="10" height="10" /> Add
+    <img src="" alt="add" width="10" height="10" /> Add
   </button>
   <input type="hidden" name="nombreQueQueramos" value="valorAPasar" />
 </form>  
@@ -487,7 +487,7 @@ uso de etiquetas <label></label> para accesibilidad
 </fieldset>
 ```
 
-### Validacion
+* **Validacion**
 
 <form action="http://brusbilis.com/chuletas/frontend/html5/#formularios">
   Usuario<input type="text" name="usuario" required="required"/> <br />
@@ -502,8 +502,6 @@ uso de etiquetas <label></label> para accesibilidad
   <input type="submit" value="Enviar" />
 </form>
 ```
-
-### Tipos de INPUT
 
 * **Fecha**
 
@@ -603,22 +601,13 @@ uso de etiquetas <label></label> para accesibilidad
 
 ---
 
-## VIDEO Y AUDIO
+### **VIDEO Y AUDIO**
 
-### Video
-
-<video src="html5docs/videos/SampleVideo_1280x720_1mb.mp4"
-  poster="/images/html5/OkDedo.jpg"
-  width="400" height="300"
-  preload
-  controls
-  loop>
-  <p>Descripcion del video</p>
-</video>
+#### **Video**
 
 ```html
 <video src="html5docs/videos/SampleVideo_1280x720_1mb.mp4"
-  poster="/images/html5/OkDedo.jpg"
+  poster="/_img/html-css/OkDedo.jpg"
   width="400" height="300"
   preload
   controls
@@ -639,11 +628,7 @@ Para poner diferentes formatos usamos `<source>`
 </video>
 ```
 
-### Audio
-
-<audio src="html5docs/music/ACDC.ogg" controls>
-  <p>Formato no soportado por el navegador</p>
-</audio>
+#### **Audio**
 
 ```html
 <audio src="html5docs/music/ACDC.ogg" controls autoplay preload loop>
@@ -663,7 +648,7 @@ Para poner diferentes formatos usamos `<source>`
 
 ---
 
-## HTML5 LAYOUT
+### **LAYOUT**
 
 <img src="/_img/html-css/oldLayout.png" alt="html6" width="320"/>
 <img src="/_img/html-css/newLayout.png" alt="html6" width="320"/>
@@ -736,10 +721,11 @@ Envolvemos el elemento a converir en enlace con `<a>`
 
 ---
 
+## **CSS3**
 
 ---
 
-## INTRODUCCION
+### **INTRODUCCION**
 
 * **Enlaces a css**
 
@@ -772,7 +758,7 @@ Interno - NO USAR
 </head>
 ```
 
-### Selectores
+#### **Selectores**
 
 * **Selectores CSS**
 
@@ -782,7 +768,7 @@ Interno - NO USAR
 
 ![css2](/_img/html-css/atributeSelectors.png)
 
-### Cascada y herencia
+#### **Cascada y herencia**
 
 * **Cascada**
 
@@ -817,7 +803,7 @@ body {
 
 ---
 
-## COLOR
+### **COLOR**
 
 `color` -  
 
@@ -856,7 +842,7 @@ p.two {
 
 ---
 
-## TEXTO
+### **TEXTO**
 
 `cursor` - Controla el tipo de cursor del raton que se muestra
 `auto|crosshair|default|pointer|move|text|wait|help|url("cursor.png")`  
@@ -1036,9 +1022,9 @@ cajetinTexto.text:focus {
 
 ---
 
-## BOXES
+### **BOXES**
 
-### Dimensiones
+* **Dimensiones**
 
 `width`, `height`- Por defecto las cajas tienen el tamaño justo para contener a su elemento. Podemos establecer nosotros ese tamaño usando  `pixeles`, o `porcentajes` relativos a la ventana del navegador o a la caja en que ya esta
 si esta dentro de otra caja, o `ems`    
@@ -1066,7 +1052,7 @@ p.two {
   overflow: scroll;}
 ```
 
-### Visibilidad
+* **Visibilidad**
 
 `display`- Permite convertir un elemento en linea en un bloque o al reves. Tambien vale para esconder un elemento en la pagina  
 
@@ -1107,7 +1093,7 @@ p {
   box-shadow: 2px 2px 1px 5px #777777}
 ```
 
-### Bordes
+* **Bordes**
 
 `border-padding-margin`- 
 
@@ -1159,7 +1145,7 @@ p.two  {
   border-top-left-radius: 80px 50px;}
 ```
 
-### Margenes
+* **Margenes**
 
 `margin` - Espacio entre el borde y la caja. Lo normal en px aunque tambien se puede en ems o porcentajes.  
 Si dos cajas se solapan usaremos el mayor de los dos margenes y el otro no  
@@ -1198,7 +1184,7 @@ p.example {
 
 ---
 
-## LISTAS
+### **LISTAS**
 
 `list-style` - Permite declaras las siguientes opciones `type, imagen y position` en cualquier orden.  
 
@@ -1235,7 +1221,7 @@ ul.t2 {
 
 ---
 
-## TABLAS
+### **TABLAS**
 
 Consejos:
 
@@ -1298,7 +1284,7 @@ table.two {
 
 ---
 
-## FORMULARIOS
+### **FORMULARIOS**
 
 * **Dar estilo a entradas de texto**
 
@@ -1404,10 +1390,10 @@ div {
 
 ---
 
-## LAYOUT
+### **LAYOUT**
 
 
-### Tipos posicionamiento  
+* **Tipos posicionamiento**
 
 `position: static` normal o estatico es el usado por defecto. Los elementos de bloque se ponen uno a continuacion de otro ocupando todo el ancho de la ventana del navegador salvo que lo limite con `width.  
 
@@ -1495,7 +1481,7 @@ h1 {
   z-index: 10;}
 ```
 
-### Tipos de Layout
+* **Tipos de Layout**
 
 * **Anchura fija**
 
@@ -1564,7 +1550,7 @@ li {
 
 ---
 
-## IMAGENES
+### **IMAGENES**
 
 * **Controlar tamaño**
 
@@ -1672,7 +1658,7 @@ body {
   background-position: 50% 50%;}
 ```
 
-### rollover y sprites
+* **rollover y sprites**
 
 Enlaces o botones que tienen un segundo estilo al ponerse el puntero encima y un
 tercer estilo al pincharlos.
@@ -1710,9 +1696,7 @@ a#framing-options:active {
 
 ---
 
-## TRANSITION
-
-### Ejemplo
+### **TRANSITION**
 
 ```css3
 .tecla {
@@ -1747,7 +1731,7 @@ function pressKey (e) {
 
 ---
 
-## FLEXBOX
+### **FLEXBOX**
 
 [FlexBox Guia](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
 

@@ -1,4 +1,4 @@
-# GOLANG 1.8.3
+# GOLANG 1.9
 
 ---
 
@@ -1519,101 +1519,6 @@ func TestAverage(t *testing.T) {
 
 ---
 
-## REFLECTION
-
----
-
-## DEPLOY  
-
-* **Cross Compile**
-
-`GOOS=linux GOARCH=amd64 go build`  
-
-`android arm`  
-`darwin 386|amd64|arm|arm64|`  
-`dragonfly amd64`  
-`freebsd 386|amd64|arm`  
-`linux 386|amd64|arm|arm64|ppc64|ppc64le|mips64|mips64le`  
-`netbsd 386|amd64|arm`   
-`openbsd 386|amd64|arm`  
-`plan9 386|amd64`  
-`solaris amd64`  
-`windows 386|amd64`  
-
-* **ejecutar**
-
-`nohup ./binarioGo &`  
-- la & hace que se libere la consola  
-- nohup hace que al cerrar o salir de la consola no se aborte el proceso  
-
-
-### Systemd
-
-`systemctl status servidorGO` nos da informacion del servicio
-
-
-```sh  
-// crear servicio
-nano /etc/systemd/servidorGO.service  
-cp servidorGO.service /etc/systemd/system 
-systemcl enable servidorGO.service 
-service servidorGO.service start
-```
-
-```sh
-// eliminar servicio
-systemctl stop [servicename]
-systemctl disable [servicename]
-rm /etc/systemd/system/[servicename]
-rm /etc/systemd/system/[servicename] symlinks that might be related
-systemctl daemon-reload
-systemctl reset-failed
-```
-
-```sh
-[Unit]
-Description=Apis from old-v1 Freecodecamop Curriculum
-
-[Service]
-User=brus
-Group=www-data
-Restart=on-failure   // o always ???
-WorkingDirectory=/var/www/freecodecamp/old-v1/3-backEnd/apis/go
-ExecStart=/var/www/freecodecamp/old-v1/3-backEnd/apis/go/apis
-
-[Install]
-WantedBy=multi-user.target
-```
-
-* **Comandos**
-
-`service name status`  
-`service name start`  
-
-`systemctl enable name.service`  
-`systemctl disable name.service`   
-`systemctl start name.service`  
-`systemctl stop name.service`  
-`systemctl restart name.service`  
-`systemctl status name.service`  
-`systemctl reload name.service` 
-
-```sh
-// archivos que tiene que terminar habiendo
-/etc/systemd/servidorGO.service
-/etc/systemd/system/servidorGO.service
-/etc/systemd/system/multi-user.target.wants/servidorGO.service
-/sys/fs/cgroup/systemd/system.slice/servidorGO.service
-``` 
-
-[Buena guia de systemctl](https://www.digitalocean.com/community/tutorials/how-to-use-systemctl-to-manage-systemd-services-and-units)
-
-[Para arreglarlo](https://superuser.com/questions/997938/how-do-i-figure-out-why-systemctl-service-systemd-modules-load-fails)
-
-[WorkingDirectory](https://unix.stackexchange.com/questions/200654/executing-chdir-before-starting-systemd-service)
-
----
-
 ## ERRORS
 
 [Errores en Go](https://blog.golang.org/error-handling-and-go)
@@ -1732,11 +1637,9 @@ Estructura de una aplicacion web basica
 
 ---
 
-# GOLANG STANDARD LIBRARY  
+## **STANDARD LIBRARY**
 
----
-
-## FMT
+### **FMT**
 
 `import "fmt"`
 
@@ -1818,7 +1721,7 @@ lectura de datos
 
 ---
 
-## STRINGS
+### **STRINGS**
 
 `import "strings"`  
 
@@ -1853,7 +1756,7 @@ Fuera del paquete string
 
 ---
 
-## STRCONV
+### **STRCONV**
 
 `import "strconv"` - conversiones entre numeros y strings  
 
@@ -1870,7 +1773,7 @@ Fuera del paquete string
 
 ---
 
-## APPEND 
+### **APPEND**
 
 [Slice tricks](https://github.com/golang/go/wiki/SliceTricks) 
 
@@ -1880,7 +1783,7 @@ Fuera del paquete string
 
 ---
 
-## IO
+### **IO**
 
 `import "io"`    
 
@@ -1892,7 +1795,7 @@ soporta leer a a traves del metodo Read
 * **Writer**  
 soporta escribir a traves del metodo Write
 
-### io/ioutil
+### **IO/IOUTIL**
 
 `import io/ioutil`    
 
@@ -1927,11 +1830,9 @@ body, err := ioutil.ReadAll(limitReader)
 
 ---
 
-## OS
+### **OS**
 
 `import "os"`  
-
-### Archivos
 
 * **Saber donde estamos**
 
@@ -2019,8 +1920,6 @@ func main() {
 `Walk` - para recorrer recursivamente un directorio. Pertenece al paquete
 [path/filepath](#pathfilepath)  
 
-### Argumentos en comandos
-
 * **Command line arguments**
 
 el primer valor del slice de argumentos es el nombre del comando path incluido
@@ -2028,8 +1927,6 @@ el primer valor del slice de argumentos es el nombre del comando path incluido
 `argsWithProg := os.Args`- slice completo con comando nombre path incluido  
 `argsWithoutProg := os.Args[1:]` - slice solo de argumentos  
 `arg := os.Args[x]` - devuelve argumento de posicion X  
-
-### Variables de Entorno
 
 * **environment variables**  
 
@@ -2046,7 +1943,7 @@ for _, e := range os.Environ() {
 
 ---
 
-## PATH/FILEPATH  
+### **PATH/FILEPATH**
 
 `import path/filepath`    
 
@@ -2063,7 +1960,8 @@ func main() {
     })
 }
 ```
-## REGEXP  
+
+### **REGEXP**
 
 `import "regexp"`  
 
@@ -2087,7 +1985,7 @@ s = r.ReplaceAllString(s, `-`)
 
 ---
 
-## JSON
+### **JSON**
 
 `import "encoding/json"`  
 
@@ -2221,7 +2119,7 @@ Similarly, all objects decoded into an interface will be map[string]interface{},
 
 ---
 
-## TIME
+### **TIME**
 
 `import "time"`  
 
@@ -2280,7 +2178,7 @@ horaActual = time.Now().Format(layout)
 myString = myTime.String()
 ```
 
-### Timestamp
+* **Timestamp**
 
 `Unix epoch`
 
@@ -2294,7 +2192,7 @@ time.Unix(secs, 0)
 time.Unix(0, nanos)
 ```
 
-### Intervalos
+* **Intervalos**
 
 `timers` - para hacer algo una vez dentro de un tiempo  
 
@@ -2332,7 +2230,7 @@ fmt.Println("Ticker stopped")
 
 ---
 
-## MATH
+### **MATH**
 
 `import "math"`  
 
@@ -2341,7 +2239,7 @@ fmt.Println("Ticker stopped")
 
 ---
 
-## MATH/RAND
+### **MATH/RAND**
 
 `import "math/rand"`  
 
@@ -2372,13 +2270,13 @@ func createRandomString() string {
 
 ---
 
-## DATABASE/SQL
+### **DATABASE/SQL**
 
 [database/sql](http://go-database-sql.org/index.html)
 
 ---
 
-## FLAG
+### **FLAG**
 
 `import "flag"`  
 
@@ -2388,21 +2286,7 @@ Para enviar argumentos a un comando
 
 ---
 
-## CONTAINERS/LIST  
-
-`import containers/list`    
-
-Este paquete contiene una doubly linked list  
-
->> Linked List --> ![go](/_img/go/linkedList.png)
-
-Cada node la de lista contiene un valor y un puntero al siguiente nodo. Como
-esta lista es doblemente enlazada cada nodo tiene tambien un puntero al nodo
-anterior
-
----
-
-## SORT  
+### **SORT**
 
 `import sort`    
 
@@ -2452,26 +2336,6 @@ func main() {
     fmt.Println(fruits)
 }
 ```
-
----
-
-## HASH/CRC32
-
-`import hash/crc32`    
-
-
-1B-85
-
----
-
-## CRYPTO/SHA1
-
-`import crypto/sha1`    
-
-[SHA1 ejemplo](https://gobyexample.com/sha1-hashes)
-
-
-1B-86
 
 ---
 

@@ -1,4 +1,4 @@
-# JAVASCRIPT
+# JAVASCRIPT PARA WEB
 
 ---
 
