@@ -1,39 +1,34 @@
-## chuletas
+# CHULETAS
+
 Recopilacion de informacion para intentar no estar todo el dia buscando las mismas cosas
 
-Front-end  
+## **Cliente**
 
-* [html5](https://github.com/brusbilis/chuletas/blob/master/docs/content/frontend/html5.md)
-* [css3](https://github.com/brusbilis/chuletas/blob/master/docs/content/frontend/css3.md)  
-* [javascript](https://github.com/brusbilis/chuletas/blob/master/docs/content/frontend/js.md)  
-* [javascript web dev](https://github.com/brusbilis/chuletas/blob/master/docs/content/frontend/jswebdev.md)  
-* [javascript APIs](https://github.com/brusbilis/chuletas/blob/master/docs/content/frontend/jsapis.md)  
-* [jQuery](https://github.com/brusbilis/chuletas/blob/master/docs/content/frontend/jquery.md)  
-* [spa](https://github.com/brusbilis/chuletas/blob/master/docs/content/frontend/spa.md)  
-* [Trucos FrontEnd](https://github.com/brusbilis/chuletas/blob/master/docs/content/frontend/frontendTips.md)
+[html y css](https://brusbilis.com/chuletas/cliente/html-css)  
+[javascript](https://brusbilis.com/chuletas/cliente/javascript)  
+[javascript para web](https://brusbilis.com/chuletas/cliente/javascript-web)  
+[javascript apis](https://brusbilis.com/chuletas/cliente/javascript-apis)  
+[jQuery](https://brusbilis.com/chuletas/cliente/jquery)  
+[recursos cliente](https://brusbilis.com/chuletas/cliente/recursos-cliente)  
 
-Back-End  
 
-* [node.js](https://github.com/brusbilis/chuletas/blob/master/docs/content/backend/nodejs.md)
-* [express.js](https://github.com/brusbilis/chuletas/blob/master/docs/content/backend/expressjs.md)  
-* [golang](https://github.com/brusbilis/chuletas/blob/master/docs/content/backend/golang.md)  
-* [golang standard library](https://github.com/brusbilis/chuletas/blob/master/docs/content/backend/gostdlib.md)
-* [golang web dev](https://github.com/brusbilis/chuletas/blob/master/docs/content/backend/gowebdev.md)
-* [bases de datos](https://github.com/brusbilis/chuletas/blob/master/docs/content/backend/bbdd.md)  
-* [Trucos BackEnd](https://github.com/brusbilis/chuletas/blob/master/docs/content/backend/backendTips.md)
+## **Servidor**
 
-Varios
+[node.js](https://brusbilis.com/chuletas/servidor/nodejs)  
+[express.js](https://brusbilis.com/chuletas/servidor/expressjs)  
+[golang](https://brusbilis.com/chuletas/servidor/golang)  
+[golang para web](https://brusbilis.com/chuletas/servidor/golang-web)  
+[bases de datos](https://brusbilis.com/chuletas/servidor/bases-datos)  
+[recursos servidor](https://brusbilis.com/chuletas/servidor/recursos-servidor)  
 
-* [debian](https://github.com/brusbilis/chuletas/blob/master/docs/content/varios/debian.md)  
-* [macOS](https://github.com/brusbilis/chuletas/blob/master/docs/content/varios/macOS.md)  
-* [git, mkDocs, expreg, imagemagick](https://github.com/brusbilis/chuletas/blob/master/docs/content/varios/varios1.md)  
-* [handlebars](https://github.com/brusbilis/chuletas/blob/master/docs/content/varios/varios2.md)
 
----  
+## **Varios**
 
-## Usar [mkdocs](http://www.mkdocs.org/)
+[debian y macos](https://brusbilis.com/chuletas/varios/debian)  
+[imagemagick, git, mkdocs](https://brusbilis.com/chuletas/varios/varios)  
+[expresiones regulares](https://brusbilis.com/chuletas/varios/expresiones-regulares)  
 
-Para verlo todo aqui en GitHub dan problemas los enlaces a imagenes y los
-enlaces internos.
+<hr>
 
-Aqui se ve perfecto [chuletas](http://brusbilis.com/chuletas)
+* Documentacion realizada con [mkdocs](http://www.mkdocs.org/)
+

@@ -1,41 +1,49 @@
-site_name: brusbilis
-site_favicon: 'z-static/images/logo/brusbb.png'
+site_name: Chuletas
 google_analytics: ['UA-65859401-3', 'auto']
+repo_url: https://github.com/brusbilis/chuletas
+strict: true
 extra:
-    logo: 'z-static/images/logo/brusbb.png'
+    logo: '_img/logo/brusbb.png'
+    #logo_name: false
+    include_toc: false
+    extra_nav_links:
+        #volver a la pagina principal : "https://brusbilis.com"
 
 pages:
 - MENU :
     - 'Menu Chuletas': 'index.md'
-- FRONT-END:
-    - 'html5': 'frontend/html5.md'
-    - 'css3': 'frontend/css3.md'
-    - 'javascript': 'frontend/js.md'
-    - 'javascript web deb': 'frontend/jswebdev.md'
-    - 'javascript apis': 'frontend/jsapis.md'
-    - 'jQuery': 'frontend/jquery.md'
-    - 'spa': 'frontend/spa.md'
-    - 'trucos frontend': 'frontend/frontendTips.md'
-- BACK-END:
-    - 'node.js': 'backend/nodejs.md'
-    - 'express.js': 'backend/expressjs.md'
-    - 'golang': 'backend/golang.md' 
-    - 'golang standard lib': 'backend/gostdlib.md'
-    - 'golang web dev': 'backend/gowebdev.md'
-    - 'bases de datos': 'backend/bbdd.md'
-    - 'trucos backend': 'backend/backendTips.md'
+- CLIENTE:
+    - 'html y css': 'cliente/html-css.md'
+    - 'javascript': 'cliente/javascript.md'
+    - 'javascript para web': 'cliente/javascript-web.md'
+    - 'javascript apis': 'cliente/javascript-apis.md'
+    - 'jQuery': 'cliente/jquery.md'
+    - 'recursos cliente': 'cliente/recursos-cliente.md'
+- SERVIDOR:
+    - 'node.js': 'servidor/nodejs.md'
+    - 'express.js': 'servidor/expressjs.md'
+    - 'golang': 'servidor/golang.md' 
+    - 'golang para web': 'servidor/golang-web.md'
+    - 'bases de datos': 'servidor/bases-datos.md'
+    - 'recursos servidor': 'servidor/recursos-servidor.md'
 - VARIOS:
-    - 'debian': 'varios/debian.md'
-    - 'macOS': 'varios/macOS.md'
-    - 'git, mkDocs, expReg, imagemagick': 'varios/varios1.md'
-    - 'handlebars': 'varios/varios2.md'
+    - 'debian y macos': 'varios/debian.md'
+    - 'imagemagick, git, mkdocs': 'varios/varios.md'
+    - 'expresiones regulares': 'varios/expresiones-regulares.md'
 
-markdown_extensions:
+markdown_extensions: 
     - fenced_code
 
-theme_dir: 'brus-docs-theme'
-#theme: windmill
+theme_dir: '_chuletas-theme'
+#theme: alabaster
 site_dir: 'chuletas'
-docs_dir: 'docs/content'
+docs_dir: 'docs'
 extra_css:
-    - 'z-static/extra.css'
+    - '_extra/css/extra.css'
+    #- '_extra/css/atom-one-light.css'
+    #- '_extra/js/highlight.pack.js'
+ 
+
+
+
+
