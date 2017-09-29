@@ -34,7 +34,7 @@ pages:
 markdown_extensions: 
     - fenced_code
 
-theme_dir: '_chuletas-theme'
+theme_dir: 'brus-docs-theme'
 #theme: alabaster
 site_dir: 'chuletas'
 docs_dir: 'docs'
