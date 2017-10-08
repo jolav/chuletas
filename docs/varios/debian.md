@@ -243,14 +243,16 @@ Para desinstalar - `npm remove pm2 -g`
 
 [DOCS](http://pm2.keymetrics.io/docs/usage/quick-start/)
 
-Para ejecutar los procesos como user y no como root   
-`chmod -R 777 /home/brus/.npm/.pm2` 
+`pm2 startup` como usuario y seguir instrucciones para hacer que pm2 se ejecute en los reinicios sin necesitar ser root  
+`pm2 unstartup` - para desmontar el chiringuito  
 
-Ahora como usuario ejecutar `pm startup debian` y seguir sus instrucciones   
+**NO SIEMPRE** Para ejecutar los procesos como user y no como root   
+`chmod -R 777 /home/brus/.pm2` 
 
 * **Comandos**
 
 ```sh
+pm2 start app.js  
 pm2 kill // para la ejecucion pero con un reboot se activara de nuevo
 pm2 list
 pm2 stop all|number
