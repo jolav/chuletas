@@ -381,6 +381,12 @@ add_header X-XSS-Protection "1; mode=block";
 add_header Content-Security-Policy "default-src 'self'";
 ```
 
+En el location block para evitar cualquier indexacion de esa location por parte de los robots de busqueda  
+```nginx
+add_header  X-Robots-Tag "noindex, nofollow, nosnippet, noarchive";
+```
+
+
 #### limitar tamaño archivos subida
 
 ```nginx
@@ -893,6 +899,15 @@ IMPORTANT NOTES:
    Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
    Donating to EFF:                    https://eff.org/donate-le
 ```
+
+* **Listar certificados**
+
+`certbot certificates` - lista de todos los certificados existentes  
+
+* **Añadir certificado**
+
+`service nginx stop` - paramos nginx  
+`certbot certonly -d admin.datasilo.org,api.datasilo.org,datasilo.org,sp500.datasilo.org,www.datasilo.org,otrosub.datasilo.org --expand` - ponemos todos lo que necesitemos  
 
 * **Borrar certificado**
 

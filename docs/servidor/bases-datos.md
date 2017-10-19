@@ -373,3 +373,13 @@ r.connect(config.rethinkdb)
 ```
 
 ---
+
+## **SQLITE**
+
+* **Instalacion**
+
+* ****
+
+* ****
+
+---
