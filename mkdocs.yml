@@ -1,49 +1,39 @@
 site_name: Chuletas
-google_analytics: ['UA-65859401-3', 'auto']
-repo_url: https://github.com/brusbilis/chuletas
+google_analytics: ["UA-114956807-1", "auto"]
+repo_url: https://github.com/jolav/chuletas
 strict: true
-extra:
-    logo: '_img/logo/brusbb.png'
-    #logo_name: false
-    include_toc: false
-    extra_nav_links:
-        #volver a la pagina principal : "https://brusbilis.com"
 
-pages:
-- MENU :
-    - 'Menu Chuletas': 'index.md'
-- CLIENTE:
-    - 'html y css': 'cliente/html-css.md'
-    - 'javascript': 'cliente/javascript.md'
-    - 'javascript para web': 'cliente/javascript-web.md'
-    - 'javascript apis': 'cliente/javascript-apis.md'
-    - 'jQuery': 'cliente/jquery.md'
-    - 'recursos cliente': 'cliente/recursos-cliente.md'
-- SERVIDOR:
-    - 'node.js': 'servidor/nodejs.md'
-    - 'express.js': 'servidor/expressjs.md'
-    - 'golang': 'servidor/golang.md' 
-    - 'golang para web': 'servidor/golang-web.md'
-    - 'bases de datos': 'servidor/bases-datos.md'
-    - 'recursos servidor': 'servidor/recursos-servidor.md'
-- VARIOS:
-    - 'debian y macos': 'varios/debian.md'
-    - 'imagemagick, git, mkdocs': 'varios/varios.md'
-    - 'expresiones regulares': 'varios/expresiones-regulares.md'
+nav:
+  - 'Menu': 'index.md'
+  - 'HTML': 'html.md'  
+  - 'CSS': 'css.md'
+  - 'Front End': 'frontend.md'
+  - 'Javascript': 'javascript.md'
+  - 'Javascript snippets': 'javascript-snippets.md'
+  - 'Reactjs': 'reactjs.md'
+  - 'Vuejs': 'vuejs.md'
+  - 'Nodejs con Expressjs': 'nodejs-expressjs.md'
+  - 'Nodejs snippets': 'nodejs-snippets.md'
+  - 'Nodejs Bases de Datos': 'nodejs-bases-de-datos.md'
+  - 'Golang': 'golang.md'
+  - 'Golang web': 'golang-web.md'
+  - 'Golang snippets': 'golang-snippets.md'
+  - 'Golang Bases de Datos': 'golang-bases-de-datos.md'
+  - 'Debian': 'debian.md'
+  - 'Varios': 'varios.md'
 
-markdown_extensions: 
-    - fenced_code
-
-theme_dir: 'brus-docs-theme'
 #theme: alabaster
+#theme_dir: "chuletas-theme"
+theme:
+  name: alabaster
+  custom_dir: chuletas-theme
 site_dir: 'chuletas'
 docs_dir: 'docs'
 extra_css:
-    - '_extra/css/extra.css'
-    #- '_extra/css/atom-one-light.css'
-    #- '_extra/js/highlight.pack.js'
- 
-
-
-
+- '_extra/css/extra.css'
+extra_javascript:
+- '_extra/js/highlight.pack.js'
+extra:
+  logo: '_img/chuletas128.png'
+  include_toc: true
 

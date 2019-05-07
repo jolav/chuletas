@@ -1,4 +1,6 @@
-Volver a la [pagina principal](//brusbilis.com)
 
-Puedes ver el codigo en [brusbilis/chuletas](https://github.com/brusbilis/chuletas).  
+[Volver al inicio](https://jolav.me).
 
+Jolav &copy; 2019 - [Ver el código en GitHub](https://github.com/jolav/chuletas)
+
+## MENU

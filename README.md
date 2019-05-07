@@ -1,34 +1,49 @@
-# CHULETAS
+![Proyecto Activo SI](https://img.shields.io/badge/Proyecto%20Activo%3F-Si-green.svg)  
 
-Recopilacion de informacion para intentar no estar todo el dia buscando las mismas cosas
+![Info](https://img.shields.io/badge/07%20may%202019-blue.svg) En unos pocos dias estara todo traducido, falta organizar un poco y subirlo
 
-## **Cliente**
+# ![LOGO](https://github.com/jolav/chuletas/blob/master/docs/_img/chuletas128.png?raw=true)  **CHULETAS**
 
-[html y css](https://brusbilis.com/chuletas/cliente/html-css)  
-[javascript](https://brusbilis.com/chuletas/cliente/javascript)  
-[javascript para web](https://brusbilis.com/chuletas/cliente/javascript-web)  
-[javascript apis](https://brusbilis.com/chuletas/cliente/javascript-apis)  
-[jQuery](https://brusbilis.com/chuletas/cliente/jquery)  
-[recursos cliente](https://brusbilis.com/chuletas/cliente/recursos-cliente)  
+Recopilacion de informacion para intentar no estar todo el dia buscando las mismas cosas sobre programacion
 
+[Menu](https://jolav.me/chuletas/) ![OK](https://img.shields.io/badge/OK-green.svg)  
 
-## **Servidor**
+[HTML](https://jolav.me/chuletas/html)![OK](https://img.shields.io/badge/OK-green.svg)  
+[CSS](https://jolav.me/chuletas/css) ![OK](https://img.shields.io/badge/OK-green.svg)  
 
-[node.js](https://brusbilis.com/chuletas/servidor/nodejs)  
-[express.js](https://brusbilis.com/chuletas/servidor/expressjs)  
-[golang](https://brusbilis.com/chuletas/servidor/golang)  
-[golang para web](https://brusbilis.com/chuletas/servidor/golang-web)  
-[bases de datos](https://brusbilis.com/chuletas/servidor/bases-datos)  
-[recursos servidor](https://brusbilis.com/chuletas/servidor/recursos-servidor)  
+[Javascript](https://jolav.me/chuletas/javascript) ![Pen](https://img.shields.io/badge/Pendiente%20de%20traducir-red.svg)  
+[Javascript snippets](https://jolav.me/chuletas/javascript-snippets/) ![Pen](https://img.shields.io/badge/Pendiente%20de%20traducir-red.svg)   
+[Reactjs](https://jolav.me/chuletas/reactjs/) ![Pen](https://img.shields.io/badge/Pendiente%20de%20traducir-red.svg)  
+[Vuejs](https://jolav.me/chuletas/vuejs/) ![Pen](https://img.shields.io/badge/Pendiente%20de%20traducir-red.svg)  
+[Front End](https://jolav.me/chuletas/frontend/) ![Pen](https://img.shields.io/badge/Pendiente%20de%20traducir-red.svg) 
 
+[Nodejs con Expressjs](https://jolav.me/chuletas/nodejs-expressjs/) ![Pen](https://img.shields.io/badge/Pendiente%20de%20traducir-red.svg)    
+[Nodejs snippets](https://jolav.me/chuletas/nodejs-snippets/) ![Pen](https://img.shields.io/badge/Pendiente%20de%20traducir-red.svg)    
+[Nodejs Bases De Datos](https://jolav.me/chuletas/nodejs-bases-de-datos/) ![Pen](https://img.shields.io/badge/Pendiente%20de%20traducir-red.svg)     
 
-## **Varios**
+[Golang](https://jolav.me/chuletas/golang/) ![Pen](https://img.shields.io/badge/Pendiente%20de%20traducir-red.svg)  
+[Golang Desarrollo Web ](https://jolav.me/chuletas/golang-desarrollo-web/) ![Pen](https://img.shields.io/badge/Pendiente%20de%20traducir-red.svg)    
+[Golang snippets](https://jolav.me/chuletas/golang-snippets/) ![Pen](https://img.shields.io/badge/Pendiente%20de%20traducir-red.svg)    
+[Golang Bases De Datos](https://jolav.me/chuletas/golang-bases-de-datos/) ![Pen](https://img.shields.io/badge/Pendiente%20de%20traducir-red.svg)
 
-[debian y macos](https://brusbilis.com/chuletas/varios/debian)  
-[imagemagick, git, mkdocs](https://brusbilis.com/chuletas/varios/varios)  
-[expresiones regulares](https://brusbilis.com/chuletas/varios/expresiones-regulares)  
+[Debian](https://jolav.me/chuletas/debian/) ![Pen](https://img.shields.io/badge/Pendiente%20de%20traducir-red.svg)  
+
+[Varios](https://jolav.me/chuletas/varios/) ![OK](https://img.shields.io/badge/OK-green.svg)
+
 
 <hr>
 
-* Documentacion realizada con [mkdocs](http://www.mkdocs.org/)
+#### Reconocimientos
+
+* Documentacion realizada con [MkDocs](http://www.mkdocs.org/)
+
+
+
+
+
+
+
+
+
+
 
