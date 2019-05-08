@@ -21,9 +21,10 @@ Recopilacion de informacion para intentar no estar todo el dia buscando las mism
 [Vuejs](https://jolav.me/chuletas/vuejs/) ![Pen](https://img.shields.io/badge/Pendiente%20de%20traducir-red.svg)  
  
 
-[Nodejs con Expressjs](https://jolav.me/chuletas/nodejs-expressjs/) ![Pen](https://img.shields.io/badge/Pendiente%20de%20traducir-red.svg)    
-[Nodejs snippets](https://jolav.me/chuletas/nodejs-snippets/) ![Pen](https://img.shields.io/badge/Pendiente%20de%20traducir-red.svg)    
-[Nodejs Bases De Datos](https://jolav.me/chuletas/nodejs-bases-de-datos/) ![Pen](https://img.shields.io/badge/Pendiente%20de%20traducir-red.svg)     
+[Nodejs](https://jolav.me/chuletas/nodejs/)  ![OK](https://img.shields.io/badge/OK-green.svg)   
+[Expressjs](https://jolav.me/chuletas/expressjs/)  ![OK](https://img.shields.io/badge/OK-green.svg)  
+[Nodejs snippets](https://jolav.me/chuletas/nodejs-snippets/) ![OK](https://img.shields.io/badge/OK-green.svg)  
+[Nodejs Bases De Datos](https://jolav.me/chuletas/nodejs-bases-de-datos/) ![OK](https://img.shields.io/badge/OK-green.svg)  
 
 [Golang](https://jolav.me/chuletas/golang/) ![Pen](https://img.shields.io/badge/Pendiente%20de%20traducir-red.svg)  
 [Golang Desarrollo Web ](https://jolav.me/chuletas/golang-desarrollo-web/) ![Pen](https://img.shields.io/badge/Pendiente%20de%20traducir-red.svg)    

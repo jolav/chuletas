@@ -157,11 +157,11 @@ Interno - NO USAR
 
 * **Selectores CSS**
 
-![css1](/_img/css/cssSelectors.png)
+![css](./_img/css/cssSelectors.png)
 
 * **Selectores de atributos**
 
-![css2](/_img/css/atributeSelectors.png)
+![css](./_img/css/atributeSelectors.png)
 
 #### **Cascada y herencia**
 
@@ -337,7 +337,7 @@ atributo `align` de `<img>`
 Valores :
 `baseline`, `sub`, `super`, `top`, `text-top`, `middle`, `bottom`, `text-bottom`
 
-![css3](/_img/css/verticalAlignExample.png)
+![css](./_img/css/verticalAlignExample.png)
 
 ```css
 #six-months {
@@ -492,7 +492,7 @@ p {
 
 `border-padding-margin`- 
 
-![css4](/_img/css/borderPaddingMargin.png)
+![css](./_img/css/borderPaddingMargin.png)
 
 `border-width` - espesor de la linea de borde `thin|medium|thick`.  
 `border-top-width`, `border-right-width`, `border-bottom-width`  `border-left-width` en orden de las agujas del reloj empezando por top   
@@ -706,7 +706,7 @@ input#web {
   background-image: url("images/web.png");}
 ```
 
-![css5](/_img/css/textInputs.png)
+![css](./_img/css/textInputs.png)
 
 * **Dar estilo a botones submit**
 
@@ -739,7 +739,7 @@ input#submit:hover {                // cambia la apariencia del boton
     -ms-linear-gradient(top, #a8cfce, #beeae9);}
 ```
 
-![css6](/_img/css/submitButton.png)
+![css](./_img/css/submitButton.png)
 
 * **Poner estilo a fieldsets y legends**
 
@@ -759,7 +759,7 @@ legend {
   text-transform: uppercase;}
 ```
 
-![css7](/_img/css/fieldset.png)
+![css](./_img/css/fieldset.png)
 
 
 * **Alinear formularios**
@@ -781,7 +781,7 @@ div {
   text-align: right;}
 ```
 
-![css8](/_img/css/aligningForm.png)
+![css](./_img/css/aligningForm.png)
 
 ---
 
@@ -882,7 +882,7 @@ h1 {
 
 La anchura se especifica en pixeles (a veces tambien la altura)
 
-![css9](/_img/css/fixedWidthLayout.png)
+![css](./_img/css/fixedWidthLayout.png)
 
 ```css
 body {
@@ -913,7 +913,7 @@ La anchura se especifica en porcentajes.
 * cada columna se le pone un `margin: 1%`
 * `min-width, max-width` para limitar los estiramientos
 
-![css10](/_img/css/liquidLayout.png)
+![css](./_img/css/liquidLayout.png)
 
 ```css
 body {
@@ -941,7 +941,7 @@ li {
 
 * **Diseño 960px**
 
-![css11](/_img/css/960pixelWide.png)
+![css](./_img/css/960pixelWide.png)
 
 ---
 
@@ -1060,7 +1060,7 @@ tercer estilo al pincharlos.
 
 Se usan `sprites` que son una sola imagen con diferentes partes a usar.
 
-![css12](/_img/css/sprite.png)
+![css](./_img/css/sprite.png)
 
 ```html
 <a class="button" id="add-to-basket">Add to basket</a>

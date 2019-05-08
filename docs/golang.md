@@ -464,7 +464,7 @@ func myfunc(d *data) {
 
 ### Numbers
 
-![go](/_img/go/basicTypes.png)
+![go](./_img/go/basicTypes.png)
 
 
 ### Booleans
@@ -473,9 +473,9 @@ func myfunc(d *data) {
 `||` - or   
 `!` - not  
 
-> ![go](/_img/go/boolean1.png)
-> ![go](/_img/go/boolean2.png)
-> ![go](/_img/go/boolean3.png)
+> ![go](./_img/go/boolean1.png)
+> ![go](./_img/go/boolean2.png)
+> ![go](./_img/go/boolean3.png)
 
 
 ### Strings
@@ -1139,7 +1139,7 @@ func f2() int {
 }
 ```
 
->>> ![go](/_img/go/callStack.png)
+>>> ![go](./_img/go/callStack.png)
 
 * **Arguments**
 

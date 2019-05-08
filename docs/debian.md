@@ -1133,7 +1133,7 @@ Sometimes doesnt start after update
 
 webmin > webmin Configuration > SSL Encryption > SSL Settings
 
-![Webmin LetsEncrypt](/_img/debian/webmin-letsencrypt.png)
+![debian](./_img/debian/webmin-letsencrypt.png)
 
 Apply -> service nginx restart
 

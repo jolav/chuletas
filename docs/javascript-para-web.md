@@ -12,7 +12,7 @@
 
 - El objeto superior es `window` que representa la ventana o pestaña del navegador.
 
-![js2](/_img/js/bom.png)
+![js](./_img/js/bom.png)
 
 - Propiedades
 
@@ -39,15 +39,15 @@
 
 - Es un grupo de objetos individuales que cada uno hace referencia a una parte del lenguaje javascript
 
-![js2](/_img/js/gjo.png)
+![js](./_img/js/gjo.png)
 
-#### [String](/javascript/#string)
+#### [String](../javascript/#string)
 
-#### [Numero](/javascript/#numeros)
+#### [Numero](../javascript/#numeros)
 
-#### [Math](/javascript-apis/#math)
+#### [Math](../javascript-apis/#math)
 
-#### [Date](/javascript-apis/#date)
+#### [Date](../javascript-apis/#date)
 
 ---
 
@@ -63,21 +63,21 @@
 
 > El arbol DOM es una maqueta de una pagina web
 
-![js2](/_img/js/domTree.png)
+![js](./_img/js/domTree.png)
 
-- ![js2](/_img/js/docNodes.png)  
+- ![js](./_img/js/docNodes.png)  
   En la parte superior del arbol esta un nodo documento que representa la pagina entera. Es el punto de arranque para todas las rutas por el arbol DOM.  
   Coincide con el `document object`
 
-- ![js2](/_img/js/elementNodes.png)  
+- ![js](./_img/js/elementNodes.png)  
   Los nodos elemento es lo que se busca en el arbol DOM antes de acceder a los nodes de atributo y texto  
   Para eso estan los metodos que permiten buscar y acceder a nodos elemento
 
-- ![js2](/_img/js/attributeNodes.png)  
+- ![js](./_img/js/attributeNodes.png)  
   Las etiquetas abiertas de los elementos HTML pueden contener atributos que estan representados por nodos atributos en al arbol DOM  
   No son hijos del elemento que los tiene, son parte de ese elemento, por eso hay metodos y propiedades especificas para leer y modificar esos atributos
 
-- ![js2](/_img/js/textNodes.png)  
+- ![js](./_img/js/textNodes.png)  
   Una vez accedido al nodo elemento puedes coger el texto dentro del elemento que esta contenido en su propio nodo texto  
   Pueden tener hijos pero seran hijos del elemento que los contiene
 
@@ -85,7 +85,7 @@
 
 > El objeto superior es `document` que representa la pagina como un todo
 
-![js2](/_img/js/dom.png) ![js2](/_img/js/nearbyNodes.png)
+![js](./_img/js/dom.png) ![js](./_img/js/nearbyNodes.png)
 
 - Propiedades
 
@@ -133,7 +133,7 @@ _`element`_`.innerHTML` - Permite acceder a elementos hijo y contenido de texto 
 _`element`_`.textContent` - Permite acceder al texto del elemento y de sus hijos _`element`_`.className` - Valor del atributo class  
 _`element`_`.id` - Valor del atributo id
 
-![js2](/_img/js/accessText.png)
+![js](./_img/js/accessText.png)
 
 - _`element`_`.nodeValue`  
   Una vez llegas de un elemento a su nodo texto, este tiene la propiedad nodeValue que te da acceso al valor del texto
@@ -241,14 +241,14 @@ for (var i = 0; i < lista.lenth; i++) {
 - HTML - Escapar todos estos caracteres para que se muestren como caracteres y no sean procesados como codigo
 
 
-![js2](/_img/js/escapeHTML.png)
+![js](./_img/js/escapeHTML.png)
 
 
 - Javascript -No incluir datos de fuentes sin confianza.Escapar todos los caracteres ASCII de valor menor a 256 que no sean caracteres alfanumericos
 
 - URLs - Si tienes enlaces que datos que han introducido los usuarios usa el metodo `encodeURIComponent()` para codificar los siguientes caracteres :
 
-![js2](/_img/js/escapeURLs.png)
+![js](./_img/js/escapeURLs.png)
 
 > **Añadir contenido del usuario**
 
@@ -285,7 +285,7 @@ for (var i = 0; i < lista.lenth; i++) {
 
 ```javascript
 function setup() {         
-  // Al haber cargado la pagina ya esta el contenido disponible                                                          
+  // Al haber cargado la pagina ya esta el contenido disponible 
 }
 window.addEventListener('load', setup, false);
 ```
@@ -390,7 +390,7 @@ el.onblur = checkUsername;
 
 - **Concepto**
 
-![js2](/_img/js/eventListener.png)
+![js](./_img/js/eventListener.png)
 
 - **Ejemplo**
 
@@ -404,7 +404,7 @@ el.addEventListener("blur", checkUsername, false);
 
 - **Usando Parametros**
 
-![js2](/_img/js/parametersEvents.png)
+![js](./_img/js/parametersEvents.png)
 
 ```javascript
 var elUsername = document.getElementById('username');   
@@ -444,7 +444,7 @@ button.addEventListener("mousedown", function(event) {
 
 - `Capturing` - el evento se captura primero por el elemento mas externo y se propaga hacia los elementos internos
 
-![js2](/_img/js/eventFlow.png)
+![js](./_img/js/eventFlow.png)
 
 ### Objeto Event
 
@@ -563,7 +563,7 @@ addEventListener("mousemove", function(event) {
 > Los servidores usan para enviar los datos HTML, XML o JSON  
 > Ajax usa un modelo asicrono, permite hacer cosas mientras el navegador espera los datos del servidor para cargarlos
 
-> ![js2](/_img/js/ajaxFlow.png)
+> ![js](./_img/js/ajaxFlow.png)
 
 > 1. Peticion: El navegador pide datos al servidor, la peticion puede incluir datos que el servidor necesite al igual que un formulario puede enviar datos a un servidor
 
@@ -577,7 +577,7 @@ addEventListener("mousemove", function(event) {
 
 - **Peticiones**
 
-> ![js2](/_img/js/ajaxRequest.png)
+> ![js](./_img/js/ajaxRequest.png)
 
 > 1. Se instancia el objeto `XMLHttpRequest` para crear un nuevo objeto `xhr`
 > 2. `.open()` - Metodo HTTP , url que manejara la peticion, true|false si es asincrono
@@ -585,7 +585,7 @@ addEventListener("mousemove", function(event) {
 
 - **Respuestas**
 
-> ![js2](/_img/js/ajaxResponse.png)
+> ![js](./_img/js/ajaxResponse.png)
 
 > 1. Cuando el navegador recibe y carga la respuesta del servidor se dispara el evento `onload`. Esto provoca que se ejecute una funcion
 > 2. La funcion chequea la propiedad `status` del objeto para asegurarse de que la respuesta del servidor esta bien
@@ -846,7 +846,7 @@ showEvents({
 
 JSON es solo texto plano que envias por internet y luego el navegador convierte en objetos para usarlos
 
-> ![js2](/_img/js/jsonSyntaxis.png)
+> ![js](./_img/js/jsonSyntaxis.png)
 
 > - KEYS colocados entre comillas (no comillas simples y separados del valor por dos puntos.
 

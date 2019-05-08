@@ -174,7 +174,7 @@ añadimos al comienzo del archivo
 > Los navegadores usan politica del mismo origen, vamos que los datos solo son accesibles por otras paginas del mismo dominio  
 > Para ello las 4 partes del URL deben coincidir
 
-> > > > > > > ![apis](/_img/js/url.png)
+> > > > > > > ![js](./_img/js/url.png)
 
 > > > 1. Protocolo ¡ ojo que https es distinto a http !
 > > > 2. Subdominio, maps.google.com no puede acceder a datos guardados de www.google.com
@@ -192,7 +192,7 @@ añadimos al comienzo del archivo
 `.removeItem('clave')` - Elimina la clave/valor para esa clave  
 `.clear()` - Limpia toda la informacion del objeto storage
 
-> > > > > ![apis](/_img/js/webStorage1.png)
+> > > > > ![js](./_img/js/webStorage1.png)
 
 - **sessionStorage**
 
@@ -372,9 +372,9 @@ window.onload = loadScript;
 
 - **Cambiar los controles**
 
-> > > > > ![apis](/_img/js/mapControls.png)
+> > > > > ![js](./_img/js/mapControls.png)
 
-![apis](/_img/js/controls.png)
+![js](./_img/js/controls.png)
 
 ```javascript
 function init() {
@@ -453,7 +453,7 @@ addEventListener("load", iniciar);
 
 ### Dibujar
 
-> > > > > ![apis](/_img/js/canvasCoords.png)
+> > > > > ![js](./_img/js/canvasCoords.png)
 
 ```javascript
 function iniciar(){
@@ -791,7 +791,8 @@ imagen.setAttribute("crossOrigin","anonymous|use-credentials");
 
 ```javascript
 img = document.createElement('img');
-  img.setAttribute('src', 'http://www.formasterminds.com/content/bricks.jpg');
+  const imageUrl = 'http://www.formasterminds.com/content/bricks.jpg';
+  img.setAttribute('src', imageUrl);
   img.addEventListener("load", modimagen);
 }
 function modimagen(){
@@ -1018,7 +1019,7 @@ addEventListener('load', function(){ mijuego.iniciar(); });
 
 ### Graficos de tarta
 
-> > ![apis](/_img/js/pieChart.png)
+> > ![js](./_img/js/pieChart.png)
 
 ```html
 <!doctype html>

@@ -459,7 +459,7 @@ func main() {
 }
 ```
 
-![gowebdev](/_img/go/forms.png)
+![go](./_img/go/forms.png)
 
 ### Cliente HTTP
 

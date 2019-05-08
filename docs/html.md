@@ -134,22 +134,22 @@ function testEnter (ev) {
 
 Elementos que siempre empiezan en una nueva linea
 
-![html1](_img/html/blockElements.png)
+![html](./_img/html/blockElements.png)
 
-![html2](_img/html/blockElementsList.png)
+![html](./_img/html/blockElementsList.png)
 
 
 * **Inline Elements**
 
 Elementos que aparecen a continuacion en la misma linea del anterior
 
-![html3](_img/html/inlineElements.png)
+![html](./_img/html/inlineElements.png)
 
-![html4](_img/html/inlineElementsList.png)
+![html](./_img/html/inlineElementsList.png)
 
 * **Caracteres de escape**
 
-![html5](_img/html/escapeCharacters.png)
+![html](./_img/html/escapeCharacters.png)
 
 ### TEXTO
 
@@ -748,10 +748,10 @@ Para poner diferentes formatos usamos `<source>`
 ### LAYOUT
 
 old Layout  
-![html6](_img/html/oldLayout.png)
+![html](./_img/html/oldLayout.png)
 
 new Layout  
-![html7](_img/html/newLayout.png)
+![html](./_img/html/newLayout.png)
 
 * **header, footer, nav, article, aside, section**
 

@@ -101,7 +101,7 @@ var trees = new Array("redwood", "bay", "cedar", "oak", "maple");
 
 ## VARIABLES
 
-![js1](/_img/js/tiposDatos.png)
+![js](./_img/js/tiposDatos.png)
 
 En javascript las variables no tienen tipos, son los valores quienes tienen tipos
 
@@ -1767,9 +1767,5 @@ console.log(
 );                             // Let me introduce: rhino
 foo.awesome();                 // LET ME INTRODUCE: HIPPO
 ```
-
-### maps y sets
-
-### iterators y generators
 
 ---

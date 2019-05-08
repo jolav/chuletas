@@ -699,10 +699,10 @@ class Editor extends React.Component {
 
 ## LIFECYCLE METHODS
 
-![Initial](_img/react/initial.png)
-![Props](_img/react/props.png)
-![State](_img/react/state.png)
-![Unmount](_img/react/unmount.png)
+![react](./_img/react/initial.png)
+![react](./_img/react/props.png)
+![react](./_img/react/state.png)
+![react](./_img/react/unmount.png)
 
 ```javascript
 /* global ReactDOM React */

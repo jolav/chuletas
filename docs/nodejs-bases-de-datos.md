@@ -3,15 +3,14 @@
 
 ---
 
+## MYSQL
 
-## MYSQL 5.7.X
+### Instalar MYSQL 5.7.X
 
-### Install
+* **instalacion**
 
-* **install**
-
-```ssh
-wget from here => `https://dev.mysql.com/downloads/repo/apt/` 
+```sh
+wget => `https://dev.mysql.com/downloads/repo/apt/` 
 dpkg -i packake.deb
 nano /etc/apt/sources.list.d/mysql.list 
 apt-get update
@@ -19,18 +18,18 @@ apt-get install mysql-server
 mysql_secure_installation
 ```
 
-* **configuration**
+* **configuracion**
 
-```ssh
+```sh
 nano /etc/mysql/my.cnf
-// redirects to ...
+// redirige a ...
 nano /etc/mysql/mysql.conf.d/mysqld.cnf
-// Uncomment this line to avoid external access
+// Descomentar esta line para evitar acceso desde el exterior
 bind-address            = 127.0.0.1
 service mysql restart
 
-// to create other users , we use % instead localhost to allow 
-// external access
+// para crear otros usuarios usamos % en lugar de localhost para 
+// permitir el acceso desde el exterior
 mysql -u root -pPasswordYouDesire
 mysql>CREATE USER 'username'@'%' IDENTIFIED BY 'password';
 mysql>GRANT ALL ON databaseName.* TO 'username'@'%';
@@ -46,34 +45,36 @@ SET FOREIGN_KEY_CHECKS = 1;
 
 ---
 
-# MYSQL 8.0.X
+### Instalar MYSQL 8.0.X
 
+* **Aviso sobre el nuevo sistema de autenticacion**
+
+```sh
+MySQL 8 uses a new authentication based on improved SHA256-based password
+methods. It is recommended that all new MySQL Server installations use 
+this method going forward. This new authentication plugin requires new 
+versions of connectors and clients, with support for this new 
+8 authentication(caching_sha2_password). Currently MySQL 8 Connectors 
+and community drivers built with libmysqlclient21 support this new method.
+Clients built with older versions of libmysqlclient may not be able to 
+connect to the new server.         
+
+To retain compatibility with older client software, the default 
+authentication plugin can be set to the legacy value 
+(mysql_native_password) This should only be done if required 
+third-party software has not been updated to work with the new 
+authentication method. The change will be written to the file 
+/etc/mysql/mysql.conf.d/default-auth-override.cnf
+
+After installation, the default can be changed by setting
+the default_authentication_plugin server setting. 
 ```
-MySQL 8 uses a new authentication based on improved SHA256-based            
- │ password methods. It is recommended that all new MySQL Server               
- │ installations use this method going forward. This new authentication        
- │ plugin requires new versions of connectors and clients, with support for    
- │ this new 8 authentication (caching_sha2_password). Currently MySQL 8        
- │ Connectors and community drivers built with libmysqlclient21 support        
- │ this new method. Clients built with older versions of libmysqlclient may    
- │ not be able to connect to the new server.                                   
- │                                                                             
- │ To retain compatibility with older client software, the default             
- │ authentication plugin can be set to the legacy value                        
- │ (mysql_native_password) This should only be done if required third-party    
- │ software has not been updated to work with the new authentication           
- │ method. The change will be written to the file                    
- │ /etc/mysql/mysql.conf.d/default-auth-override.cnf                           
- │                                                                             
- │ After installation, the default can be changed by setting the               
- │ default_authentication_plugin server setting.   
-```
 
 
-* **install**
+* **instalacion**
 
-```ssh
-wget from here => `https://dev.mysql.com/downloads/repo/apt/` 
+```sh
+wget => `https://dev.mysql.com/downloads/repo/apt/` 
 dpkg -i packake.deb
 nano /etc/apt/sources.list.d/mysql.list 
 apt-get update
@@ -81,17 +82,17 @@ apt-get install mysql-server
 mysql_secure_installation
 ```
 
-* **configuration**
+* **configuracion**
 
-```ssh
+```sh
 nano /etc/mysql/my.cnf
-// redirects to ...
+// redirige a ...
 nano /etc/mysql/mysql.conf.d/mysqld.cnf
-bind-address = 0.0.0.0 // allow remote access
+bind-address = 0.0.0.0 // permitir acceso desde el exterior
 service mysql restart
 
-// to create other users , we use % instead localhost to allow 
-// external access
+// para crear otros usuarios usamos % en lugar de localhost para 
+// permitir el acceso desde el exterior
 mysql -u root -pPasswordYouDesire
 mysql>CREATE USER 'username'@'%' IDENTIFIED BY 'password';
 mysql>GRANT ALL ON databaseName.* TO 'username'@'%';
@@ -99,15 +100,15 @@ mysql> FLUSH PRIVILEGES;
 ```
 
 ```
-// turn off mysql password validation
+// para apagar mysql password validation
 UNINSTALL COMPONENT 'file://component_validate_password';
 ```
 
----
+### Snippets
 
-## Nodejs mysql
+#### driver
 
-[2.16.0 https://github.com/mysqljs/mysql](https://github.com/mysqljs/mysql)
+[2.17.X https://github.com/mysqljs/mysql](https://github.com/mysqljs/mysql)
 
 `npm install --save mysql`
 
@@ -136,7 +137,7 @@ function testDB () {
 }
 ```
 
-#### connection config
+#### configurar la conexion
 
 ```js
 const TABLE = process.env.TABLE;
@@ -169,10 +170,6 @@ function loadIP () {
 }
 ```
 
-```js
-
-```
-
 #### insert
 
 ```js
@@ -190,10 +187,6 @@ function insertHit (d, id, callback) {
     }
   });
 }
-```
-
-```js
-
 ```
 
 #### update
@@ -223,7 +216,7 @@ function insertHit (data) {
   let sql = 'INSERT INTO ?? (time, alexa, loc, stars, proxy, headers, 
   weather)';
   sql += ' VALUES (?, 0, 0, 0, 0, 0, 0)';
-  sql += ` ON DUPLICATE KEY UPDATE ${data.service} = ${data.service} + 1;`;
+  sql += ` ON DUPLICATE KEY UPDATE ${data.service} = ${data.service} +1;`;
   const inserts = [MY_TABLE, data.time]; // , data.service, data.service]
   sql = mysql.format(sql, inserts);
   con.query(sql, function (err, rows) {
@@ -237,7 +230,7 @@ function insertHit (data) {
 }
 ```
 
-### cascade
+#### cascada
 
 ```js
 function dailyUpdate () {
@@ -282,10 +275,10 @@ function dailyUpdate () {
 }
 ```
 
-#### example
+#### ejemplo completo
 
 ```js
-// tested with mysql driver 2.12.0
+// probado con mysql driver 2.12.0
 const db = {
   getData: function (req, res , callback) {
     const sql = 'SELECT id, nombre FROM ??';
@@ -360,36 +353,40 @@ const db = {
 };
 ```
 
-`db.testConnection` - when is several times executed, once is ok once is error and so on. Is related about asynchonous. If you dont use connect neither end, only query works well. 
+### Trucos
+
+* **`testConnection`** - si lo ejecutas varias veces una vez da error la otra bien y asi todo el rato. Es por algo de que al ser asincrono no cierra bien. Si no usas connect ni end, solo con querys va bien  
 
 ---
 
 ## REDIS 4.0.X
 
-### Install
+### Instalar
 
-```ssh
+```sh
 apt -t stretch-backports install "redis-server"
 service redis status
 ```
 
-### Config
+### Configurar
 
 
-```ssh
+```sh
 nano /etc/redis/redis.conf
 appendonly yes
 appendfsync everysec
 service redis restart
 ```
 
-### node redis
+### Snippets
 
-```ssh
+#### driver
+
+```sh
 npm install redis
 ```
 
-##### test
+#### test
 
 ```js
 const redis = require('redis');
@@ -411,9 +408,9 @@ client.on('error', function (err) {
 
 ## MONGODB 3.6.X
 
-### Install
+### Instalar
 
-```ssh
+```sh
 apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv
 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
 nano /etc/apt/sources.list // strectch repo not yet
@@ -422,7 +419,7 @@ apt-get update
 apt-get install mongodb-org
 ```
 
-[create systemd service](https://jolav.me/notes/debian/#systemd)
+[create systemd service](https://jolav.me/chuletas/debian/#systemd)
 ```
 [Unit]
 Description=High-performance, schema-free document-oriented database
@@ -439,26 +436,26 @@ ExecStart=/usr/bin/mongod --quiet --auth --config /etc/mongod.conf
 WantedBy=multi-user.target
 ```
 
-* **Uninstall**
+* **Desinstalar**
 
-```ssh
+```sh
 service mongod stop
 apt-get purge mongodb-org*
 rm -r /var/log/mongodb
 rm -r /var/lib/mongodb
 ```
 
-### Config
+### Configurar
 
-```ssh
+```sh
 nano /etc/mongod.conf
 bindIp : X.X.X.X
 // 127.0.0.1 only localhost 
 // 0.0.0.0 any Ipv4 allowed
 ```
 
-* **create users**
-```ssh
+* **crear usuarios**
+```sh
 $ mongo
 > use admin
 > db.createUser({user:"adminUser",pwd:"password"
@@ -469,7 +466,9 @@ $ mongo -u 'adminUser' -p 'password' --authenticationDatabase 'admin'
 > db.createUser({user: "username",pwd: "password",roles: ["readWrite"]})
 ```
 
-### node-mongodb-native
+### Snippets
+
+#### driver
 
 [3.0.1 - https://github.com/mongodb/node-mongodb-native](https://github.com/mongodb/node-mongodb-native)
 
@@ -493,7 +492,7 @@ function testDB () {
 }
 ```
 
-#### connection config
+#### configurar la conexion
 
 ```js
 let c = {
@@ -503,9 +502,9 @@ let c = {
 };
 ```
 
-#### find
+#### buscar
 
-* **findOne**
+* **Buscar solo uno**
 
 ```js
 mongo.connect(connection, function (err, db) {
@@ -547,7 +546,7 @@ function getBook (c, bookid, cb) {
 
 ```
 
-* **find**
+* **buscar**
 
 ```js
 mongo.connect(connection, function (err, db) {
@@ -633,7 +632,7 @@ function searchExercises (c, s, cb) {
 
 #### insert 
 
-* **insert**
+* **insertar**
 
 ```js
 mongo.connect(connection, function (err, db) {
@@ -664,7 +663,7 @@ mongo.connect(connection, function (err, db) {
 
 #### delete
 
-* **deleteOne**
+* **borrar uno**
 
 ```js
 mongo.connect(connection, function (err, db) {
@@ -678,7 +677,7 @@ mongo.connect(connection, function (err, db) {
 });
 ```
 
-* **deleteMany**
+* **borrar muchos**
 
 ```js
 function deleteAll (c, cb) {
@@ -702,7 +701,7 @@ function deleteAll (c, cb) {
 
 #### update
 
-* **updateOne**
+* **actualizar uno**
 
 ```js
 mongo.connect(connection, function (err, db) {
@@ -745,7 +744,7 @@ function saveComment (c, bookid, comment, cb) {
 }
 ```
 
-* **update many**
+* **actualizar muchos**
 
 ```js
 mongo.connect(connection, function (err, db) {
@@ -760,7 +759,7 @@ mongo.connect(connection, function (err, db) {
 });
 ```
 
-* **find and update**
+* **buscar y actualizar**
 
 ```js
 // change all records in a collection
@@ -781,7 +780,7 @@ mongo.connect(connection, function (err, db) {
 });
 ```
 
-#### create collection
+#### crear coleccion
 
 ```js
 function createCollection (c, cb) {
@@ -800,7 +799,7 @@ function createCollection (c, cb) {
 }
 ```
 
-#### drop collection
+#### eliminar coleccion
 
 ```js
 function dropCollection (c, cb) {
@@ -819,7 +818,7 @@ function dropCollection (c, cb) {
 }
 ```
 
-#### autoincremental _id
+#### autoincrementable _id
 
 ```js
 // collection counters
@@ -873,9 +872,205 @@ function getNextSequenceValue (c, sequenceName, cb) {
 
 * **mongoexport**
 
-```ssh
+```sh
 mongoexport --db dbname --collection collectioname --out output.json 
 -u 'adminuser' -p 'password' --authenticationDatabase 'admin'
+```
+
+---
+
+## RETHINKDB
+
+**¡ OJO ! Esto es del 2016. Desde entonces no lo he probado**
+
+* **Instalacion**
+
+```sh
+nano /etc/apt/sources.list // y añadir
+"deb http://download.rethinkdb.com/apt jessie main"
+wget -qO- https://download.rethinkdb.com/apt/pubkey.gpg | apt-key add -
+apt-get update
+apt-get install rethinkdb
+```
+
+* **Configuracion**
+
+Para que arranque al inicio
+
+```sh
+cp /etc/rethinkdb/default.conf.sample
+      /etc/rethinkdb/instances.d/instance1.conf
+/etc/init.d/rethinkdb restart
+```
+
+Archivo configuracion:  
+`nano /etc/rethinkdb/instances.d/instance1.conf`
+
+Para levantar el servicio con el usuario rethinkdb usar  
+`/etc/init.d/rethinkdb restart`
+
+* **Web segura**
+
+` nano /etc/nginx/sites-available/jolav` para añadir la nueva ruta
+
+```nginx
+# HTTPS server
+server {
+   listen 443 ssl;
+   server_name jolav.me;
+   ssl_certificate /etc/letsencrypt/live/jolav.me/fullchain.pem;
+   ssl_certificate_key /etc/letsencrypt/live/jolav.me/privkey.pem;
+   ssl_session_cache shared:SSL:1m;
+   ssl_session_timeout 5m;
+   ssl_ciphers HIGH:!aNULL:!MD5;
+   ssl_prefer_server_ciphers on;
+   location / {
+        ssi on;
+        try_files $uri $uri/ =404;
+        root /var/www/html;
+        index index.html index.htm;
+   }
+   location /rethinkdb-admin/ {
+       auth_basic "Restricted";
+       auth_basic_user_file /etc/nginx/.rethinkdb.pass;
+       proxy_pass http://127.0.0.1:8080/;
+       proxy_redirect off;
+       proxy_set_header Authorization "";
+   }
+}
+```
+
+Opcion con subdirectorios
+
+```nginx
+## Sub
+server {
+        listen 80;
+        listen [::]:80;
+        server_name s.jolav.me;
+        return 301 https://s.jolav.me$request_uri;
+}
+# HTTPS server
+server {
+   listen 443 ssl;
+   server_name s.jolav.me;
+   ssl_certificate /etc/letsencrypt/live/s.jolav.me/fullchain.pem;
+   ssl_certificate_key /etc/letsencrypt/live/s.jolav.me/privkey.pem;
+   ssl_session_cache shared:SSL:1m;
+   ssl_session_timeout 5m;
+   ssl_ciphers HIGH:!aNULL:!MD5;
+   ssl_prefer_server_ciphers on;
+   location / {
+       try_files $uri $uri/ =404;
+   }
+   location /rethinkdb-admin/ {
+       auth_basic "Restricted";
+       auth_basic_user_file /etc/nginx/.rethinkdb.pass;
+       proxy_pass http://127.0.0.1:8080/;
+       proxy_redirect off;
+       proxy_set_header Authorization "";
+   }
+}
+```
+
+`cp /etc/nginx/sites-available/jolav /etc/nginx/sites-enabled/jolav`
+
+
+```sh
+apt-get install apache2-utils
+cd /etc/nginx
+htpasswd -c .rethinkdb.pass <username> // <username> nombre que queramos
+service nginx restart
+```
+
+Ahoya ya en el navegador
+`http://jolav.me/rethinkdb-admin`
+
+* **Crear usuarios**
+
+Un usuario `admin` que no se puede corrar ya existe. Por defecto esta sin
+contraseña pero se puede poner una con un update.  
+La webUI siempre se conecta como admin y se salta el proceso de autenticacion  
+
+```sql
+// Insertando en la tabla del sistema `users`
+r.db('rethinkdb').table('users').insert({id: 'bob', password: 'secret'})
+
+// update to a new value or remove it by using false
+r.db('rethinkdb').table('users').get('bob').update({password: false})
+```
+
+* **Permisos** se almacenan en la tabla del sistema `permissions`
+
+`read` - leer datos de las tablas  
+`write` - modificar datos  
+`connect` - par abrir conexiones http, por seguridad no usar  
+`config` - permite hacer cosas segun el alcance  
+
+* **Alcance**
+
+`table` - afecta solo a una tabla  
+`database` - lo anterior mas crear y eliminar tablas  
+`global` - lo anterior mas crear y eliminar databases  
+
+* **grant** comando para otorgar permisos  
+
+```js
+// set database scope
+r.db('field_notes').grant('bob',
+        {read: true, write: true, config: false});
+
+// set table scopes
+r.db('field_notes').table('calendar').grant('bob',
+        {write: false});
+r.db('field_notes').table('supervisor_only').grant('bob',
+        {read: false, write: false});
+```
+
+* **ejemplo**
+
+la tabla test de ejemplo inicial mejor borrarla y crearla si se quiere de nuevo
+pues parece que permite entrar a todo el mundo .
+
+Si no le pones pass al admin todas las conexiones las interpreta como admin y
+entra directamente  
+
+```js
+r.db("rethinkdb").table("users").get("admin").update({password: "pass"})
+r.db("rethinkdb").table("users").get("user").update({password: "pass"})
+r.table("users").get("usuario").update({password: "pass"})
+r.db('test').grant('usuario', {read: true, write: true, 
+  cnginxonfig: true})
+```
+
+* **Conexion**
+
+```js
+var config = require('./config.json');
+var r = require('rethinkdb');
+
+r.connect(config.rethinkdb)
+  .then(function (conn) {
+    console.log(conn);
+  })
+  .error(function (error) {
+    console.log(error.message);
+  });
+```
+
+```json
+{
+	"rethinkdb": {
+		"host": "dominio.com",
+		"port": 5555,
+		"db": "test",
+        "username" : "userName",
+        "password" : "userPassword"
+    },
+	"express": {
+		"port": 3000
+	}
+}
 ```
 
 ---

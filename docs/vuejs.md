@@ -290,7 +290,7 @@ Dont use an arrow function to define a lifecycle method (created: () => this.fet
 **`errorCaptured`** -  
 
 
-![Lifecycle](_img/vue/lifecycle.png)  
+![vue](./_img/vue/lifecycle.png)  
 
 ---
 

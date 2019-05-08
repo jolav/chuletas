@@ -107,7 +107,7 @@ function writeJSONtoFile (filePath, dataSet, callback) {
 
 ### Get file from url  
 
-Download file to our express server from url 
+Descargar archivo a nuestro servidor con expressjs desde una url
 
 ```js
 const fs = require('fs');
@@ -267,7 +267,8 @@ function linuxCommand (command, cb) {
 // crontab -e
 // 0 */12 * * * node /var/www/path/to/backup/backup.js // every 12 hour
 
-// execute first time manually to have fingerprint to avoid asking for it
+// la primera vez ejecutarlo manualmente para evitar que pregunte por el 
+// fingerprint y se quede pillado
 
 require('dotenv').config();
 const exec = require('child_process').exec;
@@ -321,7 +322,7 @@ function scp () {
 
 ### pm2 cluster 
 
-* **Search one process**
+* **Buscar un proceso**
 
 ```js
 if (process.env && process.env.pm_id) {
