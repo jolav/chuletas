@@ -1,7 +1,7 @@
 #Ignore these directories
 _aux/
 chuletas/
-#chuletas-theme/
+chuletas-theme/
 
 #Ignore these files
 .DS_Store

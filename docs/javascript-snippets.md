@@ -57,7 +57,7 @@ function replaceMultipleWhitespacesWithASingleSpace(str) {
 
 ### Remove empty strings
 
-Remove empty strings from array  
+Eliminar las cadenas vacias de un array
 
 ```js
 let arr = ["I", "am", "", "still", "here", "", "man"]
@@ -212,7 +212,6 @@ app.use(function (req, res, next) {
 
 // client
 xhr.withCredentials = true; // allow send cookies
-
 ```
 
 ---
@@ -281,7 +280,7 @@ function cleanUrl (url) {
 
 --- 
 
-## MISC
+## VARIOS
 
 ### Set daily task
 

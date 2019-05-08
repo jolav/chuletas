@@ -11,11 +11,15 @@ Recopilacion de informacion para intentar no estar todo el dia buscando las mism
 [HTML](https://jolav.me/chuletas/html)![OK](https://img.shields.io/badge/OK-green.svg)  
 [CSS](https://jolav.me/chuletas/css) ![OK](https://img.shields.io/badge/OK-green.svg)  
 
-[Javascript](https://jolav.me/chuletas/javascript) ![Pen](https://img.shields.io/badge/Pendiente%20de%20traducir-red.svg)  
-[Javascript snippets](https://jolav.me/chuletas/javascript-snippets/) ![Pen](https://img.shields.io/badge/Pendiente%20de%20traducir-red.svg)   
+[Front End](https://jolav.me/chuletas/frontend/) ![OK](https://img.shields.io/badge/OK-green.svg) 
+
+[Javascript](https://jolav.me/chuletas/javascript) ![OK](https://img.shields.io/badge/OK-green.svg)  
+[Javascript snippets](https://jolav.me/chuletas/javascript-snippets/) ![OK](https://img.shields.io/badge/OK-green.svg)  
+[Javascript APIs](https://jolav.me/chuletas/javascript-apis/) ![OK](https://img.shields.io/badge/OK-green.svg)  
+[Javascript para web](https://jolav.me/chuletas/javascript-para-web/) ![OK](https://img.shields.io/badge/OK-green.svg)  
 [Reactjs](https://jolav.me/chuletas/reactjs/) ![Pen](https://img.shields.io/badge/Pendiente%20de%20traducir-red.svg)  
 [Vuejs](https://jolav.me/chuletas/vuejs/) ![Pen](https://img.shields.io/badge/Pendiente%20de%20traducir-red.svg)  
-[Front End](https://jolav.me/chuletas/frontend/) ![Pen](https://img.shields.io/badge/Pendiente%20de%20traducir-red.svg) 
+ 
 
 [Nodejs con Expressjs](https://jolav.me/chuletas/nodejs-expressjs/) ![Pen](https://img.shields.io/badge/Pendiente%20de%20traducir-red.svg)    
 [Nodejs snippets](https://jolav.me/chuletas/nodejs-snippets/) ![Pen](https://img.shields.io/badge/Pendiente%20de%20traducir-red.svg)    
