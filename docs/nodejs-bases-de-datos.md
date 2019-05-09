@@ -5,108 +5,7 @@
 
 ## MYSQL
 
-### Instalar MYSQL 5.7.X
-
-* **instalacion**
-
-```sh
-wget => `https://dev.mysql.com/downloads/repo/apt/` 
-dpkg -i packake.deb
-nano /etc/apt/sources.list.d/mysql.list 
-apt-get update
-apt-get install mysql-server
-mysql_secure_installation
-```
-
-* **configuracion**
-
-```sh
-nano /etc/mysql/my.cnf
-// redirige a ...
-nano /etc/mysql/mysql.conf.d/mysqld.cnf
-// Descomentar esta line para evitar acceso desde el exterior
-bind-address            = 127.0.0.1
-service mysql restart
-
-// para crear otros usuarios usamos % en lugar de localhost para 
-// permitir el acceso desde el exterior
-mysql -u root -pPasswordYouDesire
-mysql>CREATE USER 'username'@'%' IDENTIFIED BY 'password';
-mysql>GRANT ALL ON databaseName.* TO 'username'@'%';
-mysql> FLUSH PRIVILEGES;
-```
-
-* **truncate table with fk**
-```
-SET FOREIGN_KEY_CHECKS = 0; 
-TRUNCATE table table_name; 
-SET FOREIGN_KEY_CHECKS = 1;
-```
-
----
-
-### Instalar MYSQL 8.0.X
-
-* **Aviso sobre el nuevo sistema de autenticacion**
-
-```sh
-MySQL 8 uses a new authentication based on improved SHA256-based password
-methods. It is recommended that all new MySQL Server installations use 
-this method going forward. This new authentication plugin requires new 
-versions of connectors and clients, with support for this new 
-8 authentication(caching_sha2_password). Currently MySQL 8 Connectors 
-and community drivers built with libmysqlclient21 support this new method.
-Clients built with older versions of libmysqlclient may not be able to 
-connect to the new server.         
-
-To retain compatibility with older client software, the default 
-authentication plugin can be set to the legacy value 
-(mysql_native_password) This should only be done if required 
-third-party software has not been updated to work with the new 
-authentication method. The change will be written to the file 
-/etc/mysql/mysql.conf.d/default-auth-override.cnf
-
-After installation, the default can be changed by setting
-the default_authentication_plugin server setting. 
-```
-
-
-* **instalacion**
-
-```sh
-wget => `https://dev.mysql.com/downloads/repo/apt/` 
-dpkg -i packake.deb
-nano /etc/apt/sources.list.d/mysql.list 
-apt-get update
-apt-get install mysql-server
-mysql_secure_installation
-```
-
-* **configuracion**
-
-```sh
-nano /etc/mysql/my.cnf
-// redirige a ...
-nano /etc/mysql/mysql.conf.d/mysqld.cnf
-bind-address = 0.0.0.0 // permitir acceso desde el exterior
-service mysql restart
-
-// para crear otros usuarios usamos % en lugar de localhost para 
-// permitir el acceso desde el exterior
-mysql -u root -pPasswordYouDesire
-mysql>CREATE USER 'username'@'%' IDENTIFIED BY 'password';
-mysql>GRANT ALL ON databaseName.* TO 'username'@'%';
-mysql> FLUSH PRIVILEGES;
-```
-
-```
-// para apagar mysql password validation
-UNINSTALL COMPONENT 'file://component_validate_password';
-```
-
-### Snippets
-
-#### driver
+### driver
 
 [2.17.X https://github.com/mysqljs/mysql](https://github.com/mysqljs/mysql)
 
@@ -121,7 +20,7 @@ const con = mysql.createConnection({
   database : 'databaseName' || process.env.DB
 });
 ```
-#### test
+### test
 
 ```js
 function testDB () {
@@ -137,7 +36,7 @@ function testDB () {
 }
 ```
 
-#### configurar la conexion
+### configurar la conexion
 
 ```js
 const TABLE = process.env.TABLE;
@@ -154,7 +53,7 @@ const con = mysql.createConnection({
 });
 ```
 
-#### select
+### select
 
 ```js
 function loadIP () {
@@ -170,7 +69,7 @@ function loadIP () {
 }
 ```
 
-#### insert
+### insert
 
 ```js
 function insertHit (d, id, callback) {
@@ -189,7 +88,7 @@ function insertHit (d, id, callback) {
 }
 ```
 
-#### update
+### update
 
 ```js
 function updateDB (dbData) {
@@ -230,7 +129,7 @@ function insertHit (data) {
 }
 ```
 
-#### cascada
+### cascada
 
 ```js
 function dailyUpdate () {
@@ -275,7 +174,7 @@ function dailyUpdate () {
 }
 ```
 
-#### ejemplo completo
+### ejemplo completo
 
 ```js
 // probado con mysql driver 2.12.0
@@ -353,7 +252,7 @@ const db = {
 };
 ```
 
-### Trucos
+### trucos
 
 * **`testConnection`** - si lo ejecutas varias veces una vez da error la otra bien y asi todo el rato. Es por algo de que al ser asincrono no cierra bien. Si no usas connect ni end, solo con querys va bien  
 
@@ -361,32 +260,13 @@ const db = {
 
 ## REDIS 4.0.X
 
-### Instalar
-
-```sh
-apt -t stretch-backports install "redis-server"
-service redis status
-```
-
-### Configurar
-
-
-```sh
-nano /etc/redis/redis.conf
-appendonly yes
-appendfsync everysec
-service redis restart
-```
-
-### Snippets
-
-#### driver
+### driver
 
 ```sh
 npm install redis
 ```
 
-#### test
+### test
 
 ```js
 const redis = require('redis');

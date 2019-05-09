@@ -180,7 +180,8 @@ Ahora para cargar los archivos :
 
 [Request API](https://expressjs.com/en/4x/api.html#req)
 
-**`req.query`** - This property is an object containing a property for each query string parameter in the route. If there is no query string, it is the empty object, {}.  
+**`req.query`** - Esta propiedad es un objeto que tiene una propiedad para cada query string en la ruta. Si no hay query string es un objeto vacio {}.
+  
 ```js
 // GET /search?q=jolav
 req.query.q // => "jolav"
@@ -191,7 +192,10 @@ req.query.shoe.color  // => "blue"
 req.query.shoe.type // => "converse"
 ```
  
-**`req.params`** - This property is an object containing properties mapped to the named route “parameters”. For example, if you have the route /user/:name, then the “name” property is available as req.params.name. This object defaults to {}.
+**`req.params`** - Esta propiedad es un objeto con propiedades mapeadas a la ruta "parametros".  
+Ejemmplo una ruta /usuario/:nombre, la propiedad 'nombre'
+ esta disponoble en req.params.nombre. Por defecto el objeto es {}
+
 ```js
 // GET /user/jolav on route /user/:name
 req.params.name // => "jolav"
@@ -201,9 +205,10 @@ req.params[0]
 // => "js/react.js"
 ```
 
-**`req.body`** - Contains key-value pairs of data submitted in the request body. By default, it is undefined, and is populated when you use body-parsing middleware such as body-parser and multer.  
+**`req.body`** - Contiene pares clave-valor de datos enviados en el body de la peticion. Por defecto es undefined y se llena cuando usas un middleware body-parsing como por ejemplo body-parser o multer  
 
-**`req.route`** - Contains the currently-matched route, a string  
+**`req.route`** - Contiene la ruta actual como una string
+
 ```js
 app.get('/user/:id?', function userIdHandler(req, res) {
   console.log(req.route);
@@ -222,13 +227,14 @@ app.get('/user/:id?', function userIdHandler(req, res) {
   methods: { get: true }  }
 ```
 
-**`req.cookies`** - When using cookie-parser middleware, this property is an object that contains cookies sent by the request. If the request contains no cookies, it defaults to {}.  
+**`req.cookies`** - Al usar middleware cookie-parser esta propiedad es un objeto que contiene las cookies enviadas con la peticion. Si no hay cookies por defecto es {}
 
 **`req.headers`** -  
 
-**`req.xhr`** - A Boolean property that is true if the request’s X-Requested-With header field is “XMLHttpRequest”, indicating that the request was issued by a client library such as jQuery.   
+**`req.xhr`** - Es una propiedad booleana que es true si el campo de la cabecera X-Requested-With header de la peticion es “XMLHttpRequest”
 
-**`req.hostname`** - Contains the hostname derived from the Host HTTP header.  
+**`req.hostname`** - Contiene el hostname sacado de la cabecera Host HTTP Header de la peticion. Vamos, de que pagina web viene la peticion 
+
 ```js
 // Host: "example.com:3000"
 req.hostname
@@ -252,7 +258,7 @@ app.use('/admin', function(req, res, next) {
 });
 ``` 
 
-**`req.protocol`** - Contains the request protocol string: either http or (for TLS requests) https.   
+**`req.protocol`** - Contiene el protocolo de la peticion como string (http o https)
 
 ---
 
@@ -260,7 +266,8 @@ app.use('/admin', function(req, res, next) {
 
 [Response API](https://expressjs.com/en/4x/api.html#res)
 
-**`res.headersSent`** - Boolean property that indicates if the app sent HTTP headers for the response.  
+**`res.headersSent`** - Propiedad booleana que indica si la aplicacion ya ha enviado cabeceras http para la respuesta (vamos, si ya ha enviado alguna respuesta)
+
 ```js
 app.get('/', function (req, res) {
   console.log(res.headersSent); // false
@@ -269,9 +276,10 @@ app.get('/', function (req, res) {
 });
 ```
 
-**`res.cookie(name, value [, options])`** - Sets cookie name to value. The value parameter may be a string or object converted to JSON. The options parameter is an object that can have the following properties (domain, encode, expires, httpOnly, maxAge, path, secure, signed ,sameSite)  
+**`res.cookie(name, value [, options])`** - Establece el nombre de la cookie a value (que puede ser una string o un objeto convertido en JSON). Las options es un objeto que puede tener las siguientes propiedades (domain, encode, expires, httpOnly, maxAge, path, secure, signed ,sameSite)
 
-**`res.download(path [, filename] [, options] [, fn])`** - Transfers the file at path as an "attachment". Typically, browsers will prompt the user for download.  
+**`res.download(path [, filename] [, options] [, fn])`** - Transfiere el archivo en la ruta (path) como un adjunto. Lo normal es que el navegador del cliente pregunte para permitir la descarga
+
 ```js
 res.download('/report-12345.pdf', 'report.pdf', function(err){
   if (err) {
@@ -282,11 +290,12 @@ res.download('/report-12345.pdf', 'report.pdf', function(err){
 });
 ``` 
 
-**`res.end([data] [, encoding])`** - Ends the response process. Use to quickly end the response without any data. If you need to respond with data, instead use methods such as res.send() and res.json().  
+**`res.end([data] [, encoding])`** - Finaliza el proceso de respuesta. Se usa para terminar la respuesta sin enviar ningun dato. Si necesitas respondee con datos usas metodos como res.send() o res.json()
 
-**`res.render(view, [locals], callback)`** - Renders a view and sends the rendered HTML string to the client.  
+**`res.render(view, [locals], callback)`** - Renderiza una vista y envia el HTML renderizado como string al cliente
 
-**`res.set(filed, [value])`** - Sets the response’s HTTP header field to value. To set multiple fields at once, pass an object as the parameter.  
+**`res.set(field, [value])`** - Determina el valor de la cabecera de respuesta http de nombre field a value. Para establecer multiples campos a la vez pasa un objeto como parametro
+
 ```js
 res.set('Content-Type', 'text/plain');
 res.set({
@@ -301,14 +310,16 @@ res.setHeader('Content-Type', 'application/json');
 // res.setHeader() is a native method of Node.js
 ```   
 
-**`res.status(code)`** - Sets the HTTP status for the response. It is chainable  
+**`res.status(code)`** - Establece el estatus HTTP para la respuesta. Se puede encadenar
+
 ```js
 res.status(200).send(JSON.stringify(data, null, 3)); 
 // same as 
 res.status(200).json(data);
 ```
 
-**`res.send([status], body)`** - Sends the HTTP response. The body parameter can be a Buffer object, a String, an object, or an Array  
+**`res.send([status], body)`** - Envia la respuesta HTTP. El parametro del body puede ser una objeto Buffer, una cadena, un objeto o un array
+
 ```js
 res.send(new Buffer('whoop'));
 res.send({ some: 'json' });
@@ -317,7 +328,8 @@ res.status(404).send('Sorry, we cannot find that!');
 res.status(500).send({ error: 'something blew up' });
 ```
  
-**`res.sendFile(path [, options] [, fn])`** - Transfers the file at the given path. Sets the Content-Type response HTTP header field based on the filename’s extension. Unless the root option is set in the options object, path must be an absolute path to the file.  
+**`res.sendFile(path [, options] [, fn])`** - Envia el fichero que se encuentra el la ruta dada (path). Establece la cabecera de respuesta HTTP Content-Type segun la extension del archivo enviado. Salvo que la option root este especificada es el objeto de opciones el path debe ser ruta absoluta al archivo
+ 
 ```js
 app.get('/file/:name', function (req, res, next) {
   const options = {
@@ -339,13 +351,14 @@ app.get('/file/:name', function (req, res, next) {
 })
 ```
 
-**`res.json([status], json)`** - Sends a JSON response. This method sends a response (with the correct content-type) that is the parameter converted to a JSON string using JSON.stringify().    
+**`res.json([status], json)`** - Envia una respuesta JSON ( con el apropiado content-type) que es el parametro convertido a JSON usando JSON.stringify()
 
-**`res.jsonp([status], jsonp)`** - Sends a JSON response with JSONP support. This method is identical to res.json(), except that it opts-in to JSONP callback support.  
+**`res.jsonp([status], jsonp)`** - Envia una respuesta JSON con soporte para JSONP. Este metodo es identico a res.json() salvo que añade soporte para el callback de JSONP 
 
-**`res.redirect([status], path)`** - Redirects to the URL derived from the specified path, with specified status, a positive integer that corresponds to an HTTP status code . If not specified, status defaults to “302 “Found”.  
+**`res.redirect([status], path)`** - Redirige a la URL marcada en path con un HTTP status code igual a status, que si no se especifica por defecto es "302"
 
-**`res.location(path)`** - Sets the response Location HTTP header to the specified path parameter.  
+**`res.location(path)`** - Establece la cabecera HTTP header Location a path
+
 ```js
 res.redirect('/foo/bar');
 res.redirect('http://example.com');

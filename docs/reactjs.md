@@ -2,8 +2,6 @@
 
 ---
 
-[Learning reactjs concepts](http://www.andreasreiterer.at/web-development/react-beginners-roadmap/)
-
 * **Installation**
 
 ```html

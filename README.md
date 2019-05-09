@@ -18,8 +18,6 @@ Recopilacion de informacion para intentar no estar todo el dia buscando las mism
 [Javascript APIs](https://jolav.me/chuletas/javascript-apis/)  
 [Javascript para web](https://jolav.me/chuletas/javascript-para-web/)  
 [Reactjs](https://jolav.me/chuletas/reactjs/) ![Pen](https://img.shields.io/badge/Pendiente%20de%20traducir-red.svg)  
-[Vuejs](https://jolav.me/chuletas/vuejs/) ![Pen](https://img.shields.io/badge/Pendiente%20de%20traducir-red.svg)  
- 
 
 [Nodejs](https://jolav.me/chuletas/nodejs/)  
 [Expressjs](https://jolav.me/chuletas/expressjs/)   
@@ -27,14 +25,13 @@ Recopilacion de informacion para intentar no estar todo el dia buscando las mism
 [Nodejs Bases De Datos](https://jolav.me/chuletas/nodejs-bases-de-datos/) 
 
 [Golang](https://jolav.me/chuletas/golang/)  
-[Golang Desarrollo Web ](https://jolav.me/chuletas/golang-desarrollo-web/)  
+[Golang Desarrollo Web ](https://jolav.me/chuletas/golang-para-web/)  
 [Golang snippets](https://jolav.me/chuletas/golang-snippets/)  
 [Golang Bases De Datos](https://jolav.me/chuletas/golang-bases-de-datos/) 
 
 [Debian](https://jolav.me/chuletas/debian/) 
 
 [Varios](https://jolav.me/chuletas/varios/) 
-
 
 <hr>
 
