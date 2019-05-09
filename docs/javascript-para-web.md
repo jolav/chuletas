@@ -673,7 +673,7 @@ addEventListener("mousemove", function(event) {
 </events>
 ```
 
-- **[HTML](//brusbilis.com/chuletas/frontend/html5/)**
+- **HTML**
 
 ```javascript
 var xhr = new XMLHttpRequest();       // Create XMLHttpRequest object
@@ -689,7 +689,7 @@ xhr.open('GET', 'data/data.html', true);        // Prepare the request
 xhr.send(null);
 ```
 
-- **[JSON](#json)**
+- **JSON**
 
 ```javascript
 var xhr = new XMLHttpRequest();         // Create XMLHttpRequest object
@@ -721,7 +721,7 @@ xhr.open('GET', 'data/data.json', true);        // Prepare the request
 xhr.send(null);
 ```
 
-- **[XML](#xml)**
+- **XML**
 
 ```javascript
 var xhr = new XMLHttpRequest();          // Create XMLHttpRequest object

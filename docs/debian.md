@@ -4,12 +4,14 @@
 
 ## **TESTING**
 
-Avoid problems  
+Para andar con ojo en las actualizaciones instalar  
 `aptitude install apt-listbugs`
 
 <code>[Debian Package Searcher](https://tracker.debian.org/)</code>
 
-* **Repositories** /etc/apt/sources.list
+* **Repositories** 
+
+`nano /etc/apt/sources.list`
 
 ```sh
 ## Debian Testing
@@ -28,19 +30,13 @@ deb http://ftp.debian.org/debian stretch-backports main
 ## Dropbox
 deb [arch=i386,amd64] http://linux.dropbox.com/debian/ sid main 
 ## node
-deb https://deb.nodesource.com/node_6.x/ stretch main
-deb https://deb.nodesource.com/node_8.x/ stretch main
+deb https://deb.nodesource.com/node_10.x/ stretch main
+deb https://deb.nodesource.com/node_12.x/ stretch main
 
 # Chrome
 deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
 ### Insync
 deb http://apt.insynchq.com/debian stretch non-free contrib
-
-## Mysql
-deb http://repo.mysql.com/apt/debian/ jessie mysql-apt-config
-deb http://repo.mysql.com/apt/debian/ jessie mysql-5.7
-deb http://repo.mysql.com/apt/debian/ jessie mysql-tools
-deb http://repo.mysql.com/apt/debian/ jessie mysql-tools-preview
 ```
 
 `apt install aptitude htop smartmontools sshpass rsync curl wget nano apt-transport-https iperf python zip arc arj bzip2 cabextract lzop nomarch p7zip p7zip-full pax tnef unrar-free unzip zoo unrar`
@@ -53,40 +49,40 @@ deb http://repo.mysql.com/apt/debian/ jessie mysql-tools-preview
 
 * **Add font**
 
-`fc-cache -f -v` - after copying the font to `/usr/share/fonts`  
+`fc-cache -f -v` - tras haber copiado la fuente a `/usr/share/fonts`  
 
 * **gpg**
 
-`gpg -c file.txt` - ciphers to binary file   
-`gpg -ca file.txt` - ciphers to text file  
-`gpg --output output.txt -d file.(gpg or txt)` - decipher 
+`gpg -c file.txt` - cifra a archivo binario  
+`gpg -ca file.txt` - cifra a archivo de texto    
+`gpg --output output.txt -d file.(gpg or txt)` - para descifrar 
 
 ```ssh
-// turn directory into a file
+// convertir directorio en un archivo
 tar czf myfiles.tar.gz mydirectory/
-// turn file back into a directory
+// convertir archivo a un directorio
 tar xzf myfiles.tar.gz
 ```
 
-`echo RELOADAGENT | gpg-connect-agent` - removes key from memory. From now on will ask key to decompress
+`echo RELOADAGENT | gpg-connect-agent` - para eliminar de la memoria la clave y que la pida al descomprimir  
 
 * **zip**
 
-`zip -er zipName.zip path/to/folder/` - Compressing folder with password
+`zip -er zipName.zip path/to/folder/` - Comprimir carpeta con contraseña  
 
 * **dpkg**
 
 `dpkg -i package.deb` -   
-`apt-get -f install` - repair unfulfilled dependencies if any
-`dpkg -r onlyThaName` - uninstall   
+`apt-get -f install` - reparar dependencias incumplidas si las hay  
+`dpkg -r onlyThaName` - desinstalar     
 
-* **File and folder size**
+* **Tamaño de ficheros y carpetas**
 
 `ls -lh`
 `du -ah /path`
 `du -h -d1`
 
-* **Clean**
+* **Limpieza**
 
 ```sh
 apt-get autoclean &&  apt-get autoremove &&
@@ -98,35 +94,35 @@ apt-get remove --purge `deborphan`
 
 * **Process** 
 
-`pgrep processName` - search    
-`ps` - list all processes 
-`kill processNumber` -kill process  
-`fg` - will continue the process if was stopped  
+`pgrep processName` - buscar proceso   
+`ps` - listar todos los procesos  
+`kill processNumber` - matar proceso    
+`fg` - continuar el proceso que estaba detenido     
 
-* **Find**
+* **Buscar**
 
-`find /path -name fileName` - Find file    
-`find /path -type d -name dirName` - Find folder 
+`find /path -name fileName` - Buscar archivo     
+`find /path -type d -name dirName` - Buscar carpeta 
 
-* **Create user**
+* **Crear nuevo usuario**
 
-`useradd -d /home/username -m -s /bin/bash username` - Creates user with home folder and tty  
-`passwd username` -  Ask password for user     
+`useradd -d /home/username -m -s /bin/bash username` - Crea un usuario con su carpeta home y consola para usar   
+`passwd username` - Para crear la contraseña del usuario     
 
-* **Time**
+* **Zona horaria**
 
-`dpkg-reconfigure tzdata` - Configure timezone  
+`dpkg-reconfigure tzdata` - reconfigurar la zona horaria  
 
 
 * **cpulimit**
 
 `apt-get install cpulimit`  
-`ps aux | grep nombreProceso` - to get process id  
-`cpulimit -p 4510 -l 30`  
-`cpulimit -e processName -l 50`  
-Add `&` to recover console control  
+`ps aux | grep nombreProceso` - nos da el `id` del proceso    
+`cpulimit -p id -l 30` - limita el proceso `id` al 30%  
+`cpulimit -e nombreProceso -l 50` - limita el proceso `nombreProceso` al 50%   
+Añadir `&` para recuperar el control de la consola     
 
-* **get debian version**
+* **averiguar la version de debian**
 
 `lsb_release -a`
 
@@ -140,21 +136,11 @@ Add `&` to recover console control
 ```ssh
 crontab -e
 
-// activate cron logs
+// activar los logs de cron
 nano /etc/rsyslog.conf
-// uncomment 
+// descomentar la linea
 #cron.*                     -/var/log/cron
 service rsyslog restart
-```
-
-* **ssh**
-
-Prevent broken pipe disconnect
-```ssh
-nano /etc/ssh/ssh_config
-
-Host *
-ServerAliveInterval 120
 ```
 
 * **nmap**
@@ -169,23 +155,26 @@ nmap -Pn X.X.X.X || hostname
 
 ###  SSH
 
-`aptitude install openssh-server openssh-client`  
+`aptitude install openssh-server openssh-client`
 `nano /etc/ssh/sshd_config`
 
 ```sh
-// Avoid root login
+// Para quitar acceso como root
 # Authentication:
 LoginGraceTime 120
-PermitRootLogin without-password
+PermitRootLogin without-password // jode mas que poner solo no 
 StrictModes yes
 
-# To enable empty passwords, change to yes (NOT RECOMMENDED)
+// Por seguridad
+# Para permitir contraseñas vacias pon yes (NI SE TE OCURRA HACERLO)
 PermitEmptyPasswords no
 ```
 
 `service ssh restart`
 
 * **Broken pipe**
+
+Para prevenir desconexiones del tipo `broken pipe`
 
 ```ssh
 nano -c /etc/ssh/ssh_config
@@ -195,21 +184,25 @@ ServerAliveInterval 120
 
 ### CLAMAV
 
+Antivirus para asegurarnos de que no somos conductores de virus entre maquinas windows y por si las moscas ...  
 `apt-get install clamav clamav-docs clamav-daemon clamav-freshclam`  
 
-`nano /etc/clamav/freshclam.conf` - 
-`service clamav-freshclam restart` - 
+`aptitude install arc arj bzip2 cabextract lzop nomarch p7zip pax tnef unrar-free unzip zoo lha unrar` - Para que escanee archivos comprimidos
+
+`nano /etc/clamav/freshclam.conf` - El archivo de configuracion por si queremos cambiar algo.  
+`service clamav-freshclam restart` - hacerlo despues para cargar la nueva configuracion
 
 ```sh
-// update as root
+// Para actualizar, como root
 freshclam
 
-// if is blocked
+// Si esta bloqueado
 /etc/init.d/clamav-freshclam stop 
-//then => service clamav-freshclam start
+//despues => 
+service clamav-freshclam start
 
-// scan as normal user
-clamscan -r /path
+// para escanear como usuario normal
+clamscan -r /ruta/a/escanear
 ```
 
 ### RKHUNTER
@@ -217,11 +210,11 @@ clamscan -r /path
 `aptitude install rkhunter` 
 
 ```sh
-//update as root
+//para actualizar, como root
 rkhunter --propupd
 rkhunter --update
 
-//as root
+//para usar, como root tambien
 rkhunter --check
 ```
 
@@ -232,6 +225,7 @@ rkhunter --check
 `nano /etc/fail2ban/jail.local`  
 
 ```sh
+// Aqui van las IPs que no tendran esas restricciones
 [DEFAULT]
 # "ignoreip" can be an IP address, a CIDR mask or a DNS host
 ignoreip = 127.0.0.1 192.168.1.0/24
@@ -240,6 +234,7 @@ maxretry = 3
 ```
 
 ```sh
+// Correo al que avisar ante sucesos
 # Destination email address used solely for the interpolations in
 # jail.{conf,local} configuration files.
 destemail = root@localhost
@@ -276,8 +271,9 @@ maxretry = 3
 `service fail2ban restart`  
 `service fail2ban status`
 
-ban logs `/var/log/fail2ban.log`  
-also `/var/log/auth.log`   
+Los logs de baneos estan en estos dos archivos  
+`/var/log/fail2ban.log`  
+`/var/log/auth.log`   
 
 * **manual unban**
 
@@ -289,8 +285,8 @@ also `/var/log/auth.log`
 
 `ufw allow ssh/tcp`  
 `ufw logging on`  
-Only now we can activate  
-`ufw enable`
+ Antes de esto no se podia activar porque nos echa de la sesion de SSH.  
+ Ahora si => `ufw enable`
 
 `ufw allow smtp/tcp`  
 `ufw allow http/tcp`  
@@ -305,31 +301,31 @@ Only now we can activate
 
 ## **PM2**
 
-* **Install**
+* **Instalar**
   
 `npm install pm2 -g`  
 `npm remove pm2 -g`  
 
-* **Configuration**
+* **Configuracion**
 
 [DOCS](http://pm2.keymetrics.io/docs/usage/quick-start/)
 
-`pm2 startup` - as user then follow instructions until pm2 start on reboots as normal user    
-`pm2 unstartup` - undo the above
+`pm2 startup` - como usuario y seguir instrucciones para hacer que pm2 se ejecute en los reinicios sin necesitar ser root  
+`pm2 unstartup` - para desmontar el chiringuito   
 
-**NOT ALWAYS** To execute the processes as normal user and not as root   
+**NO SIEMPRE** Para ejecutar los procesos como user y no como root     
 `chmod -R 777 /home/user/.pm2` 
 
 * **Comandos**
 
 ```sh
 pm2 start app.js  
-pm2 kill // stop process, on reboot starts again
+pm2 kill // para la ejecucion pero con un reboot se activara de nuevo  
 pm2 list
 pm2 stop all|number
 pm2 restart all|number
-pm2 delete 7 // delete process number 7
-pm2 save // save process list
+pm2 delete 7 // elimina el proceso especifico con ese id  
+pm2 save // salva la lista de procesos en ese momento  
 pm2 start app.js --name "my-name"
 ```
 
@@ -343,7 +339,7 @@ pm2-dev start app.js --ignore folder1,folder2,file3.txt
 * **cluster variables**
 
 ```ssh
-//  -i number-of-workers
+//  -i numero de procesos que levanta
 pm2 start name.js -i max  
 process.env.NODE_APP_INSTANCE;
 process.env.name
@@ -363,9 +359,9 @@ pm2 start geoip.js -i max --max-memory-restart 1300M
 * **scale**
 
 ```ssh
-// Adds 3 new processes to the current ones running
+// Sumar 3 procesos al actual
 pm2 scale app +3
-// Deletes 3 processes from the currently running ones
+// Elimina 3 procesos de los que este usando actualmente
 pm2 scale app 3
 ```
 
@@ -390,25 +386,26 @@ pm2 start ecosystem.config.js
 
 ---
 
-## NPM NON ROOT
+## NPM sin ser ROOT
 
-How to install packages globally for a given user.
+Como instalar paquetes npm globalmente sin ser root
 
 ```ssh
-// create folder for global packages
+// crear carpeta para los paquetes globales
 mkdir "${HOME}/.npm-packages"
 
-// create .npmrc
+// crear .npmrc
 nano ${HOME}/.npmrc
 prefix=${HOME}/.npm-packages
 
-//edit .bashrc
+//editar .bashrc
 nano ${HOME}/.bashrc
 NPM_PACKAGES="${HOME}/.npm-packages"
 PATH="$NPM_PACKAGES/bin:$PATH"
 unset MANPATH # delete if already modified MANPATH elsewhere
 export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 
+// recargar la configuracion para aplicar los cambios
 source ~/.profile
 ```
 
@@ -416,9 +413,9 @@ source ~/.profile
 
 ## **SYSTEMD**
 
-`systemctl status servidorGO` - gives us service information
+`systemctl status servidorGO` - nos da informacion del servicion
 
-* **Create Service**
+* **Crear Servicio**
 
 ```sh  
 nano /etc/systemd/servidorGO.service  
@@ -427,7 +424,7 @@ systemcl enable servidorGO.service
 service servidorGO.service start
 ```
 
-* **Delete service**
+* **Borrar servicio**
 
 ```sh
 systemctl stop [servicename]
@@ -437,11 +434,11 @@ systemctl daemon-reload
 systemctl reset-failed
 ```
 
-* **name.service**
+* **nombre.service**
 
 ```sh
 [Unit]
-Description= Task description
+Description= Descripcion de la tarea
 
 [Service]
 User=user
@@ -454,7 +451,7 @@ ExecStart=/var/www/path/to/binary/folder/binaryName
 WantedBy=multi-user.target
 ```
 
-* **Commands**
+* **Commandos**
 
 `service name status`  
 `service name start`  
@@ -475,7 +472,7 @@ WantedBy=multi-user.target
 /sys/fs/cgroup/systemd/system.slice/servidorGO.service
 ``` 
 
-* **Another option ?**
+* **Otra opcion ?**
 
 ```ssh
 nano /lib/systemd/system/name.service
@@ -495,9 +492,8 @@ WantedBy=multi-user.target
 service name start
 service name status
 
-// to enable it on boot
+// para activarlo desde el reinicio del sistema  
 systemctl enable name.service
-
 
 ```
 
@@ -505,41 +501,41 @@ systemctl enable name.service
 
 ## **NGINX**
 
-* **Install**
+* **Instalacion**
 
 `apt-get install nginx`  
  
-`chown -R user:user /var/www` - Give the user permissions for all that folder  
+`chown -R user:user /var/www` - Para darle permisos al usuario para toda esa carpeta    
 `mkdir -p /var/www/site1`  
 `mkdir -p /var/www/site2`  
 
-### CONFIG
+### Configuracion
 
 `nano /etc/nginx/nginx.conf`  
 
-Configuration file is called `default` in `/etc/nginx/sites-available`. We delete it or rename it to `default.old`. We must delete the copy in `/etc/nginx/sites-enabled`
+El archivo de configuracion se llama `default` y esta en la carpeta `/etc/nginx/sites-available` .Lo borramos o lo renombramos a `default.old`. La copia de default que esta en `/etc/nginx/sites-enabled` hay que borrarla
 
-Now we can create our own config files  
+Ahora podemos crear nuestro archivo/s de configuracion.  
 `nano /etc/nginx/sites-available/domain`    
 `cp /etc/nginx/sites-available/domain /etc/nginx/sites-enabled/domain`   
 `service nginx restart`
 
 
-#### server side includes
+#### server-side-includes
 
 [Server Side Includes](http://nginx.org/en/docs/http/ngx_http_ssi_module.html)  
-[Directives and variables](http://fortboise.org/useful/ssi-manual.html)
+[Directivas y variables](http://fortboise.org/useful/ssi-manual.html)
 
 `ssi on` - `/etc/nginx/sites-available`
 
-Be careful, paths are from the nginx web server root for that location
+Para las rutas ojo porque es desde la raiz del servidor web nginx para esa location 
 
 ```nginx
 <!-- Head -->
 <!--#include file="/_public/templates/head.html" -->
 ```
 
-#### hide nginx version
+#### ocultar la version de nginx
 
 ```nginx
 nano /etc/nginx/nginx.conf
@@ -548,9 +544,9 @@ http {
 }
 ```
 
-#### headers
+#### headers(cabeceras)
 
-Be carrful, can restrict the behavior of the applications
+Ojo, que algunas pueden restringir el comportamiento de las aplicaciones que tengamos 
 
 ```nginx
 # Headers to be added:
@@ -562,13 +558,13 @@ add_header X-XSS-Protection "1; mode=block";
 add_header Content-Security-Policy "default-src 'self'";
 ```
 
-On location block in order to avoid searching robots
+En el location block para evitar cualquier indexacion de esa location por parte de los robots de busqueda   
 ```nginx
 add_header  X-Robots-Tag "noindex, nofollow, nosnippet, noarchive";
 ```
 
 
-#### Limit file upload size
+#### Limitar tamaño de los archivos de subida
 
 ```nginx
 location /count-loc/ {
@@ -580,12 +576,13 @@ location /count-loc/ {
 #### rate Limit
 
 ```nginx
-/etc/nginx/nginx.conf, here define for example zone=one
+nano /etc/nginx/nginx.conf
+// aqui definimos por ejemplo la zona=one  
 # limit requests
 limit_req_zone  $binary_remote_addr  zone=one:10m   rate=2r/s;
 
-//then we apply, better on location than server block
-/etc/nginx/sites-available/domain
+//luego hay que aplicarlo, mejor en location que en server
+nano /etc/nginx/sites-available/domain
 location /count-loc/ {
         # requests limit
         limit_req zone=one burst=20;
@@ -613,23 +610,23 @@ limit_req_zone  $limit_key  zone=four:10m   rate=2r/s;
 #### http2
 
 ```nginx
-/etc/nginx/nginx.conf use only very secure ciphers
+nano /etc/nginx/nginx.conf 
+// usar solo cifrados muy seguros
 ssl_ciphers EECDH+CHACHA20:EECDH+AES128:RSA+AES128:EECDH+AES256:
 RSA+AES256:EECDH+3DES:RSA+3DES:!MD5;
 
-// we must generate new keys, do in /etc/nginx/ssl
+// hay que generar una nuevas claves, lo mejor en /etc/nginx/ssl
+cd /etc/nginx/ssl
 openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048
 
-cd /etc/nginx/sites-available/domain
-
-// http2 only works over https so only in 443 block
+// http2 solo funciona con https asi que en el bloque de listen 443
 listen 443 ssl http2 default_server;
 listen [::]:443 ssl http2 default_server;
 
 # my cipher
 ssl_dhparam  /etc/nginx/ssl/dhparam.pem;
 
-// best performance
+// para mejorar rendimiento
 ssl_session_cache shared:SSL:5m;
 ssl_session_timeout 1h;
 ```
@@ -637,7 +634,7 @@ ssl_session_timeout 1h;
 #### cache
 
 ```nginx
-// own block on sites-availables 
+// en sites-availables bloque propio
 # Expires map
 map $sent_http_content_type $expires {
     default                    off;
@@ -647,14 +644,14 @@ map $sent_http_content_type $expires {
     ~image/                    max;
 }
 
-// add in server block when we want to use it
+// luego en el bloque server que queramos añadir
 expires $expires;
 ```
 
-#### private zone
+#### zonas privadas
 
 ```sh
-// create password file
+// crear archivo con la contraseña
 apt-get install apache2-utils
 cd /etc/nginx
 htpasswd -c .rethinkdb.pass <username> // will ask for password
@@ -695,7 +692,7 @@ server {
    }
 }
 
-In 404.html we call assets using absolute path
+En 404.html llamamos a los recursos usando rutas absolutas  
 <link rel="stylesheet" type="text/css" href="/404.css">
 ```
 
@@ -714,9 +711,9 @@ if ($bad_referer) {
 }
 ```
 
-### NGINX.CONF
+### nginx.conf
 
-**updated 2017-09-25**
+**actualizado 2019-05-08**
 
 ```nginx
 user www-data;
@@ -742,19 +739,33 @@ http {
   types_hash_max_size 2048;
   server_tokens off;
 
-  # limit requests
-  limit_req_zone  $binary_remote_addr  zone=one:10m   rate=5r/s;
-  limit_req_zone  $binary_remote_addr  zone=two:10m   rate=1r/s;
-  limit_req_zone  $binary_remote_addr  zone=three:10m   rate=12r/m;
-
-  server_names_hash_bucket_size 64;
+  server_names_hash_bucket_size 64; # 128?
   # server_name_in_redirect off;
 
   include /etc/nginx/mime.types;
   default_type application/octet-stream;
 
   # set client body size to 5M #
-  client_max_body_size 5M;
+  client_max_body_size 2M;
+
+  # limit requests
+  geo $limit {
+          default 1;
+          X.X.X.X   0;   #server1
+          X.X.X.X   0;   #server2
+          X.X.X:X   0;   #server3
+          X.X.X.X   0;   #server4
+  }
+  map $limit $limit_key {
+          0 "";
+          1 $binary_remote_addr;
+  }
+  limit_req_zone  $limit_key  zone=one:10m   rate=5r/s;
+  limit_req_zone  $limit_key  zone=two:10m   rate=2r/m;
+  limit_req_zone  $limit_key  zone=three:10m   rate=12r/m;
+  limit_req_zone  $limit_key  zone=four:10m   rate=2r/s;
+  limit_req_zone  $limit_key  zone=five:10m   rate=1r/s;
+  limit_req_zone  $limit_key  zone=six:1000m   rate=10r/s;
 
   ##
   # SSL Settings
@@ -762,8 +773,9 @@ http {
 
   ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE
   ssl_prefer_server_ciphers on;
-  ssl_ciphers EECDH+CHACHA20:EECDH+AES128:RSA+AES128:EECDH+AES256:
-  RSA+AES256:EECDH+3DES:RSA+3DES:!MD5;
+  ssl_ciphers EECDH+CHACHA20:EECDH+AES128:RSA+AES128:EECDH+AES256:RSA
+  +AES256:EECDH+3DES:RSA+3DES:!MD5;
+
   ##
   # Logging Settings
   ##
@@ -774,6 +786,7 @@ http {
   ##
   # Gzip Settings
   ##
+
   gzip on;
   gzip_disable "msie6";
 
@@ -783,7 +796,7 @@ http {
   gzip_buffers 16 8k;
   gzip_http_version 1.1;
   gzip_types text/plain text/css application/json application/javascript
-   text/xml application/xml application/xm$
+   text/xml application/xml applicati$
 
   ##
   # Virtual Host Configs
@@ -792,11 +805,12 @@ http {
   include /etc/nginx/conf.d/*.conf;
   include /etc/nginx/sites-enabled/*;
 }
+
 ```
 
-### DOMAIN.CONF
+### dominio-template.conf
 
-**updated 2017-09-25**
+**actualizado 2019-05-08**
 
 ```nginx
   ssl_certificate /etc/letsencrypt/live/domain.com/fullchain.pem;
@@ -828,32 +842,33 @@ http {
   # custom error
   error_page 404 /404.html;
   location = /404.html {
-          root /var/www/domain/_error;
+          root /var/www/codetabs/www/_error;
           internal;
   }
   location = /404.css {
-          root /var/www/domain/_error;
+          root /var/www/codetabs/www/_error;
   }
   location = /ct24r.png {
-          root /var/www/domain/_error;
+          root /var/www/codetabs/www/_error;
   }
-  location = /ct48r.png {
-          root /var/www/domain/_error;
+  location = /ct64r.png {
+          root /var/www/codetabs/www/_error;
   }
-
+  error_page 429 /429.html;
+  location = /429.html {
+          root /var/www/codetabs/www/_error;
+          #internal;
+  }
   location /_public {
+          # requests limit, ojo que enlentece la carga de la pagina
           # limit_req zone=one burst=50;
-          alias /var/www/domain/_public;
-  }
-  location /_public-fcc {
-          # limit_req zone=one burst=50;
-          alias /var/www/domain/_public-fcc;
+          alias /var/www/codetabs/www/_public;
   }
 ```
 
 ### SITES/DOMAIN
 
-**updated 2017-09-25**
+**actualizado 2019-05-08**
 
 ```nginx
 # Expires map
@@ -961,48 +976,6 @@ server {
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header X-Forwarded-Proto $scheme;
   }
-  location /cors-proxy/ {
-    # requests limit
-    limit_req zone=one ;#burst=50;
-    # set client body size to 2M
-    client_max_body_size 2M;
-    proxy_pass http://127.0.0.1:3504/;
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection 'upgrade';
-    proxy_set_header Host $host;
-    proxy_cache_bypass $http_upgrade;
-    # Para coger ip de visitante añadir las siguientes dos lineas
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme;
-  }
-  location /api/ {
-    # requests limit
-    limit_req zone=one ;#burst=50;
-    proxy_pass http://127.0.0.1:3505/;
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection 'upgrade';
-    proxy_set_header Host $host;
-    proxy_cache_bypass $http_upgrade;
-    # Para coger ip de visitante añadir las siguientes dos lineas
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme;
-  }
-  location /sp500/ {
-    # requests limit
-    limit_req zone=two ;#burst=50;
-    proxy_pass http://127.0.0.1:3506/;
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection 'upgrade';
-    proxy_set_header Host $host;
-    proxy_cache_bypass $http_upgrade;
-    # Para coger ip de visitante añadir las siguientes dos lineas
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme;
-  }
-}
 server {
   listen 443 ssl http2;
   listen [::]:443 ssl http2;
@@ -1022,9 +995,9 @@ server {
 
 ```
 
-### PHP subfolder
+### Subcarpeta con PHP
 
-[Thanks serversforhackers.com](https://serversforhackers.com/c/nginx-php-in-subdirectory)
+[Hracias serversforhackers.com](https://serversforhackers.com/c/nginx-php-in-subdirectory)
 
 ```nginx
 server {
@@ -1102,32 +1075,32 @@ location ~* /(?:uploads|files)/.*\.php$ {
 
 ## WEBMIN
 
-* **Install**
+* **Instalacion**
 
-[Download .deb](http://www.webmin.com/download.html)
+[Descarga el .deb de aqui](http://www.webmin.com/download.html)
 `dpkg -i package.deb` 
 
-Possible dependencies fail :   
-`perl libnet-ssleay-perl openssl libpam-runtime libio-pty-perl python
-libauthen-pam-perl libio-pty-perl apt-show-versions`  
+Si debian protesta de dependencias instala las que pida. Estas son las mas posibles:  
+`apt install perl libnet-ssleay-perl openssl libpam-runtime libio-pty-perl python libauthen-pam-perl libio-pty-perl apt-show-versions`  
 
-* **Modules**
+* **Modulos**
 
 `nginx module`- [https://www.justindhoffman.com/project/nginx-webmin-module](https://www.justindhoffman.com/project/nginx-webmin-module)  
 
 webmin -> webmin configuration -> webmin modules  
 
-* **Update**
+* **Actualizacion**
 
-Sometimes doesnt start after update
+Despues de actualizarse hay veces que no arranca   
 ```sh
 /etc/init.d/webmin stop
 /etc/init.d/webmin start
 ```
 
-* **Change password**
+* **Cambiar el password**
 
-`/usr/share/webmin/changepass.pl /etc/webmin root NEWPASSWORD` - Change password from console
+Para cambiar la contraseña desde la consola   
+`/usr/share/webmin/changepass.pl /etc/webmin root NEWPASSWORD`
 
 * **Lets Encrypt Webmin**
 
@@ -1148,10 +1121,10 @@ Apply -> service nginx restart
 * **Create certificate**
 
 ```sh
-// stop nginx
+// primero parar nginx
 service nginx stop
 
-// Use standalone optionand create all domains together
+// Usar la opcion standalone y creamos todos los dominios juntos 
 // (domain.com www.domain.com sub.domain.com etc) 
 certbot certonly
 
@@ -1187,30 +1160,30 @@ IMPORTANT NOTES:
    Donating to EFF:                    https://eff.org/donate-le
 ```
 
-* **List certificates**
+* **Listar certificados**
 
-`certbot certificates` - List all certificates presents 
+`certbot certificates` - Lista de todos los certificados existentes  
 
-* **Add certificate**
+* **Añadir certificado**
 
-`service nginx stop` - stop nginx  
+`service nginx stop` - paramos nginx  
 `certbot certonly -d admin.domain.com,api.domain.com,domain.com,sp500.domain.com,www.domain.com,otrosub.domain.com --expand` - 
 
-* **Delete certificate**
+* **Eliminar certificado**
 
-`certbot delete` - select the one we want to delete  
+`certbot delete` - y seleccionamos el que queramos borrar   
 
-* **Renew**
+* **Renovar**
 
-`certbot renew --dry-run` - only test    
-`certbot renew` - real renew  
-`certbot renew --force-renew` - force renew regardless valid time lasting  
+`certbot renew --dry-run` - solo testea    
+`certbot renew` - renueva de verdad    
+`certbot renew --force-renew` - fuerza la renovacion aunque falte mucho tiempo aun para su caducidad     
 `certbot renew --dry-run --cert-name domain.tld`  
 `
 
-* **webroot** , no need of stopping nginx to allow renewals
+* **webroot** , no hace falta parar nginx para hacer las renovaciones
 
-[read the certot docs](https://certbot.eff.org/#debianstretch-other)
+[Leer el manual de certot](https://certbot.eff.org/#debianstretch-other)
 
 ```nginx
 server {
@@ -1249,7 +1222,7 @@ server {
 
 * **staging**
 
-`--staging higher rate limits when testing`
+`--staging` - permite mayopr numero de intentos mientras testeamos
 
 ---
 
@@ -1257,34 +1230,34 @@ server {
 
 * **vnstat - Bandwidth**
 
-`aptitude install vnstat` - install  
+`aptitude install vnstat` 
 
 ```sh
-// list all network interfaces available
+// lista todas las interfaces de red disponibles
 vnstat --iflist
-// setup interface
+// configura interface
 vnstat -u -i eth0
-// start daemon
+// comienza la ejecucion del servicio como demonio
 /etc/init.d/vnstat start
-// vnStat Not Automatically Updating
+// cambia de dueño para poder escribir en su propia base de datos
 chown -R vnstat:vnstat /var/lib/vnstat/
 ```
 
-monitoring (as normal user)
+monitorizar (como un usuario normal)
 
 ```sh
-// realtime
+// tiempo real
 vnstat -l
-// historical hour-day-month-week
+// serie historica por horas-dias-meses-semanas
 vnstat -h|d|w|m
-// top 10 day
+// top 10 dias
 vnstat -t
 ```
 
 ```ssh
 crontab -e
-0 * * * * node /var/www/vnstat/vnstat.js // execute hourly
-vnstat -i eth0 --json d // inside vnstat.js
+0 * * * * node /var/www/vnstat/vnstat.js // ejecutar cada hora
+vnstat -i eth0 --json d // dentro de vnstat.js
 ```
 
 ---
@@ -1328,21 +1301,21 @@ chmod +x speedtest-cli
 * **hard disk**
 ```ssh
 apt install smartmontools
-// info
+// informacion
 smartctl -a /dev/sda 
-// test
+// testear
 smartctl -t short|long|select /dev/sda
-// result
+// resultados
 smartctl -a /dev/sda 
-// or only test
+// o solo testear
 smartctl -l selftest /dev/sdc
 
-// info
+// informacion
 hdparm -I /dev/sda
-// test
+// testea
 hdparm -tT /dev/sda
 
-// test
+// testea
 dd if=/dev/zero of=/tmp/output conv=fdatasync bs=384k count=1k;
  rm -f /tmp/output
 ```
@@ -1356,7 +1329,7 @@ openssl speed -multi numCores rsa2048
 7z b
 ```
 
-* **SYS arm-XT** fix slow upload speeds
+* **SYS arm-XT** arreglar el bug de poca velocidad de subida  
 
 [lowendtalk](https://lowendtalk.com/discussion/146114/new-soyoustart-2018-prices/p8)
 
@@ -1373,18 +1346,17 @@ dpkg -i linux-modules-armada375_4.5.2-4_armhf.deb
 
 * **rsync**
 
-
-**From local to remote**
+**De local a otra remota**
 ```ssh
 rsync -aP /home/user/data/ user@destiny.com:/home/user/data
 
-# automated without prompt password
+# automatizado sin preguntar contraseña
 rsync -arv --delete -e "sshpass -f '/file/with/passwd' || -p 'password' 
 ssh -p PORT -o StrictHostKeyChecking=no" --progress /source/data/
 user@domain.com:/destination/data
 ```
 
-**From remote to local***
+**De otra remota a local***
 ```ssh
 rsync -charvzP --delete -e "sshpass -p 'pass' ssh -p port" --progress
 user@remote.host:/remote/path /local/path/
@@ -1400,13 +1372,26 @@ user@remote.host:/remote/path /local/path/
 siege -c 30 -r 1 --no-parser https://api.codetabs.com/v1/
 ```
 
+* **Apache Bench**
+
+`apt-get install apache2-utils` -  
+
+-n numero de peticiones  
+-c concurrencias
+
+[Mas info](https://httpd.apache.org/docs/current/programs/ab.html)  
+
+```sh
+ab -n 1000 -c 10 https://jolav.me/
+```
+
 ---
 
 ## OPENVPN
 
-[Easy install](https://github.com/angristan/openvpn-install)
+[Script para instalar](https://github.com/angristan/openvpn-install)
 
-* **Kill Switch**
+* **Crear un Kill Switch**
 
 ```ssh
 // ON-openvpn.sh
@@ -1431,9 +1416,9 @@ ufw enable
 
 `chmod +x ON-openvpn.sh OFF-openvpn.sh`
 
-1. Connect to your openVpn  
+1. Conectarte a tu openVpn  
 2. ./on-openvpn.sh  
-3. ./off-openvpn.sh // When you have done  
+3. ./off-openvpn.sh  
 
 [more](https://www.nukeador.com/06/07/2017/vpn-kill-switch-for-linux-protect-from-vpn-drops-and-dns-leaks/)
 
@@ -1449,57 +1434,3 @@ cp -r usr/* /usr
 ```
 
 ---
-
-
-## MACOS
-
-### PATH
-
-`~/.bash_profile`  
-`~/.bashrc`  
-
-### HOMEBREW
-
-[Homebrew](http://brew.sh)  
-
-al Path  
-
-`export PATH=/usr/local/bin:/usr/local/sbin:$PATH`  
-
-* **Install**
-
-`ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
-
-* **Commands**
-
-`brew doctor` -  
-`brew list` -   
-`brew install package` - installs `/usr/local/Cellar`  
-`brew uninstall package` -   
-`brew update` - update brew  
-`brew upgrade` - update all packages    
-`brew upgrade package` - update package  
-`brew outdated` -  
-`brew outdated -g` - list packages with updates     
-`brew info package` -    
-`brew search package` -    
-`brew cleanup` -   
-`brew cleanup packages` - delete old versions  
-
-### NGINX
-
-`brew install nginx`  
-
-```ssh
-nano /usr/local/etc/nginx/nginx.conf
-
-// nginx will load all files in /usr/local/etc/nginx/servers/
-
-// starts service
-nginx 
-// stop service
-nginx -s stop
-```
-
----
-

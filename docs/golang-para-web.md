@@ -1,4 +1,4 @@
-# GOLANG WEB DEV
+# GOLANG PARA DESARROLLO WEB  
 
 ---
 
@@ -9,7 +9,7 @@
 ### Static
 
 ```go
-// serves the entire directory  
+// sirve el directorio entero
 func main() {		
 	dir := http.Dir("./files")
 	http.ListenAndServe(":8080", http.FileServer(dir))
@@ -18,7 +18,7 @@ func main() {
 ```
 
 ```go
-// ServeFile serves a file or directory as a 3rd argument  
+// ServeFile sirve un archivo o un directorio como 3er argumento
 func main() {
 	http.HandleFunc("/", public)
 	http.ListenAndServe(":8080", nil)
@@ -30,9 +30,9 @@ func public(w http.ResponseWriter, r *http.Request) {
 ```
 
 ```go
-// serve the directory ./files in the path / static /
-// ./files can be anywhere in the file system
-// not only in the dir of the application  
+// sirve el directorio ./files en la ruta /static/
+// ./files puede estar en cualquier sitio del sistema de archivos
+// no solo en el dir de la aplicacion
 func main() {
 	dir := http.Dir("./files/")
 	handler := http.StripPrefix("/static/", http.FileServer(dir))
@@ -45,11 +45,11 @@ func main() {
 
 ### Handler
 
-\ - Handlers are any struct that has a method `ServeHTTP (w  http.ResponseWriter, r * http.Request)` with two parameters: an HTTPResponseWriter interface and a pointer to a Request struct.  
-\ - Handler functions are functions that behave like handlers. They have the same signature as the ServeHTTP method and are used to process requests (Requests)  
-\ - Handlers and handler functions can be linked to allow the processing of parts of requests through the separation of issues.  
-\ - Multiplexers (routers) are also handlers. ServeMux is a router for HTTP requests. Accepts HTTP requests and redirects them to the appropriate handler according to the URL of the request.  
-`DefaultServeMux` is an instance of` ServeMux` that is used as the default router
+\- Handlers son cualquier struct que tiene un metodo `ServeHTTP(w http.ResponseWriter, r *http.Request)` con dos parametros: una interface HTTPResponseWriter y un puntero a una Request struct.  
+\- Handler functions son funciones que se comportan como handlers. Tienen la misma firma que el metodo ServeHTTP y se utiizan para procesar peticiones (Requests)  
+\- Handlers y handler functions se pueden encadenar para permitir el procesado en partes de peticiones mediante la separacion de asuntos.  
+\- Multiplexers(routers) tambien son handlers. ServeMux es un router de peticiones HTTP. Acepta peticiones HTTP y las redirige al handler adecuado segun la URL de la peticion.  
+`DefaultServeMux` es una instancia de `ServeMux` que se usa como router por defecto
  
 
 * **Handler**
@@ -206,10 +206,11 @@ func body(w http.ResponseWriter, r *http.Request) {
 
 ### ResponseWriter
 
-`ResponseWriter` interface has three methods:  
-\ - `Write` - take a [] bytes and write it in the body of the HTTP response. If the header does not specify content-type it uses the first 512 bytes of data to detect the content type  
-\ - `WriteHeader` - sends an integer that represents the status code of the HTTP response. After using this method you can not write or modify anything in the header. If this default method is not used when calling `Write` the code` 200 OK` is sent. It is very useful to send error codes  
-\ - `Header` - returns a map of fields in the header that can be modified and sent in the response to the client  
+La interface `ResponseWriter` tiene tres metodos:  
+\- `Write` - coge un []bytes y lo escribe en el body de la respuesta HTTP. Si la cabecera no especifica content-type usa los los primeros 512 bytes de datos para detectar el tipo de contenido   
+\- `WriteHeader` - envia un numero entero que representa el codigo de estado de la respuesta HTTP. Despues de usar este metodo no se puede escribir ni modificar nada en la cabecera. Si no se use este metodo por defecto cuando se llama a `Write` se envia el codigo `200 OK`  
+Es muy util para enviar codigos de errores  
+\- `Header` - devuelve un map de campos de la cabecera que se pueden modificar y que seran enviados en la respuesta al cliente  
 
 ```go
 type post struct {
@@ -259,8 +260,6 @@ func main() {
 
 ### Middleware
 
-[Middleware](https://www.google.es/search?q=middleware+golang&ie=utf-8&oe=utf-8&client=firefox-b&gfe_rd=cr&ei=a4uGWMuFEems8wfuxYi4Dw)  
-
 ```go
 type Middleware []http.Handler
 
@@ -296,7 +295,7 @@ type Cookie struct {
 }
 ```
 
-If the `Expires` field is not used, the cookie is session or temporary and is deleted from the browser when it is closed. Otherwise the cookie is persistent and lasts until it expires or is deleted. Use `MaxAge` instead of` Expires` which is deprecated  
+Si no se usa el campo `Expires` la cookie es de sesion o temporal y se eliminan del navegador cuando este se cierra. De lo contrario la cookie es persistente y dura hasta que expire o se elimine. Usar `MaxAge` en lugar de `Expires` que esta deprecada  
 
 ```go
 package main
@@ -311,12 +310,12 @@ import (
 func setCookie(w http.ResponseWriter, r *http.Request) {
 	c1 := http.Cookie{
 		Name:     "first cookie",
-		Value:    "first cookie value",
+		Value:    "Valor de la primera galleta",
 		HttpOnly: true,
 	}
 	c2 := http.Cookie{
 		Name:     "second cookie",
-		Value:    "second cookie value",
+		Value:    "Valor de la segunda galleta",
 		HttpOnly: true,
 	}
 	http.SetCookie(w, &c1)
@@ -374,15 +373,13 @@ func main() {
 
 ### Sessions
 
-[Astaxie Sessions and Cookies](https://astaxie.gitbooks.io/build-web-application-with-golang/content/en/06.0.html)
-
 ### Forms
 
-1st - Parse request with `ParseForm or ParseMultipartForm`
-2nd - We access the form
+1º - Parseamos la peticion con `ParseForm o ParseMultipartForm`   
+2º - Accedemos al formulario  
 
-```html  
-// process1 form  
+```html
+// formulario para process1
 <form action="http://127.0.0.1:8080/process1?hello=world&thread=123" 
 method="post" enctype="application/x-www-form-urlencoded">
 	<input type="text" name="hello" value="jolav" />
@@ -390,16 +387,16 @@ method="post" enctype="application/x-www-form-urlencoded">
 	<input type="submit" />
 </form>
 <!--
-We would get map [thread: [123] hello: [jolav world] post: [1234]]
-We have the values of the URL plus the ones in the form
-To get only one field we use notation r.Form ["post"]
+Obtendriamos map[thread:[123] hello:[jolav world] post:[1234]]
+Tenemos los valores de la URL mas los del formulario
+Para sacar solo un campo usamos notacion r.Form["post"] 
 
-If we use r.PostForm, the URL pairs are ignored and only the
-of the form resulting map [post: [1234] hello: [jolav]]
+Si usamos r.PostForm se ignoran los pares de la URL y solo se usan los
+del formulario resultando map[post:[1234] hello:[jolav]]
 
-There is also ParseMultipartForm 
+Tambien existe ParseMultipartForm  
 -->
-// process2 and process3 form  
+// formulario para process2 y process3
 <form action="http://localhost:8080/process?hello=world&thread=123"
 method="post" enctype="multipart/form-data">
 	<input type="text" name="hello" value="jolav" />
@@ -463,7 +460,6 @@ func main() {
 
 ### Cliente HTTP
 
-
 `type Client`  
 `func (c *Client) Do(req *Request) (*Response, error)`  
 `func (c *Client) Get(url string) (resp *Response, err error)`  
@@ -471,10 +467,10 @@ func main() {
 `func (c *Client) Post(url string, bodyType string, body io.Reader) (resp *Response, err error)`  
 `func (c *Client) PostForm(url string, data url.Values) (resp *Response, err error)`  
 
-Example :http requests `get`  
+Ejemplo Hacer peticiones `get`  
 
-Put it in the main or wherever it is to make sure it has a maximum waiting time and it does not stay hung waiting to infinity (which is the default value)  
-[Reddit Link](https://reddit.com/r/golang/comments/45mzie/dont_use_gos_default_http_client/)
+Poner en el main o donde sea para asegurarse que tiene un tiempo maximo de espera y no se queda colgado esperando hasta el infinito (que es el valor por defecto)
+https://reddit.com/r/golang/comments/45mzie/dont_use_gos_default_http_client/
 
 ```go
 http.DefaultClient.Timeout = 10 * time.Second
@@ -482,7 +478,7 @@ http.DefaultClient.Timeout = 10 * time.Second
 
 ```go
 func getHttpRequest() {
-	url := "https://codetabs.com/github-stars/github-star-history.html" 
+	url := "https://codetabs.com/tools/geoip/geoip.html" 
 	resp, err := http.Get(url)
 	if err != nil {
 		log.Fatal(err)
@@ -621,12 +617,12 @@ func main() {
 
 ## HTML/TEMPLATE
 
-`import html/template`
+`import html/template`    
 
-* To use it you have to import the `html/template` package  
-* create template `t, _: = template.ParseFiles("index.html")`  
-* assign value to template variables template_value: = "Hello"`  
-* serve the page `t.Execute(w, template_values)`  
+* Para usarlo hay que importar el paquete `html/template`
+* crear la plantilla `t, _ := template.ParseFiles("index.html")`
+* asignar valor a variables de plantilla `template_value := "Hola"`
+* servir la pagina `t.Execute(w, template_values)`
 
 index.html
 
@@ -667,11 +663,11 @@ func main() {
 
 ### Fields
 
-* `{{}}` anything to be rendered must go between double parentheses  
+* `{{}}` cualquier cosa a ser renderizada debe ir entre dobles parentesis
 
-* `{{.}}` abbreviation for the current object  
+* `{{.}}` abreviatura para el objeto actual
 
-* `{{.FieldName}}` field FieldName of the current object  
+* `{{ .FieldName}}` campo FieldName del objecto actual
 
 * Arrays and slices
 
@@ -759,7 +755,7 @@ func main() {
 
 ### Conditions
 
-* {{if}} {{else}} : Only for Boolean values, it does not make comparisons  
+* {{if}} {{else}} : Solo para valores booleanos, no hace comparaciones
 
 ```go
 {{if ``}}
@@ -783,15 +779,16 @@ func main() {
 
 ### Pipelines
 
-* {{ . | html}} For example we use this to catch the current object '.' Y
-apply escape to HTML to the object  
+* {{ . | html}} Por ejemplo usamos esto para coger el objto actual '.' y
+aplicarle escape a HTML al objeto
+
 
 ### Variables
 
-Pass variables to templates
+Pasar variables a templates
 
 ```go
-// using anonymous structs
+// usando anonymous structs
 var templates = template.Must(template.ParseGlob("templates/*"))
 
 func handle(w http.ResponseWriter, r *http.Request) {
@@ -805,7 +802,7 @@ func handle(w http.ResponseWriter, r *http.Request) {
 ```
 
 ```go
-// using Maps
+// usando Maps
 var templates = template.Must(template.ParseGlob("templates/*"))
 
 func handle(w http.ResponseWriter, r *http.Request) {
@@ -819,7 +816,7 @@ func handle(w http.ResponseWriter, r *http.Request) {
 ```
 
 ```go
-// map
+// mapa
 m := map[string]interface{}{
 	"imgs": imgs, // {{range .imgs.Image}}{{.}}{{end}}
 	"user": p,    //{{.user.Name}}
@@ -836,11 +833,11 @@ d.P = p    // {{.P.Name}}*/
 t.Execute(w, &m) 
 ```
 
-### Functions
+### Funciones
 
-#### Predefined
+#### Predefinidas
 
-For example `print` equals `fmt.Sprintf`
+Por ejemplo `print` equivale a `fmt.Sprintf`
 
 ```go
 func main() {
@@ -851,9 +848,9 @@ func main() {
     t.Execute(os.Stdout, nil)
 ```
 
-// Result -> hello Mary!
+// Resultado -> hello Mary!
 
-#### Custom
+#### De Diseño
 
 ```go
 const tmpl = `
@@ -881,17 +878,17 @@ func main() {
 
 ### Must
 
-It is a function of the template package to validate templates  
+Es una funcion del paquete template para validar plantillas
 
 ### Nested templates
 
-* You can declare a template:
-> {{define "sub-template"}}  
-> content that is  
-> {{end}}  
+* Se puede declarar una plantilla:  
+> {{ define "sub-plantilla"}}   
+>   contenido que sea  
+> {{ end}}
 
-* Then that template is inserted
-> {{template "sub-template"}}  
+* Luego esa plantilla se inserta
+> {{ template "sub-plantilla" }}  
 
 base.html
 
@@ -932,17 +929,17 @@ func main() {
 }
 ```
 
-### Pass variables to js
+### Pasar vars a js 
 
-Pass golang variables to client js
+Pasar variables golang a cliente js
 
 ```html
 <!-- guest.html-->
 <script type="text/javascript">
   // Pass golang vars to client js
   //window.addEventListener('load', voting.init({{.}}))
-  var golang = {{.}} // passes as a global object variable
-  //var golang = "{{ .}}"; // as string
+  var golang = {{.}} // pasa como variable global objeto
+  //var golang = "{{ .}}"; // lo pasa como string
   window.addEventListener('load', function () {
     voting.init()
   })
@@ -953,7 +950,7 @@ Pass golang variables to client js
 // voting.go
 func guest(w http.ResponseWriter, r *http.Request) {
 	var data aPoll
-	data = aPoll{Question: "question text"}
+	data = aPoll{Question: "Texto de la cuestion"}
 	tmpl["guest.html"].ExecuteTemplate(w, "guest.html", data)
 }
 ```
@@ -973,19 +970,19 @@ var voting = (function () {
 
 ## NET/URL
 
-### Add parameters to URL
+### Añadir parametros a URL
 
 ```go
-// existing URL
+// sobre una URL existente
 values := r.URL.Query()
-values.Add("newParameterName", value)
-values.Get("valueName", value)
+values.Add("nombreNuevoParamatro", valor)
+values.Get("nombreDelValor", valor)
 r.URL.RawQuery = values.Encode()
 fmt.Println(r.URL.String())
-fmt.Println(values["newParemeterName"])
+fmt.Println(values["nombreNuevoParametro"])
 
-// new URL
-urlData, err := url.Parse("https://anapi.com/custom/v1?q=")
+// construyendo una URL
+urlData, err := url.Parse("https://apisquesea.com/custom/v1?q=")
 params := url.Values{}
 params.Add("q", r.URL.Query().Get("q"))
 params.Add("cx", c.APIImage.CseID)
@@ -999,13 +996,13 @@ urlData.RawQuery = params.Encode()
 
 ---
 
-## UTILS
+## UTILIDADES  
 
 ### fresh
 
-[https://github.com/pilu/fresh](https://github.com/pilu/fresh) - like nodemon but for golang
+[https://github.com/pilu/fresh](https://github.com/pilu/fresh) - Especie de nodemon para golang.   
 
-`fresh -c path/to/custom/config` - use with custom config file  
+archivo de configuracion que se ejecuta con `fresh -c ruta/al/archivo`  
 
 ```sh
 root:              .

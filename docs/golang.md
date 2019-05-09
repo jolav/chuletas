@@ -2,46 +2,103 @@
 
 ---
 
-## **INSTALL**
+## **INSTALACION**
 
-[download golang from here](https://golang.org/dl/)
+[descargarlo de aqui](https://golang.org/dl/)
 
-As root  
+Como root  
 `tar -C /usr/local -xzf go-file.tar.gz`
 
 ```ssh
-// as user
-// debian $HOME/.profile and $HOME/.bashrc
-// mac $HOME/.bash_profile and $HOME/.bashrc
+// como usuario
+nano $HOME/.bashrc 
+nano $HOME/.profile 
+
+// añadir a cada uno
 
 # Golang conf
 export PATH=$PATH:/usr/local/go/bin
-export GOPATH=$HOME/path/to/go/code
-export PATH=$PATH:$GOPATH/bin/binLinux
-
-// Next line not sure if it's necessary
-export GOBIN=$PATH:$GOPATH/bin/binLinux|binMac
-```
-
-```ssh
-export PATH=$PATH:/usr/local/go/bin
-export GOPATH=$HOME/golang
+export GOPATH=$HOME/path/to/golang/code
 export PATH=$PATH:$GOPATH/bin
+// La siguiente linea hay veces que es necesaria
+export GOBIN=$PATH:$GOPATH/bin
 ```
 
-Reload conf  
+Para recargar la configuracion  
 `source ~/.profile`   
 
-Folders that are created:  
+Carpetas que se crean:  
 
-* `bin` - Contains the compiled binaries. We can add the bin folder to the system path to make compiled binaries executable from anywhere  
-* `pkg` - contains the compiled versions of the available libraries so that the compiler can link them without having to recompile them  
-* `src` - contains all the code organized by import routes 
+* `bin` - Contiene los binarios compilados. Podemos añadir la carpeta `bin` al path del sistema para hacer los binarios compilados ejecutables desde cualquier  sitio  
+* `pkg` - contiene los versiones compiladas de las librerias disponibles para
+que el compilador las pueda enlazar sin tener que recompilarlas  
+* `src` -  contiene todo el codigo organizado por rutas de import  
 
 
 **VS Code**
 
-`Go: Install/Update Tools` - then move binaries from bin to binLinux | bin/Mac
+`Go: Install/Update Tools`
+
+---
+
+## ENLACES UTILES
+
+* **Go**
+
+<code>[Interfaces](http://jordanorelli.com/post/32665860244/how-to-use-interfaces-in-go)</code>  
+<code>[Tipos de funcion](http://jordanorelli.com/post/42369331748/function-types-in-go-golang)</code>  
+<code>[Modulos](https://github.com/golang/go/wiki/Modules)</code>
+<code>[Ejemplos - gobyexample](https://gobyexample.com/)</code>
+<code>[Ejemplos - rosettacode](https://www.rosettacode.org/wiki/Category:Go)</code>
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+
+* **Blogs**
+
+<code>[Jacob Martin](https://jacobmartins.com/article-list/)</code> - Articulos y tutoriales   
+<code>[Dave Cheney](https://dave.cheney.net/)</code>
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+
+* **Desarrollo Web**
+
+<code>[Writing Web Applications](https://golang.org/doc/articles/wiki/)</code> - Tutorial basico de la wiki de golang.org  
+<code>[Ejemplos Golang para web - gowebexamples](https://gowebexamples.com/)</code>
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+
+* **Librerias**
+
+<code>[database/sql](http://go-database-sql.org/index.html)</code>  
+<code>[go-sql-driver/mysql](https://github.com/go-sql-driver/mysql)</code>  
+<code>[gorilla-websocket](https://github.com/gorilla/websocket)</code>
+<code>[gobwas-ws](https://github.com/gobwas/ws)</code>
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+
+
+* **Utilidades**
+
+<code>[curl-to-Go](https://mholt.github.io/curl-to-go/)</code> - Herramienta online que convierte comandos curl en codigo Go    
+<code>[JSON-to-Go](https://mholt.github.io/json-to-go/)</code> - Herramienta online que convierte JSON en structs para Go  
+<code>[]()</code>
+<code>[]()</code>
+
+* **Despliegue y seguridad**
+
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
+<code>[]()</code>
 
 ---
 
@@ -95,28 +152,30 @@ Use "go help <topic>" for more information about that topic.
 
 * **cross compile**
 
-`GOOS` -  the target operating system  
-`GOARCH` - the target processor  
+`GOOS` -  sistema operativo para el que compilamos   
+`GOARCH` - procesador para el que se compila    
 
 ```ssh
 GOOS=darwin GOARCH=386 go build
+GOOS=linux GOARCH=amd64 go build -o geoip
+// -o fuerza el nombre del binario al del parametro
 ```
 
 ---
 
-## OPERATORS  
+## OPERADORES  
 
-* **Arithmetic**
+* **Aritmeticos**
 
-> `+` Addition  
-> `-` Substraction  
-> `*` Multiplication  
-> `/` Quotient  
-> `%` Remainder   
-> `++` +1  
-> `--` -1  
+> `+` Suma  
+> `-` Resta  
+> `*` Multiplicacion  
+> `/` Division  
+> `%` Modulo, lo que sobra de la division entera  
+> `++` Incremento  
+> `--` Decremento  
 
-* **assignment**
+* **Asignacion**
 
 > `=` x = y  
 > `+=` x = x + y  
@@ -125,31 +184,31 @@ GOOS=darwin GOARCH=386 go build
 > `/=` x = x / y  
 > `%=` x = x % y  
 
-* **Comparison**
+* **Comparacion**
 
-> `==` equal  
-> `!=` not equal    
-> `>` greater than    
-> `<` less than  
-> `>=` greater than or equal  
-> `<=` less than or equal    
+> `==` igual  
+> `!=` no igual  
+> `>` mayor que  
+> `<` menor que  
+> `>=` mayor o igual que  
+> `<=` menor o igual que  
 
-* **Logical**
+* **Logicos**
 
 > `&&` AND  
 > `||` OR  
 > `!` NOT  
 
-* **Pointers**
+* **Punteros**
 
-> `&` returns address of (create id no exists) pointer 
-> `*` deference pointer(returns value of pointer address)  
+> `&` devuelve la direccion de una variable  
+> `*` puntero a una variable  
 
 ---
 
 ## VARIABLES
 
-A variable can contain any type, even a function
+Una variable puede contener cualquier tipo, incluso una funcion
 
 ```go
 func main() {
@@ -167,9 +226,9 @@ import ("reflect")
 fmt.Println("....", reflect.TypeOf(variable))
 ```
 
-### Declaration
+### Declaracion
 
-* **declaration**
+* **Declaracion de variables**
 
 ```go
 var (
@@ -182,11 +241,9 @@ var (
     age             int
 )
 var name string
-
-const constant ="i am a constant"
 ```
 
-* **initialization**
+* **Inicializacion de variables**
 
 ```go
 var (
@@ -197,23 +254,22 @@ var (  // inferred typing
     name = "jolav"
     age  = 32
 )
-var name, location, age = "jolav", "home", 100
+var name, location, age = "jolav", "casa", 100
 ```
 
-* **shorthand `:=`**   
-
-only in func bodies, implicit type
+* **Sentencia de asignacion `:=`**  
+Dentro de una funcion podemos usar `:=` en lugar de `var`  
 
 ```go
 func main() {
-    name, location := "jolav", "home"
+    name, location := "jolav", "casa"
     age := 100
 }
 ```
 
 * **new**
 
-Reset the type value to zero and return a pointer to it.
+Pone a cero el valor del tipo y devuelve un puntero a el.
 
 ```go
 x := new(int)
@@ -221,23 +277,22 @@ x := new(int)
 
 * **make**
 
-Necessary for `slices`` maps` and `channels`
+Necesario para `slices` `maps` y `channels`  
 
 * **Zero Values**
 
-When variables are declared without an explicit value they are assigned a zero value
-
-> `int` - 0  
-> `float` - 0.0   
-> `string` - ""   
-> `boolean` - false  
-> `pointers` - nil  
-> `map` - nil  
-> `slices` - nil  
-> `array` - array ready to use with its elements at zero value.  
-> `functions` - nil
-> `interfaces` - nil  
-> `channels` -nil  
+Cuando se declaran variables sin un valor explicito se les asigna el valor zero  
+>>> `int` - 0  
+>>> `float` - 0.0   
+>>> `string` - ""   
+>>> `boolean` - false  
+>>> `pointers` - nil  
+>>> `map` - nil  
+>>> `slices` - nil  
+>>> `array` - array listo para usar con sus elementos a zero value que sea  
+>>> `functions` - nil
+>>> `interfaces` - nil  
+>>> `channels` -nil  
 
 * **type**
 
@@ -263,26 +318,25 @@ func FToC(f Fahrenheit) Celsius {
 }
 ```
 
-### Scope
+### Alcance
 
-The scope is the zone of the program where a defined variable exists  
+El alcance es la region del programa donde una variable definida existe  
+Tipos de variables segun donde se declaren:  
 
-Types of variables according to where they are declared:
+* `local variables` - dentro de una funcion o un bloque. Fuera de ese entorno
+no existen    
+* `package variables` - fuera de todas las funciones o bloques. Accesibles desde
+cualquier parte del paquete    
+* `formal parameters` - en la definicion de los parametros de una funcion. Se
+tratan como locales para esa funcion y tienen preferencia sobre las globales    
 
-* `local variables` - within a function or a block. Outside of that environment
-they do not exist
-* `package variables` - out of all functions or blocks. Accessible from
-any part of the package
-* `formal parameters` - in the definition of the parameters of a function.
-they are treated as locals for that function and have a preference over global ones
+Cuando coinciden dentro de una funcion o bloque una local y una global prevalece
+la local  
 
-When they coincide within a function or block a local and a global prevails
-the local
+### Conversion de tipos
 
-### Type conversions
-
-Go has no implicit conversion of types  
-`T(v)` - Convert the value `v` to the` T` type
+Go no tiene conversion implicita de tipos  
+`T(v)` - Convierte el valor `v` al tipo `T`  
 
 ```go
 i := 42
@@ -302,11 +356,11 @@ func diffArray(s1, s2 interface{}) []string {
 	var a1, a2 []string
 	if reflect.TypeOf(s1) == reflect.TypeOf(aux1) { // s1,s2 son []int
 		a1, a2 = convertIntToString(s1.([]int), s2.([]int))
-        // pass s1,s2 as []int and then use type assertion
+        // pasamos s1,s2 como []int y usando type assertion
 	} else {
 		a1, a2 = s1.([]string), s2.([]string)
 	}
-	// now a1,a2 are []string
+	// aqui ya a1,a2 son []string
 
 func diffTwoArrays() {
 	diffArray([]int{1, 2, 3, 5}, []int{1, 2, 3, 4, 5}))
@@ -316,45 +370,44 @@ func diffTwoArrays() {
 }
 ```
 
-### Pointers
+### Punteros
 
-* **Pointers vs value**  
+* **Punteros vs Valor**  
 
-Everything in Go is passed for value, but ...  
-When a variable of reference type is declared, a value called `header value` is created, which contains a pointer to the underlying data structure needed for each reference type.  
-Each reference type contains unique fields to manage the underlying data structure itself.  
-The `header value` contains a pointer, therefore you can pass a copy of any type of reference and share the underlying structure intrinsically when sharing the pointer.  
+Todo en Go se pasa por valor, pero ...    
+Cuando se declara una variable de tipo de referencia se crea un valor llamado `header value` que contiene un puntero a la estructura de datos subyacente necesaria para segun cada tipo de referencia.  
+Cada tipo de referencia contiene campos unicos para gestionar la estructura de datos subyacente propia.  
+El `header value` contiene un puntero, por lo tanto puedes pasar una copia de cualquier tipo de referencia y compartir la estructura subyacente intrinsicamente al compartir el puntero.   
 
-`int` - value  
-`float` - value  
-`string` - variable of reference type, but works as a value  
-`boolean` - value  
-`arrays` - value  
-`slices` - reference type variable  
-`maps` - variable of reference type  
-`functions` - reference type variable  
-`interfaces` - variable of reference type  
-`channels` - reference type variable  
+`int` - valor    
+`float` - valor  
+`string` -  variable de tipo de referencia, pero funciona como valor     
+`boolean` - valor     
+`arrays` - valor  
+`slices` -  variable de tipo de referencia  
+`maps` -  variable de tipo de referencia  
+`functions` -  variable de tipo de referencia      
+`interfaces` -  variable de tipo de referencia    
+`channels` -  variable de tipo de referencia    
 
-* ** Pointers **
+* **Punteros**
 
-By default Go passes arguments by value (creates a copy)  
-To pass them by reference you have to pass pointers or use structures of
-Data that uses values ​​by reference such as slices and maps.  
+Por defecto Go pasa los argumentos por valor (crea una copia)  
+Para pasarlos por referencia hay que pasar punteros o usar estructuras de
+datos que usan valores por referencia como slices y maps.  
 
-`&` - to get the pointer of a value we put it in front of its name  
-`*` - to dereference a pointer and give us access to its value  
+`&` - para conseguir el puntero de un valor lo ponemos delante de su nombre  
+`*` - para desreferenciar un puntero y que nos de acceso a su valor  
 
-If `p` is a pointer to `x`  
-`&x` -> `p = & x` p is the pointer of x (contains the memory address of x)  
-`*p` -> `* p = x` * p is the value of x  
-
+Si `p` es un puntero a `x`  
+`&x` -->  `p = &x` p es el puntero de x (contiene la direccion de memoria de x)
+`*p` --> `*p = x` *p es el valor de x  
 
 ```go
 i := 42
-p := &i             // generates a pointer to i
-fmt.Println(*p)     // read i through the pointer p
-*p = 21             // set i through the pointer p
+p := &i             // Genera un puntero a i
+fmt.Println(*p)     // lee i a traves del puntero p
+*p = 21             // establece i a traves del puntero p
 ```
 
 ```go
@@ -388,9 +441,9 @@ p :  0x10328000
 
 * **new**
 
-`new` - take a type as an argument, allocate enough memory for that type
-of data and returns a pointer that points to that memory. Then the garbage
-collector cleans everything
+`new` - coge un tipo como argumento, asigna suficiente memoria para ese tipo
+de dato y devuelve un puntero que apunta a esa memoria. Luego el GC (garbage
+collector lo limpia todo)  
 
 ```go
 func zero(x *int) {
@@ -403,13 +456,13 @@ func main() {
 }
 ```
 
-* **Mutability**
+* **Mutabilidad**
 
-Only the constants are immutable.
-However, as arguments are passed by value, a function that receives and
-modify an argument does not change the original value
+Solo las constantes son inmutables.  
+Sin embargo como los argumentos se pasan por valor, una funcion que recibe y
+modifica un argumento no muta el valor original  
 
-* Example
+* Ejemplo
 
 ```go
 func addOne(x int) {
@@ -423,7 +476,7 @@ func main() {
 ```
 
 ```go
-// with pointers
+// Si usamos punteros
 func addOne(x *int) {
 	*x++
 }
@@ -434,7 +487,7 @@ func main() {
 }
 ```
 
-[stackoverflow pointer vs values](https://stackoverflow.com/questions/23542989/pointers-vs-values-in-parameters-and-return-values)   
+[LECTURA FUNDAMENTAL, stackoverflow pointer vs values](https://stackoverflow.com/questions/23542989/pointers-vs-values-in-parameters-and-return-values)   
 
 ```go
 type data struct {
@@ -442,32 +495,52 @@ type data struct {
 }
 
 func myfunc() data {
-    // returns a copy of the struct
+    // devuelve una copia del struct
     return data{val: 1}  
 }
 
 func myfunc() *data {
-    // returns a pointer to the struct created within the function
+    // devuelve un puntero al struct creado dentro de la funcion
     return &data{}
 }
 
 func myfunc(d *data) {
-    // receives an existing struct and overwrites its value
+    // recibe un struct ya existente y sobreescribe su valor
     d.val = 1
 }
 ```
 
 ---
 
-## BASIC TYPES
+## DATOS BASICOS
 
+### Numeros
 
-### Numbers
+* **Integers**
+
+Los enteros son numeros sin decimal
+
+`int` - positivos y negativos    
+`uint` - unsigned, solo los positivos  
+`byte` - alias de uint8 (0-255)  
+`rune` - alias de int32   
+
+* **Numeros de Punto Flotante**
+
+Son numeros reales (con parte decimal)  
+
+`float32` - conocido como simple precision  
+`float64` - conocido como doble precision  
+
+* **Numeros Complejos**
+
+`complex64` - parte real float32 + partes imaginarias  
+`complex128` - parte real float64 + partes imaginarias  
 
 ![go](./_img/go/basicTypes.png)
 
 
-### Booleans
+### Booleanos
 
 `&&` - and  
 `||` - or   
@@ -478,21 +551,21 @@ func myfunc(d *data) {
 > ![go](./_img/go/boolean3.png)
 
 
-### Strings
+### Cadenas
 
-They are made of bytes (one per character)  
-The difference between single and double quotes is that doubles can not contain
-new lines and are allowed to escape special characters  
+Estan hechas de bytes (uno por caracter)  
+La diferencia entre comillas simples o dobles es que en estas no pueden contener
+nuevas lineas y se permiten escapar caracteres especiales  
 
-`len (string)` - length of the string  
-`"Hello world "[1]` - access string characters  
-`"Hello, "+ World"`   
+`len(string)` - longitud de la cadena  
+`"Hola mundo"[1]` - acceder a caracteres de la cadena  
+`"Hello, " + World"`  
 
 ### Constantes
 
-They are declared as variables but with the keyword `const`.  
-They can not be declared using `: =`  
-They can only be characters, string, boolean or numeric values.  
+Se declaran como variables pero con la palabra clave `const`.  
+No se pueden declarar usando `:=`  
+Solo pueden ser caracteres, string, booleano o valores numericos.   
 
 ```go
 const PI = 3.14
@@ -502,9 +575,9 @@ const PI = 3.14
 
 [iota info](https://splice.com/blog/iota-elegant-constants-golang/)
 
-It is an identifier used in constant declarations to indicate that they are
-autoincrementables.  
-It resets to zero when the reserved word `const` appears
+Es un identificador usado en declaraciones de constantes para indicar que son
+autoincrementables.  .
+Se resetea a cero cuando aparece la palabra reservada `const`
 
 ```go
 const ( // iota is reset to 0
@@ -516,30 +589,30 @@ const ( // iota is reset to 0
 
 ---
 
-## CONTROL STRUCTURES
+## ESTRUCTURAS DE CONTROL
 
 ### for
 
 ```go
-// standard for
+// for normal
 sum := 0
 for i := 0; i < 10; i++ {
   sum = sum + i
 }
 
-// for wihout pre/post declarations
+// for sin declaraciones pre/post
 sum := 1
 for ; sum < 1000; {
   sum = sum + sum
 }
 
-// for (like a while)
+// for como un while
 sum := 1
 for sum < 1000 {
   sum = sum + sum
 }
 
-// for infinite
+// for infinito
 for {
     ..codigo
 }
@@ -561,16 +634,16 @@ else {
 
 ### switch
 
-> `switch` 
+> `switch` en golang  
 
-* Only values of the same type can be compared
-* declaration `default` to execute if all others fail
-* in the statement you can use an expression (pej calculate a value)
-`case 3 - 2:`
-* You can have multiple values only one case
-`case 6, 7:`
-* `fallthroguh` all statements that meet the condition are executed
-* `break` comes out of the switch
+* Solo se pueden comparar valores del mismo tipo  
+* declaracion `default` para ejecutarse si todas las demas fallan  
+* en la declaracion se puede usar una expression (pej calcular un valor)  
+`case 3 - 2:`  
+* Se puede tener multiples valores un solo caso  
+`case 6, 7:`  
+* `fallthroguh` se ejecutan todas las declaraciones que cumplen la condicion    
+* `break` sale del switch  
 
 ```go
 func main() {
@@ -603,10 +676,9 @@ func main() {
 
 ### range
 
+Itera sobre los `slice` o `map`  
 
 * **slice**
-
-loops over `slices` or `maps` 
 
 ```go
 var pow = []int{1, 2, 4, 8, 16, 32, 64, 128}
@@ -617,8 +689,8 @@ func main() {
 }
 ```
 
-We can omit the index using `_`  
-We can omit the value by omitting completely `, value`
+Podemos omitir el index usando `_`  
+Podemos omitir el valor omitiendo por completo `, value`  
 
 ```go
 func main() {
@@ -634,68 +706,67 @@ func main() {
 
 * **map**
 
-The first parameter is not an autoincrementable integer but the key of the map  
+El primer parametro no es un entero autoincrementable sino la clave del map  
+
 `for key, value := range cities`
 
 * **break**
 
-Stop loop as desired
+Paras la iteracion en cualquier momento  
 
 * **continue**
 
-Ypu can skip one iteration
+Omites una iteracion  
 
 ---
 
 ## ARRAYS
 
-**`[n]T` - is an array of `n` elements of type `T`**    
+**`tipo [n]T` - es un array de `n` elementos de tipo `T`**    
 
-* Cant resize 
-* can be initialized when declaring them  
+* No se pueden redimensionar  
+* Se pueden inicializar al declararlos  
     `a := [2]string{"hello", "world!"}`  
-    `a := [...]string{"hello", "world!"}` using an ellipsis to indicate a number a variable number of elements that in this case are two  
-    `a := [5]int{1: 10, 2: 20}` - initializing only some values   
+    `a := [...]string{"hello", "world!"}` usando una ellipsis para indicar un numero un numero variable de elementos que en este caso son dos  
+    `a := [5]int{1: 10, 2: 20}` - inicializando solo algunos valores  
 * `printìng arrays`  
     `fmt.Printf("%q\n", a)    // ["hello" "world!"]`
 * `len(array)`  
-* Multidimensional    
+* MultiDimensionales  
     `var a [4][2]int`  
-    `array := [4][2]int{{10, 11}, {20, 21}, {30, 31}, {40, 41}}`      
-
+    `array := [4][2]int{{10, 11}, {20, 21}, {30, 31}, {40, 41}}`  
 
 ---
 
 ## SLICES
 
-**`tipo []T` - is an slice of type `T` elements**  
+**`tipo []T` - es un slice de elementos de tipo `T`**  
 
-* **create slice**  
+* **Crear un slice :**  
 
-Must be created before they can be used
+Los slice hay que crearlos antes de usarlos
 
 > * `slice literal`    
 `mySlice := []int{2, 3, 5, 7, 11, 13}`
-
-> * `make` - creates an empty slice with a length and (optional a capacity)    
+> * `make` - crea un slice vacio de una longitud y (opcional una capacidad)    
 `cities := make([]string, len, cap)`  
 
-* **Cut slice**
+* **Recortando un slice**
 
-`s[a:b]` - selects elements from pos a (inclusive) to b (exclusive)   
-`s[:b]` - an index `a` that is not declared is an implicit `0`  
-`s[a:]` - an `b` index that is not declared is implicit a `len (s)`    
+`s[a:b]` - selecciona elementos desde la pos a (inclusive) hasta b (exclusive)  
+`s[:b]` - un indice `a` que no se declara es un `0` implicito  
+`s[a:]` - un indice `b` que no se declara es implicito un `len(s)`   
 
-* **Append slice**
+* **Añadiendo a un slice**
 
 `cities = append(cities, "San Diego")`  
 `cities = append(cities, "San Diego", "Mountain View")`  
 `otherCities := []string{"Santa Monica", "Venice"}`  
 `cities = append(cities, otherCities...)`  
 
-* **Copy slice**
+* **Copiar un slice**
 
-`copy(destination, source)`  
+`copy(destino, origen)`  
 
 * **Length**
 
@@ -703,13 +774,14 @@ Must be created before they can be used
 
 * **Nil slices**
 
-Declaration   
-`var z []int` -The zero value of a slice is nil. A slice nil has a zero length  
-Initialization  
+Declaracion  
+`var z []int` - El valor cero de un slice es nil. Un slice nil tiene una
+longitud de cero  
+Inicializacion  
 `z := make([]int, 0)`  
 `z := []int{}`  
+Las tres formas son lo mismo    
 
-Three ways are the same
 
 * **BiDimensional**
 
@@ -727,7 +799,7 @@ for i := range a {
 	a[i] = e[i*col:(i+1)*col]
 }
 
-// another way
+// otra posibilidad
 func get(r, c int) int {
 	return e[r*cols+c]
 }
@@ -737,29 +809,29 @@ func get(r, c int) int {
 
 ## MAPS
 
-**`tipo map[a]b - is a map which keys are type a and values type b`**   
+**`tipo map[a]b - es un map de claves tipo a con valores tipo b`**   
 
-`key / value pairs`
+Formado por `pares clave/valor`  
 
-* **Crete map :**  
+* **Crear un map :**  
 
-Map must be created before using them
+Los map hay que crearlos antes de usarlos
 
 > * `map literal`    
-`friends := map[string]int{"John":50, "Helen":21, "Charles":41,}`
-> * `make` - creates nil map empty    
-`friends := make(map[string]int)`  
+`amigos := map[string]int{"Juan":50, "Elena":21, "Carlos":41,}`
+> * `make` - creas un nil map vacio  
+`amigos := make(map[string]int)`  
 
-If we declare it but we do not initialize it, when we try to add elements it will not compile   
+Si lo declaramos pero no lo inicializamos, al intentar añadir elementos no compilara 
 
-> * `friends := map[string]int{}` - declared but not initialized    
+> * `amigos := map[string]int{}` - declarado pero no inicializado  
 
-* **Modifying maps**
+* **Modificando maps**
 
-`m[key] = elem` - Insert or update  
-`elem = m[key]` - returns element  
-`delete(m, key)` - deletes element   
-`elem, ok = m[key]` - check if there is a value with a certain key  
+`m[key] = elem` - Insertando o actualizando un valor  
+`elem = m[key]` - Devuelve el elemento  
+`delete(m, key)` - Borrando un elemento   
+`elem, ok = m[key]` - Testea si existe un valor con una clave determinada  
 
 ```go
 elements := map[string]map[string]string{
@@ -785,8 +857,8 @@ if el, ok := elements["Li"]; ok {
 
 ## STRUCTS
 
-It is a collection of fields / properties  
-Only the exported fields (first capital letter) are accessible outside the package   
+Es una coleccion de campos/propiedades  
+Solo los campos exportados (primera letra mayuscula) son accesibles de fuera del paquete  
 
 ### Inicializacion
 
@@ -796,10 +868,11 @@ type Circle struct {
 }
 ```
 
-`var c Circle` - creates a local variable named circle that defaults values to zero (0 for int, 0.0 for float. "" for string, nil for pointers)  
-`c := new(Circle)` - allocates memory for all fields, initializes them to
-zero and returns a pointer to the struct (*Circle), pointers are used a lot in
-structs so that the functions can modify the data.  
+`var c Circle` - crea una variable local Circle que pone por defecto los
+valores a cero (0 para int, 0.0 para float. "" para string, nil para punteros)  
+`c := new(Circle)` - asigna memoria para todos los campos, los inicializa a
+cero y devuelve un puntero a la struct (*Circle), los punteros se usan mucho en
+structs paa que las funciones puedan modificar los datos.  
 `c := Circle{x: 0, y: 0, r: 5}`  
 `c := Circle{0, 0, 5}`  
 `c := &Circle{0, 0, 5}`  
@@ -818,7 +891,7 @@ func main() {
 ```
 
 ```go
-// all in one
+// todo en uno
 var addCases = []struct {
 	in   string
 	want string
@@ -833,6 +906,7 @@ var addCases = []struct {
 	},
 }
 
+// mas claro
 type addCases2 []struct {
 	in   string
 	want string
@@ -848,7 +922,7 @@ ac := addCases2{
     },
 }
 
-// show them 
+// para verlos 
 for i, v := range addCases {
     fmt.Println(i, v.in)
 }
@@ -880,16 +954,16 @@ var test2 = []struct {
 }
 ```
 
-### Methods
+### Metodos
 
-A method is a function with the first implicit argument called a receiver.  
-`func (ReceiverType r) func_name (parameters) (results)`
+Un metodo es una funcion con el primer argumento implicito llamado receptor.  
+`func (ReceiverType r) func_name (parameters) (results)`  
 
-Receiver of the method is between the keyword `function` and the name of the method
+El `receptor (receiver)` del metodo esta entre la palabra clave `function` y el nombre del metodo
 
-`func (u User) Greeting() string` - allows us to call it with u.Greeting()`
+`func (u User) Greeting() string` - nos permite llamarla con u.Greeting()  
 
-* **Code organization**
+* **Organizacion del codigo**
 
 ```go
 package models
@@ -908,9 +982,9 @@ package models
 // List of methods
 ```
 
-* **Aliases**
+* **Alias**
 
-To define methods in a type that is not yours, aliases are used  
+Para definir metodos en un tipo que no es tuyo se usan alias
 
 ```go
 import "strings"
@@ -923,13 +997,13 @@ func main() {
 }
 ```
 
-* **Use pointers in the receivers**
+* **Usar punteros en los receptores**
 
-The methods can be associated with a name or a pointer. Advantages of using
-pointers: 
+Los metodos se pueden asociar a un nombre o a puntero. Ventajas de usar
+punteros:  
 
-* avoid copying the value with each call to the method (pass it by reference)  
-* be able to modify the value that we passed
+* evitar copiar el valor con cada llamada al metodo (pasarlo por referencia)  
+* para poder modificar el valor que pasamos  
 
 ```go
 type User struct {
@@ -948,22 +1022,23 @@ func (u *user) changeEmail(email string) {
 ```
 
 ```
-TIP
-After declaring a new type, try to answer this question before 
-declaring methods for the type: 
-Does adding or removing something from a value of this type need to
-create a new value or mutate the existing one? 
-- If the answer is create a new value, then use value receivers for 
-your methods. 
-- If the answer is mutate the value, then use pointer receivers. 
+SUGERENCIA
 
-This also applies to how values of this type should be passed to 
-other parts of your program. It’s important to be consistent. 
-The idea is to not focus on what the method is doing with the value,
-but to focus on what the nature of the value is.
+Después de declarar un nuevo tipo, trate de responder a esta pregunta 
+antes de declarar métodos para el tipo: 
+¿ Añadir o quitar algo de un valor de este tipo necesita crear un nuevo 
+valor o mutar el existente ?  
+- Si la respuesta es crear un nuevo valor, usa receptores de valor en 
+sus métodos. 
+- Si la respuesta es mutar el valor, usa receptores de puntero. 
+
+Esto también se aplica a la forma en que los valores de este tipo deben 
+pasarse a otras partes de su programa. Es importante ser consistente. 
+La idea es no centrarse en lo que el método está haciendo con el valor,
+sino centrarse en cuál es la naturaleza del valor.
 ```
 
-### Composition
+### Composicion
 
 ```go
 type User struct {
@@ -976,7 +1051,7 @@ type Player struct {
 }
 ```
 
-How we access User Struct:    
+Podemos acceder a la Struct de User:  
 `a := new(Player)`  
 `a.User.Name`  
 `a.Name`
@@ -985,14 +1060,14 @@ How we access User Struct:
 
 ## INTERFACES
 
-[Interfaces explanation](http://jordanorelli.com/post/32665860244/how-to-use-interfaces-in-go)
+[Explicacion de interfaces](http://jordanorelli.com/post/32665860244/how-to-use-interfaces-in-go)
 
-[More interfaces explanation](https://go-book.appspot.com/interfaces.html) 
+[Mas Explicacion de interfaces](https://go-book.appspot.com/interfaces.html) 
 
-[More about interfaces](https://www.goinggo.net/2014/05/methods-interfaces-and-embedded-types.html)   
+[Mas aun sobre interfaces](https://www.goinggo.net/2014/05/methods-interfaces-and-embedded-types.html)   
 
-* It is a set of methods  
-* It is a type of data
+* Es un conjunto de metodos  
+* Es un tipo de datos
 
 ```go
 package main
@@ -1100,15 +1175,14 @@ func main() {
 }
 ```
 
-* **empty interfaces** 
+* **interfaces vacias** 
 
-1- Everything has a `type`, you can define a new `type` for Example `T` that has three methods `A`, `B` and `C`  
-2- The set of specific methods of a `type` is called `interface type`. In our Example `T_interface = (A, B, C)`  
-3- You can create a new `interface type` by defining the methods it has. Pro Example I think `MyInterface = (A)`  
-4- When you specify a variable of type `interface type` you can assign only the types that are in an interface that is a superset of your interface, let all the methods of `MyInterface` must be in `T_interface`  
+1- Todo tiene un `type`, puedes definir un nuevo `type` por ejemplo `T` que tiene tres metodos `A`, `B` y `C`  
+2- El conjunto de metodos especificos de un `type` se llama `interface type`. En nuestro ejemplo `T_interface = (A, B, C)`  
+3- Puedes crear un nuevo `interface type` definiendo los metodos que tiene. Pro ejemplo creo `MyInterface = (A)`  
+4- Cuando especificas una variable de tipo `interface type` le puedes asignar solo los tipos que esten en una interface que sea un superset de tu interface, vamos que todos los metodos de `MyInterface` deben estar en `T_interface`
 
-Conclusion: All types of variables satisfy the `empty interface`. Therefore a function that has an `interface{}` as an argument admits any value whatsoever.  
-But within the function the Go runtime converts that value to an `interface{}`
+Conclusion : Todos los tipos de variables satisfacen la `empty interface`. Por tanto una funcion que tiene una `interface{}` como argumento admite cualquier valor sea el que sea. Pero dentro de la funcion el runtime de Go convierte ese valor a un valor `interface{}`
 
 ```go
 func DoSomething(v interface{}) {
@@ -1117,13 +1191,13 @@ func DoSomething(v interface{}) {
 }
 ```
 
-The value of an interface are two `word` of data:  
- - a `word` is a pointer to a table of methods for the value of the underlying `type`  
- - the other `word` is a pointer to the current data of that value  
+EL valor de una interfaz son dos `word` de datos:  
+\- una `word` es un puntero a una tabla de metodos para el valor del `type` subyacente  
+\- la otra `word` es un puntero a los datos actuales de ese valor  
 
 ---
 
-## FUNCTIONS
+## FUNCIONES
 
 * **Call Stack**
 
@@ -1141,21 +1215,21 @@ func f2() int {
 
 >>> ![go](./_img/go/callStack.png)
 
-* **Arguments**
+* **Argumentos**
 
-* The functions can receive 0 or more arguments all typed after the name of the variable.
+* Argumentos que reciben. Las funciones pueden recibir 0 o mas argumentos todos tipados despues del nombre de la variable.    
 
 ```go
 func add(x int, y int) int {
     return x + y
 }
-func add(x, y int) int {   // int affects all parameters(x, y)
+func add(x, y int) int {   // int afecta a todos los parametros (x, y)
     return x + y
 }
 ```
 
 ```go
-// ... functions that accept a variable number of parameters
+// ... funciones que aceptan un numero variable de parametros
 func add(args ...int) int {   
     total := 0
     for _, v := range args {
@@ -1163,20 +1237,21 @@ func add(args ...int) int {
     }
     return total
 }
-func main() {         // we pass the parameters that we want
+func main() {         // pasamos los parametros que queramos
     fmt.Println(add(1,2,3))
     xs := []int{1,2,3}
-    fmt.Println(add(xs...)) // we can also pass a slice
+    fmt.Println(add(xs...)) // tambien podemos pasar un slice
 }
 ```
-* Return of parameters, can return any number of them
+
+* Retorno de parametros, puede devolver cualquier numero de ellos  
 
 ```go
-return region, continente   // returns more than one value
-// If the return parameters are named, is valid with only one return
+return region, continente   // devuelve mas de un valor
+// Si los parametros de retorno estan nombrados vale con solo return
 func location(name, city string) (region, continent string) {
-    ..code
-    return    // returns region and continent
+    ..codigo
+    return    // devuelve region y continent
 }
 ```
 
@@ -1263,7 +1338,7 @@ func main(){
 
 ### defer
 
-Defer the execution of a function until the function in which it is
+Aplaza la ejecucion de una funcion hasta que termina la funcion en la que esta  
 
 ```go
 func main() {
@@ -1272,7 +1347,7 @@ func main() {
 }
 ```
 
-It is used to free resources when possible
+Se usa para liberar recursos cuando se pueda
 
 ```go
 f, _ := os.Open(filename)
@@ -1281,11 +1356,12 @@ defer f.Close()
 
 ### panic, recover
 
-`panic("panic value")` - create a runtime error.     
-`recover()` - stops the panic and returns the value that was passed with the
-call panic  
+`panic("valor de panic")` - crea un runtime error .   
+`recover()` - detiene el panic y devuelve el valor que fue pasado con la
+llamada a panic
 
-`panic` usually indicates a programming error or a condition exceptional of which there is no easy way to recover.   
+Un `panic` generalmente indica un error de programacion o una condicion
+excepcional de la que no hay forma facil de recuperarse  
 
 ```go
 func main() {
@@ -1299,39 +1375,43 @@ func main() {
 
 ---
 
-## CONCURRENCY
+## CONCURRENCIA
 
 ### goroutines
 
-`go f(x)` begins the execution of a new goroutine that is a function capable of running concurrently with other functions.  
+`go f(x)` comienza la ejecucion de una nueva goroutine que es una funcion capaz de ejecutarse concurrentemente con otras funciones.  
 
 ```go
-// without wait, the main program may end before the goroutines
+// sin wait, el programa main puede acabar antes de que las goroutines 
+// hagan lo que tengan que hacer
 func parallelLetFreq() {
 	var wg sync.WaitGroup
-	wg.Add(3)   // 3 more goroutines we have to wait for
+	wg.Add(3)   // suma 3 a las goroutines a esperar
 	go count("1", &wg)
 	go count("2", &wg)
 	go count("3", &wg)
-	wg.Wait() // wait for all goroutines
+	wg.Wait() // espera a todas las goroutines (3 en este caso)
 }
 
 func count(n int, wg *sync.WaitGroup) {
-	defer wg.Done() // when finishing the function finish goroutine
+	defer wg.Done() // al terminar la funcion terminar goroutine
 	fmt.Println("Number --> ", n))
 }
 ```
 
 ### channels
 
-`channels` - They are a conduit through which you can receive and send data with the operator `<-`  
+`channels` - son un conducto a traves del cual puedes recibir y enviar datos con
+el operador `<-`  
 
-`ch <- data` - Send data to the channel ch    
-`data := <-ch` - Receive information from the ch channel and assign it to data      
-`ch := make(chan int)` - Channels have to be created before using them  
+`ch <- data` - Envia data al canal ch  
+`data := <-ch` - Recibe informacion del canal ch y lo asigna a data  
 
-By default the shipments and receptions wait until the other side is ready.  
-This allows goroutines to synchronize without specific blocks or terms  
+`ch := make(chan int)` - Los canales hay que crearlos antes de usarlos  
+
+Por defecto los envios y recepciones esperan hasta que el otro lado este listo.
+Esto permite a las goroutines sincronizarse sin bloqueos especificos o
+condiciones  
 
 ```go
 func sum(a []int, c chan int) {
@@ -1354,10 +1434,10 @@ func main() {
 
 * **Buffered channels**
 
-`ch := make(chan int, 100)` - We put a buffer to the channels indicating their
-length as second argument in the `make` to initialize the channel  
-Send data even channel with buffer is blocked if the buffer is full  
-Receive data from a channel with buffer is blocked if the buffer is empty   
+`ch := make(chan int, 100)` - Ponemos un buffer a los canales indicando su
+longitud como segundo argumento en el `make` para inicializar el canal  
+Enviar datos aun canal con buffer se bloquea si el buffer esta lleno   
+Recibir datos de un canal con  buffer se bloquea si el buffer esta vacio  
 
 ```go
 func main() {
@@ -1367,8 +1447,9 @@ func main() {
 }       // fatal error: all goroutines are asleep - deadlock!
 ```
 
-However, the next one would work. When adding the extra value from a
-goroutine does not lock the main thread because although the goroutine is called before the channel empties, this will wait until there is space in the channel. 
+Sin embargo el siguiente funcionaria. Al añadir el valor extra desde una
+goroutine no se bloquea el hilo principal pues aunque la goroutine se llama
+antes que el canal se vacie esta esperara hasta que haya espacio en el canal.  
 
 ```go
 func main() {
@@ -1382,40 +1463,45 @@ func main() {
 
 * **Close**
 
-`close(ch)` - Only one sender can close a channel. Send to a closed channel causes a panic. They are not like files that need to be closed. They only close
-to warn the receiver that no more data will arrive and to finish the loop
-range.  
+`close(ch)` - Solo un emisor puede cerrar un canal. Enviar a un canal cerrado
+causa un panic. No son como ficheros que hace falta cerrarlos. Solo se cierran
+para avisar al receptor de que no llegaran mas datos y para terminar los loop
+range      
 
-`v, ok := <-ch` - Sender may close a channel to indicate that nothing else will be sent. Receivers can test when a channel has been closed
-assigning a second parameter to the receiving expression `ok` will be false when there are no more values to receive and the channel is closed.
+`v, ok := <-ch` - Un emisor puede cerrar un canal para indicar que no se enviara nada mas. Los receptores pueden testear cuando un canal ha sido cerrado
+asignando un segundo parametro a la expresion receptora  
+`ok` sera falso cuando no haya mas valores que recibir y el canal este cerrado.  
 
-`for i := range ch` - receives channel values until it is closed 
+`for i := range ch` - recibe valores del canal hasta que se cierre
 
 * **Select**
 
-It's like `switch` but with channels
+Es como `switch` pero con canales  
 
 1A - 89  
-1B - 103  
+1B - 103   
 
 ---
 
-## PACKAGES
+## PAQUETES
 
-A Go program is made with packages. The programs start executing the
-function `main` inside the `main` package.  
-By convention, the package name is the last word in the import path.  
-The "math/rand" package includes files that start with the sentence `package rand`  
+Un programa Go esta hecho con paquetes. Los programas empiezan ejecutando la
+funcion `main` dentro del paquete `main`.  
+Por convencion el nombre del paquete es la ultima palabra de la ruta del import.  
+El paquete "math/rand" comprende archivos que comienzan con la sentencia
+`package rand`  
 
-Packages that are not from the standard library are imported using a web URL,but first you have to download them with `go get`
+Paquetes que no son de la libreria estandar se importan usando una URL web,
+pero antes hay que descargarlos con `go get`
 
 ```go
-go get github.com/owner/path/to/code
-import "github.com/owner/path/to/code"
+go get github.com/creador/ruta/al/paquete
+import "github.com/creador/ruta/al/paquete"
 ```
 
-After importing a package we can use the names that it exports (be variables, methods or functions) from outside the package.  
-The names exported in Go start with a capital letter  
+Despues de importar un paquete podemos usar los nombres que el exporta (sean
+variables, metodos o funciones) desde fuera de el paquete.
+Los nombres exportados en Go comienzan por letra mayuscula
 
 ```go
 package main
@@ -1427,69 +1513,71 @@ func main() {
 // cannot refer to unexported name math.pi
 ```
 
-> **Other ways to import packages**
+>> **Otras formas de importar paquetes**
 
-* `ìmport alias "fmt"` - Create an alias of fmt. Now it's alias.something instead of fmt.something  
-* `import . "fmt"` -  Allows access to content directly without having to
-be preceded by fmt
-* `import _ "fmt"` - Remove the compiled warning on that package
-if it is not used. Execute it if there are initialization functions (`func init() {}`), rest of the package remains inaccessible.   
+* `ìmport alias "fmt"` - Crea un alias de fmt. Ahora es alias.LoQueSea en lugar de fmt.LoQueSea  
+* `import . "fmt"` -  Permite acceder al contenido directamente sin tener que
+ir precedido de fmt  
+* `import _ "fmt"` - Elimina las advertencia del compilado sobre ese paquete
+si no se usa y  ejecuta si hay las funciones de inicializacion (`func init() {}`), El resto del
+paquete permanece inaccesible.  
 
-### Create packages  
+### Crear paquetes  
 
-The package names match the folder where they are. This can be
-change but it's not worth it.  
-By convention, the package name is the last word in the import path.
-`~/src/proyectoX/main.go`  
+Los nombres de paquetes coinciden con la carpeta donde estan. Esto se puede
+cambiar pero no merece la pena  
+Por convencion el nombre del paquete es la ultima palabra de la ruta del import.  
+
+`~/src/proyectoX/main.go`
 
 ```go
 package main
 import "fmt"
-import "proyectoX/utils"  // path is from src
+import "proyectoX/utilidades"  // la ruta es a partir de srcs
 func main() {
-    // utils.Media(xs)
+    // llamada a  utilidades.Media(xs)
 }
 ```
 
-`~/src/proyectoX/utils/media.go`
+`~/src/proyectoX/utilidades/media.go`
 
 ```go
-package utils
+package utilidades
 func Media() {
-    // code
+    // codigo que sea
 }
 ```
 
-### Uninstall packages
+### Desinstalar paquetes
 
-`go clean -i path/package...` - theoretically you delete the pkg and bin, the src you have to delete them manually  
+`go clean -i ruta/paquete...` - teoricamente borras los pkg y bin, los src hay que borrarlos manualmente  
 
-### Update
+### Actualizar
 
-`go get -u all` -  update all packages  
+`go get -u all` -  Actualiza todos  
 
-`go get -u full/package/name` -  update one package
+`go get -u full/package/name` -  Actualizar solo ese paquete
 
 ---
 
-## EXECUTE
+## EJECUCION
 
-The program starts with the `main` function of the `package main`  
+El programa se inicia por la funcion `main` del `package main`  
 
-Before, the `init` functions of that file are executed  
+Antes se ejecutan las funciones `init` de ese fichero
 
-Imported packages "_import path/package" cause the compiler to accept an unused packet and also execute the `init` function(s) of that package  
+Los paquetes importados "_ import "ruta/paquete" hacen que el compilador acepte un paquete que no se usa y ademas ejecutan la o las funciones `init` de ese paquete  
 
 ---
 
 ## TESTING
 
-The compiler ignores all the files that end in `_test.go`  
+El compilador ignora todos los archivos que terminan en `_test.go`  
 
-`~/src/proyectoX/utis/media_test.go`
+`~/src/proyectoX/utilidades/media_test.go`
 
 ```go
-package utis
+package utilidades
 
 import "testing"
 
@@ -1524,10 +1612,10 @@ func TestAverage(t *testing.T) {
 
 ## ERRORS
 
-[Errors in Go](https://blog.golang.org/error-handling-and-go)
+[Errores en Go](https://blog.golang.org/error-handling-and-go)
 
-It captures a predefined interface type whose only method `Error` returns
-a chain   
+Los captura un tipo interfaz predefinido cuyo unico metodo `Error` devuelve
+una cadena  
 
 ```go
 type error interface {
@@ -1535,8 +1623,8 @@ type error interface {
 }
 ```
 
-Standard way to deal with errors.  
-`log.Fatal (err)` - send the error to the terminal and stop the program
+Forma estandard de tratar los errores.  
+`log.Fatal(err)` - manda el error a la terminal y detiene el programa  
 
 ```go
 f, err := os.Open("filename.ext")
@@ -1545,7 +1633,7 @@ if err != nil {
 }
 ```
 
-Less boilerplate  
+Podemos aligerar la repeticion un poco usando:  
 
 ```go
 func check(e error) {
@@ -1553,102 +1641,21 @@ func check(e error) {
         panic(e)
     }
 }
-// now 
+// y ahora ya solo ponemos
 check(err)
 ```
 
 ---
 
-## LINKS
-
-* **Go**
-
-<code>[Lets learn Go!](https://go-book.appspot.com/index.html)</code>  
-<code>[Interfaces](http://jordanorelli.com/post/32665860244/how-to-use-interfaces-in-go)</code>  
-<code>[Tipos de funcion](http://jordanorelli.com/post/42369331748/function-types-in-go-golang)</code>  
-<code>[]()</code>
-<code>[]()</code>
-<code>[]()</code>
-<code>[]()</code>
-<code>[]()</code>
-
-* **Blogs**
-
-<code>[Jacob Martin](https://jacobmartins.com/article-list/)</code> - Articles and tutorials  
-<code>[Dinosaurscode](https://dinosaurscode.xyz/posts/)</code>  
-<code>[thepolyglotdeveloper.com](https://www.thepolyglotdeveloper.com/category/golang/)</code> - Articles and tutorials
-<code>[]()</code>
-<code>[]()</code>
-<code>[]()</code>
-<code>[]()</code>
-<code>[]()</code>
-
-* **Web Dev**
-
-<code>[Writing Web Applications](https://golang.org/doc/articles/wiki/)</code> - Basic tutorial of the golang.org wiki  
-<code>[How I Start](https://howistart.org/posts/go/1)</code> - Tutorial with multiple weather APIs
-
-<code>[Build Web Application with Golang](https://astaxie.gitbooks.io/build-web-application-with-golang/content/en/)</code> - Book     
-<code>[webapp-with-golang-anti-textbook](https://thewhitetulip.gitbooks.io/webapp-with-golang-anti-textbook/content/)</code> - Book  
-<code>[Go Web Applications](https://waimengmoan.gitbooks.io/go-applications/content/)</code> - Book 
-
-<code>[Anatomy of a Go Web Application](http://tech.townsourced.com/post/anatomy-of-a-go-web-app/)</code> - 
-Structure of a basic web application    
-<code>[Anatomy of a Go Web Application](http://tech.townsourced.com/post/anatomy-of-a-go-web-app-authentication/)</code> - Authentication  
-<code>[Go Web App Example - Entry Point, File Structure, Models, and Routes](http://www.josephspurrier.com/go-web-app-example/)</code> - Structure of a basic web application     
-<code>[Blue Jay - Go Toolkit for the Web](https://blue-jay.github.io/)</code> - Structure of a complex web application  
-<code>[]()</code>
-<code>[]()</code>
-<code>[]()</code>
-<code>[]()</code>
-
-* **Libraries**
-
-<code>[database/sql](http://go-database-sql.org/index.html)</code>  
-<code>[go-sql-driver/mysql](https://github.com/go-sql-driver/mysql)</code>  
-<code>[]()</code>
-<code>[]()</code>
-<code>[]()</code>
-<code>[]()</code>
-<code>[]()</code>
-<code>[]()</code>
-<code>[]()</code>
-<code>[]()</code>
-<code>[]()</code>
-<code>[]()</code>
-<code>[]()</code>
-<code>[]()</code>
-<code>[]()</code>
-<code>[]()</code>
-<code>[]()</code>
-<code>[]()</code>
-<code>[]()</code>
-<code>[]()</code>
-<code>[]()</code>
-
-
-* **Deploy security**
-
-<code>[Quick security wins in Golang (Part 1)](https://blog.komand.com/quick-security-wins-in-golang)</code>  
-<code>[https://github.com/unrolled/secure](https://github.com/unrolled/secure)</code> - Security Middleware    
-<code>[Achieving a Perfect SSL Labs Score with Go](https://blog.bracebin.com/achieving-perfect-ssl-labs-score-with-go)</code>  
-<code>[]()</code>
-<code>[]()</code>
-<code>[]()</code>
-<code>[]()</code>
-<code>[]()</code>
-
----
-
-## **STANDARD LIBRARY**
+## **LIBRERIA ESTANDAR**
 
 ### **FMT**
 
 `import "fmt"`
 
-`fmt.Print()` - pritn  
-`fmt.Println()` - print and new line  
-`fmt.Printf()` - print with a certain format   
+`fmt.Print()` - imprime  
+`fmt.Println()` - imprime y salta de linea   
+`fmt.Printf()` - imprime con un determinado formato  
 
 ```go
 type point struct {
@@ -1658,67 +1665,69 @@ p := point{1, 2}
 
 fmt.Printf("%v\n", p)                   // {1 2}
 
-// includes the names of the fields in the struct  
+// en una struct, `%+v` incluye los nombres de los campos de la struct
 fmt.Printf("%+v\n", p)                  // {x:1 y:2}
 
-// Print the type of a value  
+// Imprimir el tipo de un valor
 fmt.Printf("%T\n", p)                   // main.point
 
-// `%d` for standard integers
+// `%d` para enteros standard
 fmt.Printf("%d\n", 123)                 // 123
 
-// Print the character that corresponds to the whole  
+// Imprime el caracter que corresponde al entero
 fmt.Printf("%c\n", 65)                  // a
 
-// print floats
+// Imprime floats
 fmt.Printf("%f\n", 78.9)                // 78.90000
 
-// print basic string `%s`.
+// Imprime string basicas `%s`.
 fmt.Printf("%s\n", "\"string\"")        // "string"
 
-// print Boolean
+// Imprimir Booleano
 fmt.Printf("%t\n", a ==b)               // true o false
 
-// print pointer `%p`.
+// Imprime un puntero`%p`.
 fmt.Printf("%p\n", &p)                  // 0x42135100
 ```
 
-`fmt.Sprint()` - returns the result to a string   
-`fmt.Sprintln()` - returns the result with line break to a string      
-`fmt.Sprintf()` - returns the result with a certain format to a string  
+`fmt.Sprint()` - devuelve el resultado a una string    
+`fmt.Sprintln()` - devuelve el resultado con salto de linea a una string    
+`fmt.Sprintf()` - devuelve el resultado con un determinado formato a una string  
 
 ```go
+// las Sxxx() son como las normales en vez de imprimir el resultado
+// lo devuelven como un string
 s := fmt.Sprintf("Hi, my name is %s and I'm %d years old.", "Bob", 23)
-// "Hi, my name is Bob and I'm 23 years old."
+// s vale "Hi, my name is Bob and I'm 23 years old."
 ```
 
-`fmt.Scan()` - to read a word from the keyboard, store successive values
-separated by a space in successive arguments. Line breaks count as
-space  
-`fmt.Scanln()` - to read a word from the keyboard, store successive values
-separated by a space in successive arguments. Line breaks end with the
-reading of data  
+`fmt.Scan()` - para leer una palabra del teclado , almacena sucesivos valores
+separados por un espacio en sucesivos argumentos. Saltos de linea cuentan como
+espacio   
+`fmt.Scanln()` - para leer una palabra del teclado , almacena sucesivos valores
+separados por un espacio en sucesivos argumentos. Saltos de linea acaban con la
+lectura de datos  
 
-* **verbs**
+* **verbos**
 
 \- General  
-`%v` - value in default format. In structs `%+v` add the names of the fields  
-`%T` - data type    
-`%#v` - representation of the type of the value with syntax of golang    
-\- Boolean   
-`%t` - boolean, returns true or false     
+`%v` - valor en formato por defecto. En structs `%+v` añade los nombres de los campos  
+`%T` - tipo del valor  
+`%#v` - representacion del tipo del valor con sintaxis de golang  
+\- Booleano   
+`%t` - booleano, devuelve palabra true o false   
 \- Integer   
-`%b` - returns in base 2   
-`%c` - returns character represented by the corresponding Unicode code  
-`%d` - returns in base 10     
-`%U` - Unicode format   
+`%b` - devuelve en base 2  
+`%c` - devuelve caracter representado por el correspondiente codigo Unicode    
+`%d` - devuelve en base 10   
+`%U` - formato Unicode  
 \- Floating point   
-`f%` - decimal notation without exponents      
-`e%` - decimal notation with exponents  
-\- Strings and []byte  
-`%s` - standard string   
-`%q` - to escape double quotes    
-`%x` - convert to hexadecimal basis    
+`f%` - notacion decimal sin exponentes    
+`e%` - notacion decimal con exponentes
+\- Strings y []byte
+`%s` -  cadenas normales  
+`%q` -  para escapar comillas dobles  
+`%x` - convierte a base hexadecimal    
 
 ---
 
@@ -1726,37 +1735,40 @@ reading of data
 
 `import "strings"`  
 
-`strings.Contains("test", "es")` = true - Contains "test" to "es"      
-`strings.Count("test", "t")` = 2 - How many "t" are on "test"  
-`strings.HasPrefix("test", "te")` = true - Does "test" begin with "te"    
-`strings.HasSuffix("test", "st")` = True -  Does "test" finish with "st"    
-`strings.Index("test", "e")` = 1 - Returns string "e" position. If not exists returns -1  
-`strings.Join([]string{"a","b"}, "-")` = "a-b" - Take a list of strings and put them together in one separated by another string ("-" in the Example)   
-`strings.Repeat("a", 5)` = aaaaa -  Repeat a string n times   
-`strings.Replace("aaaa", "a", "b", 2)` = "bbaa" - replace part of a chain with another part n times (or as many as possible if we pass -1)  
-`strings.Split("a-b-c-d-e", "-")` = []string{"a","b","c","d","e"} - Split a string into an array of strings using another string as a separator  
-`strings.ToLower("test")` = "TEST "     
-`strings.ToUpper("TEST")` = "test"     
-`strings.Fields("i am a string")` = as split but using blank spaces. Equivalent to `strings.Split (text," ")`  
-`strings.Trim("cadena","loquecorta")` = removes all loquecorta but only from the beginning and end  
+`strings.Contains("test", "es")` = true - Contiene "test" a "es"      
+`strings.Count("test", "t")` = 2 - Cuantas "t" hay en "test"  
+`strings.HasPrefix("test", "te")` = true - Comienza "test" por "te"    
+`strings.HasSuffix("test", "st")` = True -  Acaba "test" en "st"    
+`strings.Index("test", "e")` = 1 - Posicion de string "e" dentro de string
+"test", si no esta devuelve -1  
+`strings.Join([]string{"a","b"}, "-")` = "a-b" - Coge una lista de strings y
+las junta en una separadas por otra string ("-" en el ejemplo)   
+`strings.Repeat("a", 5)` = aaaaa -  Repite una string n veces  
+`strings.Replace("aaaa", "a", "b", 2)` = "bbaa" - reemplaza en una cadena una
+parte por otra n veces (o todas las que se pueda si pasamos -1)  
+`strings.Split("a-b-c-d-e", "-")` = []string{"a","b","c","d","e"} - Parte una
+string en un array de strings usando otra string como separador  
+`strings.ToLower("test")` = "TEST "- convierte la cadena a minusculas  
+`strings.ToUpper("TEST")` = "test" - convierte la cadena a mayusculas  
+`strings.Fields("cadena que sea)` = como split usando espacios en blanco. es equivalente a si usaramos `strings.Split(text, " ")`  
+`strings.Trim("cadena","loquecorta")` = elimina en cadena todas las loquecorta pero solo del comienzo y del final    
 strings.Trim(" !!! Achtung! Achtung! !!! ", "! ") == ["Achtung! Achtung"]  
 
-Convert string to slice of bytes and vice versa
-
+Convertir string en slice of bytes y viceversa  
 `arr := []byte("test")`  
 `str := string([]byte{'t','e','s','t'})`
 
-Outside the string package
+Fuera del paquete string
 
-`len("iamastring")` - return string length  
-`"cadena"[3]` - returns ASCII code of the character of index 3, "e" = 101   
-`string(cadena[n])` - returns the character of the chain in the n position  
+`len("aquiunacadena")` - nos da la longitud de la string     
+`"cadena"[3]` - nos da el codigo ASCII del caracter de indice 3, "e" = 101  
+`string(cadena[n])` - nos da el caracter de la cadena en la posicion n  
 
 ---
 
 ### **STRCONV**
 
-`import "strconv"` - conversions between numbers and strings  
+`import "strconv"` - conversiones entre numeros y strings  
 
 `s := strconv.Itoa(-42)` - int to string  
 `i, err := strconv.Atoi("-42")` - string to int  
@@ -1773,9 +1785,7 @@ Outside the string package
 
 ### **APPEND**
 
-[Slice tricks](https://github.com/golang/go/wiki/SliceTricks) 
-
-[More](https://www.reddit.com/r/golang/comments/283vpk/help_with_slices_and_passbyreference/)
+[Trucos con slices](https://github.com/golang/go/wiki/SliceTricks) 
 
 `func append(slice []T, elements...T) []T.`
 
@@ -1785,21 +1795,21 @@ Outside the string package
 
 `import "io"`    
 
-It has two main interfaces
+Tiene dos interfaces principales
 
-* **Reader**
-supports reading through the Read method
+* **Reader**  
+soporta leer a a traves del metodo Read  
 
-* **Writer**
-supports writing through the Write method
+* **Writer**  
+soporta escribir a traves del metodo Write
 
 ### **IO/IOUTIL**
 
 `import io/ioutil`    
 
-* **read and write a file**
+* **leer y escribir un archivo**  
 
-More control through a `File struct` of the OS package
+Mas control a traves de un `File struct` del paquete OS
 
 ```go
 data := []byte("Hello World!\n")
@@ -1818,7 +1828,7 @@ if err != nil {
 fmt.Print(string(read1))
 ```
 
-* **Limit io size**
+* **Limitar tamaño io**
 
 ```go
 defer resp.Body.Close()
@@ -1832,16 +1842,16 @@ body, err := ioutil.ReadAll(limitReader)
 
 `import "os"`  
 
-* **Get current dir**
+* **Saber donde estamos**
 
 ```go
 os.Getwd()
 ```
 
-* **Read/Write Files**  
+* **leer escribir un archivo**  
 
 ```go
-// One way
+// Una forma
 file, err := os.Open("test.txt")
 if err != nil {
     // handle the error here
@@ -1861,7 +1871,7 @@ fmt.Println(str)
 ```
 
 ```go
-// another way
+// otra forma
 data := []byte("Hello World!\n")
 
 // write to file and read from file using the File struct
@@ -1880,7 +1890,7 @@ fmt.Printf("Read %d bytes from file\n", bytes)
 fmt.Println(string(read2))
 ```
 
-* **Create File**  
+* **crear un archivo**  
 
 ```go
 func main() {
@@ -1893,10 +1903,10 @@ func main() {
 }
 ```
 
-* **Read the contents of a directory**
+* **Leer el contenido de un directorio**  
 
-`Readdir` - take an argument that is the number of entries it returns. With -1
-returns all
+`Readdir` - coge un argumento que es el numero de entradas que devuelve. Con -1
+devuelve todas  
 
 ```go
 func main() {
@@ -1915,24 +1925,24 @@ func main() {
 }
 ```
 
-`Walk` - to recursively go through a directory. Belongs to the package
+`Walk` - para recorrer recursivamente un directorio. Pertenece al paquete
 [path/filepath](#pathfilepath)  
 
 * **Command line arguments**
 
-the first value of the slice of arguments is the name of the path command included  
+el primer valor del slice de argumentos es el nombre del comando path incluido
 
-`argsWithProg := os.Args`- full slice with command name path included  
-`argsWithoutProg := os.Args[1:]` - slice only of arguments   
-`arg := os.Args[x]` - returns arg with position X    
+`argsWithProg := os.Args`- slice completo con comando nombre path incluido  
+`argsWithoutProg := os.Args[1:]` - slice solo de argumentos  
+`arg := os.Args[x]` - devuelve argumento de posicion X  
 
 * **environment variables**  
 
-`os.Setenv("varName", "value")` - sets a key / value pair for an environment variable  
-`os.Getenv("varName")` - returns the value of that key   
+`os.Setenv("nombreVariable", "valor")` - establece un par clave/valor para una variable de entorno  
+`os.Getenv("nombreVariable")` - devuelve el valor de esa clave  
 
 ```go
-// os.Environ is a list of all environment variables  
+// os.Environ es una lista de todas las variables de entorno
 for _, e := range os.Environ() {
     pair := strings.Split(e, "=")
 		fmt.Println(pair[0], "-->", pair[1])
@@ -1945,7 +1955,7 @@ for _, e := range os.Environ() {
 
 `import path/filepath`    
 
-* **Recurring a directory**
+* **Recorrer recursivamente un directorio**
 
 `Walk`  
 
@@ -1964,19 +1974,19 @@ func main() {
 `import "regexp"`  
 
 ```go
-// Check if it's a string  
+// Comprueba si es una cadena
 patron := "loquequeremoscomprobar"
 match, _ := regexp.MatchString("p([a-z]+)ch", patron)
 fmt.Println(match)
 
-// or compile a struct optimized for regexp first  
+// o compilamos primero una struct optimizada para regexp
 patron := "loquequeremoscomprobar"
 r, _ := regexp.Compile("p([a-z]+)ch")
 fmt.Println(r.MatchString(patron))
 ```
 
 ```go
-// By Example change in the string s the underscores by dashes  
+// Por ejemplo cambiar en la cadena s los guiones bajos por guiones
 r := regexp.MustCompile("_")
 s = r.ReplaceAllString(s, `-`)
 ```
@@ -1990,12 +2000,13 @@ s = r.ReplaceAllString(s, `-`)
 [Golang JSON](https://blog.golang.org/json-and-go)  
 
 `dataJson, err := json.Marshal(structObject)` - Go struct data to JSON data    
-`dataJson, err:= json.MarshalIndent(strObj, "", "  ")` - nice preformatted    
+`dataJson, err:= json.MarshalIndent(strObj, "", "  ")` - bien preformateado  
+
 
 `err := json.Unmarshal(dataJson, &structObject)` - JSON data to Go struct data  
 
 ```go
-urlDir := "https://jolav.me/path/to/some/api/"
+urlDir := "https://jolav.me/api/que/queramos"
 resp, err := http.Get(urlDir)
 if err != nil {
     log.Fatal(err)
@@ -2006,27 +2017,27 @@ body, err := ioutil.ReadAll(resp.Body)
 if err != nil {
     log.Fatal(err)
 }
-body = body[5 : len(body)-6] // remove <pre></pre>
+body = body[5 : len(body)-6] // quitar mis pegatinas de <pre></pre>
 
 var s structObject
 err = json.Unmarshal(body, &s)
 fmt.Println(s)
 ```
 
-* **json to go struct**  
+* **Convertir json to go struct**  
 
 [JSON-to-Go online](https://mholt.github.io/json-to-go/)
 
-`json:"-"` ignore that field either by converting to json or by converting from json  
-`json:"fieldname,omitempy"` - the field is not included when converting to json if that field already has a default value.  
+`json:"-"` ignora ese campo tanto al convertir a json o al convertir desde json  
+`json:"nombreCampo,omitempy` - no se incluye el campo al convertir a json si ese campo ya tiene un valor por defecto.
 
 * **Decoder**
 
-In addition to `Unmarshal/Marshal` there is `Decoder/Encoder`, which must be used if the data comes from a stream io.Reader as for example the Body of an http.Request.  
-If the data is in a string or in memory, better use Unmarshal
+Ademas de `Unmarshal/Marshal` existe `Decoder/Encoder`, que se debe usar si los datos vienen de una stream io.Reader como por ejemplo el Body de una http.Request.  
+Si los datos estan en una string o en memoria mejor usar Unmarshal
 
 ```go
-type configuration struct { something }
+type configuration struct { lo que sea }
 
 file, _ := os.Open("conf.json")
 defer file.Close()
@@ -2041,16 +2052,18 @@ fmt.Println(conf)
 
 * **Parsing Interfaces**
 
-Parsing into an Interface  
-If you have truly no idea what your JSON might look like, you can parse it into a generic interface{}. If you’re not familiar an empty interface{} is a way of defining a variable in Go as “this could be anything”. At runtime Go will then allocate the appropriate memory to fit whatever you decide to store in it.  
-This is what it looks like:  
+Análisis de una interfaz  
+
+Si realmente no tienes ni idea de cómo podría ser tu JSON, se puede analizar en una interfaz genérica{}. Una interfaz vacía es una forma de definir una variable en Go como "esto podría ser cualquier cosa". En tiempo de ejecución, Go asignará la memoria adecuada para que se ajuste a lo que decida almacenar en ella.  
+
+Esto es lo que parece: 
 
 ```go
 var parsed interface{}
 err := json.Unmarshal(data, &parsed)
 ``` 
 
-Actually using parsed is a bit laborious, as Go can’t use it without knowing what type it is. You can end up with code which tries the kitchen sink:
+En realidad, el uso de parsed es un poco laborioso, ya que Go no puede usarlo sin saber de qué tipo es. 
 
 ```go
 switch parsed.(type) {
@@ -2063,7 +2076,7 @@ switch parsed.(type) {
 }
 ```
 
-You can also do similar type assertions inline:
+También puedes hacer aserciones de tipo similares en línea:
 
 ```go
 intVal, ok := parsed.(int)
@@ -2072,7 +2085,7 @@ if !ok {
 }
 ```
 
-Fortunately however, it’s rare to truly have no idea what a value might be. If, for example, you know your JSON value is an object, you can parse it into a map[string]interface{}. This gives you the advantage of being able to refer to specific keys. An example:
+Afortunadamente, sin embargo, es raro no tener idea de lo que puede ser un valor. Si, por ejemplo, sabe que su valor JSON es un objeto, puedes analizarlo en una interfaz de map[string]interface{}. Esto te da la ventaja de poder referirte a claves específicas. Un ejemplo:
 
 ```go
 var parsed map[string]interface{}
@@ -2085,20 +2098,19 @@ data := []byte(`
 err := json.Unmarshal(data, &parsed)
 ```
 
-You can then refer to specific keys without a problem:
+A continuación, puedes referirte a las teclas específicas sin ningún problema:
 
 ```go
 parsed["id"]
-````
+```
 
-You still have interfaces as the value of your map however,  
-so you must do type assertions to use them:
+Sin embargo, todavía tienes interfaces como valor de su map, por lo que debes hacer type assertions para utilizarlas:
 
 ```go
 idString := parsed["id"].(string)
 ```
 
-Go uses these six types for all values parsed into interfaces:
+Go utiliza estos seis tipos para todos los valores analizados en las interfaces:
 
 ```go
 bool, for JSON booleans
@@ -2109,9 +2121,9 @@ map[string]interface{}, for JSON objects
 nil for JSON null
 ```
 
-Meaning, your numbers will always be of typefloat64, and will need to be casted to int, for example. If you have a particular need to get ints directly, you can use the UseNumber method. Which gives you an object which can be converted to either a float64 or an int at your discretion.
+Es decir, tus números siempre serán de tipo float64, y necesitarán ser casteados a int, por ejemplo. Si tiene una necesidad de obtener enteros directamente, puedes usar el método UseNumber. Lo que te da un objeto que puede convertirse en un float64 o en un int a tu discreción.
 
-Similarly, all objects decoded into an interface will be map[string]interface{}, and will need to be manually mapped to whatever struct you may wish to place them in.
+De manera similar, todos los objetos decodificados en una interfaz serán map[string]interface{}, y necesitarán ser mapeados manualmente a cualquier estructura aue quieras usar.
 
 [Sobre JSON](https://eager.io/blog/go-and-json/)
 
@@ -2121,9 +2133,9 @@ Similarly, all objects decoded into an interface will be map[string]interface{},
 
 `import "time"`  
 
-`now := time.Now()` - returns current time 2012-10-31 15:50:13.793654 +0000 UTC
+`now := time.Now()` - nos da la hora actual 2012-10-31 15:50:13.793654 +0000 UTC
 
-`then := time.Date(2015, 10, 10, 18, 30, 08, 0, time.UTC)` - We create a time struct associated with a location (time zone)  
+`then := time.Date(2015, 10, 10, 18, 30, 08, 0, time.UTC)` - Creamos un struct de tiempo asociado a una localizacion (time zone)   
 
 ```go
 then.Year()
@@ -2140,33 +2152,33 @@ then.After(now)
 then.Equal(now)
 ```
 
-`diff := now.Sub(then)` - Sub method returns duration of the interval between two times  
+`diff := now.Sub(then)` - metodo Sub devuelve duracion del intervalo entre dos tiempos  
 
 ```go
 diff.Hours()
 diff.Minutes()
 diff.Seconds()
 diff.Nanoseconds()
-// move forward or backward in time  
+// avanzar o retroceder en el tiempo
 then.Add(diff)
 then.Add(-diff)
 
-// add Time
-anyTime.Add( 1000 * time.Hours)
+// sumar tiempo
+tiempoQueSea.Add( 1000 * time.Hours)
 ```
 
 * **String to Time**
 
 
 ```go
-// pass a date to string according to a certain format  
+// pasar una fecha a string segun un determinado formato
 layout := "2006-01-02 15:04:05"  
 t, err := time.Parse(layout1, start)
 if err != nil {
     fmt.Prinltln(err)
 }
 
-// Current time to string with a certain format  
+// Hora actual a string con determinado formato  
 horaActual = time.Now().Format(layout)
 ```
 
@@ -2190,9 +2202,9 @@ time.Unix(secs, 0)
 time.Unix(0, nanos)
 ```
 
-* **Intervals**
+* **Intervalos**
 
-`timers` - to do something once in a while  
+`timers` - para hacer algo una vez dentro de un tiempo  
 
 ```go
 timer1 := time.NewTimer(time.Second * 2)
@@ -2209,10 +2221,10 @@ if stop2 {
 }
 // Timer 1 expired
 // Timer 2 stopped
-// Timer 2 expired NEVER APPEARS, it is canceled before
+// Timer 2 expired NUNCA APARECE, se cancela antes
 ```
 
-`tickers` - to do something repeatedly at regular intervals  
+`tickers` -  para hacer algo repetidamente a intervalos regulares  
 
 ```go
 ticker := time.NewTicker(time.Millisecond * 500)
@@ -2232,8 +2244,8 @@ fmt.Println("Ticker stopped")
 
 `import "math"`  
 
-`math.Floor(x float64) float64` - returns the largest integer (int) less than or equal to x  
-`math.Pow(x,y float64) float64` - x to the power of y    
+`math.Floor(x float64) float64` - devuelve el entero (int) mas grande poisble menor o igual que x  
+`math.Pow(x,y float64) float64` - x elevado a y    
 
 ---
 
@@ -2241,14 +2253,14 @@ fmt.Println("Ticker stopped")
 
 `import "math/rand"`  
 
-`rand.Intn(10)`- generates an integer random number >= 0 and <10  
-`rand.Float64()`- generates random numer >= 0.0 y < 1.0  
+`rand.Intn(10)`- genera un numero aleatorio entero >= 0 y < 10  
+`rand.Float64()`- genera un numero aleatorio >= 0.0 y < 1.0  
 `(rand.Float64()*5)+5`- genera entre >= 5.0 y < 10.0   
 
-`s1 := rand.NewSource(time.Now().UnixNano())`- random seed  
-`r1 := rand.New(s1)`- change seed    
+`s1 := rand.NewSource(time.Now().UnixNano())`- semilla para que no sea siempre igual  
+`r1 := rand.New(s1)`- para ir cambiando la semilla  
 
-`rand.Seed(time.Now().UTC().UnixNano())` - another way to change the seed so that it is not always the same  
+`rand.Seed(time.Now().UTC().UnixNano())` - otra forma de cambiar la semilla para que no siempre sea igual  
 
 ```go
 func init() {
@@ -2278,9 +2290,9 @@ func createRandomString() string {
 
 `import "flag"`  
 
-To send arguments to a command  
+Para enviar argumentos a un comando  
 
-[Examples](https://gobyexample.com/command-line-flags)  
+[Ejemplos](https://gobyexample.com/command-line-flags)  
 
 ---
 
@@ -2288,14 +2300,18 @@ To send arguments to a command
 
 `import sort`    
 
+
+Contiene funciones para ordenar datos arbitrario de slices de ints y floats y
+structs definidas por el usuario  
+
 * **s = []strings**
 
-`sort.strings(s)` -  From lower to higher alphabetically  
+`sort.strings(s)` -  De menor a mayor alfabeticamente  
 
 * ** n = []ints || float32 || float64**
 
-`sort.Ints(n)` - Sort the numbers from lowest to highest   
-`sort.IntsAreSorted(n)` - Boolean that returns if they are ordered  
+`sort.Ints(n)` -  Ordena los numeros de menor a mayor  
+`sort.IntsAreSorted(n)` -  booleano que devuelve si estan ordenados  
 
 * **custom sorting**
 
@@ -2332,6 +2348,3 @@ func main() {
 ```
 
 ---
-
-
-
