@@ -2,7 +2,7 @@
 
 ---
 
-* **Installation**
+* **Instalacion**
 
 ```html
 <!-- Versions menu -->
@@ -48,14 +48,14 @@ src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js">
 
 ## JSX
 
-JSX allows you to mix JavaScript and HTML-like tags to define user interface (UI) elements and their functionality  
+JSX permite mezclar javascript y etiquetas HTML para definer elementos de interfaces de usuario y su funcionalidad
 
-### Create JSX Element
+### Crear elemento JSX
 
 ```javascript
 // simple
 const JSX = <h1>Hello JSX!</h1>;
-// complex, all elements must be wrapped by a single parent element
+// complejo, todos los elementos son envueltos por un unico elemento padre
 const JSX = (
 <div>
   <h1>Hello JSX!</h1>
@@ -70,17 +70,18 @@ const JSX = (
 </div>);
 ```
 
-### Render JSX Element
+### Renderizar elemento JSX 
 
 ```javascript
 // ReactDOM.render(componentToRender, targetNode)
 ReactDOM.render(JSX, document.getElementById('challenge-node'));
 ```
 
-### Syntax
+### Sintaxis
 
-* **Define an HTML Class in JSX** , use `className` instead of `class`  
-The naming convention for all HTML attributes and event references in JSX become camelCase. For example, click event in JSX is onClick, instead of onclick.  
+* **Definir una clase HTML en JSX** , usa `className` en lugar de `class`  
+La convención de nomenclatura para todos los atributos HTML y referencias de eventos en JSX se convierte en camelCase. Por ejemplo, el evento de clic en JSX es onClick, en lugar de onclick. 
+
 ```javascript
 const JSX = (
 <div className = 'myDiv'>
@@ -88,15 +89,12 @@ const JSX = (
 </div>);
 ```
 
-* **Self-Closing JSX Tags** - Any JSX element can be written with a self-closing tag, and every element must be closed.  
--Line-break tag must always be written as `<br/>` in order to be valid JSX that can be transpiled.   
--`<div>` can be written as `<div/>` or `<div></div>`. Difference is that in the first syntax version there is no way to include anything in the `<div/>`  
+## COMPONENTE
 
-## REACT COMPONENT
+### Tipos
 
-### Types
+1.Usar una funcion javascript para crear un componente funcional sin estado  
 
-1.Using a Javascript function to create a stateless functional component  
 ```javascript
 // After transpiled, <div> will have a CSS class of 'customClass'
 const MyComponent = function() {
@@ -108,7 +106,8 @@ const MyComponent = function() {
 }
 ```
 
-2. Using ES6 `class` syntax  
+2.Usando sintaxis ES6 `class`    
+
 ```javascript
 class MyComponent extends React.Component {
   constructor(props) {
@@ -122,9 +121,9 @@ class MyComponent extends React.Component {
 }
 ```
 
-### Props (properties)
+### Props (propiedades)
 
-* **Pass a property**
+* **Pasar una propiedad**
 ```javascript
 const CurrentDate = (props) => {
 	return (
@@ -149,7 +148,7 @@ class Calendar extends React.Component {
 };
 ```
 
-* **Pass an Array as Props**
+* **Pasar un Array como Props**
 ```javascript
 <ParentComponent>
   <ChildComponent colors={["green", "blue", "red"]} />
@@ -181,11 +180,13 @@ class ToDo extends React.Component {
 };
 ```
 
-* **Use Default Props**  
--You can assign default props to a component as a property on the component itself and React assigns the default prop if necessary  
--React assigns default props if props are undefined, but if you pass null as the value for a prop, it will remain null  
--The way to override the default props is to explicitly set the prop values for a component.  
--Declare it just inmediately after component declaration  
+* **Usar default Props**  
+
+-Puedes asignar props por defecto a un componente como una propiedad en el propio componente y React asigna el default prop si es necesario.    
+-React asigna default props si las propiedades no están definidas, pero si pasas nulo como valor de una propiedad, permanecerá nulo.    
+-La forma de anular los default props es establecer explícitamente los valores de la propiedad para un componente.  
+-Decláralos inmediatamente después de la declaración del componente  
+
 ```javascript
 MyComponent.defaultProps = { location: 'San Francisco' }  
 ```
@@ -225,8 +226,10 @@ class ShoppingCart extends React.Component {
 };
 ```
 
-* **PropTypes to Define the Props You Expect**  
--Set propTypes when you know the type of a prop ahead of time  
+* **Verificación de tipos con PropTypes**  
+
+-Establece propTypes cuando sepas de antemano el tipo que tendra la propiedad  
+
 ```javascript
 // require the type function for a prop called handleClick
 import React, { PropTypes } from 'react';
@@ -256,11 +259,13 @@ class ShoppingCart extends React.Component {
 };
 ```
 
-* **Access Props Using this.props**  
--Pass a prop to an ES6 class component  
--Anytime you refer to a class component within itself, use `this` keyword.  
--To access props within a class component, preface the code that you use to access it with `this`.  
--For example, if an ES6 class component has a prop called data, you write {this.props.data} in JSX.
+* **Acceder a Props usando this.props**  
+
+-Pasar una propiedad a un componente de una clase ES6    
+-Cada vez que se refiera a un componente de la clase dentro de sí mismo, usa "this".    
+-Para acceder a los propiedades dentro de un componente de la clase, pon delante del código para acceder a él "this".  
+-Por ejemplo, si un componente de clase ES6 tiene una propiedad llamada data, usa {this.props.data} en JSX.
+
 ```javascript
 class ReturnTempPassword extends React.Component {
   constructor(props) {
@@ -294,7 +299,7 @@ class ResetPassword extends React.Component {
 };
 ```
 
-* **More props with es6 class components**  
+* **Mas props usando componentes de clases es6**  
 ```javascript
 class CampSite extends React.Component {
   constructor(props) {
@@ -328,7 +333,7 @@ Camper.defaultProps = {
 
 ```
 
-### Style CSS in React 
+### Estilo CSS en React 
 
 ```javascript
 /* global ReactDOM React */
@@ -371,11 +376,11 @@ ReactDOM.render(
 
 ```
 
-### Composition
+### Composicion
 
-*You can render JSX elements, stateless functional components, and ES6 class components within other components*
+*Puedes renderizar elementos JSX, componentes funciones sin estado y componentes de clase ES6 dentro de otros componentes*
 
-* #### **Component composition**
+* #### **Composicion de componentes**
 
 ```javascript
 /* global ReactDOM React */
@@ -440,7 +445,7 @@ ReactDOM.render(
 );
 ```
 
-* ####  **Transferring properties using spread operator**
+* ####  **Transferir propiedades con el operador spread**
 
 ```javascript
 /* global ReactDOM React */
@@ -488,9 +493,9 @@ ReactDOM.render(
 );
 ```
 
-### State
+### Estado
 
-* #### **State**
+* #### **Estado**
 
 ```javascript
 /* global ReactDOM React */
@@ -579,7 +584,7 @@ ReactDOM.render(
 );
 ```
 
-* #### **From data to UI**
+* #### **De los datos a la UI (interface de usuario)**
 
 ```javascript
 /* global ReactDOM React */
@@ -628,26 +633,25 @@ ReactDOM.render(
 
 * #### **forceUpdate()**
 
-if setState doesnt rerender the component [use forceUpdate()](https://stackoverflow.com/questions/30626030/can-you-force-a-react-component-to-rerender-without-calling-setstate/35004739)
+Si setState no rerenderiza el componete [usa forceUpdate()](https://stackoverflow.com/questions/30626030/can-you-force-a-react-component-to-rerender-without-calling-setstate/35004739)
 
 ```sh
-By default, when your components state or props change, your component
-will re-render. However, if these change implicitly (eg: data deep within
-an object changes without changing the object itself) or if your render() 
-method depends on some other data, you can tell React that it needs to 
-re-run render() by calling forceUpdate().
+Por defecto, cuando el estado de sus componentes o los props cambian, su
+componente se volverá a renderizar. Sin embargo, si estos cambios son
+implícitos (p.e.: datos profundos dentro de un objeto camabian pero sin 
+cambiar el objeto mismo) o si su render() depende de otros datos, puedes
+decirle a React que necesita reejecutar render() llamando a forceUpdate().
 ```
-
 
 ---
 
-## DATA COMMUNICATION
+## COMUNICACION DE DATOS
 
-[Basic Ideas](https://www.andrewhfarmer.com/component-communication/)
+[Ideas basicas](https://www.andrewhfarmer.com/component-communication/)
 
-### Child to Parent  
+### Hijos a Padres  
 
-[Complete Example](https://jolav.me/freecodecamp/old/data/markdown-previewer/markdown.html)
+[Ejemplo completo](https://jolav.me/freecodecamp/old/data/markdown-previewer/markdown.html)
 
 ```js
 class Container extends React.Component {
@@ -695,7 +699,7 @@ class Editor extends React.Component {
 
 ---
 
-## LIFECYCLE METHODS
+## LIFECYCLE METODOS
 
 ![react](./_img/react/initial.png)
 ![react](./_img/react/props.png)
@@ -812,7 +816,7 @@ ReactDOM.render(
 
 ---
 
-## CONDITIONAL RENDERING
+## RENDERIZADO CONDICIONAL
 
 ### Variables
 
@@ -879,16 +883,17 @@ return (
 
 ---
 
-## EVENTS
+## EVENTOS
+Eventos en React son `SyntheticEvent` que envuelven eventos normales    
+[Documentacion en React sobre Eventos del sistema](https://reactjs.org/docs/events.html)  
 
-Events in React are `SyntheticEvent` that wraps normal events  
-[React Event System Document](https://reactjs.org/docs/events.html)  
+* **`this` dentro del manejador de eventos**  
 
-* **`this` inside the event handler**  
--In non-React, value of this inside an event handler refers to the element that fired the event.  
--In React, value of this inside your event handler always refers to the component the event handler lives in:
+-Fuera de react, el valor de `this` dentro de una manejador de eventos se refiere al elemento que disparo el evento.     
+-En React, `this` se refiere al componente donde el manejador de evento vive.
 
-* #### **Listening DOM Events**
+* #### **Escuchando eventos del DOM **
+
 ```javascript
 class Something extends React.Component {
   handleMyEvent(e) {
@@ -909,6 +914,7 @@ class Something extends React.Component {
 ```
 
 * #### **Synthetic Events**
+
 ```javascript
 /* global ReactDOM React */
 const destination = document.getElementById('container');
@@ -988,16 +994,17 @@ ReactDOM.render(
 );
 ```
 
-* #### **Pass Parameter from events**
+* #### **Pasar parametros desde los eventos**
+
 ```js
 onClick={() => this.functionName(params)}
 ```
 
 ---
 
-## PORTALS
+## PORTALES
 
-### Usage
+### Uso
 
 ```js
 // These two containers are siblings in the DOM
@@ -1087,7 +1094,7 @@ class App extends React.Component {
 ReactDOM.render(<App />, appRoot);
 ```
 
-### Event Bubbling
+### Burbujas de Eventos
 
 ```js
 // These two containers are siblings in the DOM
@@ -1167,7 +1174,7 @@ ReactDOM.render(<Parent />, appRoot);
 
 ## REACT ROUTER 4.2.0
 
-### Basic
+### Basico
 
 ```js
 /* global ReactDOM React */
@@ -1256,7 +1263,7 @@ ReactDOM.render(
 );
 ```
 
-### Example
+### Ejemplo
 
 ```js
 /* global ReactDOM React lib Home About Index LoginForm SignUpForm

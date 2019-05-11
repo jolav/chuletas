@@ -1,6 +1,6 @@
 ![Proyecto Activo SI](https://img.shields.io/badge/Proyecto%20Activo%3F-Si-green.svg)  
 
-![Info](https://img.shields.io/badge/07%20may%202019-blue.svg) En unos pocos dias estara todo traducido, falta organizar un poco y subirlo
+![¡ Colabora !](https://img.shields.io/badge/¡%20Colabora%20!-blue.svg) Si quieres añadir, corregir o mejorar algo abre una incidencia (issue) en el proyecto.
 
 # ![LOGO](https://github.com/jolav/chuletas/blob/master/docs/_img/chuletas128.png?raw=true)  **CHULETAS**
 
@@ -17,7 +17,7 @@ Recopilacion de informacion para intentar no estar todo el dia buscando las mism
 [Javascript snippets](https://jolav.me/chuletas/javascript-snippets/)  
 [Javascript APIs](https://jolav.me/chuletas/javascript-apis/)  
 [Javascript para web](https://jolav.me/chuletas/javascript-para-web/)  
-[Reactjs](https://jolav.me/chuletas/reactjs/) ![Pen](https://img.shields.io/badge/Pendiente%20de%20traducir-red.svg)  
+[Reactjs](https://jolav.me/chuletas/reactjs/)  
 
 [Nodejs](https://jolav.me/chuletas/nodejs/)  
 [Expressjs](https://jolav.me/chuletas/expressjs/)   
