@@ -182,6 +182,53 @@ function makeAjaxRequest (url, action, params, sendCookie , callback) {
 }
 ```
 
+### ASYNC/AWAIT REQUEST
+
+```js
+async function init() {
+  try {
+    const data = await makeRequest(url, 'POST', param);
+  } catch (err) {
+    console.error("ERROR FETCHING DATA => ", err);
+  }
+}
+
+function makeRequest(url, method, param) {
+  return new Promise(function (resolve, reject) {
+    let xhr = new XMLHttpRequest();
+    xhr.open(method, url);
+    xhr.onload = function () {
+      console.log(xhr.status);
+      if (xhr.status >= 200 && xhr.status < 300) {
+        resolve(xhr.response);
+      } else {
+        reject({
+          status: xhr.status,
+          statusText: xhr.statusText
+        });
+      }
+    };
+    xhr.onerror = function () {
+      reject({
+        status: xhr.status,
+        statusText: xhr.statusText
+      });
+    };
+    if (method === 'GET') {
+      xhr.send();
+    } else if (method !== 'GET') {
+      xhr.setRequestHeader('Content-Type', 
+      'application/x-www-form-urlencoded; charset=UTF-8');
+      if (param) {
+        xhr.send(param);
+      } else {
+        xhr.send();
+      }
+    }
+  });
+}
+```
+
 ### Wait Multiple Requests
 
 ```js

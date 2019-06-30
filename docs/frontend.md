@@ -120,3 +120,12 @@ Api en tiempo real
  
 ---
 
+
+## LIVE-SERVER
+
+```sh
+// se recarga al cambiar archivos css (que por defecto no lo hace)
+live-server --no-css-inject
+```
+
+---

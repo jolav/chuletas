@@ -33,8 +33,16 @@ function makeHttpsRequest (path, callback) {
 ### POST, PUT ...
 
 ```js
+const querystring = require('querystring');
+
+const parameters = querystring.stringify({
+  'test': c.app.valid,
+  'server': data.server,
+  'data': data.data
+});
+
 const options = {
-  hostname: 'api.codetabs.com',
+  hostname || host: 'api.codetabs.com',
   port: 443,
   path: '/api/resource',
   method: 'GET',
@@ -43,6 +51,8 @@ const options = {
     "Content-Type": 'x-www-form-urlencoded',
     "User-Agent": "user agent",
     'Accept': 'application/json',
+    'Content-Length': Buffer.byteLength(parameters),
+    'Accept-Charset': 'utf-8'
   }
 };
 
@@ -327,7 +337,16 @@ function scp () {
 ```js
 if (process.env && process.env.pm_id) {
   if (process.env.pm_id === '0') {
-    onceADayTask()
+    onceADayTask();
+  }
+}
+
+if (process.env && process.env.pm_id) {
+  //running in pm2 
+  if (process.env.pm_id % os.cpus().length !== 0) {
+    return;
+  } else {
+    doTask();
   }
 }
 ```

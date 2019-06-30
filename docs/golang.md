@@ -9,7 +9,7 @@
 Como root  
 `tar -C /usr/local -xzf go-file.tar.gz`
 
-```ssh
+```sh
 // como usuario
 nano $HOME/.bashrc 
 nano $HOME/.profile 
@@ -47,9 +47,9 @@ que el compilador las pueda enlazar sin tener que recompilarlas
 
 <code>[Interfaces](http://jordanorelli.com/post/32665860244/how-to-use-interfaces-in-go)</code>  
 <code>[Tipos de funcion](http://jordanorelli.com/post/42369331748/function-types-in-go-golang)</code>  
-<code>[Modulos](https://github.com/golang/go/wiki/Modules)</code>
-<code>[Ejemplos - gobyexample](https://gobyexample.com/)</code>
-<code>[Ejemplos - rosettacode](https://www.rosettacode.org/wiki/Category:Go)</code>
+<code>[Modulos](https://github.com/golang/go/wiki/Modules)</code>  
+<code>[Ejemplos - gobyexample](https://gobyexample.com/)</code>  
+<code>[Ejemplos - rosettacode](https://www.rosettacode.org/wiki/Category:Go)</code>  
 <code>[]()</code>
 <code>[]()</code>
 <code>[]()</code>
@@ -77,8 +77,8 @@ que el compilador las pueda enlazar sin tener que recompilarlas
 
 <code>[database/sql](http://go-database-sql.org/index.html)</code>  
 <code>[go-sql-driver/mysql](https://github.com/go-sql-driver/mysql)</code>  
-<code>[gorilla-websocket](https://github.com/gorilla/websocket)</code>
-<code>[gobwas-ws](https://github.com/gobwas/ws)</code>
+<code>[gorilla-websocket](https://github.com/gorilla/websocket)</code>  
+<code>[gobwas-ws](https://github.com/gobwas/ws)</code>  
 <code>[]()</code>
 <code>[]()</code>
 <code>[]()</code>
@@ -104,7 +104,7 @@ que el compilador las pueda enlazar sin tener que recompilarlas
 
 ## **GO TOOL**
 
-```ssh
+```sh
 	go <command> [arguments]
 
 The commands are:
@@ -155,7 +155,7 @@ Use "go help <topic>" for more information about that topic.
 `GOOS` -  sistema operativo para el que compilamos   
 `GOARCH` - procesador para el que se compila    
 
-```ssh
+```sh
 GOOS=darwin GOARCH=386 go build
 GOOS=linux GOARCH=amd64 go build -o geoip
 // -o fuerza el nombre del binario al del parametro

@@ -60,6 +60,12 @@ convert INPUT.jpg -sampling-factor 4:2:0 -strip [-resize WxH]
 [-quality 85] [-interlace JPEG] [-colorspace Gray/sRGB] OUTPUT.jpg
 ```
 
+* Comprimir imagenes
+
+```sh
+// ojo que esto modifica el fichero actual, no crea uno nuevo
+mogrify -strip -interlace Plane -gaussian-blur 0.05 -quality 40% *.jpg 
+```
 ---
 
 ## GIT

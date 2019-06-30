@@ -53,6 +53,29 @@ const con = mysql.createConnection({
 });
 ```
 
+### Mantener la conexion activa
+
+```js
+function initApp() {
+  setInterval(function () {
+    keepConnectionAlive();
+  }, 5000);
+}
+
+function keepConnectionAlive() {
+  let sql = 'SELECT 1';
+  sql = mysql.format(sql);
+  con.query(sql, function (err, rows) {
+    if (err) {
+      console.error('Error Keeping connection Alive =>', err);
+      // throw err
+    } else {
+      //console.log('Keep connection Alive =>', rows);
+    }
+  });
+}
+```
+
 ### select
 
 ```js
@@ -105,6 +128,24 @@ function updateDB (dbData) {
         console.log('Update OK');
         return;
       });
+    }
+  });
+}
+```
+
+```js
+function insertHit(time) {
+  let sql = 'INSERT INTO ?? (time, geoip)';
+  sql += ' VALUES (?, 0)';
+  sql += ` ON DUPLICATE KEY UPDATE geoip = geoip + 1;`;
+  const inserts = [TABLE, time];
+  sql = mysql.format(sql, inserts);
+  con.query(sql, function (err, rows) {
+    if (err) {
+      console.error('Insert HIT error =>', err);
+      // throw err
+    } else {
+      //console.log(rows);
     }
   });
 }

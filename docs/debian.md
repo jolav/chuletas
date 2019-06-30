@@ -39,7 +39,7 @@ deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
 deb http://apt.insynchq.com/debian stretch non-free contrib
 ```
 
-`apt install aptitude htop smartmontools sshpass rsync curl wget nano apt-transport-https iperf python zip arc arj bzip2 cabextract lzop nomarch p7zip p7zip-full pax tnef unrar-free unzip zoo unrar`
+`apt install aptitude htop smartmontools sshpass rsync curl wget nano apt-transport-https iperf python zip arc arj bzip2 cabextract lzop nomarch p7zip p7zip-full pax tnef unrar-free unzip zoo unrar deborphan`
 
 `curl -sSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -`
 
@@ -57,7 +57,7 @@ deb http://apt.insynchq.com/debian stretch non-free contrib
 `gpg -ca file.txt` - cifra a archivo de texto    
 `gpg --output output.txt -d file.(gpg or txt)` - para descifrar 
 
-```ssh
+```sh
 // convertir directorio en un archivo
 tar czf myfiles.tar.gz mydirectory/
 // convertir archivo a un directorio
@@ -78,9 +78,10 @@ tar xzf myfiles.tar.gz
 
 * **Tamaño de ficheros y carpetas**
 
-`ls -lh`
-`du -ah /path`
-`du -h -d1`
+`ls -lh`  
+`du -ah /path`  
+`du -h -d1`  
+`df -h`  
 
 * **Limpieza**
 
@@ -133,7 +134,7 @@ Añadir `&` para recuperar el control de la consola
 
 * **cron**
 
-```ssh
+```sh
 crontab -e
 
 // activar los logs de cron
@@ -145,7 +146,7 @@ service rsyslog restart
 
 * **nmap**
 
-```ssh
+```sh
 nmap -Pn X.X.X.X || hostname
 ```
 
@@ -176,7 +177,7 @@ PermitEmptyPasswords no
 
 Para prevenir desconexiones del tipo `broken pipe`
 
-```ssh
+```sh
 nano -c /etc/ssh/ssh_config
 Host *
 ServerAliveInterval 120
@@ -327,6 +328,8 @@ pm2 restart all|number
 pm2 delete 7 // elimina el proceso especifico con ese id  
 pm2 save // salva la lista de procesos en ese momento  
 pm2 start app.js --name "my-name"
+pm2 restart app --name "nuevo-nombre" --update-env // para renombrar
+pm2 reset app // pone el contador de restarts a cero
 ```
 
 * **dev**
@@ -338,7 +341,7 @@ pm2-dev start app.js --ignore folder1,folder2,file3.txt
 
 * **cluster variables**
 
-```ssh
+```sh
 //  -i numero de procesos que levanta
 pm2 start name.js -i max  
 process.env.NODE_APP_INSTANCE;
@@ -348,7 +351,7 @@ process.env.pm_id
 
 * **max-memory-restart**
 
-```ssh
+```sh
 pm2 start geoip.js -i max --max-memory-restart 1300M
 
 50M
@@ -358,7 +361,7 @@ pm2 start geoip.js -i max --max-memory-restart 1300M
 
 * **scale**
 
-```ssh
+```sh
 // Sumar 3 procesos al actual
 pm2 scale app +3
 // Elimina 3 procesos de los que este usando actualmente
@@ -367,21 +370,29 @@ pm2 scale app 3
 
 * **cluster logs in the same file**
 
-```ssh
+```sh
 // ecosystem.config.js
 module.exports = {
   apps: [{
-    name: 'geoip',
-    script: 'geoip.js',
+    name: 'codetabs',
+    script: 'codetabs.js',
+    ignore_watch: ["node_modules", "tmp"],
     output: './../logs/hits.log',
     error: './../logs/errors.log',
-    instances: 2,
+    env: {
+      NODE_ENV: "development",
+    },
+    env_production: {
+      NODE_ENV: "production",
+    },
+    instances: 8,
+    max_memory_restart: "1G",
     merge_logs: true,
     log_date_format: 'YYYY-MM-DD HH:mm:ss',
   }]
 };
 
-pm2 start ecosystem.config.js
+pm2 start ecosystem.config.js --env production
 ```
 
 ---
@@ -390,7 +401,7 @@ pm2 start ecosystem.config.js
 
 Como instalar paquetes npm globalmente sin ser root
 
-```ssh
+```sh
 // crear carpeta para los paquetes globales
 mkdir "${HOME}/.npm-packages"
 
@@ -474,7 +485,7 @@ WantedBy=multi-user.target
 
 * **Otra opcion ?**
 
-```ssh
+```sh
 nano /lib/systemd/system/name.service
 
 [Unit]
@@ -496,6 +507,55 @@ service name status
 systemctl enable name.service
 
 ```
+
+---
+
+## **SYSTEMD sin ser ROOT**
+
+[Systemd sin ser ROOT](https://vic.demuzere.be/articles/using-systemd-user-units/)
+
+Primero asegurarnos de que este instalado dbus para user  
+`apt install dbus-user-session`  
+
+Creamos carpeta donde guardar los servicios  
+`mkdir -p ~/.config/systemd/user`    
+
+En esa carpeta creamos el nombreservicio.service
+```sh
+[Unit]
+Description= Descripcion de la tarea
+
+[Service]
+RestartSec=5s
+Restart=on-failure   
+WorkingDirectory=/ruta/a/la/carpeta/del/binario
+ExecStart=/ruta/a/la/carpeta/del/binario/./nombreDelBinario
+
+[Install]
+WantedBy=default.target // multi-user.target ??
+```
+
+Ahora hacemos que systemd reconozca los cambios  
+`systemctl --user daemon-reload`  
+
+Ya podemos gestionar el servicio
+```sh
+systemctl --user start nombreDelServicio
+systemctl --user stop nombreDelServicio
+systemctl --user restart nombreDelServicio
+systemctl --user status nombreDelServicio 
+```
+
+Para que el servicio se inicie automaticamente cuando el usuario se loguea  
+`systemctl --user enable nombreDelServicio`   
+Para desactivarlo  
+`systemctl --user disable nombreDelServicio`   
+
+Hay que hacer que el servicio corra siempre, este o no logueado el dueño y al inicio del sistema. Para ello como root ejecutamos  
+`loginctl enable-linger NOMBREUSUARIO`  
+
+Ya como usuario normal podemos ver el estado de los servicios  
+`loginctl user-status NOMBREUSUARIO` 
 
 ---
 
@@ -698,7 +758,7 @@ En 404.html llamamos a los recursos usando rutas absolutas
 
 #### block domains
 
-```ssh
+```sh
 map $http_referer $bad_referer {
     default                  0;
     "~spamdomain1.com"       1;
@@ -1226,7 +1286,7 @@ server {
 
 ---
 
-## VNSTATS
+## MONITORIZAR RED
 
 * **vnstat - Bandwidth**
 
@@ -1254,11 +1314,19 @@ vnstat -h|d|w|m
 vnstat -t
 ```
 
-```ssh
+```sh
 crontab -e
 0 * * * * node /var/www/vnstat/vnstat.js // ejecutar cada hora
 vnstat -i eth0 --json d // dentro de vnstat.js
 ```
+
+* **iftop**
+
+`apt install iftop`  
+
+* **nethogs**
+
+`apt install nethogs`  
 
 ---
 
@@ -1390,12 +1458,12 @@ service redis restart
 
 * **Benchmark**
 
-```ssh
+```sh
 (curl -s wget.racing/nench.sh | bash; curl -s wget.racing/nench.sh | bash)
  2>&1 | tee nench.log
 ```
 
-```ssh
+```sh
 wget -qO- bench.sh | bash
 ```
 
@@ -1408,7 +1476,7 @@ dd if=/dev/zero of=/dev/null bs=1024M count=200
 ```
 
 * **iperf**
-```ssh
+```sh
 apt install iperf
 iperf -c iperf.online.net
 ```
@@ -1416,14 +1484,14 @@ iperf -c iperf.online.net
 
 * **speedtest**
 
-```ssh
+```sh
 curl -Lo speedtest-cli
 https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py
 chmod +x speedtest-cli
 ```
 
 * **hard disk**
-```ssh
+```sh
 apt install smartmontools
 // informacion
 smartctl -a /dev/sda 
@@ -1446,7 +1514,7 @@ dd if=/dev/zero of=/tmp/output conv=fdatasync bs=384k count=1k;
 
 * **more benchmarks**
 
-```ssh
+```sh
 openssl speed rsa 
 openssl speed -multi numCores rsa2048 
 
@@ -1457,7 +1525,7 @@ openssl speed -multi numCores rsa2048
 
 [lowendtalk](https://lowendtalk.com/discussion/146114/new-soyoustart-2018-prices/p8)
 
-```ssh
+```sh
 apt install linux-image-4.9.0-6-armmp linux-headers-4.9.0-6-armmp
 apt purge *armada*
 reboot
@@ -1471,7 +1539,7 @@ dpkg -i linux-modules-armada375_4.5.2-4_armhf.deb
 * **rsync**
 
 **De local a otra remota**
-```ssh
+```sh
 rsync -aP /home/user/data/ user@destiny.com:/home/user/data
 
 # automatizado sin preguntar contraseña
@@ -1481,7 +1549,7 @@ user@domain.com:/destination/data
 ```
 
 **De otra remota a local***
-```ssh
+```sh
 rsync -charvzP --delete -e "sshpass -p 'pass' ssh -p port" --progress
 user@remote.host:/remote/path /local/path/
 ```
@@ -1492,7 +1560,7 @@ user@remote.host:/remote/path /local/path/
 
 * **siege**
 
-```ssh
+```sh
 siege -c 30 -r 1 --no-parser https://api.codetabs.com/v1/
 ```
 
@@ -1517,7 +1585,7 @@ ab -n 1000 -c 10 https://jolav.me/
 
 * **Crear un Kill Switch**
 
-```ssh
+```sh
 // ON-openvpn.sh
 
 #!/bin/bash
@@ -1528,7 +1596,7 @@ ufw allow out on tun0 from any to any
 ufw enable
 ```
 
-```ssh
+```sh
 // OFF-openvpn.sh
 
 #!/bin/bash
@@ -1550,7 +1618,7 @@ ufw enable
 
 Download from [here](https://get.adobe.com/flashplayer/)
 
-```ssh
+```sh
 tar -xzf flash_player_ppapi_linux*.tar.gz
 cp libpepflashplayer.so /usr/lib/mozilla/plugins
 cp -r usr/* /usr
