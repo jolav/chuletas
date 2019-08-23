@@ -675,6 +675,36 @@ var timeout = require('connect-timeout');
 
 ---
 
+## SESIONES + COOKIES
+
+**Actualizacion 04-07-2019** Ya no hacen falta ni `cookie-parser`, ni `body-parser`  
+
+OJO con los dominios desarrollando en local, si expressjs se levanta en localhost, poner el navegador tambien en localhost y no con 127.0.0.1 o las cookies no se podran leer (aunque si funcionan)  
+
+```js
+app.use(express.json()); // to support JSON-encoded bodies
+app.use(express.urlencoded({ // to support URL-encoded bodies
+  extended: true
+}));
+
+app.set('trust proxy', 1); // trust first proxy
+app.use(session({
+  secret: "process.env.secretSession",
+  name: 'alpha',
+  saveUninitialized: false,
+  resave: false,
+  cookie: {
+    httpOnly: false, // true to production
+    //secure: true // comment for localhost, only works for https
+    secure: false,
+    path: "/"
+  },
+}));
+
+```
+
+---
+
 ## ROUTING
 
 El ruteo determina como responde una aplicacion a una peticion de un cliente que

@@ -126,6 +126,9 @@ Api en tiempo real
 ```sh
 // se recarga al cambiar archivos css (que por defecto no lo hace)
 live-server --no-css-inject
+
+// por efecto abre en 127.0.0.1 , para cambiarlo
+live-server --no-css-inject --host=localhost
 ```
 
 ---

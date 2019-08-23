@@ -42,6 +42,7 @@ const parameters = querystring.stringify({
 });
 
 const options = {
+  timeout: 3000,
   hostname || host: 'api.codetabs.com',
   port: 443,
   path: '/api/resource',
@@ -56,16 +57,27 @@ const options = {
   }
 };
 
-function makeRequest (options, parameters, callback) {
-  const req = https.request(options , function (res) {
+makeRequest(options, parameters, function (err, res, data) {
+  if (err !== null) {
+    console.error('data sent FAIL => ', err);
+    return;
+  }
+  console.log('data sent OK', data.server);
+});
+
+function makeRequest(options, parameters, callback) {
+  const req = https.request(options, function (res) {
     let body = '';
     res.setEncoding('utf8');
     res.on('data', function (d) {
       body += d;
-    // save all the data from response
+      // save all the data from response
+      //console.log('BODY =>', body);
     });
     res.on('end', function () {
+      //console.log('RES END');
       try {
+        //console.log(body);
         var parsed = JSON.parse(body);
       } catch (err) {
         console.error('Unable to parse response as JSON', err);
@@ -77,6 +89,19 @@ function makeRequest (options, parameters, callback) {
   if (options.method !== 'GET') {
     req.write(parameters);
   }
+  req.on('timeout', function () {
+    //console.error('TIMEOUT');
+    req.abort(); // lo envia a abort
+  });
+  req.on("abort", function () {
+    callback("TIMEOUT", null, null);
+  });
+  req.on('error', function (err) {
+    // para evitar que salte 
+    // Error: socket hang up
+    // code: 'ECONNRESET'
+    //console.log(err);
+  });
   req.end();
 }
 ```
@@ -231,8 +256,12 @@ function checkUrlExists (urlchecked, cb) {
 ```js
 
 async function doThings() {
-  const exist = await existsRepo(url);
-  console.log(exists);
+  try {
+    const exist = await existsRepo(url);
+    console.log(exists);
+  } catch(err) {
+    console.error(err);
+  }
 }
 
 function existsRepo (urlchecked) {

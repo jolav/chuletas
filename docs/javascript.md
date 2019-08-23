@@ -782,6 +782,34 @@ Object.keys(days).map(function (index) {
 });
 ```
 
+### Object.entries
+
+* **object.entries**
+
+
+```js
+const assetsList = {
+  'crew1': path + 'crew/crew1.png',
+  'crew2': path + 'crew/crew2.png',
+  'crew3': path + 'crew/crew3.png',
+  'crew4': path + 'crew/crew4.png',
+  'crew5': path + 'crew/crew5.png',
+  'crew6': path + 'crew/crew6.png',
+};
+
+export default function loadResources() {
+  let sprites = [];
+  const assetsNames = Object.entries(assetsList);
+  console.log(assetsNames);
+  assetsNames.forEach(async function (value) {
+    console.log(value);
+    sprites[value] = await loadResource(value[1]);
+  });
+  return sprites;
+
+}
+```
+
 ### Estructuras de Datos
 
 

@@ -50,7 +50,9 @@ que el compilador las pueda enlazar sin tener que recompilarlas
 <code>[Modulos](https://github.com/golang/go/wiki/Modules)</code>  
 <code>[Ejemplos - gobyexample](https://gobyexample.com/)</code>  
 <code>[Ejemplos - rosettacode](https://www.rosettacode.org/wiki/Category:Go)</code>  
-<code>[]()</code>
+
+<code>[GO MODULES en VSCODE](https://github.com/golang/go/wiki/gopls)</code>  
+<code>[GO MODULES en VSCODE](https://github.com/Microsoft/vscode-go/wiki/Go-modules-support-in-Visual-Studio-Code)</code>  
 <code>[]()</code>
 <code>[]()</code>
 <code>[]()</code>
@@ -150,7 +152,7 @@ Additional help topics:
 Use "go help <topic>" for more information about that topic.
 ```
 
-* **cross compile**
+### **cross compile**
 
 `GOOS` -  sistema operativo para el que compilamos   
 `GOARCH` - procesador para el que se compila    
@@ -159,6 +161,59 @@ Use "go help <topic>" for more information about that topic.
 GOOS=darwin GOARCH=386 go build
 GOOS=linux GOARCH=amd64 go build -o geoip
 // -o fuerza el nombre del binario al del parametro
+```
+
+```sh
+ GOOS=     GOARCH=
+windows 	386
+windows 	amd64
+linux 	    386
+linux   	amd64
+linux 	    arm
+linux 	    arm64
+android 	arm
+darwin 	    386
+darwin 	    amd64
+darwin 	    arm
+darwin 	    arm64
+```
+
+[Lista de combinaciones validas de sistema operativo y arquitectura](https://gist.github.com/asukakenji/f15ba7e588ac42795f421b48b8aede63)
+
+
+* **Usando cgo**
+
+Ejemplo : usar libreria de C bearlibterminal con bindings para Go. [Descargar aqui](http://foo.wyrd.name/en:bearlibterminal#download)
+
+```sh
+libBearLibTerminal.so (de linuxx64) va a /usr/lib
+
+en gopath (mi caso $HOME/.golang/src/bearlibterminal)
+ponemos 
+BearLibTerminal.go (los bindings a go) y 
+BearLibTerminal.h (las cabeceras de C)
+
+Ahora ya podemos importar la libreria y usarla
+
+import (
+
+	blt "bearlibterminal"
+)
+```
+
+Para Compilar a Windows  
+[usr/bin/ld: cannot find -l<nameOfTheLibrary>](https://stackoverflow.com/questions/16710047/usr-bin-ld-cannot-find-lnameofthelibrary)
+
+```sh
+// o mingw-64, no tengo claro como van todas esos paquetes tan 
+// similares  
+apt-get install gcc-mingw-w64-x86-64 gcc-multilib
+
+cd /usr/x86_64-w64-mingw32/lib
+// poner ahi todas las librerias para windows *.dll y *.lib
+
+GOOS=windows GOARCH=amd64 CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc 
+go build main.go
 ```
 
 ---
@@ -290,8 +345,8 @@ Cuando se declaran variables sin un valor explicito se les asigna el valor zero
 >>> `map` - nil  
 >>> `slices` - nil  
 >>> `array` - array listo para usar con sus elementos a zero value que sea  
->>> `functions` - nil
->>> `interfaces` - nil  
+>>> `functions` - nil  
+>>> `interfaces` - nil   
 >>> `channels` -nil  
 
 * **type**
@@ -400,7 +455,7 @@ datos que usan valores por referencia como slices y maps.
 `*` - para desreferenciar un puntero y que nos de acceso a su valor  
 
 Si `p` es un puntero a `x`  
-`&x` -->  `p = &x` p es el puntero de x (contiene la direccion de memoria de x)
+`&x` -->  `p = &x` p es el puntero de x (contiene la direccion de memoria de x)  
 `*p` --> `*p = x` *p es el valor de x  
 
 ```go
@@ -2348,3 +2403,4 @@ func main() {
 ```
 
 ---
+

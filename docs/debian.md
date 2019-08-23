@@ -17,29 +17,30 @@ Para andar con ojo en las actualizaciones instalar
 ## Debian Testing
 deb http://ftp.de.debian.org/debian/ testing main contrib non-free
 ## Debian Security
-deb http://security.debian.org/ testing/updates main contrib non-free
+#deb http://security.debian.org/ testing/updates main contrib non-free
+deb http://security.debian.org/ testing-security main contrib non-free 
 ## Debian updates
 deb http://ftp.debian.org/debian/ testing-proposed-updates main contrib
-                                                              non-free
+non-free
 ## Debian Multimedia
 deb http://www.deb-multimedia.org/ testing main non-free
-## BackPorts
-deb http://ftp.debian.org/debian stretch-backports main
+## backports
+deb http://ftp.debian.org/debian buster-backports main
 # apt-get -t stretch-backports install "package"
 
 ## Dropbox
 deb [arch=i386,amd64] http://linux.dropbox.com/debian/ sid main 
 ## node
-deb https://deb.nodesource.com/node_10.x/ stretch main
-deb https://deb.nodesource.com/node_12.x/ stretch main
-
+deb https://deb.nodesource.com/node_12.x/ buster main
 # Chrome
 deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
 ### Insync
-deb http://apt.insynchq.com/debian stretch non-free contrib
+deb http://apt.insynchq.com/debian/ buster contrib non-free
+# Opera
+deb http://deb.opera.com/opera-stable/ stable non-free
 ```
 
-`apt install aptitude htop smartmontools sshpass rsync curl wget nano apt-transport-https iperf python zip arc arj bzip2 cabextract lzop nomarch p7zip p7zip-full pax tnef unrar-free unzip zoo unrar deborphan`
+`apt install aptitude htop smartmontools sshpass rsync curl wget nano apt-transport-https iperf python zip arc arj bzip2 cabextract lzop nomarch p7zip p7zip-full pax tnef unrar-free unzip unrar deborphan`
 
 `curl -sSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -`
 
@@ -144,6 +145,12 @@ nano /etc/rsyslog.conf
 service rsyslog restart
 ```
 
+```sh
+// ejecutar algo al inicio del servidor
+crontab -e // como root
+@reboot  cd /home/user/donde-sea && ./programa
+```
+
 * **nmap**
 
 ```sh
@@ -156,7 +163,7 @@ nmap -Pn X.X.X.X || hostname
 
 ###  SSH
 
-`aptitude install openssh-server openssh-client`
+`aptitude install openssh-server openssh-client`  
 `nano /etc/ssh/sshd_config`
 
 ```sh
@@ -1314,6 +1321,10 @@ vnstat -h|d|w|m
 vnstat -t
 ```
 
+archivo configuracion (para cambiar la interfaz que por defecto es eth0)  
+`nano etc/vnstat.conf`  
+
+
 ```sh
 crontab -e
 0 * * * * node /var/www/vnstat/vnstat.js // ejecutar cada hora
@@ -1327,6 +1338,22 @@ vnstat -i eth0 --json d // dentro de vnstat.js
 * **nethogs**
 
 `apt install nethogs`  
+
+* **tcptrack**
+
+`apt install tcptrack`  
+
+* **nethogs**
+
+`apt install nethogs` 
+
+* ****
+
+`apt install ` 
+
+* ****
+
+`apt install ` 
 
 ---
 
@@ -1562,6 +1589,8 @@ user@remote.host:/remote/path /local/path/
 
 ```sh
 siege -c 30 -r 1 --no-parser https://api.codetabs.com/v1/
+
+siege -c250 -d10 -t3 https://api.codetabs.com/v1/proxy?quest=http
 ```
 
 * **Apache Bench**
