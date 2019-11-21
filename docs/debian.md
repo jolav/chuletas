@@ -305,6 +305,16 @@ Los logs de baneos estan en estos dos archivos
 `ufw status numbered` - numbered rules list  
 `ufw delete X` - delete rule X   
 
+* **bloquear IPs**
+
+```sh
+ufw insert 1 deny from X.X.X.X to any  
+nano -c /etc/ufw/before.rules
+# End required lines
+-A ufw-before-input -s X.X.X.X -j DROP
+ufw reload
+```
+
 ---
 
 ## **PM2**
