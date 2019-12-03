@@ -21,6 +21,8 @@ nav:
   - 'Golang para web': 'golang-para-web.md'
   - 'Golang snippets': 'golang-snippets.md'
   - 'Golang Bases de Datos': 'golang-bases-de-datos.md'
+  - 'C#': 'csharp.md'
+  - '.Net Core': 'dotnet-core.md'
   - 'Debian': 'debian.md'
   - 'Varios': 'varios.md'
 

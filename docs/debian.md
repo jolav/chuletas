@@ -1573,6 +1573,10 @@ wget http://last.public.ovh.hdaas.snap.mirrors.ovh.net/ubuntu/pool
 dpkg -i linux-modules-armada375_4.5.2-4_armhf.deb
 ```
 
+```sh
+grub-mkconfig -o /boot/grub/grub.cfg
+```
+
 * **rsync**
 
 **De local a otra remota**
