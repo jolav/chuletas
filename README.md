@@ -29,6 +29,9 @@ Recopilacion de informacion para intentar no estar todo el dia buscando las mism
 [Golang snippets](https://jolav.me/chuletas/golang-snippets/)  
 [Golang Bases De Datos](https://jolav.me/chuletas/golang-bases-de-datos/) 
 
+[C#](https://jolav.me/chuletas/csharp/)  
+[.Net Core](https://jolav.me/chuletas/dotnet-core/)  
+
 [Debian](https://jolav.me/chuletas/debian/) 
 
 [Varios](https://jolav.me/chuletas/varios/) 

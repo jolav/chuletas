@@ -17,7 +17,6 @@ Para andar con ojo en las actualizaciones instalar
 ## Debian Testing
 deb http://ftp.de.debian.org/debian/ testing main contrib non-free
 ## Debian Security
-#deb http://security.debian.org/ testing/updates main contrib non-free
 deb http://security.debian.org/ testing-security main contrib non-free 
 ## Debian updates
 deb http://ftp.debian.org/debian/ testing-proposed-updates main contrib
@@ -34,10 +33,14 @@ deb [arch=i386,amd64] http://linux.dropbox.com/debian/ sid main
 deb https://deb.nodesource.com/node_12.x/ buster main
 # Chrome
 deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
+# VirtualBox
+deb https://download.virtualbox.org/virtualbox/debian buster contrib
 ### Insync
-deb http://apt.insynchq.com/debian/ buster contrib non-free
+deb http://apt.insync.io/debian buster non-free contrib
 # Opera
 deb http://deb.opera.com/opera-stable/ stable non-free
+# Mono
+deb https://download.mono-project.com/repo/debian stable-buster main
 ```
 
 `apt install aptitude htop smartmontools sshpass rsync curl wget nano apt-transport-https iperf python zip arc arj bzip2 cabextract lzop nomarch p7zip p7zip-full pax tnef unrar-free unzip unrar deborphan`
