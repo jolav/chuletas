@@ -43,7 +43,7 @@ deb http://deb.opera.com/opera-stable/ stable non-free
 deb https://download.mono-project.com/repo/debian stable-buster main
 ```
 
-`apt install aptitude htop smartmontools sshpass rsync curl wget nano apt-transport-https iperf python zip arc arj bzip2 cabextract lzop nomarch p7zip p7zip-full pax tnef unrar-free unzip unrar deborphan`
+`apt install aptitude htop smartmontools sshpass rsync curl wget nano apt-transport-https iperf python zip arc arj bzip2 cabextract lzop nomarch p7zip p7zip-full pax tnef unrar-free unzip unrar deborphan net-tools`
 
 `curl -sSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -`
 

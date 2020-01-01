@@ -385,6 +385,19 @@ image.onerror = () => {
 image.src = linkToImage;
 ```
 
+### Check isJSON
+
+```js
+function isJSON(data) {
+  try {
+    JSON.parse(data);
+  } catch (e) {
+    return false;
+  }
+  return true;
+}
+```
+
 ---
 
 ## DATE
