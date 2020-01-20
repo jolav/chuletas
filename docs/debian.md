@@ -183,6 +183,8 @@ PermitEmptyPasswords no
 
 `service ssh restart`
 
+`sshpass -p contraseña ssh usuario@dominio`  
+
 * **Broken pipe**
 
 Para prevenir desconexiones del tipo `broken pipe`
