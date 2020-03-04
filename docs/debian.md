@@ -68,7 +68,8 @@ tar czf myfiles.tar.gz mydirectory/
 tar xzf myfiles.tar.gz
 ```
 
-`echo RELOADAGENT | gpg-connect-agent` - para eliminar de la memoria la clave y que la pida al descomprimir  
+`echo RELOADAGENT | gpg-connect-agent`  
+- para eliminar de la memoria la clave y que la pida al descomprimir  
 
 * **zip**
 
@@ -1189,6 +1190,11 @@ Para cambiar la contraseña desde la consola
 webmin > webmin Configuration > SSL Encryption > SSL Settings
 
 ![debian](./_img/debian/webmin-letsencrypt.png)
+
+```sh
+/etc/letsencrypt/live/nombreCert/privkey.pem  
+/etc/letsencrypt/live/nombreCert/cert.pem
+```
 
 Apply -> service nginx restart
 
