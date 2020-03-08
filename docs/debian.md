@@ -43,7 +43,7 @@ deb http://deb.opera.com/opera-stable/ stable non-free
 deb https://download.mono-project.com/repo/debian stable-buster main
 ```
 
-`apt install aptitude htop smartmontools sshpass rsync curl wget nano apt-transport-https iperf python zip arc arj bzip2 cabextract lzop nomarch p7zip p7zip-full pax tnef unrar-free unzip unrar deborphan net-tools`
+`apt install aptitude htop smartmontools sshpass rsync curl wget nano apt-transport-https iperf python zip arc arj bzip2 cabextract lzop nomarch p7zip p7zip-full pax tnef unrar-free unzip unrar deborphan net-tools intel-microcode`
 
 `curl -sSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -`
 
@@ -1363,18 +1363,11 @@ vnstat -i eth0 --json d // dentro de vnstat.js
 * **tcptrack**
 
 `apt install tcptrack`  
+`tcptrack -i interface` muestra todas las conexiones existentes en tiempo real
 
 * **nethogs**
 
 `apt install nethogs` 
-
-* ****
-
-`apt install ` 
-
-* ****
-
-`apt install ` 
 
 ---
 
@@ -1630,6 +1623,9 @@ siege -c250 -d10 -t3 https://api.codetabs.com/v1/proxy?quest=http
 ```sh
 ab -n 1000 -c 10 https://jolav.me/
 ```
+
+¡ Ojo porque ab asume que todas las respuestas son iguales !.  
+Si content-length es distinta lo considera un error y aparece como failed request  
 
 ---
 

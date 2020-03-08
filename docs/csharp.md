@@ -175,6 +175,14 @@ Se declaran usando comillas dobles
 String str = "Una cadena de texto";
 ```
 
+Incluir parametros en cadenaa
+```csharp
+// String.Format
+String.Format("Hola {0}.", name);
+// o interpolacion de cadenas
+$"Hola{name}.";
+```
+
 Si usamos la @ antes de la cadena significa que interprete la cadena literalmente (sin escapar caracteres), util para rutas de archivos o webs
 
 ```charp
