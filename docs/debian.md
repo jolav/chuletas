@@ -387,7 +387,7 @@ pm2 start geoip.js -i max --max-memory-restart 1300M
 ```sh
 // Sumar 3 procesos al actual
 pm2 scale app +3
-// Elimina 3 procesos de los que este usando actualmente
+// deja 3 procesos activos de todos los que este usando actualmente
 pm2 scale app 3
 ```
 
