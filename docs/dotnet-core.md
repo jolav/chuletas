@@ -37,6 +37,10 @@ Dentro ponemos un archivo `omnisharp.json`
 ```json
 {
   "FormattingOptions": {
+    "NewLinesForBracesInObjectCollectionArrayInitializers": false,
+    "NewLineForMembersInObjectInit": false,
+    "NewLineForMembersInAnonymousTypes": false,
+    "NewLineForClausesInQuery": false,
     "NewLinesForBracesInLambdaExpressionBody": false,
     "NewLinesForBracesInAnonymousMethods": false,
     "NewLinesForBracesInAnonymousTypes": false,
