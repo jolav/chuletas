@@ -274,7 +274,7 @@ func main() {
 }
 ```
 
-TypeOf(variable)
+TypeOf(variable) Para averiguar de que tipo es una variable
 
 ```go
 import ("reflect")
@@ -429,6 +429,8 @@ func diffTwoArrays() {
 
 * **Punteros vs Valor**  
 
+Un puntero contiene la direccion de memoria de un valor
+
 Todo en Go se pasa por valor, pero ...    
 Cuando se declara una variable de tipo de referencia se crea un valor llamado `header value` que contiene un puntero a la estructura de datos subyacente necesaria para segun cada tipo de referencia.  
 Cada tipo de referencia contiene campos unicos para gestionar la estructura de datos subyacente propia.  
@@ -460,8 +462,8 @@ Si `p` es un puntero a `x`
 
 ```go
 i := 42
-p := &i             // Genera un puntero a i
-fmt.Println(*p)     // lee i a traves del puntero p
+p := &i             // P es un puntero a i 
+fmt.Println(*p)     // 42 , lee i a traves del puntero p 
 *p = 21             // establece i a traves del puntero p
 ```
 
@@ -655,14 +657,10 @@ for i := 0; i < 10; i++ {
   sum = sum + i
 }
 
-// for sin declaraciones pre/post
+// for sin declaraciones pre/post que funciona como un while. Podemos tambien quitar hasta los punto y coma
+
 sum := 1
 for ; sum < 1000; {
-  sum = sum + sum
-}
-
-// for como un while
-sum := 1
 for sum < 1000 {
   sum = sum + sum
 }
@@ -679,11 +677,15 @@ for {
 if answer != 42 {
     return "Wrong answer"
 }
+
 if err := foo(); err != nil {
     panic(err)
 }
+
 if {
-else {
+  // codigo
+} else {
+  // codigo
 }
 ```
 
@@ -694,16 +696,16 @@ else {
 * Solo se pueden comparar valores del mismo tipo  
 * declaracion `default` para ejecutarse si todas las demas fallan  
 * en la declaracion se puede usar una expression (pej calcular un valor)  
-`case 3 - 2:`  
+`case 300 - 150:`  
 * Se puede tener multiples valores un solo caso  
 `case 6, 7:`  
 * `fallthroguh` se ejecutan todas las declaraciones que cumplen la condicion    
-* `break` sale del switch  
+* `break` sale del switch, por defecto en cada opcion es automatico el break
 
 ```go
 func main() {
-    n := 1
-    switch n {
+    //n := 1
+    switch n:=1; n {
     case 0:
         fmt.Println("is zero")
         fallthrough
@@ -716,7 +718,7 @@ func main() {
     case 3:
         fmt.Println("<= 3")
         if time.Now().Unix()%2 == 0 {
-            fmt.Println("un pasito pa lante maria")
+            fmt.Println("Mensaje")
             break
         }
        fallthrough
@@ -725,13 +727,12 @@ func main() {
     default:
         fmt.Println("Try again!")
     }
-
 }
 ```
 
 ### range
 
-Itera sobre los `slice` o `map`  
+Itera sobre `slice` o `map`  
 
 * **slice**
 
@@ -739,13 +740,19 @@ Itera sobre los `slice` o `map`
 var pow = []int{1, 2, 4, 8, 16, 32, 64, 128}
 func main() {
     for i, v := range pow {
-    		fmt.Println("Posicion", i, "valor", v)
+        fmt.Println("Posicion", i, "valor", v)
     }
 }
 ```
 
-Podemos omitir el index usando `_`  
-Podemos omitir el valor omitiendo por completo `, value`  
+Podemos omitir el index o el value usando `_`  
+
+```go 
+for i, _ := range pow
+for _, value := range pow
+```
+
+Podemos omitir tambien el valor omitiendo por completo `, value`  
 
 ```go
 func main() {
@@ -782,9 +789,9 @@ Omites una iteracion
 * No se pueden redimensionar  
 * Se pueden inicializar al declararlos  
     `a := [2]string{"hello", "world!"}`  
-    `a := [...]string{"hello", "world!"}` usando una ellipsis para indicar un numero un numero variable de elementos que en este caso son dos  
+    `a := [...]string{"hello", "world!"}` usando una ellipsis para indicar un numero variable de elementos que en este caso son dos  
     `a := [5]int{1: 10, 2: 20}` - inicializando solo algunos valores  
-* `printìng arrays`  
+* Mostrar arrays    
     `fmt.Printf("%q\n", a)    // ["hello" "world!"]`
 * `len(array)`  
 * MultiDimensionales  
@@ -1393,7 +1400,7 @@ func main(){
 
 ### defer
 
-Aplaza la ejecucion de una funcion hasta que termina la funcion en la que esta  
+Aplaza la ejecucion de una funcion hasta que termina la funcion en la que se encuentra    
 
 ```go
 func main() {
