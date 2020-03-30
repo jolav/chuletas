@@ -365,8 +365,9 @@ var colores = new Array('blanco', 'rojo', 'azul')
 
 - Iteracion de arrays
 
+No usar `for in` que da muchos problemas por no ser objetos puros. Podria iterar siguiendo un orden aleatorio y ademas la variable sobre la que itera(que es el indice) es una string y no un numero (asi que cuidado al hacer luego cualquier operacion con ella)
+
 ```javascript
-No usar for in que da muchos problemas por no ser objetos puros
 for ( var i = 0; i < numeros.length; i = i + 1) {
   console.log(numeros[i]);
 }
@@ -1058,11 +1059,9 @@ for (var i = 0; i < 10; i++) {
 Recorre todas las propiedades de un objeto o array incluidas las heredadas  
 
 ```javascript
-for (variable in [object | array]) {
-  instrucciones;
-}
-for (p in window) {
-  document.writeln(p + "<br/>");
+const  obj = {a: 1, b: 2, c: 3};
+for (let v in obj) {
+  console.log(v);         // a b c
 }
 ```
 
@@ -1074,6 +1073,19 @@ for (var key in person) {
     console.log(key);
   }
 }
+```
+
+* **for of**
+
+Itera sobre los valores de Arrays, Strings, Maps ,NodeLists y mas colecciones
+
+```js
+const cars = ['BMW', 'Volvo', 'Mini'];
+let x;
+
+for (x of cars) {
+  console.log(x);
+} 
 ```
 
 * **for each ... in**

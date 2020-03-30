@@ -118,6 +118,8 @@ Si añadimos algo a .gitignore ya no se commiteara pero tampoco desaparece lo ex
 `git stash` - cambios no committed se arrastran de una rama a otra. Para mantenerlos separados hacemos un stash antes de movernos a otra rama para guardar esos cambios antes de cambiar de rama.     
 `git stash apply` - cuando vuelves a una rama recuperas los cambios sin hacer commit que se guardaron en esa rama.    
 
+[Reducir el tamaño del directorio .git](https://stackoverflow.com/questions/2116778/reduce-git-repository-size)
+
 ---
 
 ## MKDOCS

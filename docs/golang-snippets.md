@@ -159,6 +159,43 @@ func doGetConcurrentRequest(url string, ch chan<- []byte) {
 }
 ```
 
+### DoPostRequest
+
+```go
+func sendRequest(data []byte, a app) {
+	server, _ := os.Hostname()
+	server = strings.ToLower(server)
+	contentType := "application/x-www-form-urlencoded" //; param=value"
+	host := "https://" + a.Conf.Host + a.Conf.PathToAPI
+
+	var client = &http.Client{
+		Timeout: time.Second * 3,
+	}
+	params := url.Values{
+		//"server": {server},
+		"test": {a.Conf.Valid},
+		"data": {string(data)},
+	}
+	params.Add("server", server)
+
+	query := bytes.NewBufferString(params.Encode())
+	resp, err := http.NewRequest("POST", host, query)
+	resp.Header.Add("Content-Type", contentType)
+	resp.Header.Add("Accept-Charset", "utf-8")
+	if err != nil {
+		log.Fatal("Error preparing POST request => ", err)
+	}
+
+	r, err := client.Do(resp)
+	if err != nil {
+		log.Fatal("Error sending POST request => ", err)
+	}
+	if r.StatusCode != 200 {
+		log.Fatal("Error received from server => ", r.Status, " ", err)
+	}
+}
+```
+
 ### GetInterfacesTypes 
 
 ```go
@@ -538,6 +575,128 @@ func main() {
 	}
 ]
 ```
+
+---
+
+## HTTP SERVER
+
+Lectura 
+
+[Request Handling in Go](https://www.alexedwards.net/blog/a-recap-of-request-handling)
+
+```go
+type Handler interface {
+	ServeHttp( ResponseWriter, *Request )
+}
+```
+
+### Handle + HandleFunc
+
+```go
+package main
+
+import (
+	"fmt"
+	"net/http"
+	"time"
+)
+
+func timeHandler1(w http.ResponseWriter, r *http.Request) {
+	tm := time.Now().Format(time.RFC1123)
+	fmt.Println("/time/" + tm)
+	w.Write([]byte("The time is: " + tm))
+}
+
+func timeHandler2(format string) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
+		tm := time.Now().Format(format)
+		fmt.Println("/time/" + tm)
+		w.Write([]byte("The time is: " + tm))
+	})
+}
+
+/*	lo mismo pero con conversion implicita al tipo HandlerFunc
+func timeHandler2(format string) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		tm := time.Now().Format(format)
+		fmt.Println("/time/" + tm)
+		w.Write([]byte("The time is: " + tm))
+	}
+}
+*/
+
+func helloHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("/hello")
+	w.Write([]byte("/hello"))
+}
+
+func main() {
+	mux := http.NewServeMux()
+
+	// Creamos un closure con las variables que queremos usar
+	th2 := timeHandler2(time.RFC3339)
+
+	mux.HandleFunc("/time/1", timeHandler1)
+	mux.Handle("/time/2", th2)
+	mux.HandleFunc("/hello", helloHandler)
+
+	//http.HandleFunc("/time/1", timeHandler1)
+	//http.Handle("/time/2", th2)
+	//http.HandleFunc("/hello", helloHandler)
+
+	http.ListenAndServe(":3000", mux /*nil*/)
+}
+
+```
+
+### Handler
+
+```go
+package main
+
+import (
+	"fmt"
+	"net/http"
+	"time"
+)
+
+type timeHandler struct {
+	format string
+}
+
+func (th *timeHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	tm := time.Now().Format(th.format)
+	fmt.Println("/time/" + tm)
+	w.Write([]byte("The time is: " + tm))
+}
+
+type helloHandler struct{}
+
+func (ti *helloHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("/hello")
+	w.Write([]byte("/hello"))
+}
+
+func main() {
+	/mux := http.NewServeMux()
+
+	th1 := &timeHandler{format: time.RFC1123}
+	th2 := &timeHandler{format: time.RFC3339}
+	hi := &helloHandler{}
+	
+	mux.Handle("/time/1", th1)
+	mux.Handle("/time/2", th2)
+	mux.Handle("/hello", hi)
+
+	//http.Handle("/time/1", th1)
+	//http.Handle("/time/2", th2)
+	//http.Handle("/hello", hi)
+
+	http.ListenAndServe(":3000", /*nil*/ mux)
+}
+```
+
+
 
 ---
 
@@ -926,6 +1085,16 @@ import (
 	"os/exec"
 )
 
+func main()  {
+	command := []string{"vnstat", "-i", ifinterface, "--json"}
+	///fmt.Println("Command =>", command)
+	chunk, err := genericCommand(command)
+	if err != nil {
+		log.Fatal(err)
+	}
+	//fmt.Println(`CHUNK =>`, string(chunk))
+}
+
 // GenericCommand ...
 func GenericCommand(args []string) (err error) {
 	_, err = exec.Command(args[0], args[1:len(args)]...).CombinedOutput()
@@ -934,6 +1103,23 @@ func GenericCommand(args []string) (err error) {
 		return err
 	}
 	return err
+}
+
+// GenericCommand ...
+func genericCommand(args []string) (chunk []byte, err error) {
+	chunk, err = exec.Command(args[0], args[1:len(args)]...).CombinedOutput()
+	if err != nil {
+		return nil, err
+	}
+	return chunk, err
+}
+
+// GenericCommand ...
+func GenericCommand(comm string) {
+	_, err := exec.Command("sh", "-c", comm).CombinedOutput()
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 ```
 

@@ -161,6 +161,14 @@ crontab -e // como root
 nmap -Pn X.X.X.X || hostname
 ```
 
+* **rename multiple files at once**
+
+```sh
+apt install rename
+// Reemplazar la 1 ocurrencia de abc por xyz
+rename 's/abc/xyz/' *
+```
+
 ---
 
 ## **SECURITY**

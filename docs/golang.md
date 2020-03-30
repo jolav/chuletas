@@ -468,13 +468,27 @@ fmt.Println(*p)     // 42 , lee i a traves del puntero p
 ```
 
 ```go
-func zero(x *int) {
-    *x = 0
+func main() {
+	v := *getPointer()
+	fmt.Println("Value is", v) // Value is 100
+	m := getPointer()
+	fmt.Println("Memory is", m) // Memory is 0xc00018c020
 }
+
+func getPointer() (myPointer *int) {
+	a := 100
+	return &a
+}
+```
+
+```go
 func main() {
     x := 5
     zero(&x)  
     fmt.Println(x) // x is 0
+}
+func zero(x *int) {
+    *x = 0
 }
 ```
 
@@ -573,6 +587,12 @@ func myfunc(d *data) {
 
 ### Numeros
 
+Cuando se definen numeros de forma literal se puede usar `guion bajo _` para hacerlos mas legibles
+
+```go
+const segundosEnUnAño = 31_557_600
+```
+
 * **Integers**
 
 Los enteros son numeros sin decimal
@@ -650,21 +670,31 @@ const ( // iota is reset to 0
 
 ### for
 
+`for init; condition; post { }`
+
 ```go
-// for normal
+// for normal 
 sum := 0
 for i := 0; i < 10; i++ {
   sum = sum + i
 }
+```
 
-// for sin declaraciones pre/post que funciona como un while. Podemos tambien quitar hasta los punto y coma
+`for condition { }`  
 
+```go
+// for sin declaraciones pre/post que funciona como un while. Podemos 
+// tambien quitar hasta los punto y coma
 sum := 1
 for ; sum < 1000; {
 for sum < 1000 {
   sum = sum + sum
 }
+```
 
+`for {}`  
+
+```go
 // for infinito
 for {
     ..codigo
@@ -703,45 +733,48 @@ if {
 * `break` sale del switch, por defecto en cada opcion es automatico el break
 
 ```go
-func main() {
-    //n := 1
-    switch n:=1; n {
-    case 0:
-        fmt.Println("is zero")
-        fallthrough
-    case 1:
-        fmt.Println("<= 1")
-        fallthrough
-    case 2:
-        fmt.Println("<= 2")
-        fallthrough
-    case 3:
-        fmt.Println("<= 3")
-        if time.Now().Unix()%2 == 0 {
-            fmt.Println("Mensaje")
-            break
-        }
-       fallthrough
-    case 4:
-        fmt.Println("<= 4")
-    default:
-        fmt.Println("Try again!")
-    }
+t := time.Now()
+switch {
+case t.Hour() < 12:
+    fmt.Println("Good morning!")
+case t.Hour() < 17:
+    fmt.Println("Good afternoon.")
+default:
+    fmt.Println("Good evening.")
+}
+
+
+switch os := runtime.GOOS; os {
+case "darwin":
+    fmt.Println("OS X.")
+case "linux":
+    fmt.Println("Linux.")
+default:
+    // freebsd, openbsd,plan9, windows...
+    fmt.Printf("%s.\n", os)
 }
 ```
 
 ### range
 
-Itera sobre `slice` o `map`  
+Para iterar sobre `array`, `slice`, `string`, `map` o leer de un `channel`  
+El valor que nos da range es una copia del valor del elemento original y por tanto si se modifica no afecta al original
+
+```go
+for k,v := range zoo {
+    v.age = 10          // no modifica el original
+    zoo[k].age = 999    // SI modifica el original
+}
+
+```
+
 
 * **slice**
 
 ```go
 var pow = []int{1, 2, 4, 8, 16, 32, 64, 128}
-func main() {
-    for i, v := range pow {
-        fmt.Println("Posicion", i, "valor", v)
-    }
+for key, value := range pow {
+    fmt.Println("Posicion", key, "valor", value)
 }
 ```
 
@@ -755,14 +788,12 @@ for _, value := range pow
 Podemos omitir tambien el valor omitiendo por completo `, value`  
 
 ```go
-func main() {
-    pow := make([]int, 10)
-    for i := range pow {
-        pow[i] = 1 << uint(i)
-    }
-    for _, value := range pow {
-        fmt.Printf("%d\n", value)
-    }
+var pow = []int{1, 2, 4, 8, 16, 32, 64, 128}
+for key := range pow {
+    fmt.Println("Posicion", key)
+}
+for _, value := range pow {
+    fmt.Println("valor", value)
 }
 ```
 
@@ -1400,7 +1431,8 @@ func main(){
 
 ### defer
 
-Aplaza la ejecucion de una funcion hasta que termina la funcion en la que se encuentra    
+Aplaza la ejecucion de una funcion hasta que termina la funcion en la que se encuentra. 
+Lo tipico es cerrar archivos o desbloquear un mutex(mutual exclusion, para asegurar que solo una goroutine puede acceder a la vez a una variable)
 
 ```go
 func main() {
@@ -1871,6 +1903,7 @@ soporta escribir a traves del metodo Write
 
 * **leer y escribir un archivo**  
 
+De esta forma cargamos todo el archivo en memoria de golpe.
 Mas control a traves de un `File struct` del paquete OS
 
 ```go
