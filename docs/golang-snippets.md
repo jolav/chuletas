@@ -584,10 +584,21 @@ Lectura
 
 [Request Handling in Go](https://www.alexedwards.net/blog/a-recap-of-request-handling)
 
+
 ```go
 type Handler interface {
 	ServeHttp( ResponseWriter, *Request )
 }
+```
+
+### Wrapper 
+
+Es muy sencillo pero luego complica para testearlo
+
+```go
+mux.HandleFunc("/path", func(w http.ResponseWriter, r *http.Request) {
+		nombreFuncion(w, r, loQueQueramosPasar)
+})
 ```
 
 ### Handle + HandleFunc
@@ -650,6 +661,21 @@ func main() {
 ```
 
 ### Handler
+
+```go
+type specificHandler struct {
+	Thing string
+}
+
+func(h *specificHandler)ServeHTTP(w http.ResponseWriter,r *http.Request) {
+	w.Write(h.Thing)
+}
+
+func main() {
+  http.Handle("/something", &specificHandler{Thing: "Hello world!"})
+  http.ListenAndServe(":8080", nil)
+}
+```
 
 ```go
 package main
@@ -1226,6 +1252,35 @@ func initUpdateIntervals() {
 		}
 	}()
 }
+```
+
+---
+
+## LOGS
+
+```go
+// Esto para que todo lso que sea log.algo vaya al fichero elegido
+if a.Config.Mode == "production" {
+	var f = "log/errors.log"
+	mylog, err := os.OpenFile(f, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
+	if err != nil {
+		log.Fatal("ERROR opening log file %s\n", err)
+	}
+	defer mylog.Close() // defer must be in main
+	log.SetOutput(mylog)
+}
+```
+
+
+```golang
+var f1 = "log/hits.log"
+hitsLog, err := os.OpenFile(f1, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
+if err != nil {
+	log.Fatal("ERROR opening log file %s\n", err)
+}
+var hitsLogger *log.Logger
+hitsLogger = log.New(hitsLog, "Hits Logger:\t", log.Ldate|log.Ltime) 
+hitsLogger.Print("Hola hitsLogger")
 ```
 
 ---
