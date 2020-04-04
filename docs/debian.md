@@ -462,7 +462,7 @@ source ~/.profile
 ```sh  
 nano /etc/systemd/servidorGO.service  
 cp servidorGO.service /etc/systemd/system 
-systemcl enable servidorGO.service 
+systemctl enable servidorGO.service 
 service servidorGO.service start
 ```
 

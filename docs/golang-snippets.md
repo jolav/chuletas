@@ -142,7 +142,7 @@ func doGetConcurrentRequest(url string, ch chan<- []byte) {
 		return
 	}
 	if resp.StatusCode != 200 {
-		msg := fmt.Sprintf("ERROR 2 HTTP Request Status Code %d", resp.StatusCode)
+		msg := fmt.Sprintf("ERROR 2 Status Code %d", resp.StatusCode)
 		log.Printf(msg)
 		ch <- []byte(msg)
 		return
@@ -636,7 +636,7 @@ func timeHandler2(format string) http.HandlerFunc {
 }
 */
 
-func helloHandler(w http.ResponseWriter, r *http.Request) {
+func hiHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("/hello")
 	w.Write([]byte("/hello"))
 }
@@ -649,11 +649,11 @@ func main() {
 
 	mux.HandleFunc("/time/1", timeHandler1)
 	mux.Handle("/time/2", th2)
-	mux.HandleFunc("/hello", helloHandler)
+	mux.HandleFunc("/hello", hiHandler)
 
 	//http.HandleFunc("/time/1", timeHandler1)
 	//http.Handle("/time/2", th2)
-	//http.HandleFunc("/hello", helloHandler)
+	//http.HandleFunc("/hello", hiHandler)
 
 	http.ListenAndServe(":3000", mux /*nil*/)
 }
@@ -696,9 +696,9 @@ func (th *timeHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("The time is: " + tm))
 }
 
-type helloHandler struct{}
+type hiHandler struct{}
 
-func (ti *helloHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (ti *hiHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("/hello")
 	w.Write([]byte("/hello"))
 }
@@ -708,7 +708,7 @@ func main() {
 
 	th1 := &timeHandler{format: time.RFC1123}
 	th2 := &timeHandler{format: time.RFC3339}
-	hi := &helloHandler{}
+	hi := &hiHandler{}
 	
 	mux.Handle("/time/1", th1)
 	mux.Handle("/time/2", th2)
@@ -719,6 +719,123 @@ func main() {
 	//http.Handle("/hello", hi)
 
 	http.ListenAndServe(":3000", /*nil*/ mux)
+}
+```
+
+### Ejemplo Completo
+
+```go
+package main
+
+import (
+	"errors"
+	"fmt"
+	"log"
+	"net/http"
+	"os"
+	"time"
+
+	_ "github.com/go-sql-driver/mysql"
+)
+
+type app struct {
+	Config struct {
+		Mode          string `json:"mode"`
+		Port          int    `json:"port"`
+		Valid         string `json:"valid"`
+		ErrorsLogFile string `json:"errorsLogFile"`
+		HitsLogFile   string `json:"hitsLogFile"`
+	} `json:"config"`
+	Mysql struct {
+		User      string `json:"user"`
+		Password  string `json:"password"`
+		DB        string `json:"db"`
+		Host      string `json:"host"`
+		Port      int    `json:"port"`
+		TableBW   string `json:"tableBw"`
+		TableHits string `json:"tableHits"`
+	}
+}
+
+type requestError struct {
+	Error      error  `json:"-"`
+	Message    string `json:"message"`
+	StatusCode int    `json:"-"`
+}
+
+func (a *app) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+	valid := r.Form.Get("test")
+	if valid != a.Config.Valid {
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		return
+	}
+	updateBw(w, r, a)
+}
+
+func main() {
+	var a app
+	loadConfigJSON(&a)
+	checkMode(&a)
+
+	// Custom Log File
+	if a.Config.Mode == "production" {
+		var f = a.Config.ErrorsLogFile
+		mylog, err := os.OpenFile(f, os.O_WRONLY|os.O_CREATE|os.O_APPEND
+				, 0644)
+		if err != nil {
+			log.Printf("ERROR opening log file %s\n", err)
+		}
+		defer mylog.Close() // defer must be in main
+		log.SetOutput(mylog)
+	}
+
+	mux := http.NewServeMux()
+
+	mux.Handle("/savebw/", &a)
+	mux.Handle("/saveHits/", checkValid(
+		func(w http.ResponseWriter, r *http.Request) {
+			updateHits(w, r, &a)
+		}, a.Config.Valid))
+	mux.HandleFunc("/get/", checkValid(
+		func(w http.ResponseWriter, r *http.Request) {
+			getStats(w, r, &a)
+		}, a.Config.Valid))
+	mux.HandleFunc("/", badRequest)
+
+	server := http.Server{
+		Addr:           fmt.Sprintf("localhost:%d", a.Config.Port),
+		Handler:        mux,
+		ReadTimeout:    10 * time.Second,
+		WriteTimeout:   30 * time.Second,
+		MaxHeaderBytes: 1 << 20,
+	}
+
+	log.Printf("Server up listening %s in mode %s", server.Addr
+			, a.Config.Mode)
+	server.ListenAndServe()
+
+}
+
+func checkValid(next http.HandlerFunc, test string) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		r.ParseForm()
+		valid := r.Form.Get("test")
+		if valid != test {
+			http.Error(w, "Unauthorized", http.StatusUnauthorized)
+			return
+		}
+		next.ServeHTTP(w, r)
+	}
+}
+
+func badRequest(w http.ResponseWriter, r *http.Request) {
+	re := &requestError{
+		Error:      errors.New("Unexistent Endpoint"),
+		Message:    "Bad Request",
+		StatusCode: 400,
+	}
+	sendErrorToClient(w, re)
 }
 ```
 
@@ -988,9 +1105,12 @@ import "math"
 // ArabicToRomanNumbers converts arabic int to roman numeral (string)
 func ArabicToRomanNumbers(n int) string {
 	var rom string
-	hundreds := []string{"C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"}
-	tens := []string{"X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"}
-	units := []string{"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"}
+	hundreds := []string{
+		"C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"}
+	tens := []string{
+		"X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"}
+	units := []string{
+		"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"}
 	t := int(math.Floor(float64(n / 1000)))
 	h := int(math.Floor(float64(n % 1000 / 100)))
 	d := int(math.Floor(float64(n % 100 / 10)))
@@ -1132,12 +1252,12 @@ func GenericCommand(args []string) (err error) {
 }
 
 // GenericCommand ...
-func genericCommand(args []string) (chunk []byte, err error) {
-	chunk, err = exec.Command(args[0], args[1:len(args)]...).CombinedOutput()
+func genericCommand(args []string) (c []byte, err error) {
+	c, err = exec.Command(args[0], args[1:len(args)]...).CombinedOutput()
 	if err != nil {
 		return nil, err
 	}
-	return chunk, err
+	return c, err
 }
 
 // GenericCommand ...
