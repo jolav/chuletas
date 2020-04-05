@@ -97,12 +97,57 @@ function makeRequest(options, parameters, callback) {
     callback("TIMEOUT", null, null);
   });
   req.on('error', function (err) {
+    console.error('Error request  => ', err);
     // para evitar que salte 
     // Error: socket hang up
     // code: 'ECONNRESET'
     //console.log(err);
   });
   req.end();
+}
+
+
+// ASYNC POST REQUEST
+try {
+  const myRequest = await makeRequestAsync(options, parameters);
+  console.log(myRequest);
+} catch (err) {
+  console.log(err);
+}
+
+function makeRequestAsync(options, parameters) {
+  return new Promise((resolve, reject) => {
+    const req = https.request(options, function (res) {
+      let body = '';
+      res.setEncoding('utf8');
+      res.on('data', function (d) {
+        body += d; // save all the data from response
+      });
+      res.on('end', function () {
+        try {
+          var parsedResponse = JSON.parse(body);
+        } catch (err) {
+          console.error('Unable to parse response as JSON', err);
+          reject(err);
+        }
+        resolve(parsedResponse);
+      });
+    });
+    if (options.method !== 'GET') {
+      req.write(parameters);
+    }
+    req.on('timeout', function () {
+      req.abort(); // send req to abort
+    });
+    req.on("abort", function () {
+      reject("TIMEOUT");
+    });
+    req.on('error', function (err) {
+      console.error('Error request  => ', err);
+      // Avoid -> Error: socket hang up code: 'ECONNRESET'
+    });
+    req.end();
+  });
 }
 ```
 
@@ -296,6 +341,47 @@ function linuxCommand (command, cb) {
       return;
     }
     cb(err , stdout);
+  });
+}
+
+function execCommand(command) {
+  return new Promise((resolve, reject) => {
+    exec(command, function (err, stdout, stderr) {
+      if (err) {
+        console.error(`Error 2 => ${command} => `, err);
+        reject(err);
+      }
+      if (stderr) {
+        console.error(`Error 3 => ${command} => `, err);
+        reject(stderr);
+      }
+      resolve(stdout);//, stderr);
+    });
+  });
+}
+
+function doCommand(command) {
+  return new Promise((resolve, reject) => {
+    shCommand(command, function (err, res) {
+      if (err) {
+        console.error(`Error 1 => ${command} => `, err);
+        reject(res);
+      }
+      resolve(res);
+    });
+  });
+}
+function shCommand(command, cb) {
+  exec(command, function (err, stdout, stderr) {
+    if (err) {
+      console.error(`Error 2 => ${command} => `, err);
+      cb(err, stderr);
+    }
+    if (stderr) {
+      console.error(`Error 3 => ${command} => `, err);
+      cb(err, stderr);
+    }
+    cb(err, stdout);//, stderr);
   });
 }
 ```

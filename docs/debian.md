@@ -104,6 +104,7 @@ apt-get remove --purge `deborphan`
 `ps` - listar todos los procesos  
 `kill processNumber` - matar proceso    
 `fg` - continuar el proceso que estaba detenido     
+`nohup comando &` - Ejecuta un comando en segundo plano y sigue ejecutandolo aunque salgamos de esa terminal  
 
 * **Buscar**
 
