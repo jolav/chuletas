@@ -1264,7 +1264,8 @@ IMPORTANT NOTES:
 * **Añadir certificado**
 
 `service nginx stop` - paramos nginx  
-`certbot certonly -d admin.domain.com,api.domain.com,domain.com,sp500.domain.com,www.domain.com,otrosub.domain.com --expand` - 
+`certbot certonly -d admin.domain.com,api.domain.com,domain.com,
+sp500.domain.com,www.domain.com,otrosub.domain.com --expand` - 
 
 * **Eliminar certificado**
 
@@ -1463,9 +1464,11 @@ mysql_secure_installation
 
 ```sh
 nano /etc/mysql/my.cnf
-// redirige a ...
-nano /etc/mysql/mysql.conf.d/mysqld.cnf
-bind-address = 0.0.0.0 // permitir acceso desde el exterior
+// se ven todos los sitios donde puede estar la configuracion
+// vamos a ...
+nano /etc/mysql/mysql.conf.d/mysqld.cnf 
+// y debajo de [mysqld] escribimos
+bind_address = 127.0.0.1 // para prohibir acceso desde el exterior
 service mysql restart
 
 // para crear otros usuarios usamos % en lugar de localhost para 

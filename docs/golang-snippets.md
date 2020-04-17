@@ -1223,7 +1223,7 @@ func FixBadEncodedStrings(bad string) string {
 
 ## OS
 
-### GenericCommand  
+### execCommand  
 
 ```go
 import (
@@ -1234,15 +1234,14 @@ import (
 func main()  {
 	command := []string{"vnstat", "-i", ifinterface, "--json"}
 	///fmt.Println("Command =>", command)
-	chunk, err := genericCommand(command)
+	chunk, err := execCommand(command)
 	if err != nil {
 		log.Fatal(err)
 	}
 	//fmt.Println(`CHUNK =>`, string(chunk))
 }
 
-// GenericCommand ...
-func GenericCommand(args []string) (err error) {
+func execCommand(args []string) (err error) {
 	_, err = exec.Command(args[0], args[1:len(args)]...).CombinedOutput()
 	if err != nil {
 		fmt.Println(err)
@@ -1251,8 +1250,7 @@ func GenericCommand(args []string) (err error) {
 	return err
 }
 
-// GenericCommand ...
-func genericCommand(args []string) (c []byte, err error) {
+func execCommand(args []string) (c []byte, err error) {
 	c, err = exec.Command(args[0], args[1:len(args)]...).CombinedOutput()
 	if err != nil {
 		return nil, err
@@ -1260,8 +1258,7 @@ func genericCommand(args []string) (c []byte, err error) {
 	return c, err
 }
 
-// GenericCommand ...
-func GenericCommand(comm string) {
+func execCommand(comm string) {
 	_, err := exec.Command("sh", "-c", comm).CombinedOutput()
 	if err != nil {
 		log.Fatal(err)
@@ -1382,7 +1379,7 @@ func initUpdateIntervals() {
 // Esto para que todo lso que sea log.algo vaya al fichero elegido
 if a.Config.Mode == "production" {
 	var f = "log/errors.log"
-	mylog, err := os.OpenFile(f, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
+	mylog, err := os.OpenFile(f,os.O_WRONLY|os.O_CREATE|os.O_APPEND,0644)
 	if err != nil {
 		log.Fatal("ERROR opening log file %s\n", err)
 	}
@@ -1392,9 +1389,9 @@ if a.Config.Mode == "production" {
 ```
 
 
-```golang
+```go
 var f1 = "log/hits.log"
-hitsLog, err := os.OpenFile(f1, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
+hitsLog, err := os.OpenFile(f1,os.O_WRONLY|os.O_CREATE|os.O_APPEND,0644)
 if err != nil {
 	log.Fatal("ERROR opening log file %s\n", err)
 }
@@ -1405,3 +1402,163 @@ hitsLogger.Print("Hola hitsLogger")
 
 ---
 
+
+## FLAGS
+
+### Binarios con versiones
+
+```go
+package main
+
+import (
+	"flag"
+	"fmt"
+	"os"
+)
+
+var version = "0.0.0"
+var when = "undefined"
+
+func main() {
+	checkFlags()
+	fmt.Println("Continue...")
+}
+
+func checkFlags() {
+	versionFlag := flag.Bool("v", false, "Show current version and exit")
+	flag.Parse()
+	switch {
+	case *versionFlag:
+		fmt.Printf("Version:\t: %s\n", version)
+		fmt.Printf("Date   :\t: %s\n", when)
+		os.Exit(0)
+	}
+}
+
+/*
+go build  -ldflags="
+-X 'main.version=v0.2.0' 
+-X 'main.when=$(date -u +%F_%T)'"
+
+go build  -ldflags="-X 'main.when=$(date -u +%F_%T)'"
+
+luego podemos hacer ./binary -v
+*/
+```
+
+---
+
+## ORGANIZACION DE CODIGO
+
+### Compartir structs entre paquetes
+
+```go
+// main.go
+package main
+
+import (
+	s "pruebas/secondarypkg"
+	"time"
+)
+
+func main() {
+	p := &s.Placeholder{
+		Name: "FooBar",
+		Date: time.Now().String(),
+	}
+	s.Foo(p)
+}
+
+// secondarypkg/otro.go
+package secondarypkg
+
+import "fmt"
+
+type Placeholder struct {
+	Name string
+	Date string
+}
+
+func Foo(p *Placeholder) {
+	fmt.Println(p.Date, p.Name)
+}
+```
+
+```go
+// main.go
+package main
+
+import (
+	s "pruebas/paquete"
+	"time"
+)
+func main() {
+	p := s.NewPlaceHolder("FooBar", time.Now().String())
+	p.Foo()
+}
+
+// secondarypkg/otro.go
+package secondarypkg
+
+import "fmt"
+
+type Placeholder struct {
+	Name string
+	Date string
+}
+
+func (p *Placeholder) Foo() {
+	fmt.Println(p.Date, p.Name)
+}
+
+func NewPlaceHolder(name string, date string) *Placeholder {
+	return &Placeholder{
+		Name: name,
+		Date: date,
+	}
+}
+```
+
+Lo mismo usando interfaces
+
+```go
+// main.go
+package main
+
+import (
+	s "pruebas/paquete"
+	"time"
+)
+
+func main() {
+	p := s.NewPlaceHolder("FooBar", time.Now().String())
+	p.Foo()
+}
+
+// secondarypkg/otro.go
+package secondarypkg
+
+import "fmt"
+
+type PlaceHolder interface {
+	Foo()
+}
+
+type placeholder struct {
+	Name string
+	Date string
+}
+
+func (p *placeholder) Foo() {
+	fmt.Println(p.Date, p.Name)
+}
+
+func NewPlaceHolder(name string, date string) PlaceHolder {
+	return &placeholder{
+		Name: name,
+		Date: date,
+	}
+}
+```
+
+---
