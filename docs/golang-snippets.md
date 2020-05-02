@@ -906,6 +906,23 @@ func IsValidURL(rawurl string) bool {
 }
 ```
 
+### ExistsURL
+
+```go
+import "net/http"
+
+func ExistsURL(myurl string) bool {
+	resp, err := http.Head(myurl)
+	if err != nil {
+		return false
+	}
+	if resp.StatusCode != http.StatusOK {
+		return false
+	}
+	return true
+}
+```
+
 ### GetLanguage  
 
 ```go
@@ -1371,33 +1388,53 @@ func initUpdateIntervals() {
 }
 ```
 
+```go
+ticker := time.NewTicker(2 * time.Second)
+quit := make(chan struct{})
+go func() {
+	for {
+		select {
+		case <-ticker.C:
+			fmt.Println("Se ejecuta cada X * time.Second")
+		case <-quit:
+			ticker.Stop()
+			return
+		}
+	}
+}()
+```
+
 ---
 
 ## LOGS
 
 ```go
-// Esto para que todo lso que sea log.algo vaya al fichero elegido
-if a.Config.Mode == "production" {
-	var f = "log/errors.log"
-	mylog, err := os.OpenFile(f,os.O_WRONLY|os.O_CREATE|os.O_APPEND,0644)
+// main.go
+/////// Custom Error Log File + Custom Info Log File /////////
+iLog := createCustomInfoLogFile2(a.Conf.InfoLogFile)
+mylog := createCustomErrorLogFile(a.Conf.ErrorsLogFile)
+defer mylog.Close()
+//////////////////////////////////////////////////////////////
+
+// ya por donde queramos
+func createCustomErrorLogFile(f string) *os.File {
+	mylog,err:=os.OpenFile(f,os.O_WRONLY|os.O_CREATE|os.O_APPEND,0644)
 	if err != nil {
-		log.Fatal("ERROR opening log file %s\n", err)
+		log.Fatalf("ERROR opening Error log file %s\n", err)
 	}
-	defer mylog.Close() // defer must be in main
 	log.SetOutput(mylog)
+	return mylog
 }
-```
 
-
-```go
-var f1 = "log/hits.log"
-hitsLog, err := os.OpenFile(f1,os.O_WRONLY|os.O_CREATE|os.O_APPEND,0644)
-if err != nil {
-	log.Fatal("ERROR opening log file %s\n", err)
+func createCustomInfoLogFile2(f string) *log.Logger {
+	infoLog,err:=os.OpenFile(f,os.O_WRONLY|os.O_CREATE|os.O_APPEND,0644)
+	if err != nil {
+		log.Fatalf("ERROR opening Info log file %s\n", err)
+	}
+	var iLog *log.Logger
+	iLog = log.New(infoLog, "INFO :\t", log.Ldate|log.Ltime)
+	return iLog
 }
-var hitsLogger *log.Logger
-hitsLogger = log.New(hitsLog, "Hits Logger:\t", log.Ldate|log.Ltime) 
-hitsLogger.Print("Hola hitsLogger")
 ```
 
 ---

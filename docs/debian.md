@@ -85,8 +85,9 @@ tar xzf myfiles.tar.gz
 
 `ls -lh`  
 `du -ah /path`  
-`du -h -d1`  
+`du -h -d1` Lista de directorios (ocultos incluidos) con su tamaño  
 `df -h`  
+`du -sh *` Lista de directorios (no ocultos) con su tamaño  
 
 * **Limpieza**
 
@@ -548,6 +549,7 @@ systemctl enable name.service
 
 Primero asegurarnos de que este instalado dbus para user  
 `apt install dbus-user-session`  
+`apt install policykit-1` por si da guerra org.freedesktop.policytoolkit1  
 
 Creamos carpeta donde guardar los servicios  
 `mkdir -p ~/.config/systemd/user`    
@@ -564,7 +566,7 @@ WorkingDirectory=/ruta/a/la/carpeta/del/binario
 ExecStart=/ruta/a/la/carpeta/del/binario/./nombreDelBinario
 
 [Install]
-WantedBy=default.target // multi-user.target ??
+WantedBy=default.target
 ```
 
 Ahora hacemos que systemd reconozca los cambios  
