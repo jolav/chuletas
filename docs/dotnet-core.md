@@ -25,6 +25,9 @@ Para recargar la configuracion
 `source ~/.profile`  
 `source ~/.bashrc`  
 
+Para eliminar que todo lo relacionado con net core salga en español (lenguaje del sistema) que luego es dificil de buscar  
+`find /ruta/a/dotnet/ -type d -name es -exec rm -r {} \;`  
+
 ### VSCODE
 
 * **Formatear codigo a mi gusto**  
@@ -84,7 +87,9 @@ apt install mono-devel
 
 `dotnet run`  
 
-`dotnet watch run`
+`dotnet watch run`  
+
+`dotnet watch test`  
 
 ---
 

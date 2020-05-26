@@ -1022,6 +1022,11 @@ for i, v := range addCases {
 for i, v := range ac {
     fmt.Println(i, v)
 }
+// con nombres
+fmt.Printf("%+v\n", struct)
+// bien formateado
+s, _ := json.MarshalIndent(g, "", "\t")
+fmt.Print(string(s))
 ```
 
 ```go

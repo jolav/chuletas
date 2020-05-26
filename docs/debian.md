@@ -43,7 +43,7 @@ deb http://deb.opera.com/opera-stable/ stable non-free
 deb https://download.mono-project.com/repo/debian stable-buster main
 ```
 
-`apt install aptitude htop smartmontools sshpass rsync curl wget nano apt-transport-https iperf python zip arc arj bzip2 cabextract lzop nomarch p7zip p7zip-full pax tnef unrar-free unzip unrar deborphan net-tools intel-microcode`
+`apt install aptitude htop smartmontools sshpass rsync curl wget nano apt-transport-https iperf python zip arc arj bzip2 cabextract lzop nomarch p7zip p7zip-full pax tnef unrar-free unzip unrar deborphan net-tools intel-microcode hdparm`
 
 `curl -sSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -`
 
@@ -80,6 +80,8 @@ tar xzf myfiles.tar.gz
 `dpkg -i package.deb` -   
 `apt-get -f install` - reparar dependencias incumplidas si las hay  
 `dpkg -r onlyThaName` - desinstalar     
+`debconf-show nombrePaquete` - muestra configuracion del paquete instalado  
+`dpkg-reconfigure nombrePaquete` - para reconfigurar el paquete   
 
 * **Tamaño de ficheros y carpetas**
 
@@ -88,6 +90,11 @@ tar xzf myfiles.tar.gz
 `du -h -d1` Lista de directorios (ocultos incluidos) con su tamaño  
 `df -h`  
 `du -sh *` Lista de directorios (no ocultos) con su tamaño  
+
+```sh
+apt install ncdu
+ncdu
+```
 
 * **Limpieza**
 
