@@ -104,7 +104,15 @@ apt-get remove --purge `deborphan`
 ```
 
 `dpkg -l | grep -v ^ii | awk '{print $2}' | sed '1,5d'|xargs
- dpkg --purge`
+ dpkg --purge`  
+
+Ver el tamaño de los logs y limpiar todos excepto los ultimos 3 dias  
+`journalctl --disk-usage`  
+`journalctl --vacuum-time=3d`  
+
+Limpiar caches de imagenes  
+`du -sh ~/.cache/thumbnails`  
+`rm -rf ~/.cache/thumbnails/*`    
 
 * **Process** 
 
@@ -568,7 +576,7 @@ Description= Descripcion de la tarea
 
 [Service]
 RestartSec=5s
-Restart=on-failure   
+Restart=always   
 WorkingDirectory=/ruta/a/la/carpeta/del/binario
 ExecStart=/ruta/a/la/carpeta/del/binario/./nombreDelBinario
 
@@ -588,7 +596,7 @@ systemctl --user status nombreDelServicio
 ```
 
 Para que el servicio se inicie automaticamente cuando el usuario se loguea  
-`systemctl --user enable nombreDelServicio`   
+`systemctl --user enable nombreDelServicio` // sin el .service al final
 Para desactivarlo  
 `systemctl --user disable nombreDelServicio`   
 

@@ -1408,6 +1408,8 @@ go func() {
 
 ## LOGS
 
+### Custom Logs
+
 ```go
 // main.go
 /////// Custom Error Log File + Custom Info Log File /////////
@@ -1434,6 +1436,15 @@ func createCustomInfoLogFile2(f string) *log.Logger {
 	var iLog *log.Logger
 	iLog = log.New(infoLog, "INFO :\t", log.Ldate|log.Ltime)
 	return iLog
+}
+```
+
+### PrettyPrint Structs
+
+```go
+func prettyPrintStruct(s interface{}) {
+	result, _ := json.MarshalIndent(s, "", "\t")
+	fmt.Print(string(result), "\n")
 }
 ```
 

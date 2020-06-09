@@ -1582,6 +1582,28 @@ Es como `switch` pero con canales
 
 ---
 
+## MODULES
+
+```go
+go mod init nombreModulo
+
+// listar todos los modulos con sus dependencias
+go list -m all
+
+// chechear paquetes con actualizaciones
+go list -m -u all
+go list -m -u -json all
+
+// actualizar
+// cambiar manualmenrte el archivo go.mod o
+// actualiza todas salvo nueva version mayor, 
+go get -u
+// para versiones especificas o nueva version mayor
+go get -u github.com/user/repo@v1.1.1 
+```
+
+---
+
 ## PAQUETES
 
 Un programa Go esta hecho con paquetes. Los programas empiezan ejecutando la
