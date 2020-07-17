@@ -152,7 +152,17 @@ Additional help topics:
 Use "go help <topic>" for more information about that topic.
 ```
 
-### **cross compile**
+### **build**
+
+```sh
+// -s -w eliminan el debug y hacen mas pequeño el binario
+go build -ldflags "-s -w" 
+
+// para incluir la fecha en el binario 
+go build -ldflags="-X 'main.releaseDate=$(date -u +%F_%T)'"
+
+```
+
 
 `GOOS` -  sistema operativo para el que compilamos   
 `GOARCH` - procesador para el que se compila    

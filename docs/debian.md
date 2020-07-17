@@ -1560,6 +1560,15 @@ https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py
 chmod +x speedtest-cli
 ```
 
+[http://speedtest.tele2.net/](http://speedtest.tele2.net/)
+
+```sh
+download
+wget -O /dev/null http://speedtest.tele2.net/1GB.zip
+upload
+curl -T 1GB.zip ftp://speedtest.tele2.net/upload/
+```
+
 * **hard disk**
 ```sh
 apt install smartmontools
