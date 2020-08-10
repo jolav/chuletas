@@ -1404,6 +1404,15 @@ go func() {
 }()
 ```
 
+```go
+func interval() {
+	ticker := time.NewTicker(time.Millisecond * 2000)
+	for _ = range ticker.C {
+		fmt.Println("Hi Every 2 secs")
+	}
+}
+```
+
 ---
 
 ## LOGS

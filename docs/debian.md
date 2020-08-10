@@ -122,6 +122,23 @@ Limpiar caches de imagenes
 `fg` - continuar el proceso que estaba detenido     
 `nohup comando &` - Ejecuta un comando en segundo plano y sigue ejecutandolo aunque salgamos de esa terminal  
 
+`lsof` - para encontrar file descriptors usados  
+`lsof -p PID | wc -l` - indica cuantos file descriptors (archivos u otros recursos como conexiones http) tiene abiertos el proceso PID  
+`lsof -c PROCESS-NAME | wc -l` - igual que arriba pero por nombre  
+
+`ulimit -n` - muestra el limite de fd que el usuario puede usar  
+`ulimit -n 4096` - sube ese limite por ejemplo lo normal es 1024 a 4096 pero solo para esa sesion  
+
+```sh
+// Para Hacerlo permamente
+nano /etc/security/limits.conf  
+userName soft nofile 2000  
+
+// Cambiar el limite de fd de un proceso en ejecucion
+prlimit --pid pidID --nofile=soft:hard  
+prlimit --pid XXXX --nofile=XXXX:XXXX 
+```
+
 * **Buscar**
 
 `find /path -name fileName` - Buscar archivo     
