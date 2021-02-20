@@ -30,20 +30,24 @@ deb http://ftp.debian.org/debian buster-backports main
 ## Dropbox
 deb [arch=i386,amd64] http://linux.dropbox.com/debian/ sid main 
 ## node
-deb https://deb.nodesource.com/node_12.x/ buster main
+deb https://deb.nodesource.com/node_16.x/ buster main
 # Chrome
 deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
 # VirtualBox
 deb https://download.virtualbox.org/virtualbox/debian buster contrib
 ### Insync
-deb http://apt.insync.io/debian buster non-free contrib
+deb http://apt.insync.io/debian bullseye non-free contrib
 # Opera
 deb http://deb.opera.com/opera-stable/ stable non-free
 # Mono
 deb https://download.mono-project.com/repo/debian stable-buster main
+# Teamviewer
+deb https://linux.teamviewer.com/deb stable main
+# Steam
+deb [arch=amd64,i386] https://repo.steampowered.com/steam/ stable steam
 ```
 
-`apt install aptitude htop smartmontools sshpass rsync curl wget nano apt-transport-https iperf python zip arc arj bzip2 cabextract lzop nomarch p7zip p7zip-full pax tnef unrar-free unzip unrar deborphan net-tools intel-microcode hdparm`
+`apt install aptitude htop smartmontools sshpass rsync curl wget nano apt-transport-https iperf python zip arc arj bzip2 cabextract lzop nomarch p7zip p7zip-full pax tnef unrar-free unzip unrar deborphan net-tools intel-microcode hdparm ncdu rename`
 
 `curl -sSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -`
 
