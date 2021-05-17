@@ -651,8 +651,6 @@ decirle a React que necesita reejecutar render() llamando a forceUpdate().
 
 ### Hijos a Padres  
 
-[Ejemplo completo](https://jolav.me/freecodecamp/old/data/markdown-previewer/markdown.html)
-
 ```js
 class Container extends React.Component {
   constructor(props) {
