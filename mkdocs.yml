@@ -1,7 +1,9 @@
 site_name: Chuletas
 google_analytics: ["UA-114956807-1", "auto"]
 repo_url: https://github.com/jolav/chuletas
-strict: true
+site_url: ""
+use_directory_urls : false
+#strict: true
 
 nav:
   - 'Menu': 'index.md'
@@ -40,4 +42,7 @@ extra_javascript:
 extra:
   logo: '_img/chuletas128.png'
   include_toc: true
+  #analytics:
+  #  provider: google
+  #  property: UA-114956807-1
 

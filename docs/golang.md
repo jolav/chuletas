@@ -60,8 +60,8 @@ que el compilador las pueda enlazar sin tener que recompilarlas
 * **Blogs**
 
 <code>[Jacob Martin](https://jacobmartins.com/article-list/)</code> - Articulos y tutoriales   
-<code>[Dave Cheney](https://dave.cheney.net/)</code>
-<code>[]()</code>
+<code>[Dave Cheney](https://dave.cheney.net/)</code>  
+<code>[Alex Edwards](https://www.alexedwards.net/blog/)</code>
 <code>[]()</code>
 <code>[]()</code>
 <code>[]()</code>
@@ -151,10 +151,24 @@ Additional help topics:
 
 Use "go help <topic>" for more information about that topic.
 ```
+  
+### **install**
+
+```sh
+// descarga el codigo y todas sus dependencias. Lo compila e instala el  
+// binario en el directorio $GOPATH/bin
+go install github.com/ruta/codigo  
+
+// instalar la ultima version
+go install ruta/codigo@latest
+```
 
 ### **build**
 
 ```sh
+// -o nombre para el ejecutable
+go build -o nombreEjecutable program.go
+
 // -s -w eliminan el debug y hacen mas pequeño el binario
 go build -ldflags "-s -w" 
 
@@ -162,7 +176,6 @@ go build -ldflags "-s -w"
 go build -ldflags="-X 'main.releaseDate=$(date -u +%F_%T)'"
 
 ```
-
 
 `GOOS` -  sistema operativo para el que compilamos   
 `GOARCH` - procesador para el que se compila    
