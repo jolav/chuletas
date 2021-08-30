@@ -1391,7 +1391,7 @@ vnstat -t
 ```
 
 archivo configuracion (para cambiar la interfaz que por defecto es eth0)  
-`nano etc/vnstat.conf`  
+`nano /etc/vnstat.conf`  
 
 
 ```sh
