@@ -47,7 +47,7 @@ deb https://linux.teamviewer.com/deb stable main
 deb [arch=amd64,i386] https://repo.steampowered.com/steam/ stable steam
 ```
 
-`apt install aptitude htop smartmontools sshpass rsync curl wget nano apt-transport-https iperf python zip arc arj bzip2 cabextract lzop nomarch p7zip p7zip-full pax tnef unrar-free unzip unrar deborphan net-tools intel-microcode hdparm ncdu rename`
+`apt install aptitude htop smartmontools sshpass rsync curl wget nano apt-transport-https iperf python python-is-python3 zip arc arj bzip2 cabextract lzop nomarch p7zip p7zip-full pax tnef unrar-free unzip unrar deborphan net-tools intel-microcode hdparm ncdu rename`
 
 `curl -sSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -`
 
@@ -1735,3 +1735,28 @@ cp -r usr/* /usr
 ```
 
 ---
+
+## VIRTUALBOX
+
+Descargar de aqui en el apartado "All distributions" el archivo .run
+
+[https://www.virtualbox.org/wiki/Linux_Downloads](https://www.virtualbox.org/wiki/Linux_Downloads)
+
+Si tras ejecutarlo e instalarlo dice que falta el dkms es ir aqui buscarlo, bajarlo e instalarlo
+
+[https://tracker.debian.org/pkg/virtualbox](https://tracker.debian.org/pkg/virtualbox)
+
+Despues de instalarlo a veces sale este error
+
+```sh
+There were problems setting up VirtualBox.  
+To re-start the set-up process, ru /sbin/vboxconfig
+as root.  If your system is using EFI Secure Boot you may need to sign  
+the kernel modules (vboxdrv, vboxnetflt, vboxnetadp, vboxpci) before   
+you can load them.   
+Please see your Linux system's documentation for more information.  
+```
+
+```sh
+modprobe vboxdrv
+```
