@@ -1,4 +1,4 @@
-# GOLANG 1.18.X
+# GOLANG 1.19.X
 
 ---
 
@@ -1609,9 +1609,11 @@ Es como `switch` pero con canales
 
 ```go
 go mod init nombreModulo
+go mod init github.com/jolav/nombreModulo
 
 // listar todos los modulos con sus dependencias
-go list -m all
+go list -m all 
+go list all ./...
 
 // chechear paquetes con actualizaciones
 go list -m -u all
@@ -1620,9 +1622,13 @@ go list -m -u -json all
 // actualizar
 // cambiar manualmenrte el archivo go.mod o
 // actualiza todas salvo nueva version mayor, 
-go get -u
+go get -v -u ./...
 // para versiones especificas o nueva version mayor
-go get -u github.com/user/repo@v1.1.1 
+go get -v -u github.com/user/repo@v1.1.1 
+//despues para asegurar que el el codigo que tenemos en el modulo coincide
+// con el archivo gp.mod ejecutamos
+go mod tidy
+
 ```
 
 ---
