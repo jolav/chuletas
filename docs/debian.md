@@ -126,6 +126,10 @@ Limpiar caches de imagenes
 `fg` - continuar el proceso que estaba detenido     
 `nohup comando &` - Ejecuta un comando en segundo plano y sigue ejecutandolo aunque salgamos de esa terminal  
 
+* **ulimits**
+
+[error too many open files](https://www.baeldung.com/linux/error-too-many-open-files)
+
 `lsof` - para encontrar file descriptors usados  
 `lsof -p PID | wc -l` - indica cuantos file descriptors (archivos u otros recursos como conexiones http) tiene abiertos el proceso PID  
 `lsof -c PROCESS-NAME | wc -l` - igual que arriba pero por nombre  
@@ -137,6 +141,11 @@ Limpiar caches de imagenes
 // Para Hacerlo permamente
 nano /etc/security/limits.conf  
 userName soft nofile 2000  
+
+*         hard    nofile      500000
+*         soft    nofile      500000
+root      hard    nofile      500000
+root      soft    nofile      500000
 
 // Cambiar el limite de fd de un proceso en ejecucion
 prlimit --pid pidID --nofile=soft:hard  
