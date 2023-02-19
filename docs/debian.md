@@ -152,6 +152,84 @@ prlimit --pid pidID --nofile=soft:hard
 prlimit --pid XXXX --nofile=XXXX:XXXX 
 ```
 
+en nginx
+```sh
+user www-data;
+worker_processes 4;
+pid /run/nginx.pid;
+worker_rlimit_nofile 50000;
+events {
+        worker_connections 4000;
+        # multi_accept on;
+}
+```
+
+* **[Buena guia](https://easyengine.io/tutorials/linux/increase-open-files-limit/)**
+
+**Incrementar limites**
+
+-> Por usuario
+
+```sh
+nano /etc/security/limits.conf
+
+Añadir al final
+
+*         hard    nofile      500000
+*         soft    nofile      500000
+root      hard    nofile      500000
+root      soft    nofile      500000
+
+Guardar el archivo y hacer logout y login de nuevo
+```
+
+Si esto no funciona probar con pam-limits
+
+```sh
+nano /etc/pam.d/common-session
+
+añadir
+session required pam_limits.so
+```
+
+-> Para Todo el Sistema
+
+```
+nano /etc/sysctl.conf 
+
+añadir
+fs.file-max = 2097152
+
+Salimos y ejecutamos
+sysctl -p
+
+```
+
+-> Verificar que funcionan los nuevos limites
+
+```sh
+cat /proc/sys/fs/file-max
+Hard Limit
+ulimit -Hn
+Soft Limit
+ulimit -Sn
+```
+
+```sh
+verificar para un usuario
+su - nombreUsuario -c 'ulimit -aHS' -s '/bin/bash'
+```
+
+```sh
+Verificar para un proceso en ejecucion
+
+conseguimos el PID
+ps aux | grep nombreDelProceso
+cat /proc/XXX/limits
+
+```
+
+
 * **Buscar**
 
 `find /path -name fileName` - Buscar archivo     

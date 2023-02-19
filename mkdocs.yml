@@ -1,5 +1,4 @@
 site_name: Chuletas
-google_analytics: ["UA-114956807-1", "auto"]
 repo_url: https://github.com/jolav/chuletas
 site_url: "https://jolav/chuletas"
 use_directory_urls : true
@@ -23,8 +22,6 @@ nav:
   - 'Golang para web': 'golang-para-web.md'
   - 'Golang snippets': 'golang-snippets.md'
   - 'Golang Bases de Datos': 'golang-bases-de-datos.md'
-  - 'C#': 'csharp.md'
-  - '.Net Core': 'dotnet-core.md'
   - 'Debian': 'debian.md'
   - 'Varios': 'varios.md'
 
@@ -42,7 +39,5 @@ extra_javascript:
 extra:
   logo: '_img/chuletas128.png'
   include_toc: true
-  #analytics:
-  #  provider: google
-  #  property: UA-114956807-1
+
 
