@@ -1847,3 +1847,73 @@ Please see your Linux system's documentation for more information.
 ```sh
 modprobe vboxdrv
 ```
+
+---
+
+## GRE TUNNEL
+
+
+* Pantalla
+
+```
+modprobe ip_gre
+iptunnel del gre1
+# Solo una vez
+#echo 'net.ipv4.ip_forward=1' >> /etc/sysctl.conf 
+#sysctl -p 
+
+iptunnel add gre1 mode gre local IP_PANTALLA remote IP_SERVIDOR ttl 255
+ip addr add 192.168.168.1/30 dev gre1
+ip link set gre1 up
+# aqui ping a 192.168.168.2
+
+# BUYVM
+# iptables -t nat -A POSTROUTING -s 192.168.168.0/30 ! -o gre+ -j SNAT --to-source IP_PANTALLA
+# aqui curl ip desde servidor
+# iptables -t nat -A PREROUTING -d IP_PANTALLA -j DNAT --to-destination 192.168.168.2
+# iptables -A FORWARD -d 192.168.168.2 -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+# If you're wanting to get more specific, you could add: -p tcp --dport 25565
+
+# HETZNER
+iptables -t nat -A POSTROUTING -s 192.168.168.0/30 ! -o gre+ -j SNAT --to-source IP_PANTALLA
+# aqui curl ip desde servidor
+iptables -A FORWARD -d 192.168.168.2 -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+iptables -A FORWARD -s 192.168.168.2 -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+iptables -t nat -A PREROUTING -d IP_PANTALLA -p tcp -m tcp --dport 80 -j DNAT --to-destination 192.168.168.2
+iptables -t nat -A PREROUTING -d IP_PANTALLA -p tcp -m tcp --dport 443 -j DNAT --to-destination 192.168.168.2
+
+```
+
+*  **Extras**
+
+```
+keepalive en el servidor
+crontab -e
+*/1 * * * *     ping -c2 192.168.168.1
+
+ps aux | grep gre
+ip tunnel show
+```
+
+* **Servidor** 
+
+```
+modprobe ip_gre
+iptunnel del gre1
+
+iptunnel add gre1 mode gre local IP_SERVIDOR remote IP_PANTALLA ttl 255
+ip addr add 192.168.168.2/30 dev gre1
+ip link set gre1 up
+# TEST-1 ping a 192.168.168.1
+
+# Solo una vez, esto solo se puede borrar luego manualmente
+# echo '100 GRETUNNEL1' >> /etc/iproute2/rt_tables
+ip rule add from 192.168.168.0/30 table GRETUNNEL1
+ip route add default via 192.168.168.1 table GRETUNNEL1
+# TEST-2 
+# curl http://www.cpanel.net/showip.cgi --interface 192.168.168.2
+# wget http://www.cpanel.net/showip.cgi --bind-address=192.168.168.2 -q -O -
+```
+
+
+---

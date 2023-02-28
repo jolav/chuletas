@@ -263,6 +263,12 @@ font-family: Arial, Verdana, sans-serif
 
 ```css
 @font-face {
+  font-family: 'PT Sans';
+  src: url('_public/fonts/PTSans.ttf') ;
+  font-display: fallback;
+}
+
+@font-face {
   font-family: 'ChunkFiveRegular';
   src: url('fonts/chunkfive.eot');
   src: url('fonts/chunkfive.eot?#iefix')	format('embedded-opentype'),
