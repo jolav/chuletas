@@ -2,7 +2,7 @@
 
 ---
 
-## **TESTING**
+## **STABLE**
 
 Para andar con ojo en las actualizaciones instalar  
 `aptitude install apt-listbugs`
@@ -14,15 +14,15 @@ Para andar con ojo en las actualizaciones instalar
 `nano /etc/apt/sources.list`
 
 ```sh
-## Debian Testing
-deb http://ftp.de.debian.org/debian/ testing main contrib non-free
+## Debian stable
+deb http://ftp.de.debian.org/debian/ stable main contrib non-free
 ## Debian Security
-deb http://security.debian.org/ testing-security main contrib non-free 
+deb http://security.debian.org/ stable-security main contrib non-free 
 ## Debian updates
-deb http://ftp.debian.org/debian/ testing-proposed-updates main contrib
+deb http://ftp.debian.org/debian/ stable-proposed-updates main contrib
 non-free
 ## Debian Multimedia
-deb http://www.deb-multimedia.org/ testing main non-free
+deb http://www.deb-multimedia.org/ stable main non-free
 ## backports
 deb http://ftp.debian.org/debian buster-backports main
 # apt-get -t stretch-backports install "package"
@@ -47,7 +47,7 @@ deb https://linux.teamviewer.com/deb stable main
 deb [arch=amd64,i386] https://repo.steampowered.com/steam/ stable steam
 ```
 
-`apt install aptitude htop smartmontools sshpass rsync curl wget nano apt-transport-https iperf python python-is-python3 zip arc arj bzip2 cabextract lzop nomarch p7zip p7zip-full pax tnef unrar-free unzip unrar deborphan net-tools intel-microcode hdparm ncdu rename`
+`apt install aptitude htop smartmontools sshpass rsync curl wget nano apt-transport-https iperf zip arc arj bzip2 cabextract lzop nomarch p7zip p7zip-full pax tnef unrar-free unzip unrar deborphan net-tools intel-microcode hdparm ncdu rename iftop dns9utils nethogs tcptrack dnsutils`
 
 `curl -sSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -`
 
@@ -74,6 +74,14 @@ tar xzf myfiles.tar.gz
 
 `echo RELOADAGENT | gpg-connect-agent`  
 - para eliminar de la memoria la clave y que la pida al descomprimir  
+
+* **grep**
+
+Eliminar todas las lineas de una fichero que contienen un determinado 'texto'  
+`cat nombreArchivo | grep -v 'texto' > nuevoArchivo`
+
+Coger solo las lineas de un archivo que contienen un determinado 'texto'  
+`grep -i`
 
 * **zip**
 
@@ -1852,6 +1860,12 @@ modprobe vboxdrv
 
 ## GRE TUNNEL
 
+```
+apt install iptables iproute2
+
+ps aux | grep gre
+ip tunnel show
+```
 
 * Pantalla
 
