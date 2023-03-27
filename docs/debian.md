@@ -99,7 +99,7 @@ Coger solo las lineas de un archivo que contienen un determinado 'texto'
 
 `ls -lh`  
 `du -ah /path`  
-`du -h -d1` Lista de directorios (ocultos incluidos) con su tamaño  
+`du -h -d1 | sort -h` Lista de directorios (ocultos incluidos) con su tamaño  
 `df -h`  
 `du -sh *` Lista de directorios (no ocultos) con su tamaño  
 
