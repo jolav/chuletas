@@ -743,7 +743,8 @@ El archivo de configuracion se llama `default` y esta en la carpeta `/etc/nginx/
 Ahora podemos crear nuestro archivo/s de configuracion.  
 `nano /etc/nginx/sites-available/domain`    
 `cp /etc/nginx/sites-available/domain /etc/nginx/sites-enabled/domain`   
-`service nginx restart`
+`service nginx restart`  
+`nginx -s reload` solo para recargar el archivo de configuracion  
 
 
 #### server-side-includes
