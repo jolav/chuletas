@@ -1,0 +1,1289 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+  <title>HTML &mdash; Chuletas</title>
+
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <link rel="stylesheet" href="../css/alabaster.css" type="text/css">
+  <link rel="stylesheet" href="../css/alabaster-overrides.css" type="text/css">
+
+  
+  <link href="../_extra/css/extra.css" rel="stylesheet">
+  
+
+  
+  <script src="../_extra/js/highlight.pack.js"></script>
+  
+  <script src="../search/main.js"></script>
+  
+
+  <link rel="stylesheet" href="../_extra/css/atom-one-light.css">
+  <script src="../_extra/js/highlight.pack.js"></script>
+
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+  
+
+</head>
+
+<body>
+
+  <div class="document">
+    <div class="documentwrapper">
+      <div class="bodywrapper">
+        <div class="body" role="main">
+          
+          <h1 id="html">HTML</h1>
+<hr />
+<h2 id="flexbox"><strong>FLEXBOX</strong></h2>
+<p><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/">Buena Guia para usar Flexbox</a>  </p>
+<p><a href="http://www.flexboxpatterns.com/home">Patrones para Flexbox</a></p>
+<hr />
+<h2 id="css-grid"><strong>CSS GRID</strong></h2>
+<p><a href="https://gridbyexample.com/">Aprender aqui gridbyexample.com</a></p>
+<hr />
+<h2 id="snippets"><strong>SNIPPETS</strong></h2>
+<h3 id="plantilla">Plantilla</h3>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+
+&lt;head&gt;
+
+  &lt;title&gt;Title&lt;/title&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+  &lt;meta name=&quot;description&quot; content=&quot;Content&quot; /&gt;
+
+  &lt;!-- Favicon --&gt;
+  &lt;link rel=&quot;icon&quot; type=&quot;image/x-icon&quot; href=&quot;/path/to/favicon&quot;&gt;
+
+  &lt;!-- CSS --&gt;
+  &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;./index.css&quot;&gt;
+
+  &lt;!-- Open Sans --&gt;
+  &lt;link href=&quot;https://fonts.googleapis.com/css?family=Varela&quot;
+   rel=&quot;stylesheet&quot;&gt;
+
+&lt;/head&gt;
+
+&lt;body&gt;
+
+  &lt;!-- google-analytics --&gt;
+  &lt;!--#include file=&quot;/path/to/templates/stats.html&quot; --&gt;
+
+  &lt;!-- Footer-- &gt;
+  &lt;!--#include file= &quot;/path/to/templates/footer.html&quot; --&gt;
+
+  &lt;!-- cookie Law --&gt;
+  &lt;!--#include file=&quot;/path/to/templates/cookieLaw.html&quot; --&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;
+</code></pre>
+<h3 id="validacion-con-html5-sin-submit">Validacion con HTML5 sin submit</h3>
+<pre><code class="language-html">&lt;form action=&quot;./exercise/v1/newUser&quot; method=&quot;post&quot;&gt;
+    &lt;input id=&quot;newUsername&quot; type=&quot;text&quot; name=&quot;username&quot; 
+    placeholder=&quot;username&quot; required&gt;
+    &lt;input id=&quot;addUser&quot; class=&quot;but&quot; type=&quot;submit&quot; value=&quot;Send&quot;&gt;
+&lt;/form&gt;
+</code></pre>
+<pre><code class="language-js">document.getElementById('addUser').addEventListener('click', addNewUser);
+
+function addNewUser (ev) {
+  ev.preventDefault();
+  const f = document.getElementsByTagName('form')[0];
+  if (f.checkValidity()) {
+    const newUsername = document.getElementById('newUsername').value;
+    const params = `username=${newUsername}`;
+    makeAjaxRequest(addNewUserUrl, 'POST', params, null, function (data) {
+      showUsersList(data);
+    });
+  } else {
+    alert(document.getElementById('newUsername').validationMessage);
+  }
+}
+</code></pre>
+<h3 id="disparar-evento-click-con-enter">Disparar evento click con ENTER</h3>
+<pre><code class="language-html">&lt;div&gt;
+  &lt;input id=&quot;inputText&quot; class=&quot;inputText&quot; type=&quot;text&quot; name=&quot;input&quot;&gt;
+  &lt;span id=&quot;button&quot; class=&quot;button&quot;&gt;Button&lt;/span&gt;
+&lt;/div&gt;
+</code></pre>
+<pre><code class="language-js">function init () {
+  const button = document.getElementById('button');
+  button.addEventListener('click', action);
+  const input = document.getElementById('inputText');
+  input.addEventListener('keyup', testEnter);
+}
+
+function testEnter (ev) {
+  ev.preventDefault();
+  if (ev.keyCode === 13) {
+    document.getElementById('button').click();
+  }
+}
+</code></pre>
+<hr />
+<h2 id="html5"><strong>HTML5</strong></h2>
+<h3 id="estructura">ESTRUCTURA</h3>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt; Titulo &lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<ul>
+<li><strong>Block Elements</strong></li>
+</ul>
+<p>Elementos que siempre empiezan en una nueva linea</p>
+<p><img alt="html" src="../_img/html/blockElements.png" /></p>
+<p><img alt="html" src="../_img/html/blockElementsList.png" /></p>
+<ul>
+<li><strong>Inline Elements</strong></li>
+</ul>
+<p>Elementos que aparecen a continuacion en la misma linea del anterior</p>
+<p><img alt="html" src="../_img/html/inlineElements.png" /></p>
+<p><img alt="html" src="../_img/html/inlineElementsList.png" /></p>
+<ul>
+<li><strong>Caracteres de escape</strong></li>
+</ul>
+<p><img alt="html" src="../_img/html/escapeCharacters.png" /></p>
+<h3 id="texto">TEXTO</h3>
+<ul>
+<li>
+<p><strong>white space collapsing :</strong> Dos o mas espacios o lineas juntos el navegador 
+solo mostrara uno    </p>
+</li>
+<li>
+<p><strong>Elementos para estructurar la pagina</strong></p>
+</li>
+</ul>
+<pre><code class="language-html">&lt;p&gt; paragraph &lt;/p&gt;
+&lt;h1..6&gt; headings &lt;/h1..6&gt;
+&lt;b&gt; bold &lt;/b&gt;
+&lt;i&gt; italic &lt;/i&gt;
+&lt;sup&gt; superscript &lt;/sup&gt;
+&lt;sub&gt; subscript &lt;/sub&gt;
+&lt;br /&gt; line breaks
+&lt;hr /&gt; horizontal rules
+</code></pre>
+<ul>
+<li><strong>Elementos semanticos</strong></li>
+</ul>
+<pre><code class="language-html">&lt;strong&gt; contenido importante &lt;/strong&gt;  
+&lt;em&gt; enfasis &lt;/em&gt;  
+&lt;blockquote&gt; citar parrafos &lt;/blockquote&gt;  
+&lt;q&gt; citas cortas dentro de un parrafo &lt;/q&gt;
+&lt;abbr&gt; abreviaturas o acronimos &lt;/abbr&gt;  
+&lt;cite&gt; referencia a algo (libro, peli ...) &lt;/cite&gt;  
+&lt;dfn&gt; la primera explicacion de un termino en el documento &lt;/dfn&gt;  
+&lt;address&gt; para contener detalles de contacto de alguien &lt;/address&gt;  
+&lt;ins&gt; mostrar contenido que ha sido insertado en el documento &lt;/ins&gt;  
+&lt;del&gt; mostrar contenido que ha sido borrado en el documento &lt;/del&gt;  
+&lt;s&gt; indicar que algo ya no es relevante&lt;/s&gt;  
+</code></pre>
+<h3 id="listas">LISTAS</h3>
+<ul>
+<li><strong>Ordenadas</strong></li>
+</ul>
+<pre><code class="language-html">&lt;ol&gt;
+  &lt;li&gt;primero&lt;/li&gt;
+  &lt;li&gt;segundo&lt;/li&gt;
+  &lt;li&gt;tercero&lt;/li&gt;
+&lt;/ol&gt;
+</code></pre>
+<ol>
+  <li>primero</li>
+  <li>segundo</li>
+  <li>tercero</li>
+</ol>
+
+<ul>
+<li><strong>Desordenadas</strong></li>
+</ul>
+<pre><code class="language-html">&lt;ul&gt;
+  &lt;li&gt;primero&lt;/li&gt;
+  &lt;li&gt;segundo&lt;/li&gt;
+  &lt;li&gt;tercero&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+<ul>
+  <li>primero</li>
+  <li>segundo</li>
+  <li>tercero</li>
+</ul>
+
+<ul>
+<li><strong>Listas de deficiones</strong></li>
+</ul>
+<pre><code class="language-html">&lt;dl&gt;
+  &lt;dt&gt; concepto 1&lt;/dt&gt;
+  &lt;dd&gt; definicion de concepto 1&lt;/dd&gt;   
+  &lt;dt&gt; concepto 2&lt;/dt&gt;
+  &lt;dd&gt; definicion de concepto 2&lt;/dd&gt;        
+  &lt;dt&gt; concepto 3&lt;/dt&gt;
+    &lt;dd&gt; definicion de concepto 3&lt;/dd&gt;
+&lt;/dl&gt;
+</code></pre>
+<dl>
+  <dt> concepto 1</dt>
+  <dd> definicion de concepto 1</dd>   
+  <dt> concepto 2</dt>
+  <dd> definicion de concepto 2</dd>        
+  <dt> concepto 3</dt>
+  <dd> definicion de concepto 3</dd>
+</dl>
+
+<h3 id="enlaces">ENLACES</h3>
+<ul>
+<li><strong>A paginas externas</strong></li>
+</ul>
+<pre><code class="language-html">&lt;a href=&quot;http://www.jolav.me&quot;&gt;href como url absoluta&lt;/a&gt;
+</code></pre>
+<ul>
+<li><strong>A paginas del mismo sitio</strong></li>
+</ul>
+<pre><code class="language-html">&lt;a href=&quot;../info/contacto.html&quot;&gt;Contacto href como url relativa&lt;/a&gt;
+</code></pre>
+<ul>
+<li><strong>A direcciones de correo</strong></li>
+</ul>
+<pre><code class="language-html">&lt;a href=&quot;mailto:info@jolav.me&quot;&gt;Mandar correo&lt;/a&gt;
+</code></pre>
+<ul>
+<li><strong>A una nueva pestaña</strong></li>
+</ul>
+<pre><code class="language-html">&lt;a href=&quot;http://www.imdb.com&quot; target=&quot;_blank&quot;&gt;Movie Database&lt;/a&gt;
+</code></pre>
+<ul>
+<li><strong>A una parte de la misma pagina</strong></li>
+</ul>
+<pre><code class="language-html">&lt;h1 id=&quot;top&quot;&gt;Bla bla bla&lt;/h1&gt; ó &lt;h1 name=&quot;top&quot;&gt;Bla bla bla&lt;/h1&gt;
+...
+...
+&lt;a href=&quot;#top&quot;&gt;Subir&lt;/a&gt;
+</code></pre>
+<ul>
+<li><strong>A una parte de otra pagina</strong></li>
+</ul>
+<pre><code class="language-html">&lt;a href=&quot;URL relativa o absoluta/#top&quot;&gt;Enlace&lt;/a&gt;
+</code></pre>
+<h3 id="imagenes">IMAGENES</h3>
+<p>Ponerlas todas en una carpeta <code>/imagenes</code><br />
+Salvarlas a resolucion de 72 ppi(pixels per inch), los monitores no dan mas y asi ahorramos peso en la imagen  </p>
+<pre><code class="language-html">&lt;img src=&quot;URL relativa o absoluta a la imagen&quot; /&gt;
+</code></pre>
+<pre><code class="language-html">&lt;img alt=&quot;lo que se lee si no se carga la imagen&quot; /&gt;
+</code></pre>
+<pre><code class="language-html">&lt;img title=&quot;descripcion de la imagen, sale al poner el cursor encima&quot; /&gt;
+</code></pre>
+<p>CODIGO VIEJO -Altura ,anchura y alineamiento de la imagen es mejor hacerlo por 
+CSS  </p>
+<pre><code class="language-html">&lt;img src=&quot;images/imagen.jpg&quot; alt=&quot;loquesea&quot; width=&quot;600&quot; height=&quot;450&quot; /&gt;
+
+&lt;img src=&quot;imagen.png&quot; alt=&quot;alt&quot; align=&quot;left|right|top|bottom|middle&quot; /&gt;
+</code></pre>
+<p><code>&lt;figure&gt;</code> se usa para tener juntas y asociar las imagenes con sus
+pies de fotos <code>&lt;figcaption&gt;</code></p>
+<p>Pero tambien se puede usar para contener</p>
+<ul>
+<li>imagenes</li>
+<li>videos</li>
+<li>graficos</li>
+<li>diagramas</li>
+<li>codigo</li>
+<li>texto</li>
+</ul>
+<pre><code class="language-html">&lt;figure&gt;
+  &lt;img src=&quot;imagen.jpg&quot; alt=&quot;loquesea&quot;&gt;
+  &lt;br /&gt;
+  &lt;figcaption&gt;Pie de foto&lt;/figcaption&gt;
+&lt;/figure&gt;
+</code></pre>
+<h3 id="tablas">TABLAS</h3>
+<p><code>&lt;table&gt;</code> para crear la tabla<br />
+<code>&lt;tr&gt;</code> fila<br />
+<code>&lt;td&gt;</code> celda<br />
+<code>&lt;td colspan="2"&gt;Extiende el texto a dos columnas&lt;/td&gt;</code><br />
+<code>&lt;td rowspan="2"&gt;Extiende el texto a dos filas&lt;/td&gt;</code><br />
+<code>&lt;th&gt;</code> es una celda pero cabecera de la fila o columna  </p>
+<blockquote>
+<p><code>scope="row" scope="col"</code> atributo que indica si es fila o columna  </p>
+</blockquote>
+<p><code>&lt;thead&gt; &lt;tbody&gt; &lt;tfoot&gt;</code></p>
+<p>CODIGO VIEJO (Ahora por CSS)
+<code>width spacing bgcolor border</code></p>
+<pre><code class="language-html">&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th scope=&quot;col&quot;&gt;Sabado&lt;/th&gt;
+      &lt;th scope=&quot;col&quot;&gt;Domingo&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th scope=&quot;row&quot;&gt;Cervezas&lt;/th&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th scope=&quot;row&quot;&gt;Cervezas&lt;/th&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+  &lt;tfoot&gt;
+    &lt;tr&gt;
+      &lt;th scope=&quot;row&quot;&gt;Total&lt;/th&gt;
+      &lt;td&gt;7&lt;/td&gt;
+      &lt;td&gt;5&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tfoot&gt;
+&lt;/table&gt;
+</code></pre>
+<h3 id="formularios">FORMULARIOS</h3>
+<p><code>action</code><br />
+<code>method</code><br />
+<code>id</code><br />
+<code>size</code> CODIGO VIEJO no deberia usarse, para el tamaño del cuadro. Usar CSS
+<code>type="text"</code> crea una entrada de texto de una sola linea<br />
+<code>type="password"</code>  como text pero los caracteres no se ven al teclearlos<br />
+<code>name</code>  nombre de la variable, el valor sera lo introducido en el formulario<br />
+<code>maxlength</code> limitar los caracteres, p ej mes 2 caracteres<br />
+<code>type="submit"</code> boton que envia el formulario, el value es el texto que sale en el boton<br />
+<code>placeholder</code> en cualquier input de texto es el valor que saldra por defecto hasta que el
+usuario lo pinche encima</p>
+<pre><code class="language-html">&lt;form method=&quot;get or post&quot; action=&quot;url del servidor que va a responder&quot;&gt;
+  Usuario&lt;input type=&quot;text&quot; name=&quot;usuario&quot; /&gt;
+  Contraseña&lt;input type=&quot;password&quot; name=&quot;contrasena&quot; /&gt;    
+  &lt;input type=&quot;submit&quot; value=&quot;Lo que sale en el boton para enviar&quot; /&gt;
+&lt;/form&gt;
+</code></pre>
+<ul>
+<li><strong><code>textarea</code></strong></li>
+</ul>
+<p>cols y rows son las dos CODIGO VIEJO, mejor con CSS</p>
+<form action="http://jolav.me/chuletas/frontend/html5/#formularios">
+  <textarea name="comments" cols="20" rows="4">Escribir Aqui...
+  </textarea>
+</form>
+
+<pre><code class="language-html">&lt;textarea name=&quot;sugerencias&quot; cols=&quot;40&quot; rows=&quot;3&quot;&gt;Escribir Aqui...
+&lt;/textarea&gt;
+</code></pre>
+<ul>
+<li><strong><code>radio button</code></strong>  </li>
+</ul>
+<p>Puedes elegir una opcion</p>
+<form action="http://jolav.me/chuletas/frontend/html5/#formularios">
+  <p>Elige una opcion <br />
+    <input type="radio" name="opcion" value="1" /> Opcion 1
+    <input type="radio" name="opcion" value="2" checked="checked"/> Opcion 2
+    <input type="radio" name="opcion" value="3" /> Opcion 3
+  </p>
+</form>
+
+<pre><code class="language-html">&lt;form action=&quot;http://rutaquegestionaelform&quot;&gt;
+  &lt;p&gt;Elige una opcion &lt;br /&gt;
+    &lt;input type=&quot;radio&quot; name=&quot;opcion&quot; value=&quot;1&quot; /&gt; Opcion 1
+    &lt;input type=&quot;radio&quot; name=&quot;opcion&quot; value=&quot;2&quot; 
+      checked=&quot;checked&quot;/&gt; Opcion 2
+    &lt;input type=&quot;radio&quot; name=&quot;opcion&quot; value=&quot;3&quot; /&gt; Opcion 3
+  &lt;/p&gt;
+&lt;/form&gt;
+</code></pre>
+<ul>
+<li><strong><code>checkbox</code></strong></li>
+</ul>
+<p>Pues elegir cero, una o mas opciones de las disponibles  </p>
+<form action="http://jolav.me/chuletas/frontend/html5/#formularios">
+  <p>Elige una opcion <br />
+    <input type="checkbox" name="opcion" value="1" checked="checked" /> Opcion 1
+    <input type="checkbox" name="opcion" value="2" /> Opcion 2
+    <input type="checkbox" name="opcion" value="3" checked="checked" /> Opcion 3
+  </p>
+</form>
+
+<pre><code class="language-html">&lt;form action=&quot;http://rutaquegestionaelform&quot;&gt;
+  &lt;p&gt;Elige una opcion &lt;br /&gt;
+    &lt;input type=&quot;checkbox&quot; name=&quot;opcion&quot; value=&quot;1&quot; checked=&quot;checked&quot; /&gt; 
+      Opcion 1
+    &lt;input type=&quot;checkbox&quot; name=&quot;opcion&quot; value=&quot;2&quot; /&gt; Opcion 2
+    &lt;input type=&quot;checkbox&quot; name=&quot;opcion&quot; value=&quot;3&quot; checked=&quot;checked&quot; /&gt; 
+      Opcion 3
+  &lt;/p&gt;
+&lt;/form&gt;
+</code></pre>
+<ul>
+<li><strong><code>select : drop down list</code></strong></li>
+</ul>
+<form action="http://jolav.me/chuletas/frontend/html5/#formularios">
+  <p>Opcion a elegir ?</p>
+  <select name="opciones">
+    <option value="1">Opcion 1</option>
+    <option value="2" selected="selected" >Opcion 2</option>
+    <option value="3">Opcion 3</option>
+  </select>
+</form>
+
+<pre><code class="language-html">&lt;form action=&quot;http://rutaquegestionaelform&quot;&gt;
+  &lt;p&gt;Opcion a elegir ?&lt;/p&gt;
+  &lt;select name=&quot;opciones&quot;&gt;
+    &lt;option value=&quot;1&quot;&gt;Opcion 1&lt;/option&gt;
+    &lt;option value=&quot;2&quot; selected=&quot;selected&quot;&gt;Opcion 2&lt;/option&gt;
+    &lt;option value=&quot;3&quot;&gt;Opcion 3&lt;/option&gt;
+  &lt;/select&gt;
+&lt;/form&gt;
+</code></pre>
+<ul>
+<li><strong><code>multiple select box</code></strong></li>
+</ul>
+<form action="http://jolav.me/chuletas/frontend/html5/#formularios">
+  <p>Opcion a elegir ?</p>
+  <select name="opciones"size="3" multiple="mutiple">
+    <option value="1">Opcion 1</option>
+    <option value="2" selected="selected" >Opcion 2</option>
+    <option value="3">Opcion 3</option>
+    <option value="4">Opcion 4</option>
+    <option value="5">Opcion 5</option>
+  </select>
+</form>
+
+<pre><code class="language-html">&lt;form action=&quot;http://rutaquegestionaelform&quot;&gt;
+  &lt;p&gt;Opcion a elegir ?&lt;/p&gt;
+  &lt;select name=&quot;opciones&quot;size=&quot;3&quot; multiple=&quot;mutiple&quot;&gt;
+    &lt;option value=&quot;1&quot;&gt;Opcion 1&lt;/option&gt;
+    &lt;option value=&quot;2&quot; selected=&quot;selected&quot; &gt;Opcion 2&lt;/option&gt;
+    &lt;option value=&quot;3&quot;&gt;Opcion 3&lt;/option&gt;
+    &lt;option value=&quot;4&quot;&gt;Opcion 4&lt;/option&gt;
+    &lt;option value=&quot;5&quot;&gt;Opcion 5&lt;/option&gt;
+  &lt;/select&gt;
+&lt;/form&gt;
+</code></pre>
+<ul>
+<li><strong><code>file input box</code></strong></li>
+</ul>
+<form action="http://jolav.me/chuletas/frontend/html5/#formularios">
+  <p>Subir un archivo</p>
+  <input type="file" name="nombreArchivo" /><br />
+  <input type="submit" value="Upload" />
+</form>
+
+<pre><code class="language-html">&lt;form action=&quot;http://rutaquegestionaelform&quot; method=&quot;post&quot;&gt;
+  &lt;p&gt;Subir un archivo&lt;/p&gt;
+  &lt;input type=&quot;file&quot; name=&quot;nombreArchivo&quot; /&gt;&lt;br /&gt;
+  &lt;input type=&quot;submit&quot; value=&quot;Upload&quot; /&gt;
+&lt;/form&gt;
+</code></pre>
+<ul>
+<li><strong><code>image button</code></strong></li>
+</ul>
+<form action="http://jolav.me/chuletas/frontend/html5/#formularios" >
+  <p>Texto de lo que sea</p>
+  <input type="text" name="email" />
+  <input type="image" src="" width="100" height="20" />
+</form>
+
+<pre><code class="language-html">&lt;form action=&quot;http://rutaquegestionaelform&quot; &gt;
+  &lt;p&gt;Texto de lo que sea&lt;/p&gt;
+  &lt;input type=&quot;text&quot; name=&quot;email&quot; /&gt;
+  &lt;input type=&quot;image&quot; src=&quot;/ruta/imagen.jpg&quot; width=&quot;100&quot; height=&quot;20&quot; /&gt;
+&lt;/form&gt;
+</code></pre>
+<ul>
+<li><strong><code>button and hidden controls</code></strong></li>
+</ul>
+<form action="http://jolav.me/chuletas/frontend/html5/#formularios">
+  <button>
+    <img src="" alt="add" width="10" height="10" /> Add
+  </button>
+  <input type="hidden" name="nombreQueQueramos" value="valorAPasar" />
+</form>
+
+<pre><code class="language-html">&lt;form action=&quot;http://rutaquegestionaelform&quot; &gt;
+  &lt;button&gt;
+    &lt;img src=&quot;&quot; alt=&quot;add&quot; width=&quot;10&quot; height=&quot;10&quot; /&gt; Add
+  &lt;/button&gt;
+  &lt;input type=&quot;hidden&quot; name=&quot;nombreQueQueramos&quot; value=&quot;valorAPasar&quot; /&gt;
+&lt;/form&gt;  
+</code></pre>
+<ul>
+<li><strong><code>labeling form controls</code></strong></li>
+</ul>
+<pre><code class="language-html">uso de etiquetas &lt;label&gt;&lt;/label&gt; para accesibilidad
+</code></pre>
+<ul>
+<li><strong><code>grouping form elements</code></strong></li>
+</ul>
+<fieldset>
+  <legend>Detalles contacto</legend>
+  <label>Email:<br />
+    <input type="text" name="email" />
+  </label><br />
+  <label>Movil:<br />
+    <input type="text" name="mobile" />
+  </label><br />
+  <label>Telefono fijo:<br />
+    <input type="text" name="telephone" />
+  </label>
+</fieldset>
+
+<pre><code class="language-html">&lt;fieldset&gt;
+  &lt;legend&gt;Detalles contacto&lt;/legend&gt;
+  &lt;label&gt;Email:&lt;br /&gt;
+    &lt;input type=&quot;text&quot; name=&quot;email&quot; /&gt;
+  &lt;/label&gt;&lt;br /&gt;
+  &lt;label&gt;Movil:&lt;br /&gt;
+    &lt;input type=&quot;text&quot; name=&quot;mobile&quot; /&gt;
+  &lt;/label&gt;&lt;br /&gt;
+  &lt;label&gt;Telefono fijo:&lt;br /&gt;
+    &lt;input type=&quot;text&quot; name=&quot;telephone&quot; /&gt;
+  &lt;/label&gt;
+&lt;/fieldset&gt;
+</code></pre>
+<ul>
+<li><strong>Validacion</strong></li>
+</ul>
+<form action="http://jolav.me/chuletas/frontend/html5/#formularios">
+  Usuario<input type="text" name="usuario" required="required"/> <br />
+  Contraseña<input type="password" name="contrasena" required /> <br />
+  <input type="submit" value="Enviar" />
+</form>
+
+<pre><code class="language-html">&lt;form action=&quot;http://rutaquegestionaelform&quot; &gt;
+  Usuario&lt;input type=&quot;text&quot; name=&quot;usuario&quot; required=&quot;required&quot;/&gt; &lt;br /&gt;
+  Contraseña&lt;input type=&quot;password&quot; name=&quot;contrasena&quot; required /&gt; &lt;br /&gt;
+  &lt;input type=&quot;submit&quot; value=&quot;Enviar&quot; /&gt;
+&lt;/form&gt;
+</code></pre>
+<ul>
+<li><strong>Fecha</strong></li>
+</ul>
+<form action="http://jolav.me/chuletas/frontend/html5/#formularios">
+  <p>Elige Fecha</p>
+  <input type="date" name="date" />
+  <input type="submit" value="Enviar" />
+</form>
+
+<pre><code class="language-html">&lt;input type=&quot;date&quot;&gt;
+</code></pre>
+<ul>
+<li><strong>Correo</strong></li>
+</ul>
+<form action="http://jolav.me/chuletas/frontend/html5/#formularios">
+  <p>Correo</p>
+  <input type="email" name="email" />
+  <input type="submit" value="Enviar" />
+</form>
+
+<pre><code class="language-html">&lt;input type=&quot;email&quot;&gt;
+</code></pre>
+<ul>
+<li><strong>URL</strong></li>
+</ul>
+<form action="http://jolav.me/chuletas/frontend/html5/#formularios">
+  <p>URL</p>
+  <input type="url" name="url" />
+  <input type="submit" value="Enviar" />
+</form>
+
+<pre><code class="language-html">&lt;input type=&quot;url&quot;&gt;
+</code></pre>
+<ul>
+<li><strong>Telefono</strong></li>
+</ul>
+<form action="http://jolav.me/chuletas/frontend/html5/#formularios">
+  <p>Telefono</p>
+  <input type="tel" name="tel" />
+  <input type="submit" value="Enviar" />
+</form>
+
+<pre><code class="language-html">&lt;input type=&quot;tel&quot;&gt;
+</code></pre>
+<ul>
+<li><strong>Numero</strong></li>
+</ul>
+<form action="http://jolav.me/chuletas/frontend/html5/#formularios">
+  <p>Numero</p>
+  <input type="number" name="number" min="10" max="20" />
+  <input type="submit" value="Enviar" />
+</form>
+
+<pre><code class="language-html">&lt;input type=&quot;number&quot;&gt;
+</code></pre>
+<ul>
+<li><strong>Range</strong></li>
+</ul>
+<form action="http://jolav.me/chuletas/frontend/html5/#formularios">
+  <p>Numero</p>
+  <input type="range" name="range" min="0" max="20" step="4" />
+  <input type="submit" value="Enviar" />
+</form>
+
+<pre><code class="language-html">&lt;input type=&quot;range&quot;&gt;
+</code></pre>
+<ul>
+<li><strong>Color</strong></li>
+</ul>
+<form action="http://jolav.me/chuletas/frontend/html5/#formularios">
+  <p>Color</p>
+  <input type="color" name="color" />
+  <input type="submit" value="Enviar" />
+</form>
+
+<pre><code class="language-html">&lt;input type=&quot;color&quot;&gt;
+</code></pre>
+<ul>
+<li><strong>Search</strong></li>
+</ul>
+<form action="http://jolav.me/chuletas/frontend/html5/#formularios">
+  <p>Search</p>
+  <input type="search" name="search" />
+  <input type="submit" value="Enviar" />
+</form>
+
+<pre><code class="language-html">&lt;input type=&quot;search&quot;&gt;
+</code></pre>
+<h3 id="video-y-audio">VIDEO Y AUDIO</h3>
+<h4 id="video">Video</h4>
+<pre><code class="language-html">&lt;video src=&quot;html5docs/videos/SampleVideo_1280x720_1mb.mp4&quot;
+  poster=&quot;/_img/html-css/OkDedo.jpg&quot;
+  width=&quot;400&quot; height=&quot;300&quot;
+  preload
+  controls
+  autoplay
+  loop&gt;
+  &lt;p&gt;Descripcion del video&lt;/p&gt;
+&lt;/video&gt;
+</code></pre>
+<p>Para poner diferentes formatos usamos <code>&lt;source&gt;</code></p>
+<pre><code class="language-html">&lt;video poster=&quot;images/puppy.jpg&quot; width=&quot;400&quot; height=&quot;320&quot; &gt;
+  &lt;source src=&quot;video.mp4&quot; type='video/mp4;
+    codecs=&quot;avc1.42E01E, mp4a.40.2&quot;' /&gt;
+  &lt;source src=&quot;video.webm&quot; type='video/webm;codecs=&quot;vp8, vorbis&quot;' /&gt;
+  &lt;p&gt;Descripcion del video&lt;/p&gt;
+&lt;/video&gt;
+</code></pre>
+<h4 id="audio">Audio</h4>
+<pre><code class="language-html">&lt;audio src=&quot;html5docs/music/ACDC.ogg&quot; controls autoplay preload loop&gt;
+  &lt;p&gt;Formato no soportado por el navegador&lt;/p&gt;
+&lt;/audio&gt;
+</code></pre>
+<p>Para poner diferentes formatos usamos <code>&lt;source&gt;</code></p>
+<pre><code class="language-html">&lt;audio controls autoplay&gt;
+  &lt;source src=&quot;music/nombre.ogg&quot; /&gt;
+  &lt;source src=&quot;music/nombre.mp3&quot; /&gt;
+  &lt;p&gt;Formato no soportado por el navegador&lt;/p&gt;
+&lt;/audio&gt;
+</code></pre>
+<h3 id="layout">LAYOUT</h3>
+<p>old Layout<br />
+<img alt="html" src="../_img/html/oldLayout.png" /></p>
+<p>new Layout<br />
+<img alt="html" src="../_img/html/newLayout.png" /></p>
+<ul>
+<li>
+<p><strong>header, footer, nav, article, aside, section</strong></p>
+</li>
+<li>
+<p><strong>hgroup, figure, figcaption</strong></p>
+</li>
+</ul>
+<p><code>&lt;figure&gt;</code> se usa para tener juntas y asociar las imagenes con sus
+pies de fotos <code>&lt;figcaption&gt;</code></p>
+<p>Pero tambien se puede usar para contener</p>
+<ul>
+<li>imagenes</li>
+<li>videos</li>
+<li>graficos</li>
+<li>diagramas</li>
+<li>codigo</li>
+<li>texto</li>
+</ul>
+<pre><code class="language-html">&lt;figure&gt;
+  &lt;img src=&quot;images/bok-choi.jpg&quot; alt=&quot;Bok Choi&quot; /&gt;
+  &lt;figcaption&gt;Bok Choi&lt;/figcaption&gt;
+&lt;/figure&gt;
+</code></pre>
+<ul>
+<li><strong>div</strong></li>
+</ul>
+<p><code>&lt;div&gt;</code> queda para todo lo que no sea claramente algo de lo anterior y para
+tener juntos elementos relacionados o envolver partes de la pagina</p>
+<pre><code class="language-html">&lt;div class=&quot;wrapper&quot;&gt;
+  &lt;header&gt;
+    &lt;h1&gt;Yoko's Kitchen&lt;/h1&gt;
+    &lt;nav&gt;&lt;!-- nav content here --&gt;
+    &lt;/nav&gt;
+  &lt;/header&gt;
+    &lt;section class=&quot;courses&quot;&gt;&lt;!-- section content here --&gt;
+    &lt;/section&gt;
+    &lt;aside&gt;&lt;!-- aside content here --&gt;
+    &lt;/aside&gt;
+  &lt;footer&gt;&lt;!-- footer content here --&gt;
+  &lt;/footer&gt;
+&lt;/div&gt;&lt;!-- .wrapper --&gt;
+</code></pre>
+<ul>
+<li><strong>Convertir bloque en enlace</strong></li>
+</ul>
+<p>Envolvemos el elemento a converir en enlace con <code>&lt;a&gt;</code></p>
+<pre><code class="language-html">&lt;a href=&quot;introduction.html&quot;&gt;
+  &lt;article&gt;
+    &lt;figure&gt;
+      &lt;img src=&quot;images/bok-choi.jpg&quot; alt=&quot;Bok Choi&quot; /&gt;
+      &lt;figcaption&gt;Bok Choi&lt;/figcaption&gt;
+    &lt;/figure&gt;
+    &lt;hgroup&gt;
+      &lt;h2&gt;Japanese Vegetarian&lt;/h2&gt;
+      &lt;h3&gt;Five week course in London&lt;/h3&gt;
+    &lt;/hgroup&gt;
+    &lt;p&gt;A five week introduction to traditional Japanese vegetarian meals,
+      teaching you a selection of rice and noodle dishes.&lt;/p&gt;
+  &lt;/article&gt;
+&lt;/a&gt;
+</code></pre>
+          
+          
+        </div>
+      </div>
+    </div>
+    <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebarwrapper">
+        <!--
+  <p class="logo">
+    <a href="..">
+      <img class="logo" src="../_img/chuletas128.png" title="Chuletas">
+    </a>
+  </p>
+  
+
+
+
+        
+        <h2>Navigation</h2>
+
+
+<ul>
+  
+      
+        <li>
+          <a href="">Menu</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="html/">HTML</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="css/">CSS</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="frontend/">Front End</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript/">Javascript</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript-apis/">Javascript APIs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript-para-web/">Javascript para web</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript-snippets/">Javascript snippets</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="reactjs/">Reactjs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="nodejs/">Nodejs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="expressjs/">Expressjs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="nodejs-snippets/">Nodejs snippets</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="nodejs-bases-de-datos/">Nodejs Bases de Datos</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang/">Golang</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang-para-web/">Golang para web</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang-snippets/">Golang snippets</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang-bases-de-datos/">Golang Bases de Datos</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="debian/">Debian</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="varios/">Varios</a>
+        </li>
+      
+    
+  </ul>
+        
+
+
+
+<h3>Contenidos</h3>
+
+<nav>
+  
+
+<ul>
+  
+  <li><a href="#flexbox">FLEXBOX</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#css-grid">CSS GRID</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#snippets">SNIPPETS</a></li>
+  <ul>
+  
+  <li><a href="#plantilla">Plantilla</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#validacion-con-html5-sin-submit">Validacion con HTML5 sin submit</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#disparar-evento-click-con-enter">Disparar evento click con ENTER</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#html5">HTML5</a></li>
+  <ul>
+  
+  <li><a href="#estructura">ESTRUCTURA</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#texto">TEXTO</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#listas">LISTAS</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#enlaces">ENLACES</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#imagenes">IMAGENES</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#tablas">TABLAS</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#formularios">FORMULARIOS</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#video-y-audio">VIDEO Y AUDIO</a></li>
+  <ul>
+  
+  <li><a href="#video">Video</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#audio">Audio</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#layout">LAYOUT</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+</ul>
+
+
+  
+</nav>
+        
+        <div id="searchbox" style="display: none;" role="search">
+  <h3>Quick search</h3>
+  <form class="search" action="../search.html" method="get">
+    <input name="q" type="text">
+    <input value="Go" type="submit">
+  </form>
+  <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+  </p>
+</div>
+<script type="text/javascript">
+  document.getElementById("searchbox").style.display = "block";
+</script>
+        -->
+
+        
+
+        
+        
+  <p class="logo">
+    <a href="..">
+      <img class="logo" src="../_img/chuletas128.png" title="Chuletas">
+    </a>
+  </p>
+  
+
+
+
+        
+        <div class="menuNav">
+
+  
+  <ul>
+    
+    
+    <li>
+      <a href="../">Menu</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../html/">HTML</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../css/">CSS</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../frontend/">Front End</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript/">Javascript</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript-apis/">Javascript APIs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript-para-web/">Javascript para web</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript-snippets/">Javascript snippets</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../reactjs/">Reactjs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../nodejs/">Nodejs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../expressjs/">Expressjs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../nodejs-snippets/">Nodejs snippets</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../nodejs-bases-de-datos/">Nodejs Bases de Datos</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang/">Golang</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang-para-web/">Golang para web</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang-snippets/">Golang snippets</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang-bases-de-datos/">Golang Bases de Datos</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../debian/">Debian</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../varios/">Varios</a>
+    </li>
+    
+    
+  </ul>
+</div>
+        
+        
+
+
+
+<h3>Contenidos</h3>
+
+<nav>
+  
+
+<ul>
+  
+  <li><a href="#flexbox">FLEXBOX</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#css-grid">CSS GRID</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#snippets">SNIPPETS</a></li>
+  <ul>
+  
+  <li><a href="#plantilla">Plantilla</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#validacion-con-html5-sin-submit">Validacion con HTML5 sin submit</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#disparar-evento-click-con-enter">Disparar evento click con ENTER</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#html5">HTML5</a></li>
+  <ul>
+  
+  <li><a href="#estructura">ESTRUCTURA</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#texto">TEXTO</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#listas">LISTAS</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#enlaces">ENLACES</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#imagenes">IMAGENES</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#tablas">TABLAS</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#formularios">FORMULARIOS</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#video-y-audio">VIDEO Y AUDIO</a></li>
+  <ul>
+  
+  <li><a href="#video">Video</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#audio">Audio</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#layout">LAYOUT</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+</ul>
+
+
+  
+</nav>
+        
+
+        
+
+      </div>
+    </div>
+    <div class="clearer"></div>
+  </div>
+
+  
+  <div class="footer">
+    
+    
+    
+    Powered by <a href="http://www.mkdocs.org">mkdocs 1.4.2</a>
+    &amp; <a href="https://github.com/iamale/mkdocs-alabaster">mkdocs-alabaster</a>
+    
+  </div>
+  
+
+  <!--
+  MkDocs version      : 1.4.2
+  Docs Build Date UTC : 2023-09-28 09:46:52.092695+00:00
+  -->
+</body>
+
+</html>

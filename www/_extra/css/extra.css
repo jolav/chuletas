@@ -1,0 +1,89 @@
+
+@font-face {
+  font-family: 'Varela';
+  font-style: normal;
+  font-weight: 400;
+  src: url('Varela.ttf') ;
+}
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url('DroidSans.ttf') ;
+}
+@font-face {
+  font-family: 'Droid Sans Mono';
+  font-style: normal;
+  font-weight: 400;
+  src: url('DroidSansMono.ttf') ;
+}
+body {
+  font-size: 0.90em;
+  line-height: 1em;
+  font-family: "Varela", "Arial", sans-serif;
+  background-color: white;
+}
+
+div.sphinxsidebar h3, div.sphinxsidebar h4 {
+  font-family: "Arial", sans-serif;
+  color: #444;
+  font-size: 24px;
+  font-weight: normal;
+  margin: 0 0 5px 0;
+  padding: 0;
+}
+
+div.sphinxsidebar input {
+  font-family: "Arial", sans-serif;
+}
+
+div.body h1, div.body h2, div.body h3, div.body h4, div.body h5, div.body h6 {
+  font-family: "Droid Sans", "Arial", sans-serif;
+}
+
+div.admonition p.admonition-title {
+  font-family: "Varela", "Arial", sans-serif;
+}
+
+pre, tt, code {
+  font-family: 'Droid Sans Mono', monospace;
+  font-size: 13px;
+  background: #dfeddf;
+}
+
+a {
+  text-decoration: none;
+}
+
+nav ul li, .menuNav {
+  line-height: 1.4em;
+  font-size: 1em;
+  font-family: "Droid Sans", "Arial", sans-serif;
+}
+
+pre {
+  background: #dfeddf;
+}
+
+.hljs {
+  /*background: #fafafa;*/
+  background: #dfeddf !important;
+}
+
+div.body p, div.body dd, div.body li {
+  /*line-height: 1.4em;*/
+  line-height: 1.2em;
+}
+
+pre {
+  line-height: 1.1em;
+}
+
+table.contentstable p.biglink {
+  line-height: 150%;
+}
+
+.liNav:hover {
+  color: red;
+  transform: scale(1);
+}

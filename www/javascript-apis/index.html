@@ -1,0 +1,1629 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+  <title>Javascript APIs &mdash; Chuletas</title>
+
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <link rel="stylesheet" href="../css/alabaster.css" type="text/css">
+  <link rel="stylesheet" href="../css/alabaster-overrides.css" type="text/css">
+
+  
+  <link href="../_extra/css/extra.css" rel="stylesheet">
+  
+
+  
+  <script src="../_extra/js/highlight.pack.js"></script>
+  
+  <script src="../search/main.js"></script>
+  
+
+  <link rel="stylesheet" href="../_extra/css/atom-one-light.css">
+  <script src="../_extra/js/highlight.pack.js"></script>
+
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+  
+
+</head>
+
+<body>
+
+  <div class="document">
+    <div class="documentwrapper">
+      <div class="bodywrapper">
+        <div class="body" role="main">
+          
+          <h1 id="javascript-apis">JAVASCRIPT APIs</h1>
+<hr />
+<p>Para ver si un navegador tiene una funcionalidad</p>
+<pre><code class="language-javascript">if (navigator.geolocation) {
+  // codigo
+} else {
+  // codigo
+}
+</code></pre>
+<p><a href="https://modernizr.com/">Modernizr puede ayudar</a></p>
+<pre><code class="language-javascript">if (Modernizr.awesomeNewFeature) {
+  showOffAwesomeNewFeature();
+} else {
+  getTheOldLameExperience();
+}
+</code></pre>
+<h2 id="libreria-standard">LIBRERIA STANDARD</h2>
+<h3 id="math">Math</h3>
+<p><code>Math</code> es un Objeto Global que actua sobre numeros</p>
+<ul>
+<li>Propiedades</li>
+</ul>
+<p><code>Math.PI</code> - Devuelve pi 3.14159265359<br />
+<code>Math.E</code>- constante de Euler<br />
+<code>Math.LN2</code> - logaritmo natural de 2<br />
+<code>Math.LN10</code> - logaritmo natural de 10<br />
+<code>Math.LOG2E</code> - logaritmo en base 2 de e<br />
+<code>Math.LOG10E</code> - logaritmo en base 10 de e<br />
+<code>Math.SQRT1_2</code> - raiz cuadrada de medio (1/2)<br />
+<code>Math.SQRT2</code> - raiz cuadrada de 2  </p>
+<ul>
+<li>Metodos</li>
+</ul>
+<p><code>Math.abs(num)</code> - Devuelve el valor absoluto de num<br />
+<code>Math.round(num)</code> - Redondea num al entero mas cercano <br />
+<code>Math.sqrt(num)</code> - Devuelve la raiz cuadrada del numero positivo num<br />
+<code>Math.ceil(num)</code> - Redondea al entero mas cercano por arriba<br />
+<code>Math.floor(num)</code> - Redondea al entero mas cercano por abajo<br />
+<code>Math.random()</code> - Genera un numero aleatorio entre 0 (inclusivo) y 1 (no inclusivo)<br />
+<code>Math.pow(num, pot)</code> - Devuelve num elevado a la pot<br />
+<code>Math.max(num1, num2, num3)</code> - devuelve el mayor numero<br />
+<code>Math.min(num1, num2, num3)</code> - devuelve el menor numero  </p>
+<p><code>Math.acos(x)</code> -<br />
+<code>Math.asin(x)</code> -<br />
+<code>Math.atan(x)</code> -<br />
+<code>Math.atan2(x)</code> -<br />
+<code>Math.cos(x)</code> -<br />
+<code>Math.sin(x)</code> -<br />
+<code>Math.tan(x)</code> -  </p>
+<pre><code class="language-javascript">// Crea un numero aleatorio entre min y max ambos inclusivo
+Math.floor(Math.random() * (max - min + 1) + min);
+</code></pre>
+<h3 id="date">Date</h3>
+<ul>
+<li><strong>Crear Objeto Date</strong></li>
+</ul>
+<pre><code class="language-javascript">var d = new Date();
+var d = new Date(millis);
+var d = new Date(dateString);
+var d = new Date(year, month, day, hours, minutes, seconds, millis); 
+</code></pre>
+<ul>
+<li><strong>Metodos</strong></li>
+</ul>
+<p><code>Date.now()</code> - devuelve el numero de Milisegundos desde el 1 ene 1970<br />
+<code>Date.parse()</code> - parsea la fecha y devuelve el numero de Milisegundos desde el 1 ene 1970    </p>
+<p><code>.getDate()</code> , <code>.setDate()</code> - Dia del mes (1-31)<br />
+<code>.getDay()</code> - Dia de la semana (0-6)<br />
+<code>.getFullYear()</code> , <code>.setFullYear()</code> - año (4 digitos)<br />
+<code>.getHours()</code> , <code>.setHours()</code> - Hora (0-23)<br />
+<code>.getMilliseconds()</code> , <code>.setMilliseconds()</code> - Milisegundos (0-999)<br />
+<code>.getMinutes()</code> , <code>.setMinutes()</code> - Minutos (0-59)<br />
+<code>.getMonth()</code> , <code>.setMonth()</code> - Mes (0-11)<br />
+<code>.getSeconds()</code> , <code>.setSeconds()</code> - Segundos (0-59)<br />
+<code>.getTime()</code> , <code>.setTime()</code> - Milisegundos desde 1 Enero 1970 00:00:00 y negativo para cualquier tiempo anterior a esa fecha<br />
+<code>.getTimezoneOffset()</code> - Minutos de diferencia horaria entre UTC y la hora local</p>
+<p>Version para UTC<br />
+<code>.getUTCDate()</code> , <code>.setUTCDate()</code> - Dia del mes (1-31)  </p>
+<p><code>.toDateString()</code> - Fecha del tipo <code>Mon Jan 17 1982</code><br />
+<code>.toTimeString()</code> - Hora del tipo <code>19:45:15 GMT+0300 (CEST)</code><br />
+<code>.toString()</code> - Devuelve una string con la fecha especificada<br />
+<code>.toISOString()</code> -  Devuelve una string con la fecha especificada usando el standard ISO<br />
+<code>.date.toJSON()</code> -  Devuelve una string con la fecha especificada formateado en JSON.<br />
+<code>.toLocaleDateString()</code> -  Devuelve una string con la fecha especificada usando las convenciones segun la hora local<br />
+<code>.toLocaleTimeString()</code> - Devuelve una string con la fecha especificada usando las convenciones segun la hora local<br />
+<code>.toLocaleString()</code> - Devuelve una string con la fecha especificada usando las convenciones segun la hora local<br />
+<code>.toUTCString()</code> - Devuelve una string con la fecha especificada segun la hora universal <br />
+<code>.valueOf()</code>- Devuelve el valor primitico de un objeto Date  </p>
+<h3 id="json">JSON</h3>
+<ul>
+<li><strong>JSON.stringify</strong> </li>
+</ul>
+<p><code>JSON.stringify(value, replacer?, space?)</code> convierte el valor <code>value</code> a una cadena en formato JSON.<br />
+<code>replacer</code> es opcional y se usa para cambiar <code>value</code>antes de stringify </p>
+<pre><code class="language-javascript">function replacer(key, value) {
+  if (typeof value === 'number') {
+    value = 2 * value;
+  }
+  return value; 
+}
+JSON.stringify({ a: 5, b: [ 2, 8 ] }, replacer)
+// '{&quot;a&quot;:10,&quot;b&quot;:[4,16]}
+</code></pre>
+<ul>
+<li><strong>JSON.parse</strong>  </li>
+</ul>
+<p><code>JSON.parse(text, reviver?)</code> convierte los datos JSON en <code>text</code> y devuelve un valor javascript<br />
+<code>reviver</code> es opcional y se puede usar para transformar los datos ya parseados  </p>
+<hr />
+<h2 id="strict-mode">STRICT MODE</h2>
+<ul>
+<li>Variables han de ser definidas explicitamente  </li>
+<li>No se puede borrar una variable u objeto usando <code>delete</code></li>
+<li>No se puede definir la misma propiedad dos veces</li>
+<li>No permite los nombres de parametros duplicados</li>
+<li>En una funcion si no se conoce <code>this</code> en lugar de usar el objeto global <code>window</code> sera <code>undefined</code></li>
+<li>Las variables instanciadas dentro del contexto de eval() sólo son válidas en ese contexto.</li>
+<li>La sentencia <code>with(){}</code> ya no se usa</li>
+</ul>
+<p><strong>js</strong></p>
+<p>Envolvemos todo la parte del codigo js en una IIFEs</p>
+<pre><code class="language-javascript">(function() { 
+  'use strict'; /* code here */
+  .. codigo
+}());
+</code></pre>
+<p><strong>node.js</strong></p>
+<p>añadimos al comienzo del archivo</p>
+<pre><code class="language-javascript">/*jslint node: true */
+'use strict';
+</code></pre>
+<hr />
+<h2 id="web-storage">WEB STORAGE</h2>
+<h3 id="objeto-storage">Objeto Storage</h3>
+<blockquote>
+<p>Los navegadores guardan sobre 8mb por dominio en un objecto storage<br />
+Los datos se guardan como propiedades (clave/calor) del objeto storage<br />
+Acceso a los datos se hace de manera sincrona<br />
+Los navegadores usan politica del mismo origen, vamos que los datos solo son accesibles por otras paginas del mismo dominio<br />
+Para ello las 4 partes del URL deben coincidir</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p><img alt="js" src="../_img/js/url.png" /></p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<ol>
+<li>Protocolo ¡ ojo que https es distinto a http !</li>
+<li>Subdominio, maps.google.com no puede acceder a datos guardados de www.google.com</li>
+<li>Dominio debe coincidir</li>
+<li>Puerto, este tambien debe coincidr</li>
+</ol>
+</blockquote>
+</blockquote>
+</blockquote>
+<ul>
+<li><strong>Propiedades</strong></li>
+</ul>
+<p><code>.length</code> - numero de claves</p>
+<ul>
+<li><strong>Metodos</strong></li>
+</ul>
+<p><code>.setItem('clave', 'valor')</code> - Crea una nueva pareja clave/valor<br />
+<code>.getItem('clave')</code> - Devuelve el valor de la clave "clave"<br />
+<code>.removeItem('clave')</code> - Elimina la clave/valor para esa clave<br />
+<code>.clear()</code> - Limpia toda la informacion del objeto storage</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p><img alt="js" src="../_img/js/webStorage1.png" /></p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<ul>
+<li><strong>sessionStorage</strong></li>
+</ul>
+<blockquote>
+<ul>
+<li>Cambios frecuentes cada vez que el usuario visita el sitio, (datos de localizacion, logueos)</li>
+<li>Es personal y privado, no debe ser visto por otros usuarios del dispositivo</li>
+</ul>
+</blockquote>
+<ul>
+<li><strong>localStorage</strong></li>
+</ul>
+<blockquote>
+<ul>
+<li>Solo cambia en los intervalos establecidos (horarios, listas de precios) y es util almacenarlo offline</li>
+<li>Cosas que el usuario use de nuevo si vuelve al sitio (guardar preferencias y ajustes)</li>
+</ul>
+</blockquote>
+<pre><code class="language-javascript">localStorage.setItem(&quot;username&quot;, &quot;marijn&quot;);
+console.log(localStorage.getItem(&quot;username&quot;));
+// → marijn
+localStorage.removeItem(&quot;username&quot;);
+</code></pre>
+<blockquote>
+<p>Un valor en <code>localStorage</code> dura hasta que se sobreescribe, se elimina o el usuario limpia sus datos locales<br />
+Cada pagina tiene su propio almacen que solo puede interactuar con scripts de la misma pagina</p>
+</blockquote>
+<ul>
+<li><strong>Ejemplo</strong></li>
+</ul>
+<pre><code class="language-javascript">var basicRecipes = [{
+  title: 'Cookies',
+  ingredients: ['Cup shortening', 'Peanut Butter', 'Milk', 'Eggs']
+}, {
+  title: 'Spaghetti',
+  ingredients: ['Noodles', 'Tomato Sauce', 'Meatballs', 'Onion']
+}, {
+  title: 'Rice Pudding',
+  ingredients: ['White Rice', 'Milk', 'Sugar', 'Salt']
+}];
+
+// Estas dos hacen lo mismo
+localStorage.setItem('basicRecipes', JSON.stringify(basicRecipes));
+localStorage.basicRecipes = JSON.stringify(basicRecipes);
+// Dos formas de hacer lo mismo tambien
+var sol = JSON.parse(localStorage.getItem('basicRecipes'));
+console.log(sol[0].title);
+console.log((JSON.parse(localStorage.basicRecipes))[0]);
+// Esto borra toda la localStorage
+localStorage.clear()
+</code></pre>
+<h3 id="indexeddb">IndexedDB</h3>
+<h3 id="web-sql">Web SQL</h3>
+<p>Deprecada, pero aun se usa<br />
+No funciona ni en chrome ni en IE</p>
+<hr />
+<h2 id="geolocation">GEOLOCATION</h2>
+<ul>
+<li><strong>Metodos objeto <code>navigation.geolocation</code></strong></li>
+</ul>
+<p><code>getCurrentPosition(exito, error, conf)</code> -</p>
+<blockquote>
+<p>exito - funcion para procesar la ubicacion recibida en el objeto <code>Position</code> error -funcion para procesar los errores retornados en el objeto <code>PositionError</code><br />
+conf - objeto para configurar como la informacion sera adquirida</p>
+</blockquote>
+<p><code>watchPosition(exito, error, conf)</code> - igual que el anterior excepto que inicia un proceso de vigilancia para detectar nuevas ubicaciones que nos enviara cada cierto tiempo</p>
+<p><code>clearWatch(id)</code> - El metodo <code>watchPosition()</code> retorna un valor que puede ser almacenado en una variable para luego ser usado como id aqui y detener la vigilancia</p>
+<ul>
+<li><strong>Propiedades objeto <code>Position</code></strong></li>
+</ul>
+<p><code>.coords.latitude</code> - Devuelve latitud en grados decimales<br />
+<code>.coords.longitude</code> - Devuelve longitud en grados decimales<br />
+<code>.coords.accuracy</code> - Precision de latitud y longitud en metros<br />
+<code>.coords.altitude</code> - Devuelve metros sobre el nivel del mar<br />
+<code>.coords.altitudeAccuracy</code> - Precision de la altitud en metros<br />
+<code>.coords.heading</code> - Devuelve grados respecto al norte<br />
+<code>.coords.speed</code> - Devuelve velocidad en m/s<br />
+<code>.coords.timestamp</code> - Devuelve tiempo desde que se creo (en forma de <code>Date</code>)</p>
+<ul>
+<li><strong>Propiedades objeto <code>PositionError</code></strong></li>
+</ul>
+<p><code>PositionError.code</code> - Devuelve un numero de error con los valores:</p>
+<blockquote>
+<ol>
+<li>Permiso denegado</li>
+<li>No disponeble</li>
+<li>Ha expirado el tiempo</li>
+</ol>
+</blockquote>
+<p><code>PositionError.message</code> - Devuelve un mensaje (pero no para el usuario)</p>
+<pre><code class="language-javascript">var elMap = document.getElementById('loc');                 
+var msg = 'Sorry, we were unable to get your location.';    
+
+if (Modernizr.geolocation) {                                
+  navigator.geolocation.getCurrentPosition(success, fail);  
+  elMap.textContent = 'Checking location...';               
+} else {                                                    
+  elMap.textContent = msg;                                  
+}
+function success(position) {                                
+  msg = '&lt;h3&gt;Longitude:  ';                               
+  msg += position.coords.longitude + '&lt;/h3&gt;';               
+  msg += '&lt;h3&gt;Latitude:  ';                               
+  msg += position.coords.latitude + '&lt;/h3&gt;';                
+  elMap.innerHTML = msg;                                    
+}
+function fail(msg) {                                        
+  elMap.textContent = msg;                                  
+  console.log(msg.code);                                    
+}
+</code></pre>
+<hr />
+<h2 id="history">HISTORY</h2>
+<h3 id="objeto-history">Objeto history</h3>
+<ul>
+<li><strong>Propiedades</strong></li>
+</ul>
+<p><code>.length</code> - numero de articulos en el objeto historia</p>
+<ul>
+<li><strong>Metodos</strong></li>
+</ul>
+<p><code>history.back()</code> - Retrocedes en la historia a la anterior posicion<br />
+<code>history.forward()</code> - Saltas adelante a la siguiente posicion<br />
+<code>history.go(n)</code> - Te lleva a la pagina n respecto de tu posicion que es la 0. Por ejemplo -2 echa dos para atras y 1 salta uno hacia adelante<br />
+<code>history.pushState()</code> - Añade un elemento a la historia<br />
+<code>history.replaceState()</code> - Cambia el actual elemento de la historia por el que pasamos ahora</p>
+<ul>
+<li><strong>Eventos</strong></li>
+</ul>
+<p><code>window.onpopstate</code> - Usado para manejar los movimientos de usuario de adelante atras</p>
+<hr />
+<h2 id="google-maps">GOOGLE MAPS</h2>
+<h3 id="api-key">API Key</h3>
+<p><a href="https://cloud.google.com/console">Se consigue aqui</a></p>
+<h3 id="ajustes">Ajustes</h3>
+<ul>
+<li><strong>Crear un mapa</strong></li>
+</ul>
+<blockquote>
+<ol>
+<li>El evento <code>onload</code> llama a la funcion <code>loadScript()</code></li>
+<li><code>LoadScript()</code> crea un elemento <code>&lt;script&gt;</code> que carga la API y cuando se carga llama a <code>init()</code> que inicializa el mapa</li>
+<li><code>init()</code> carga el mapa en la pagina. Primero crea un objeto <code>mapOptions</code> con propiedades</li>
+<li>
+<p>Luego usa el contructor Map() para crear el map y dibujarlo en la pagina. El contructor tiene dos paremetros</p>
+</li>
+<li>
+<p>el elemento dentro del cual el mapa aparecera dentro</p>
+</li>
+<li>el objeto <code>mapOption</code></li>
+</ol>
+</blockquote>
+<p><code>zoom</code> - Entre 0 (el mundo entero) y 16<br />
+<code>mapTypeId</code> - ROADMAP, SATELLITE, HYBRID, TERRAIN</p>
+<pre><code class="language-javascript">function init() {
+  var mapOptions = {           // Set up the map options
+    center: new google.maps.LatLng(40.782710,-73.965310),
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    zoom: 13
+  };
+  var venueMap;                // Map() draws a map
+  venueMap = new google.maps.Map(document.getElementById('map'),
+                                                    mapOptions);
+}
+function loadScript() {
+  var script = document.createElement('script');     
+  script.src = 'http://maps.googleapis.com/maps/api/js?sensor=false&amp;
+                                                     callback=init';
+  document.body.appendChild(script);                 
+}
+window.onload = loadScript;
+</code></pre>
+<ul>
+<li><strong>Cambiar los controles</strong></li>
+</ul>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p><img alt="js" src="../_img/js/mapControls.png" /></p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<p><img alt="js" src="../_img/js/controls.png" /></p>
+<pre><code class="language-javascript">function init() {
+  var mapOptions = {
+    zoom: 14,
+    center: new google.maps.LatLng(40.782710,-73.965310),
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+
+    panControl: false,
+    zoomControl: true,
+    zoomControlOptions: {
+      style: google.maps.ZoomControlStyle.SMALL,
+      position: google.maps.ControlPosition.TOP_RIGHT
+    },
+    mapTypeControl: true,
+    mapTypeControlOptions: {
+      style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+      position: google.maps.ControlPosition.TOP_LEFT
+    },
+    scaleControl: true,
+    scaleControlOptions: {
+      position: google.maps.ControlPosition.TOP_CENTER
+    },
+    streetViewControl: false,
+    overviewMapControl: false
+  };
+  var venueMap = new google.maps.Map(document.getElementById('map'),
+                                                        mapOptions);
+}
+function loadScript() {
+  var script = document.createElement('script');
+  script.src = 'http://maps.googleapis.com/maps/api/js?sensor=false
+                                                    &amp;callback=init';
+  document.body.appendChild(script);
+}
+window.onload = loadScript;
+</code></pre>
+<ul>
+<li><strong>Añadir marcadores</strong></li>
+</ul>
+<pre><code class="language-javascript">var pinlocation = new google.maps.Latlng(40.782710,-73.965310);
+var startPosition = new google.maps.Marker({    // Create marker
+  position: pinLocation,                        // Set position
+  map: venueMap,                                // Specify the map
+  icon: &quot;img/go.png&quot;                            // Path to image
+});
+</code></pre>
+<hr />
+<h2 id="canvas">CANVAS</h2>
+<h3 id="graficos-para-la-web">Graficos para la web</h3>
+<p><code>&lt;canvas&gt;</code> - Crea el lienzo para dibujar</p>
+<pre><code class="language-html">&lt;body&gt;
+  &lt;section id=&quot;cajacanvas&quot;&gt;
+    &lt;canvas id=&quot;canvas&quot; width=&quot;500&quot; height=&quot;300&quot;&gt;&lt;/canvas&gt;
+  &lt;/section&gt;
+&lt;/body&gt;
+</code></pre>
+<p><code>.getContext(opcion)</code> - Genera un contexto de dibujo que se asigna al lienzo. opcion puede ser "2d" o "webGL"</p>
+<pre><code class="language-javascript">function iniciar(){
+  var elem = document.getElementById('lienzo');
+  var lienzo = elem.getContext('2d');
+  // Aqui los distintos ejemplos posteriores
+}
+addEventListener(&quot;load&quot;, iniciar);
+</code></pre>
+<h3 id="dibujar">Dibujar</h3>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p><img alt="js" src="../_img/js/canvasCoords.png" /></p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<pre><code class="language-javascript">function iniciar(){
+  var elemento=document.getElementById('lienzo');
+  lienzo=elemento.getContext('2d');
+  // codigo para dibujar y hacer cosas
+}
+window.addEventListener(&quot;load&quot;, iniciar, false)
+</code></pre>
+<ul>
+<li><strong>Rectangulos</strong></li>
+</ul>
+<blockquote>
+<p>Metodos</p>
+</blockquote>
+<p><code>fillRect(x,y,ancho,alto)</code> - Dibuja un rectangulo solido. La esquina superior izquierda esta en x,y. Ancho y alto definen el tamaño del rectangulo<br />
+<code>strokeRect(x,y,ancho,alto)</code> - Como el anterior pero solo dibuja el contorno<br />
+<code>clearRect(x,y,ancho,alto)</code> - Es un borrador rectangular</p>
+<pre><code class="language-javascript">lienzo.strokeRect(100,100,120,120);
+lienzo.fillRect(110,110,100,100);
+lienzo.clearRect(120,120,80,80);
+</code></pre>
+<ul>
+<li><strong>Color</strong></li>
+</ul>
+<blockquote>
+<p>Propiedades</p>
+</blockquote>
+<p><code>strokeStyle</code> - color para el contorno de la figura<br />
+<code>fillStyle</code> - color para el interior de la figura<br />
+<code>globalAlpha</code> - especifica la transfercnia para todas las figuras dibujadas en el lienzo</p>
+<pre><code class="language-javascript">lienzo.fillStyle = &quot;#000099&quot;;
+lienzo.strokeStyle = &quot;#990000&quot;;
+lienzo.strokeStyrl = &quot;rgba(255, 165, 0, 1)&quot;
+lienzo.globalAlpha = 0.5                     // (0 opaco, 1 transparente)
+</code></pre>
+<ul>
+<li><strong>Degradados</strong></li>
+</ul>
+<blockquote>
+<p>Metodos</p>
+</blockquote>
+<p><code>createLinearGradient(x1,y1,x2,y2)</code> - Crea un objeto que luego sera usado para aplicar un gradiente lineal al lienzo<br />
+<code>createRadialGradient(x1,y1,r1,x2,y2,r2)</code> - Crea un objeto que luego será usado para aplicar un gradiente circular o radial al lienzo usando dos círculos. Los valores representan la posición del centro de cada círculo y sus radios<br />
+<code>addColorStop(posicion,color)</code> - Posición es un valor entre 0 y 1 que determina dónde la degradación comenzará para ese color en particular. Color especifica los colores que usaran los gradientes</p>
+<pre><code class="language-javascript">var gradiente = lienzo.createLinearGradient(0, 0, 10, 100);
+gradiente.addColorStop(0.5, '#0000FF');
+gradiente.addColorStop(1, '#000000');
+lienzo.fillStyle = gradiente;
+</code></pre>
+<ul>
+<li><strong>Crear Trazados</strong></li>
+</ul>
+<p>Lo normal es procesar figuras en segundo plano y una vez hecho enviarlas al contexto a ser dibujadas.</p>
+<p>Un <code>trazado</code> es como un mapa a ser seguido por el lapiz. Puede incluir diferentes tipos de líneas, como líneas rectas, arcos, rectángulos ... para crear figuras complejas</p>
+<blockquote>
+<p>Metodos para comenzar y cerrar el trazado</p>
+</blockquote>
+<p><code>beginPath()</code> - Describe el comienzo de una nueva figura. Se llama primero, antes de comenzar a crear el trazado<br />
+<code>closePath()</code> - Cierra el trazado generando una linea recta desde el ultimo punto hasta el punto de origen. Se puede ignorar cuando usamos el metodo <code>fill()</code> para dibujar el trazado en el lienzo</p>
+<blockquote>
+<p>Metodos para dibujar el trazado en el lienzo</p>
+</blockquote>
+<p><code>stroke()</code> - dibuja el trazado de una figura vacia (solo el contorno)<br />
+<code>fill()</code> - dibuja el trazado de una figura solida<br />
+<code>clip()</code> - declara una nueva area de corte para el contexto. Al inicializar el contexto el area de corte es el area completa ocupada por el lienzo. <code>clip()</code> cambia esa area a una nueva forma creando una mascara. Todo lo que este fuera de esa mascara no sera dibujado</p>
+<pre><code class="language-javascript">lienzo.beginPath();
+// aquí va el trazado
+lienzo.stroke();
+</code></pre>
+<blockquote>
+<p>Metodos para crear el trazado</p>
+</blockquote>
+<p><code>moveTo(x,y)</code> - mueve el lapiz a una posicion para continuar con el trazado<br />
+<code>lineTo(x,y)</code> - genera linea recta desde la posicion actual hasta la nueva x,y<br />
+<code>rect(x,y,ancho,alto)</code> - genera un texangulo que forma parte del trazado<br />
+<code>arc(x,y,radio,anguloInicio,anguloFinal,direccion)</code> - genera un arco o circulo en la posicion x,y con radio y desde un anguloInicio hasta anguloFinal. La direccion false a favor de las agujas del reloj, true en contra<br />
+<code>quadraticCurve(cpx,cpy,x,y)</code> - genera una curva cuadratica bezier desde la posicion actual hasta las posicion x,y. cpx y cpy indican el punto que dara forma a la curva<br />
+<code>bezierCurve(cp1x,cp1y,cp2x,cp2y,x,y)</code> - como el anterior pero genera una curva bezier cubica con dos puntos para moldear la curva</p>
+<pre><code class="language-javascript">lienzo.beginPath();
+lienzo.moveTo(100,100);
+lienzo.lineTo(200,200);
+lienzo.lineTo(100,200);
+// Opcion 1
+lienzo.closePath();     lienzo.stroke();
+// Opcion 2
+lienzo.fill();
+</code></pre>
+<pre><code class="language-javascript">// circulos con arc()
+lienzo.arc(100,100,50,0,Math.PI*2, false);
+// arco de 45 grados
+var radianes=Math.PI/180*45;
+lienzo.arc(100,100,50,0,radianes, false);
+</code></pre>
+<ul>
+<li><strong>Estilos de linea</strong></li>
+</ul>
+<blockquote>
+<p>Propiedades afectan al trazado completo. para cambia las caracteristicas de las lineas hay que crear un nuevo trazado</p>
+</blockquote>
+<p><code>lineWidth</code> - Determina el grosor de la linea, por defecto = 1<br />
+<code>lineCap</code> - Determina la forma de la terminacion de la linea <code>butt</code>, <code>round</code> ó <code>square</code><br />
+<code>lineJoin</code> - Forma de la conexion entre dos lineas, <code>round</code>, <code>bevel</code> ó <code>miter</code><br />
+<code>miterLimit</code> - Determina cuanto la conexion de dos lineas sera extendida cuando lineJoin="miter"</p>
+<pre><code class="language-javascript">lienzo.beginPath();
+lienzo.arc(200,150,50,0,Math.PI*2, false);
+lienzo.stroke();
+
+lienzo.lineWidth=10;
+lienzo.lineCap=&quot;round&quot;;
+lienzo.beginPath();
+lienzo.moveTo(230,150);
+lienzo.arc(200,150,30,0,Math.PI, false);
+lienzo.stroke();
+
+lienzo.lineWidth=5;
+lienzo.lineJoin=&quot;miter&quot;;
+lienzo.beginPath();
+lienzo.moveTo(195,135);
+lienzo.lineTo(215,155);
+lienzo.lineTo(195,155);
+lienzo.stroke();
+</code></pre>
+<ul>
+<li><strong>Texto</strong></li>
+</ul>
+<blockquote>
+<p>Propiedades</p>
+</blockquote>
+<p><code>font</code> - similar a <code>font</code> de CSS y acepta los mismos valores<br />
+<code>textAlign</code> - Alinea el texto, <code>start</code>, <code>end</code>, <code>left</code>, <code>right</code>, y <code>center</code><br />
+<code>textBaseline</code> -Alineamiento vertical, <code>top</code>, <code>hanging</code>, <code>middle</code>, <code>alphabetic</code>, <code>ideographic</code>, y <code>bottom</code></p>
+<blockquote>
+<p>Metodos</p>
+</blockquote>
+<p><code>strokeText(texto,x,y,opcional)</code> - Dibuja el texto en la posicion x,y como una figura vacia(solo contornos). opcional declara el tamaño maximo,si el texto es mas extenso se encogera<br />
+<code>fillText(texto,x,y)</code> - Igual que el anterior pero el texto sera solido<br />
+<code>measureText(texto,x,y)</code> - Retorna informacion sobre el tamaño de un texto especifico. Util para combinar texto con otras formas y calcular posiciones o colisiones</p>
+<pre><code class="language-javascript">lienzo.font=&quot;bold 24px verdana, sans-serif&quot;;
+lienzo.textAlign=&quot;start&quot;;
+lienzo.fillText(&quot;Mi mensaje&quot;, 100,100);
+</code></pre>
+<pre><code class="language-javascript">lienzo.font=&quot;bold 24px verdana, sans-serif&quot;;
+lienzo.textAlign=&quot;start&quot;;
+lienzo.textBaseline=&quot;bottom&quot;;
+lienzo.fillText(&quot;Mi mensaje&quot;, 100,124);
+
+var tamano=lienzo.measureText(&quot;Mi mensaje&quot;);
+lienzo.strokeRect(100,100,tamano.width,24);
+</code></pre>
+<ul>
+<li><strong>Sombras</strong></li>
+</ul>
+<blockquote>
+<p>Propiedades</p>
+</blockquote>
+<p><code>shadowColor</code> - Color de la sombra usando sintaxis CSS<br />
+<code>shadowOffsetX</code> - Recibe un numero que indica cuan lejos esta la sombra del objeto en direccion horizontal<br />
+<code>shadowOffsetY</code> - Recibe un numero que indica cuan lejos esta la sombra del objeto en direccion vertical<br />
+<code>shadowBlur</code> - Produce efecto de difuminacion para la sombra</p>
+<pre><code class="language-javascript">lienzo.shadowColor=&quot;rgba(0,0,0,0.5)&quot;;
+lienzo.shadowOffsetX=4;
+lienzo.shadowOffsetY=4;
+lienzo.shadowBlur=5;
+lienzo.font=&quot;bold 50px verdana, sans-serif&quot;;
+lienzo.fillText(&quot;Mi mensaje &quot;, 100,100);
+</code></pre>
+<ul>
+<li><strong>Transformaciones</strong></li>
+</ul>
+<p><code>translate(x,y)</code> - Mueve el origen del lienzo<br />
+<code>rotate(angulo)</code> - Rota el lienzo alrededor del origen tantos angulos<br />
+<code>scale(x,y)</code> - Incrementa o disminuye las unidades de la grilla para reducir o ampliar todo lo dibujado. La escala se puede cambiar solo en un eje. Por defecto valor=1<br />
+<code>transform(m1,m2,m3,m4,dx,dy)</code> - El lienzo tiene una matriz de valores, esto aplica una nueva matriz sobre la actual para modificar el lienzo<br />
+<code>setTransform(m1,m2,m3,m4,dx,dy)</code> - Reinicializa la matriz de transformacion y establece una nueva con estos valores</p>
+<pre><code class="language-javascript">// Moviendo, rotando y escalando.
+lienzo.fillText(&quot;PRUEBA&quot;,50,20);
+lienzo.translate(50,70);
+lienzo.rotate(Math.PI/180*45);
+lienzo.fillText(&quot;PRUEBA&quot;,0,0);
+lienzo.rotate(-Math.PI/180*45);
+lienzo.translate(0,100);
+lienzo.scale(2,2);
+lienzo.fillText(&quot;PRUEBA&quot;,0,0);
+</code></pre>
+<pre><code class="language-javascript">// Transformaciones acumulativas sobre la matriz.
+lienzo.transform(3,0,0,1,0,0);
+lienzo.font=&quot;bold 20px verdana, sans-serif&quot;;
+lienzo.fillText(&quot;PRUEBA&quot;,20,20);
+lienzo.transform(1,0,0,10,0,0);
+lienzo.font=&quot;bold 20px verdana, sans-serif&quot;;
+lienzo.fillText(&quot;PRUEBA&quot;,100,20);
+</code></pre>
+<ul>
+<li><strong>Restaurar el estado</strong></li>
+</ul>
+<blockquote>
+<p>Metodos</p>
+</blockquote>
+<p><code>save()</code> - graba es estado del lienzo<br />
+<code>restore()</code> - recupera el ultimo estado grabado</p>
+<pre><code class="language-javascript">// Grabando el estado del lienzo.
+lienzo.save();
+lienzo.translate(50,70);
+lienzo.font=&quot;bold 20px verdana, sans-serif&quot;;
+lienzo.fillText(&quot;PRUEBA1&quot;,0,30);
+lienzo.restore();
+lienzo.fillText(&quot;PRUEBA2&quot;,0,30);
+</code></pre>
+<ul>
+<li><strong>globalCompositeOperation</strong></li>
+</ul>
+<blockquote>
+<p>Determina como una figura es poscionada y combinada con figuras ya dibujadas en el lienzo<br />
+Valores de la propiedad</p>
+</blockquote>
+<p><code>source-over</code> - POR DEFECTO - la nueva figura sera dibujada sobre las existentes<br />
+<code>source-in</code> - Solo la parte de la nueva figura que se sobrepone a las figuras previas es dibujada. El resto de la figura, e incluso el resto de las figuras previas, se vuelven transparentes.<br />
+<code>source-out</code> - Solo la parte de la nueva figura que no se sobrepone a las figuras previas es dibujada. El resto de la figura, e incluso el resto de las figuras previas, se vuelven transparentes.<br />
+<code>source-atop</code> - Solo la parte de la nueva figura que se superpone con las figuras previas es dibujada. Las figuras previas son preservadas, pero el resto de la nueva figura se vuelve transparente.<br />
+<code>lighter</code> - Ambas figuras son dibujadas (nueva y vieja), pero el color de las partes que se superponen es obtenido adicionando los valores de los colores de cada figura.<br />
+<code>xor</code> - Ambas figuras son dibujadas (nueva y vieja), pero las partes que se superponen se vuelven transparentes.<br />
+<code>destination-over</code> - Este es el opuesto del valor por defecto. Las nuevas figuras son dibujadas detrás de las viejas que ya se encuentran en el lienzo.<br />
+<code>destination-in</code> - Las partes de las figuras existentes en el lienzo que se superponen con la nueva figura son preservadas. El resto, incluyendo la nueva figura, se vuelven transparentes<br />
+<code>destination-out</code> - Las partes de las figuras existentes en el lienzo que no se superponen con la nueva figura son preservadas. El resto, incluyendo la nueva figura, se vuelven transparentes.<br />
+<code>destination-atop</code> - Las figuras existentes y la nueva son preservadas solo en la parte en la que se superponen.<br />
+<code>darker</code> - Ambas figuras son dibujadas, pero el color de las partes que se superponen es determinado substrayendo los valores de los colores de cada figura.<br />
+<code>copy</code> - Solo la nueva figura es dibujada. Las ya existentes se vuelven transparentes.</p>
+<pre><code class="language-javascript">// robando la propiedad globalCompositeOperation
+lienzo.fillStyle=&quot;#990000&quot;;
+lienzo.fillRect(100,100,300,100);
+lienzo.globalCompositeOperation=&quot;destination-atop&quot;;
+lienzo.fillStyle=&quot;#AAAAFF&quot;;
+lienzo.font=&quot;bold 80px verdana, sans-serif&quot;;
+lienzo.textAlign=&quot;center&quot;;
+lienzo.textBaseline=&quot;middle&quot;;
+lienzo.fillText(&quot;PRUEBA&quot;,250,110);
+</code></pre>
+<h3 id="procesar-imagenes">Procesar imagenes</h3>
+<ul>
+<li><strong>drawImage()</strong></li>
+</ul>
+<blockquote>
+<p>Permite dibujar una imagen en el lienzo</p>
+</blockquote>
+<p><code>drawImage(imagen,x,y)</code> - Dibuja una imagen en el lienzo en la posicion x,y. La imagen puede ser una referencia a un elemento <code>&lt;img&gt;</code> <code>&lt;video&gt;</code> u otro <code>&lt;canvas&gt;</code><br />
+<code>drawImage(imagen,x,y,ancho,alto)</code> - Como antes pero permite escalar la imagen<br />
+<code>drawImage(imagen,x1,y1,ancho1,alto1,x2,y2,ancho2,alto2)</code> - Los valores ..1 definen la parte de la imagen que sera cortada mientras que los valores ..2 indican el lugar donde sera insertado en el lienzo y su nuevo tamaño</p>
+<pre><code class="language-javascript">var img = document.createElement('img');
+img.setAttribute('src', 'http://www.formasterminds.com/snow.jpg');
+img.addEventListener(&quot;load&quot;, function(){
+  lienzo.drawImage(img, 20, 20);
+  // Otra opcion: Ajustando la imagen al tamaño del lienzo
+  lienzo.drawImage(img, 0, 0, elem.width, elem.height);
+});
+</code></pre>
+<ul>
+<li><strong>Datos de imagen</strong></li>
+</ul>
+<blockquote>
+<p>Toda imagen puede ser representada por una sucesión de números enteros representando valores rgba Un grupo de valores con esta información resultará en un array unidimensional que puede ser usado luego para generar una imagen.</p>
+<p>Metodos</p>
+</blockquote>
+<p><code>getImageData(x,y,ancho,alto)</code> - toma un rectangulo del lienzo y lo convierte en datos. Retorna un objeto con propiedades <code>width</code>, <code>height</code> y <code>data</code><br />
+<code>putImageData(datosImagen,x,y)</code> - convierte los datos de <code>datosImagen</code> en una imagen y la dibujan en el lienzo en la posicion x,y<br />
+<code>createImageData((ancho,alto)|datos)</code> - Crea datos para representar una imagen vacia. Todos los pixeles son negro transparente. Tambien puede recibir datos como atributo en lugar de ancho,alto</p>
+<pre><code class="language-javascript">img = document.createElement('img');
+img.setAttribute('src', 'snow.jpg');
+img.addEventListener(&quot;load&quot;, modimagen);
+
+function modimagen(){
+  lienzo.drawImage(img, 0, 0);
+
+  var info = lienzo.getImageData(0, 0, 175, 262);
+  var pos;
+  for(var x = 0; x &lt; 175; x++){
+    for(var y = 0; y &lt; 262; y++){
+      pos = (info.width * 4 * y) + (x * 4);
+      info.data[pos] = 255 - info.data[pos];
+      info.data[pos+1] = 255 - info.data[pos+1];
+      info.data[pos+2] = 255 - info.data[pos+2];
+    }
+  }
+  lienzo.putImageData(info, 0, 0);
+}
+</code></pre>
+<ul>
+<li><strong>cross-origin</strong></li>
+</ul>
+<p><code>setAttribute("crossOrigin","anonymous|use-credentials")</code> - <code>anonymous</code> hace caso omiso de las credenciales y <code>use-credentials</code> requiere credenciales</p>
+<pre><code class="language-javascript">imagen.setAttribute(&quot;crossOrigin&quot;,&quot;anonymous|use-credentials&quot;);
+</code></pre>
+<ul>
+<li><strong>Extraccion de datos</strong></li>
+</ul>
+<blockquote>
+<p>Metodos</p>
+</blockquote>
+<p><code>toDataURL(image/jpeg|image/png)</code> - Devuelve los datos en formato data:url del contenido del lienzo a una resolucion de 96 ppp<br />
+<code>toDataURL</code> - Como la anterior pera la resolucion es la original del lienzo<br />
+<code>toBlob(funcion,image/jpeg|image/png)</code> - Devuelve un objeto con un blob(datos en crudo) que contiene la representacion del lienzo en el formato elegido y resolucion de 96 ppp. La funcion es la encargada de procesar el objeto.<br />
+<code>toBlobHD(tipo)</code> - Como el anterior pero la resolucion del blob es la del lienzo original</p>
+<ul>
+<li><strong>Patrones</strong></li>
+</ul>
+<blockquote>
+<p>Los patrones son simples adiciones que pueden mejorar nuestros trazados.</p>
+</blockquote>
+<p><code>createPattern(imagen,tipo)</code> - imágen es una referencia a la imagen que vamos a usar como patrón, y tipo configura el patrón por medio de cuatro valores: repeat, repeat-x, repeat-y y no-repeat</p>
+<pre><code class="language-javascript">img = document.createElement('img');
+  const imageUrl = 'http://www.formasterminds.com/content/bricks.jpg';
+  img.setAttribute('src', imageUrl);
+  img.addEventListener(&quot;load&quot;, modimagen);
+}
+function modimagen(){
+  var pattern = lienzo.createPattern(img, 'repeat');
+  lienzo.fillStyle = pattern;
+  lienzo.fillRect(0, 0, 500, 300);
+}
+</code></pre>
+<h3 id="animaciones">Animaciones</h3>
+<blockquote>
+<p>Básicamente, debemos borrar el área del lienzo que queremos animar, dibujar las figuras y repetir el proceso una y otra vez.<br />
+Es mejor usar imagenes (png) que figuras con trazados complejos</p>
+</blockquote>
+<ul>
+<li><strong>Elementales</strong></li>
+</ul>
+<pre><code class="language-javascript">// Dos ojos que miran al puntero del raton y lo siguen
+var lienzo;
+function iniciar(){
+  var elem = document.getElementById('lienzo');
+  lienzo = elem.getContext('2d');
+  addEventListener('mousemove', animar);
+}
+function animar(e){
+  lienzo.clearRect(0, 0, 300, 500);
+
+  var xraton = e.clientX;
+  var yraton = e.clientY;
+  var xcentro = 220;
+  var ycentro = 150;
+  var ang = Math.atan2(xraton - xcentro, yraton - ycentro);
+  var x = xcentro + Math.round(Math.sin(ang) * 10);
+  var y = ycentro + Math.round(Math.cos(ang) * 10);
+
+  lienzo.beginPath();
+  lienzo.arc(xcentro, ycentro, 20, 0, Math.PI * 2, false);
+  lienzo.moveTo(xcentro + 70, 150);
+  lienzo.arc(xcentro + 50, 150, 20, 0, Math.PI * 2, false);
+  lienzo.stroke();
+
+  lienzo.beginPath();
+  lienzo.moveTo(x + 10, y);
+  lienzo.arc(x, y, 10, 0, Math.PI * 2, false);
+  lienzo.moveTo(x + 60, y);
+  lienzo.arc(x + 50, y, 10, 0, Math.PI * 2, false);
+  lienzo.fill();
+}
+addEventListener(&quot;load&quot;, iniciar);
+</code></pre>
+<ul>
+<li><strong>Profesionales</strong></li>
+</ul>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;es&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;title&gt;VideoJuegos&lt;/title&gt;
+  &lt;style&gt;
+    body{
+      text-align: center;
+    }
+    #cajadelienzo{
+      margin: 100px auto;
+    }
+    #lienzo{
+      border: 1px solid #999999;
+    }
+  &lt;/style&gt;
+  &lt;script src=&quot;videojuego.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;section id=&quot;cajadelienzo&quot;&gt;
+    &lt;canvas id=&quot;lienzo&quot; width=&quot;600&quot; height=&quot;400&quot;&gt;&lt;/canvas&gt;
+  &lt;/section&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p><code>requestAnimationFrame(funcion)</code> - Sincroniza la animacion con la ventana del navegador y el monitor. hay que llamarlo para cada ciclo del bucle<br />
+<code>cancelAnimationFrame(variable)</code> - Podemos asignar el valor de arriba a una variable y con ese metodo cancelamos el proceso</p>
+<p>Hay que concentrar el codigo del juego en un objeto global unico</p>
+<pre><code class="language-javascript">var onoff;
+function gameLoop() {
+  // haces lo que sea  
+  onoff = requestAnimationFrame(gameLoop);
+}
+// en otro sitio para parar el bucle
+cancelAnimationFrame(onoff);
+</code></pre>
+<pre><code class="language-javascript">function gameLoop () {
+  setTimeout(function () {
+    if (running) {
+      update();
+      render();
+    }
+    onoff = requestAnimationFrame(gameLoop);
+    // console.log('gameLoop sigue ... ', onoff)
+    if (cancel) {
+      cancelAnimationFrame(onoff);
+      setScoreToZeros();
+    }
+  }, 1000 / fps);
+}
+</code></pre>
+<pre><code class="language-javascript">var mijuego = {
+  lienzo: {
+    ctx: '',
+    offsetx: 0,
+    offsety: 0
+  },
+  nave: {
+    x: 300,
+    y: 200,
+    movex: 0,
+    movey: 0,
+    speed: 1
+  },
+  iniciar: function(){
+    var elem = document.getElementById('lienzo');
+    mijuego.lienzo.ctx = elem.getContext('2d');
+    mijuego.lienzo.offsetx = elem.offsetLeft;
+    mijuego.lienzo.offsety = elem.offsetTop;
+    document.addEventListener('click', function(e){
+      mijuego.control(e);
+    });
+    mijuego.bucle();
+  },
+  bucle: function(){
+    if(mijuego.nave.speed){
+      mijuego.procesar();
+      mijuego.detectar();
+      mijuego.dibujar();
+      // requestAnimationFrame(function(){ mijuego.bucle() });
+      webkitRequestAnimationFrame(function(){ mijuego.bucle() });
+    }else{
+      mijuego.lienzo.ctx.font = &quot;bold 36px verdana, sans-serif&quot;;
+      mijuego.lienzo.ctx.fillText('JUEGO FINALIZADO', 112, 210);
+    }
+  },
+  control: function(e){
+    var distancex = e.clientX - (mijuego.lienzo.offsetx + mijuego.nave.x);
+    var distancey = e.clientY - (mijuego.lienzo.offsety + mijuego.nave.y);
+    var ang = Math.atan2(distancex, distancey);
+    mijuego.nave.movex = Math.sin(ang);
+    mijuego.nave.movey = Math.cos(ang);
+    mijuego.nave.speed += 1;
+  },
+  dibujar: function(){
+    mijuego.lienzo.ctx.clearRect(0, 0, 600, 400);
+    mijuego.lienzo.ctx.beginPath();
+    mijuego.lienzo.ctx.arc(mijuego.nave.x, mijuego.nave.y, 20, 0,
+                                            Math.PI/180*360, false);
+    mijuego.lienzo.ctx.fill();
+  },
+  procesar: function(){
+    mijuego.nave.x += mijuego.nave.movex * mijuego.nave.speed;
+    mijuego.nave.y += mijuego.nave.movey * mijuego.nave.speed;
+  },
+  detectar: function(){
+    if(mijuego.nave.x &lt; 0 || mijuego.nave.x &gt; 600 || mijuego.nave.y &lt; 0
+                                              || mijuego.nave.y &gt; 400){
+      mijuego.nave.speed = 0;
+    }
+  }
+};
+addEventListener('load', function(){ mijuego.iniciar(); });
+</code></pre>
+<h3 id="procesar-video">Procesar Video</h3>
+<blockquote>
+<p>Coger cada cuadro del video desde el elemento <code>&lt;video&gt;</code> y dibujarlo como una imagen en el lienzo usando drawImage()</p>
+</blockquote>
+<ul>
+<li><strong>Mostrar video</strong></li>
+</ul>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;es&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;title&gt;Video en el Lienzo&lt;/title&gt;
+  &lt;style&gt;
+    section{
+      float: left;
+    }
+  &lt;/style&gt;
+  &lt;script&gt;
+    var lienzo, video;
+    function iniciar(){
+      var elem = document.getElementById('lienzo');
+      lienzo = elem.getContext('2d');
+      video = document.getElementById('media');
+      lienzo.translate(483, 0);
+      lienzo.scale(-1, 1);
+      setInterval(procesarCuadros, 33);
+    }
+    function procesarCuadros(){
+      lienzs.drawImage(video, 0, 0);
+    }
+    addEventListener(&quot;load&quot;, iniciar);
+  &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;section&gt;
+    &lt;video id=&quot;medio&quot; width=&quot;483&quot; height=&quot;272&quot; autoplay&gt;
+      &lt;source src=&quot;http://www.formasterminds.com/content/trailer2.mp4&quot;&gt;
+      &lt;source src=&quot;http://www.formasterminds.com/content/trailer2.ogg&quot;&gt;
+    &lt;/video&gt;
+  &lt;/section&gt;
+  &lt;section&gt;
+    &lt;canvas id=&quot;canvas&quot; width=&quot;483&quot; height=&quot;272&quot;&gt;&lt;/canvas&gt;
+  &lt;/section&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h3 id="graficos-de-tarta">Graficos de tarta</h3>
+<blockquote>
+<blockquote>
+<p><img alt="js" src="../_img/js/pieChart.png" /></p>
+</blockquote>
+</blockquote>
+<pre><code class="language-html">&lt;!doctype html&gt;
+&lt;canvas width=&quot;600&quot; height=&quot;300&quot;&gt;&lt;/canvas&gt; 
+&lt;script&gt;
+var results = [
+  {name: &quot;Contento&quot;, count: 1043, color: &quot;lightblue&quot;},
+  {name: &quot;Neutral&quot;, count: 563, color: &quot;lightgreen&quot;},
+  {name: &quot;Descontento&quot;, count: 510, color: &quot;pink&quot;},
+  {name: &quot;No contesta&quot;, count: 175, color: &quot;silver&quot;}
+];
+var cx = document.querySelector(&quot;canvas&quot;).getContext(&quot;2d&quot;);
+var total = results.reduce(function(sum, choice) {
+  return sum + choice.count;
+}, 0);
+
+var currentAngle = -0.5 * Math.PI;
+var centerX = 300, centerY = 150;
+
+results.forEach(function(result) {
+  var sliceAngle = (result.count / total) * 2 * Math.PI;
+  cx.beginPath();
+  cx.arc(centerX, centerY, 100,
+         currentAngle, currentAngle + sliceAngle);
+
+  var middleAngle = currentAngle + 0.5 * sliceAngle;
+  var textX = Math.cos(middleAngle) * 120 + centerX;
+  var textY = Math.sin(middleAngle) * 120 + centerY;
+  cx.textBaseLine = &quot;middle&quot;;
+  if (Math.cos(middleAngle) &gt; 0)
+    cx.textAlign = &quot;left&quot;;
+  else
+    cx.textAlign = &quot;right&quot;;
+  cx.font = &quot;15px sans-serif&quot;;
+  cx.fillStyle = &quot;black&quot;;
+  cx.fillText(result.name, textX, textY);
+
+  currentAngle += sliceAngle;
+  cx.lineTo(centerX, centerY);
+  cx.fillStyle = result.color;
+  cx.fill();
+});
+&lt;/script&gt;
+</code></pre>
+<hr />
+          
+          
+        </div>
+      </div>
+    </div>
+    <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebarwrapper">
+        <!--
+  <p class="logo">
+    <a href="..">
+      <img class="logo" src="../_img/chuletas128.png" title="Chuletas">
+    </a>
+  </p>
+  
+
+
+
+        
+        <h2>Navigation</h2>
+
+
+<ul>
+  
+      
+        <li>
+          <a href="">Menu</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="html/">HTML</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="css/">CSS</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="frontend/">Front End</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript/">Javascript</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript-apis/">Javascript APIs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript-para-web/">Javascript para web</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript-snippets/">Javascript snippets</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="reactjs/">Reactjs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="nodejs/">Nodejs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="expressjs/">Expressjs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="nodejs-snippets/">Nodejs snippets</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="nodejs-bases-de-datos/">Nodejs Bases de Datos</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang/">Golang</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang-para-web/">Golang para web</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang-snippets/">Golang snippets</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang-bases-de-datos/">Golang Bases de Datos</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="debian/">Debian</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="varios/">Varios</a>
+        </li>
+      
+    
+  </ul>
+        
+
+
+
+<h3>Contenidos</h3>
+
+<nav>
+  
+
+<ul>
+  
+  <li><a href="#libreria-standard">LIBRERIA STANDARD</a></li>
+  <ul>
+  
+  <li><a href="#math">Math</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#date">Date</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#json">JSON</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#strict-mode">STRICT MODE</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#web-storage">WEB STORAGE</a></li>
+  <ul>
+  
+  <li><a href="#objeto-storage">Objeto Storage</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#indexeddb">IndexedDB</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#web-sql">Web SQL</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#geolocation">GEOLOCATION</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#history">HISTORY</a></li>
+  <ul>
+  
+  <li><a href="#objeto-history">Objeto history</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#google-maps">GOOGLE MAPS</a></li>
+  <ul>
+  
+  <li><a href="#api-key">API Key</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#ajustes">Ajustes</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#canvas">CANVAS</a></li>
+  <ul>
+  
+  <li><a href="#graficos-para-la-web">Graficos para la web</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#dibujar">Dibujar</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#procesar-imagenes">Procesar imagenes</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#animaciones">Animaciones</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#procesar-video">Procesar Video</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#graficos-de-tarta">Graficos de tarta</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+</ul>
+
+
+  
+</nav>
+        
+        <div id="searchbox" style="display: none;" role="search">
+  <h3>Quick search</h3>
+  <form class="search" action="../search.html" method="get">
+    <input name="q" type="text">
+    <input value="Go" type="submit">
+  </form>
+  <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+  </p>
+</div>
+<script type="text/javascript">
+  document.getElementById("searchbox").style.display = "block";
+</script>
+        -->
+
+        
+
+        
+        
+  <p class="logo">
+    <a href="..">
+      <img class="logo" src="../_img/chuletas128.png" title="Chuletas">
+    </a>
+  </p>
+  
+
+
+
+        
+        <div class="menuNav">
+
+  
+  <ul>
+    
+    
+    <li>
+      <a href="../">Menu</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../html/">HTML</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../css/">CSS</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../frontend/">Front End</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript/">Javascript</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript-apis/">Javascript APIs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript-para-web/">Javascript para web</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript-snippets/">Javascript snippets</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../reactjs/">Reactjs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../nodejs/">Nodejs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../expressjs/">Expressjs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../nodejs-snippets/">Nodejs snippets</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../nodejs-bases-de-datos/">Nodejs Bases de Datos</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang/">Golang</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang-para-web/">Golang para web</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang-snippets/">Golang snippets</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang-bases-de-datos/">Golang Bases de Datos</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../debian/">Debian</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../varios/">Varios</a>
+    </li>
+    
+    
+  </ul>
+</div>
+        
+        
+
+
+
+<h3>Contenidos</h3>
+
+<nav>
+  
+
+<ul>
+  
+  <li><a href="#libreria-standard">LIBRERIA STANDARD</a></li>
+  <ul>
+  
+  <li><a href="#math">Math</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#date">Date</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#json">JSON</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#strict-mode">STRICT MODE</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#web-storage">WEB STORAGE</a></li>
+  <ul>
+  
+  <li><a href="#objeto-storage">Objeto Storage</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#indexeddb">IndexedDB</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#web-sql">Web SQL</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#geolocation">GEOLOCATION</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#history">HISTORY</a></li>
+  <ul>
+  
+  <li><a href="#objeto-history">Objeto history</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#google-maps">GOOGLE MAPS</a></li>
+  <ul>
+  
+  <li><a href="#api-key">API Key</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#ajustes">Ajustes</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#canvas">CANVAS</a></li>
+  <ul>
+  
+  <li><a href="#graficos-para-la-web">Graficos para la web</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#dibujar">Dibujar</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#procesar-imagenes">Procesar imagenes</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#animaciones">Animaciones</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#procesar-video">Procesar Video</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#graficos-de-tarta">Graficos de tarta</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+</ul>
+
+
+  
+</nav>
+        
+
+        
+
+      </div>
+    </div>
+    <div class="clearer"></div>
+  </div>
+
+  
+  <div class="footer">
+    
+    
+    
+    Powered by <a href="http://www.mkdocs.org">mkdocs 1.4.2</a>
+    &amp; <a href="https://github.com/iamale/mkdocs-alabaster">mkdocs-alabaster</a>
+    
+  </div>
+  
+
+  <!--
+  MkDocs version      : 1.4.2
+  Docs Build Date UTC : 2023-09-28 09:46:52.098888+00:00
+  -->
+</body>
+
+</html>

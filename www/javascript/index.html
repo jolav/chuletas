@@ -1,0 +1,2294 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+  <title>Javascript &mdash; Chuletas</title>
+
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <link rel="stylesheet" href="../css/alabaster.css" type="text/css">
+  <link rel="stylesheet" href="../css/alabaster-overrides.css" type="text/css">
+
+  
+  <link href="../_extra/css/extra.css" rel="stylesheet">
+  
+
+  
+  <script src="../_extra/js/highlight.pack.js"></script>
+  
+  <script src="../search/main.js"></script>
+  
+
+  <link rel="stylesheet" href="../_extra/css/atom-one-light.css">
+  <script src="../_extra/js/highlight.pack.js"></script>
+
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+  
+
+</head>
+
+<body>
+
+  <div class="document">
+    <div class="documentwrapper">
+      <div class="bodywrapper">
+        <div class="body" role="main">
+          
+          <h1 id="javascript">JAVASCRIPT</h1>
+<hr />
+<p><code>console.log()</code>  <br />
+<code>prompt("introduce datos aqui")</code>  <br />
+<code>confirm("Aceptas si o no")</code>  <br />
+<code>alert("Ventana en la pantalla")</code></p>
+<p><code>//</code> Comentarios de una linea  <br />
+<code>/* ... /*</code> Comentarios multilinea</p>
+<hr />
+<h2 id="operadores">OPERADORES</h2>
+<ul>
+<li><strong>Aritmeticos</strong></li>
+</ul>
+<blockquote>
+<p><code>+</code> Suma  <br />
+<code>-</code> Resta  <br />
+<code>*</code> Multiplicacion  <br />
+<code>/</code> Division  <br />
+<code>%</code> Modulo, lo que sobra de la division entera  <br />
+<code>++</code> Incremento  <br />
+<code>--</code> Decremento</p>
+</blockquote>
+<ul>
+<li><strong>Asignacion</strong></li>
+</ul>
+<blockquote>
+<p><code>=</code> x = y  <br />
+<code>+=</code> x = x + y  <br />
+<code>-=</code> x = x - y  <br />
+<code>*=</code> x = x * y  <br />
+<code>/=</code> x = x / y  <br />
+<code>%=</code> x = x % y</p>
+</blockquote>
+<ul>
+<li><strong>Comparacion</strong></li>
+</ul>
+<blockquote>
+<p><code>==</code> igual  <br />
+<code>===</code> igual valor e igual tipo  <br />
+<code>!=</code> no igual  <br />
+<code>!==</code> no igual valor ni igual tipo  <br />
+<code>&gt;</code> mayor que  <br />
+<code>&lt;</code> menor que  <br />
+<code>&lt;=</code> mayor o igual que  <br />
+<code>&gt;=</code> menor o igual que</p>
+</blockquote>
+<ul>
+<li><strong>Logicos</strong></li>
+</ul>
+<blockquote>
+<p><code>&amp;&amp;</code> AND  <br />
+<code>||</code> OR  <br />
+<code>!</code> NOT</p>
+</blockquote>
+<ul>
+<li><strong>Ternario</strong></li>
+</ul>
+<p><code>condición ? true : false</code>  </p>
+<pre><code class="language-javascript">var edad = 21
+var mayorEdad = (edad &gt; 18 ? alert(&quot;Eres mayor&quot;): alert(&quot;Eres menor&quot;));
+</code></pre>
+<ul>
+<li><strong>Unitarios</strong></li>
+</ul>
+<p><code>typeof(variableQueSea)</code> o <code>typeof valor</code> - Devuelve una string con el tipo de la variable dato  </p>
+<pre><code class="language-javascript">typeof(undefined)       // &quot;undefined&quot;
+typeof(null)            // &quot;object&quot;
+typeof(valor booleano)  // &quot;boolean&quot;
+typeof(valor numerico)  // &quot;number&quot;
+typeof(cadena)          // &quot;string&quot;
+typeof(funcion)         // &quot;function&quot;
+typeof(otros valores)   // &quot;object&quot;
+// null devolviendo object es un bug que no se puede arreglar debido  
+// a todo el codigo ya existente que cascaria
+</code></pre>
+<p><code>valor instanceof Constr</code> - devuelve true si el valor ha sido creado por el constructor Constr  </p>
+<pre><code class="language-javascript">{} instanceof Object // true
+[] instanceof Object // true, Array es un subconstructor de Object
+null instanceof Object // false
+var b = new Bar(); b instanceof bar; // true
+</code></pre>
+<p><code>in</code> - Devuelve true si la propiedad especificada existe en el objeto especificado</p>
+<blockquote>
+<p><code>propiedadNombreOrNumero in nombreObjeto</code>    </p>
+</blockquote>
+<pre><code class="language-javascript">var trees = new Array(&quot;redwood&quot;, &quot;bay&quot;, &quot;cedar&quot;, &quot;oak&quot;, &quot;maple&quot;);
+0 in trees;        // true
+3 in trees;        // true
+6 in trees;        // false
+&quot;bay&quot; in trees;    // false (especificar indice, no valor en ese indice
+&quot;length&quot; in trees; // true (length is una propiedad de Array)
+</code></pre>
+<hr />
+<h2 id="variables">VARIABLES</h2>
+<p><img alt="js" src="../_img/js/tiposDatos.png" /></p>
+<p>En javascript las variables no tienen tipos, son los valores quienes tienen tipos</p>
+<ul>
+<li>Las variables se pasan siempre por valor, pero cuando una variable se refiere a un objeto (incluyendo arrays) ese valor es una referencia al objeto  </li>
+<li>Asi cambiar el valor de la variable no cambia el objeto o valor primitivo subyacente, solo apunta la variable a una nueva primitiva u objeto  </li>
+<li>Al cambiar una propiedad de un objeto referenciado por una variable cambia el objeto que subyacente    </li>
+</ul>
+<h3 id="alcance">Alcance</h3>
+<p>La visibilidad es hacia fuera en las funciones. Yo veo las variables de las funciones externas que me contienen pero no veo las de dentro</p>
+<ul>
+<li><strong>Global</strong></li>
+</ul>
+<p>- Declarada fuera de una funcion</p>
+<pre><code class="language-javascript">var carName = 'volvo';  
+// codigo aqui puede usar carName  
+function myFunction() {
+  // codigo aqui puede usar carName
+}
+</code></pre>
+<p>- Si asigno un valor a una variable no declarada, esta se convierte en global</p>
+<pre><code class="language-javascript">// codigo aqui puede usar carName
+function myFunction() {
+  carName = 'volvo';
+  // codigo aqui puede usar carName
+}
+</code></pre>
+<p>- Shadowing</p>
+<pre><code class="language-javascript">var carName = 'volvo';  
+function myFunction() {
+  var carName = &quot;seat&quot;;
+  console.log(carName); // seat, la var local oculta a la global
+}
+</code></pre>
+<ul>
+<li><strong>Local</strong></li>
+</ul>
+<p>Variables declaradas dentro de una funcion permanecen locales a esa funcion</p>
+<pre><code class="language-javascript">// codigo aqui NO puede usar carName
+function myFunction() {
+  var carName = 'volvo';
+  // codigo aqui puede usar carName
+}
+</code></pre>
+<ul>
+<li><strong>Hoisting</strong>  </li>
+</ul>
+<p>Significa mover al comienzo del alcance o rango de vision (scope)  </p>
+<p>Todas las declaraciones de variables son <code>hoisted</code> (levantadas) - La declaracion se mueve al comienzo de la funcion aunque la asignacion permanece donde estan  </p>
+<pre><code class="language-javascript">function foo () {
+  console.log(tmp); // undefined en vez de cascar por tmp is not defined 
+  if (false) {
+    var tmp = 3; // aqui no entra
+  }
+}
+// es por el hoisted que hace que la funcion se ejecute asi
+function foo() {
+  var tmp; // hoisted declaration , aqui se hace la declaracion
+  console.log(tmp);
+  if (false) {
+    tmp = 3; // aqui permanece la asignacion 
+  }
+}
+</code></pre>
+<h3 id="conversion-de-tipos">Conversion de tipos</h3>
+<pre><code class="language-js">Number(string) // Convierte cadena string en un numero  
+parseInt(string) // Convierte la cadena string en un numero entero  
+parseFloat(string) // Convierte la cadena string en un numero flotante  
+String(numero) // Convierte el numero en una string  
+numero.toString() // equivale a String(numero) y devuelve una string  
+Array.toString() // convierte un array en una string con los elementos
+                 // separados por una coma  
+</code></pre>
+<ul>
+<li><strong>De Objeto a Array</strong></li>
+</ul>
+<pre><code class="language-js">const createEvents = () =&gt; {
+  let controls = document.getElementsByClassName('control');
+  // ambas son conversiones validas
+  controls = Array.from(controls)
+  controls = Object.values(controls);
+  // ahora puedo usar forEach
+  controls.forEach(function (element, i) {
+    console.log(i, element);
+  });
+};
+</code></pre>
+<hr />
+<h2 id="numeros">NUMEROS</h2>
+<p>Internamente son un numero flotante de 64 bits<br />
+<code>NaN (Not a number)</code> - no equivale a ningun valor ni siquiera a el mismo<br />
+<code>Infinity</code> - es mayor que cualquier otro numero (excepto NaN) y es menor que cualquier numero (excepto NaN). util como valores por defecto para buscar minimos y maximos  </p>
+<ul>
+<li>Metodos :</li>
+</ul>
+<p><code>isNan(numero)</code> - Detecta si es numero o no<br />
+<code>numero.toFixed(n)</code> - Redondea a n decimales (devuelve una string)<br />
+<code>numero.toPrecision(n)</code> - Redondea a n digitos decimales incluidos (devuelve una string)<br />
+<code>numero.toExponential(n)</code> - Representa el numero en notacion exponencial (devuelve una string)<br />
+<code>numero.toString()</code>- equivale a <code>String(numero)</code> y devuelve una string  </p>
+<h2 id="string">STRING</h2>
+<blockquote>
+<ul>
+<li>Puede estar entre comillas simples o comillas dobles  </li>
+<li>Las cadenas tienen un propiedad length. <code>"cadena".length</code>  </li>
+<li>Las cadenas son inmutables. no se pueden cambiar pero si crear nuevas  </li>
+<li>Para escapar caracteres usamos \ <code>\n</code> nueva linea por ejemplo  </li>
+</ul>
+</blockquote>
+<h3 id="metodos">Metodos</h3>
+<p><strong><code>parseInt(string)</code></strong> - Convierte la cadena string en un numero  </p>
+<p><strong><code>String.fromCharCode(car1)</code></strong> - Convierte un codigo de letra en una cadena con la letra</p>
+<pre><code class="language-javascript">var codigo = 65;
+var letra = String.fromCharCode(codigo);      // letra = &quot;A&quot;
+</code></pre>
+<p><strong><code>string.fromCharCode(car1, car2, ...)</code></strong></p>
+<pre><code class="language-javascript">var a = String.fromCharCode(67, 97, 116);
+// a is 'Cat'
+</code></pre>
+<p><strong><code>string.charAt(pos)</code></strong> - Devuelve la letra en la posicion pos</p>
+<pre><code class="language-javascript">var name = 'Curly';
+var initial = name.charAt(0);       // initial is 'C'
+</code></pre>
+<p><strong><code>string.charCodeAt(pos)</code></strong> - Devuelve el codigo de la letra en la posicion pos</p>
+<pre><code class="language-javascript">var name = 'Curly';
+var initial = name.charCodeAt(0);   // initial is 67
+</code></pre>
+<p><strong><code>string.concat(str1, str2, ...)</code></strong> - Junta los strings. Mejor usar +</p>
+<pre><code class="language-javascript">var s = 'C'.concat('a', 't');       // s es 'Cat'
+</code></pre>
+<p><strong><code>string.indexOf(cadenaBuscada, pos)</code></strong> - Busca una cadenaBuscada en la string y si la encuentra devuelve la posicion del primer caracter, si no devuelve -1.  <br />
+El parametro opcional pos indica a partir de donde buscar</p>
+<pre><code class="language-javascript">var text = 'Mississippi';
+var p = text.indexOf('ss');         // p es 2
+p = text.indexOf('ss', 3);          // p es 5
+p = text.indexOf('ss', 6);          // p es -1
+</code></pre>
+<p><strong><code>string.lastIndexOf(cadenaBuscada, pos)</code></strong> - Como indexOf pero busca desde atras hacia adelante</p>
+<pre><code class="language-javascript">&quot;canal&quot;.lastIndexOf(&quot;a&quot;)      // returns 3
+&quot;canal&quot;.lastIndexOf(&quot;a&quot;,2)    // returns 1
+&quot;canal&quot;.lastIndexOf(&quot;a&quot;,0)    // returns -1
+</code></pre>
+<p><strong><code>string.replace(valorBuscado, valorNuevo)</code></strong> - Reemplaza el valorBuscado por el valorNuevo solo una vez salvo que el valorBuscado sea una expresion regular</p>
+<pre><code class="language-javascript">var str = &quot;Visita mi casa&quot;;
+var res = str.replace(&quot;casa&quot;, &quot;huerta&quot;); // &quot;Visita mi huerta&quot;
+</code></pre>
+<p><strong><code>string.search(regexp)</code></strong> - Busca una cadena que case con la expresion regular pasada y devuelve la posicion del primer caracter o -1</p>
+<pre><code class="language-javascript">var text = 'Por la mañana &quot; yo me levanto';
+var pos = text.search(/[&quot;']/);          // pos es 14
+</code></pre>
+<p><strong><code>string.slice(comienzo, fin)</code></strong> - Crea una nueva string desde la posicion comienzo incluida hasta la posicion fin NO incluida. Fin es opcional y por defecto es string.length  </p>
+<pre><code class="language-javascript">var cadena = 'Hola mundo';
+var res = cadena.slice(1, 4);        // res es 'ola'
+var res = cadena.slice(2);           // res es 'la mundo'
+</code></pre>
+<p><strong><code>string.split(separador, limite)</code></strong> - Crea un array de cadenas al separar el string original en piezas separadas por el parametro separador  <br />
+Limite es el limite de nuevas cadenas</p>
+<pre><code class="language-javascript">var cadena = &quot;Como lo llevas hoy amigo&quot;;
+var res = cadena.split(&quot; &quot;, 4)  // res es ['Como','lo','llevas','hoy']
+</code></pre>
+<p><strong><code>string.substring(comienzo, fin)</code></strong> - Usar <code>string.slice()</code> en su lugar  <br />
+<strong><code>string.toLowerCase()</code></strong> - Convierte la string a minusculas  <br />
+<strong><code>string.toUpperCase()</code></strong> - Convierte la string a mayusculas    </p>
+<p><strong><code>string.match(regexp)</code></strong> - busca la regexp en la cadena string y devuelve las coincidencias en un array  </p>
+<pre><code class="language-javascript">var str = &quot;The rain in SPAIN stays mainly in the plain&quot;;
+var res = str.match(/ain/g); 
+console.log(res) // [ 'ain', 'ain', 'ain' ]
+</code></pre>
+<p><strong><code>string.trim(cadena)</code></strong> - Elimina los espacios en blanco y los saltos de linea del comienzo y del final de la cadena  </p>
+<p><strong><code>string.startsWith("str")</code></strong> - returns boolean   </p>
+<pre><code class="language-javascript">const domain = &quot;codetabs.com&quot;;
+console.log(domain.startsWith(&quot;www.&quot;)); // false
+</code></pre>
+<hr />
+<h2 id="arrays">ARRAYS</h2>
+<p>Los arrays en Javascript son falsos arrays pero aun asi renta su uso  <br />
+Heredan de <code>Array.prototype</code> muchos metodos muy utiles</p>
+<ul>
+<li>Creacion de Arrays</li>
+</ul>
+<blockquote>
+<ul>
+<li>Array Literal</li>
+</ul>
+</blockquote>
+<pre><code class="language-javascript">var vacio = [];
+var numeros = ['cero','uno','dos','tres','cuatro','cinco',
+               'seis','siete','ocho','nueve','diez'];
+vacio[1]    // undefined
+numeros[1]  // 'one'
+</code></pre>
+<blockquote>
+<ul>
+<li>Array constructor</li>
+</ul>
+</blockquote>
+<pre><code class="language-javascript">var colores = new Array('blanco', 'rojo', 'azul')
+</code></pre>
+<ul>
+<li>Iteracion de arrays</li>
+</ul>
+<p>No usar <code>for in</code> que da muchos problemas por no ser objetos puros. Podria iterar siguiendo un orden aleatorio y ademas la variable sobre la que itera(que es el indice) es una string y no un numero (asi que cuidado al hacer luego cualquier operacion con ella)</p>
+<pre><code class="language-javascript">for ( var i = 0; i &lt; numeros.length; i = i + 1) {
+  console.log(numeros[i]);
+}
+</code></pre>
+<ul>
+<li>Lazy initialization</li>
+</ul>
+<p>En arrays multidimensionales, el segundo array no se crea por defecto y hay que inicializarlo antes de usarlo</p>
+<pre><code class="language-javascript">initializeMultiArray: function (cols, rows, value) {
+  var array = [];
+  for (var i = 0; i &lt; cols; i++) {
+    array[i] = [];
+    for (var j = 0; j &lt; rows; j++) {
+      array[i][j] = value;
+    }
+  }
+  return array;
+}
+</code></pre>
+<h3 id="metodos_1">Metodos</h3>
+<p>D <code>Destructivos</code> - modifican los arrays sobre los que se invocan  </p>
+<p>ND <code>No Destructivos</code> - NO modifican los arrays sobre los que se invocan  </p>
+<ul>
+<li><strong>Añadir elementos</strong></li>
+</ul>
+<p>D <strong><code>array.push(item1, item2, ...)</code></strong> - Añade los items al final del array. Pero cada item que añade lo hace como un array item</p>
+<pre><code class="language-javascript">var a = ['a', 'b', 'c'];
+var b = ['x', 'y', 'z'];
+var c = a.push(b, true);
+// a is['a', 'b', 'c', ['x', 'y', 'z'], true]
+// c is 5
+</code></pre>
+<p>D <strong><code>array.unshift(item1, item2, ...)</code></strong> - como push pero añade los items al principio del array. Devuelve la nueva length</p>
+<pre><code class="language-javascript">var a = ['a', 'b', 'c'];
+var r = a.unshift('?', '@');
+// a es ['?', '@', 'a', 'b', 'c']
+//r es 5
+</code></pre>
+<ul>
+<li><strong>Eliminar elementos</strong></li>
+</ul>
+<p>D <strong><code>array.pop()</code></strong> - Elimina y devuelve el ultimo elemento del array. Si el array vacio devuelve undefined</p>
+<pre><code class="language-javascript">var a = ['a', 'b', 'c'];
+var c = a.pop(); // a is ['a', 'b'] , c is 'c'
+</code></pre>
+<p>D <strong><code>array.shift()</code></strong> - elimina el primer elemento del array y lo devuelve. Si el array esta vacio devuelve undefined</p>
+<pre><code class="language-javascript">var a = ['a', 'b', 'c'];
+var c = a.shift();
+// a es ['b', 'c'] , c is 'a'
+</code></pre>
+<ul>
+<li><strong>Iteracion</strong></li>
+</ul>
+<p>ND <strong><code>forEach(valor, indice)</code></strong> - Ejecuta una funcion una vez para cada elemento del array.  </p>
+<pre><code class="language-javascript">var people = [
+    {name: 'Casey', rate: 60},
+    {name: 'Camille', rate: 80},
+    {name: 'Gordon', rate: 75},
+    {name: 'Nigel', rate: 120}
+];
+var results = [];                                
+people.forEach(function(person) {                
+  if (person.rate &gt;= 65 &amp;&amp; person.rate &lt;= 90) {  
+    results.push(person);                        
+  }
+});
+</code></pre>
+<p>ND <strong><code>some()</code></strong> - Comprueba si algunos elementos del array pasan un test definido por una funcion. Al primer elemento que da true se acaba de iteracion  </p>
+<pre><code class="language-javascript">var ages = [3, 10, 18, 20];
+function checkAdult(age) {
+    return age &gt;= 18;
+}
+function myFunction() {
+    res = ages.some(checkAdult);
+}
+// res = true
+</code></pre>
+<p>ND <strong><code>every()</code></strong> - Comprueba si todos los elementos del array pasan un test definido por una funcion. Al primer elemento que da false se acaba la iteracion  </p>
+<pre><code class="language-javascript">var ages = [3, 10, 18, 20];
+function checkAdult(age) {
+    return age &gt;= 18;
+}
+function myFunction() {
+    res = ages.every(checkAdult);
+}
+// res = false
+</code></pre>
+<ul>
+<li><strong>Combinar</strong></li>
+</ul>
+<p>ND <strong><code>array.concat(item1, item2 ...)</code></strong> - Va añadiendo los items, array no cambia  </p>
+<pre><code class="language-javascript">var a = ['a', 'b', 'c'];
+var b = ['x', 'y', 'z'];
+var c = a.concat(b, true);
+// c is ['a', 'b', 'c', 'x', 'y', 'z', true]
+</code></pre>
+<ul>
+<li><strong>Filtrar</strong></li>
+</ul>
+<p>ND <strong><code>filter()</code></strong> - Crea un nuevo array con todos los elementos que pasan un test especificado en una funcion</p>
+<pre><code class="language-javascript">var people = [
+    {name: 'Casey', rate: 60},
+    {name: 'Camille', rate: 80},
+    {name: 'Gordon', rate: 75},
+    {name: 'Nigel', rate: 120}
+];
+function priceRange(person) {                        
+  return (person.rate &gt;= 65) &amp;&amp; (person.rate &lt;= 90);
+};
+var results = [];                              
+results = people.filter(priceRange);
+</code></pre>
+<p>El callback se invoca con tres elementos</p>
+<ol>
+<li>EL valor del elemento</li>
+<li>El indice del elemento</li>
+<li>El objeto Array que estamos filtrando</li>
+</ol>
+<pre><code class="language-javascript">result = result.filter(function (val, i, res) {
+  console.log(val, i, res);
+});
+</code></pre>
+<p>ND <strong><code>reduce()</code></strong> - Reduce el array a un solo valor. Ejecuta una funcion suministrada para cada valor del array(de izda a derecha). El valor de return se guarda en un acumulador</p>
+<pre><code class="language-javascript">var total = [0, 1, 2, 3].reduce(function(a, b){ return a + b; });
+// total == 6
+
+var numbers = [65, 44, 12, 4];
+function getSum(total, num) {
+    return total + num;
+}
+console.log(numbers.reduce(getSum));   // resultado = 125
+
+var array = [4,5,6,7,8];
+var singleVal = 0;
+ singleVal = array.reduce(function(previousVal, currentVal) {
+  return previousVal + currentVal;
+}, 0);
+</code></pre>
+<ul>
+<li><strong>Buscar</strong></li>
+</ul>
+<p>ND <strong><code>array.indexOf("elemento")</code></strong> - Busca el elemento en el array y devuelve su posicion o -1 si no lo encuentra  </p>
+<pre><code class="language-javascript">var fruits = [&quot;Banana&quot;, &quot;Orange&quot;, &quot;Apple&quot;, &quot;Mango&quot;];
+var a = fruits.indexOf(&quot;Apple&quot;);
+// a = 2
+</code></pre>
+<p>ND <strong><code>array.lastIndexOf</code></strong> - Como indexOf pero desde atras hacia adelante</p>
+<pre><code class="language-javascript">var array = [2, 5, 9, 2];
+array.lastIndexOf(2);       // 3
+array.lastIndexOf(7);       // -1
+array.lastIndexOf(2, 3);    // 3
+array.lastIndexOf(2, 2);    // 0
+</code></pre>
+<p><strong><code>array.includes(value)</code></strong> - Devuelve false or true si encuentra o no el elemento dentro del array  </p>
+<pre><code class="language-javascript">function disemvowel (str) {
+  var vowels = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'];
+  var res = [];
+  str.split('').forEach(function (value, index) {
+    if (!vowels.includes(value)) res.push(value)
+    //if (vowels.indexOf(value) === -1) res.push(value);
+  });
+  return res.join('');
+}
+</code></pre>
+<ul>
+<li><strong>Ordenar</strong></li>
+</ul>
+<p>D <strong><code>array.sort(funcionDeComparacion)</code></strong> - Por defecto la comparacion la hace asumiendo que todos los elementos son strings</p>
+<pre><code class="language-javascript">var n = [4, 8, 15, 16, 23, 42];
+n.sort(function (a, b) {
+  return a - b;
+});
+// n is [4, 8, 15, 16, 23, 42];
+</code></pre>
+<p>D <strong><code>array.reverse()</code></strong> - invierte todos los elementos del array y devuelve una referencia al array original (pero ya modificado)  </p>
+<pre><code class="language-javascript">var a = ['a', 'b', 'c'];
+var b = a.reverse( );
+// tanto a como b son ['c', 'b', 'a']
+</code></pre>
+<ul>
+<li><strong>Modificar</strong></li>
+</ul>
+<p>ND <strong><code>map()</code></strong> - Llama una funcion sobre cada elemento del array y crea un nuevo array con los resultados</p>
+<pre><code class="language-javascript">var numbers = [4, 9, 16, 25];
+
+function myFunction() {
+  x = numbers.map(Math.sqrt);
+// x = [2, 3, 4, 5]
+}
+</code></pre>
+<p>ND <strong><code>array.join(separador)</code></strong> - crea un string concatenando todos los elementos del array usando el separador indicado que por defecto es ','. Si usas espacio en blanco como separador se unen todos sin separacion</p>
+<pre><code class="language-javascript">var a = ['a', 'b', 'c'];
+a.push('d');
+var c = a.join(''); // c is 'abcd';
+</code></pre>
+<p>ND <strong><code>array.slice(comienzo, fin)</code></strong> - copia una parte del array desde el array[comienzo] incluido hasta el array[fin] NO incluido. Fin es opcional y por defecto es array.length</p>
+<pre><code class="language-javascript">var a = ['a', 'b', 'c'];
+var b = a.slice(0, 1);  // b es ['a']
+var c = a.slice(1); // c es ['b', 'c']
+var d = a.slice(1, 2); // d es ['b']
+</code></pre>
+<p>D <strong><code>array.splice(comienzo, borrarCont, item1, item2, ...)</code></strong> - Elimina elementos reemplazandolos otros nuevos (item1, ...). <br />
+El primer elemento eliminado es rarray[comienzo] y a partir de aqui (el incluido) elimina los siguientes borrarCont.<br />
+Inserta los items en su lugar .<br />
+Devuelve los elementos borrados</p>
+<pre><code class="language-javascript">var a = ['a', 'b', 'c'];
+var r = a.splice(1, 1, 'ache', 'bug');
+// a es ['a', 'ache', 'bug', 'c']
+// r es ['b']
+
+//Para borrar por ejemplo el elemento con indice = 3 de un array
+array.splice(indice, 1);
+</code></pre>
+<ul>
+<li><strong>Utilidades</strong></li>
+</ul>
+<p>ND <strong><code>array.findIndex()</code></strong> - devuelve el indice del primer elemento del array que cumple la funcion que se le pasa. Si ninguno la cumple devuelve -1.</p>
+<pre><code class="language-js">const arr = [5, 12, 8, 130, 44];
+
+function findFirstLargeNumber(element) {
+  return element &gt; 13;
+}
+
+console.log(arr.findIndex(findFirstLargeNumber)); // 3
+</code></pre>
+<hr />
+<h2 id="objetos">OBJETOS</h2>
+<blockquote>
+<p>Un Objeto es un contenedor de propiedades<br />
+Una propiedad es un nombre y un valor (cualquiera menos undefined)<br />
+Los objetos se pasan siempre por <code>referencia</code>  </p>
+</blockquote>
+<p><code>for in -</code>Itera sobre todas las propiedades del objeto incluso funciones o propiedades de los prototipos. Para evitarlo se usan filtros como <code>typeof !== 'function'</code> ó <code>hasOwnProperty</code>   <br />
+Tambien puede usar el <code>for</code>  </p>
+<p><code>object.hasOwnProperty(nombre)</code> Devuelve true si el objeto tiene la propiedad nombre y false si no. El prototipo no se examina</p>
+<pre><code class="language-javascript">var a = {member: true};
+var b = Object.create(a);
+var t = a.hasOwnProperty('member'); // t is true
+var u = b.hasOwnProperty('member'); // u is false
+var v = b.member                    // v is true
+</code></pre>
+<p><code>get</code> - usuario.name -&gt; devuelve "Pepe"  <br />
+<code>set</code> - usuario.name = "Manolo"<br />
+<code>usuario.newProperty = "ciudad"</code> - crea una nueva propiedad<br />
+<code>ciudad in usuario</code> - devuelve true<br />
+<code>usuario.ciudad !== undefined</code> = true<br />
+<code>delete uuario.ciudad</code> - elimina la propiedad del objeto    </p>
+<ul>
+<li><strong>bind</strong> </li>
+</ul>
+<p>Extraer metodos de un objeto</p>
+<pre><code class="language-javascript">var func = usuario.diHola;
+func() // typeof : cannot read property &quot;name&quot; of undefined
+
+var func = usuario.diHola.bind(usuario);
+// bind crea una nueva funcion cuyo this siempre tendra el valor pasado
+func() // &quot;Hola de parte de Pepe&quot;
+</code></pre>
+<h3 id="crear-objetos">Crear Objetos</h3>
+<ul>
+<li><strong>Literales</strong></li>
+</ul>
+<p>- Los valores de las propiedades se pueden obtener de cualquier expresion incluso de otros objetos anidados<br />
+- Bueno para la creación de nuevos valores de objeto<br />
+- NO son reusables  </p>
+<pre><code class="language-javascript">var objetoVacio = {};
+
+var usuario = {
+  diHola : function() {
+    alert(&quot;Hola de parte de&quot;, this.name);
+  },
+  name : &quot;Pepe&quot;,
+  edad : 50,
+  nacimiento : {               // los objetos se pueden anidar
+    fecha: &quot;01-01-1980&quot;,
+    lugar: &quot;La Tierra&quot;
+  }
+};
+</code></pre>
+<ul>
+<li><strong>Constructores</strong>  </li>
+</ul>
+<p>Herencia<br />
+- En javascript los objetos heredan directamente de otros objetos (prototipos) <br />
+- Con el operador <code>new</code> podemos montarnos factorias de objetos y hacer un pseudoclasico patron de diseño</p>
+<p>Son factorias de objetos, similar a las clases de otros lenguajes  </p>
+<pre><code class="language-javascript">// REUSABLE
+function Punto(x, y) { 
+  this.x = x;
+  this.y = y; 
+}
+Punto.prototype.dist = function () {
+  return Math.sqrt(this.x*this.x + this.y*this.y);
+};
+var p1 = new Punto(2, 7);
+var p2 = new Punto(3, 4));
+p1.y      // 7
+p2.dist   // 5
+</code></pre>
+<h3 id="objectkeys">Object.keys</h3>
+<ul>
+<li><strong>Object.keys(obj)</strong> devuelve un array de cadenas formado por los propiedades del objeto</li>
+</ul>
+<pre><code class="language-js">// simple array
+var arr = ['a', 'b', 'c'];
+console.log(Object.keys(arr)); // console: ['0', '1', '2']
+
+// array like object
+var obj = { 0: 'a', 1: 'b', 2: 'c' };
+console.log(Object.keys(obj)); // console: ['0', '1', '2']
+
+// array like object with random key ordering
+var anObj = { 100: 'a', 2: 'b', 7: 'c' };
+console.log(Object.keys(anObj)); // console: ['2', '7', '100']
+</code></pre>
+<pre><code class="language-js">let days = {
+  '2017-05-20': {
+    users: ['user1', 'user2'],
+    hits: '4'
+  },
+  '2017-05-21': {
+    users: ['user3'],
+    hits: '5'
+  }
+}
+// convert users[] to users.length
+Object.keys(days).map(function (index) {
+  if (Array.isArray(days[index].users)) {
+    days[index].users = days[index].users.length;
+  }
+});
+</code></pre>
+<h3 id="objectentries">Object.entries</h3>
+<ul>
+<li><strong>object.entries</strong></li>
+</ul>
+<pre><code class="language-js">const assetsList = {
+  'crew1': path + 'crew/crew1.png',
+  'crew2': path + 'crew/crew2.png',
+  'crew3': path + 'crew/crew3.png',
+  'crew4': path + 'crew/crew4.png',
+  'crew5': path + 'crew/crew5.png',
+  'crew6': path + 'crew/crew6.png',
+};
+
+export default function loadResources() {
+  let sprites = [];
+  const assetsNames = Object.entries(assetsList);
+  console.log(assetsNames);
+  assetsNames.forEach(async function (value) {
+    console.log(value);
+    sprites[value] = await loadResource(value[1]);
+  });
+  return sprites;
+
+}
+</code></pre>
+<h3 id="estructuras-de-datos">Estructuras de Datos</h3>
+<pre><code class="language-js">let dayHits = {
+  'day1': {
+    users: ['user1', 'user2'],
+    hits: '4'
+  },
+  'day2': {
+    users: ['user3'],
+    hits: '5'
+  }
+}
+
+let countries = {
+  'US': { 
+    'users' : 1,
+  }
+}
+
+// create data struct
+let start = new Date(lastSaved);
+let end = new Date();
+while (start &lt;= end) {
+  const dayDate = start.toISOString().split('T')[0];
+  days[dayDate] = { // we create key using []
+    'hits': 0,
+    'users': []
+  };
+  start = new Date(start.setDate(start.getDate() + 1));
+}
+</code></pre>
+<pre><code class="language-js">let dayServices = {
+  'service1': {
+    users: ['user1', 'user11'],
+    hits: '1'
+  },
+  'service2': {
+    users: ['user2', 'user22'],
+    hits: '2'
+  }
+}
+
+let dayHits = {
+  'day1': dayServices,
+  'day2': dayServices
+}
+
+console.log(dayHits['day2']['service2'].users)
+</code></pre>
+<h3 id="this">this</h3>
+<p>Usada dentro de funciones y objetos para referirse a un objeto que lo normal es el objeto en el que la funcion opera</p>
+<ul>
+<li>Funcion con alcance global (no esta dentro de ningun otro objeto o funcion) <code>this</code> se refiere al objeto <code>window</code></li>
+</ul>
+<pre><code class="language-javascript">function windowSize() {
+  var width = this.innerWidth;
+  var height = this.innerHeight;
+  return [height, width]
+}
+</code></pre>
+<ul>
+<li>Variables globales, las variables globales se convierten en propiedades del objeto <code>window</code></li>
+</ul>
+<pre><code class="language-javascript">var width = 600;
+var shape = {width: 300};
+var showWidth = function() {
+  document.write(this.width);
+};
+showWidth();      // this.width = 600
+</code></pre>
+<ul>
+<li>Metodo de un objeto, si una funcion se define dentro de un objeto se convierte en un metodo de ese objeto. En un metodo <code>this</code> se refiere al objeto que lo contiene</li>
+</ul>
+<pre><code class="language-javascript">var shape = {
+  width: 600,
+  height: 400,
+  getArea: function() {
+    return this.width * this.height;
+  }  
+}
+</code></pre>
+<ul>
+<li>Funciones con nombre globales y usadas como metodos de un objeto, <code>this</code> se refiere al objeto que contiene a la funcion</li>
+</ul>
+<pre><code class="language-javascript">var width = 600;
+var shape = {width: 300};
+var showWidth = function() {
+  document.write(this.width);
+};
+shape.getWidth = showWidth;
+shape.getWidth();                 // this.width = 300
+</code></pre>
+<h3 id="prototipos">Prototipos</h3>
+<p><code>Object.create</code> crea un nuevo objeto que usa uno viejo como prototipo</p>
+<pre><code class="language-javascript">var proto = {
+  sentencia : 4,
+  condicional : 2
+}
+var creaPrisionero = function (nombre, id) {
+  var prisionero = Object.create(proto);
+  prisionero.nombre = nombre;
+  prisionero.id = id;
+  return prisionero;
+}
+var primerPrisionero = creaPrisionero ('Juan', '65891');
+var segundoPrisionero = crearPrisionero ('Pepe', '13698');
+</code></pre>
+<hr />
+<h2 id="boolean">BOOLEAN</h2>
+<p><code>true</code> o <code>false</code></p>
+<ul>
+<li><strong>Operadores Logicos</strong></li>
+</ul>
+<pre><code class="language-javascript">AND --&gt; &amp;&amp;
+OR  --&gt; ||
+NOT --&gt; !
+</code></pre>
+<ul>
+<li><strong>Operador ternario u operador condicional</strong>  </li>
+</ul>
+<pre><code class="language-javascript">test ? expression1 : expression2  
+// test true =&gt; expression1 // test false =&gt; expression2
+
+var now = new Date();  
+var greeting = &quot;Good&quot; + ((now.getHours() &gt; 17) ? &quot; evening.&quot; : &quot; day.&quot;);
+</code></pre>
+<ul>
+<li><strong>Convertir valor no-booleano a booleano</strong> </li>
+</ul>
+<p>- <code>false</code> -  </p>
+<blockquote>
+<p>string : cadena Vacia ""  <br />
+numbers : 0, -0, NaN<br />
+null, undefined<br />
+boolean : false  </p>
+</blockquote>
+<p>- <code>true</code>- Todo lo demas  </p>
+<hr />
+<h2 id="null-undefined">NULL - UNDEFINED</h2>
+<p>Se usan para denotar la ausencia de valor  </p>
+<p>Operaciones que producen <code>undefined</code>:<br />
+- Variables sin inicializar<br />
+- Parametros perdidos<br />
+- Leer propiedades inexistentes<br />
+- Los return de funciones que no devuelven nada explicitamente   </p>
+<p>Operaciones que producen <code>null</code>:<br />
+- El ultimo elemento de la cadena de prototipo <br />
+- RegExp.prototype.exec() si no encuentra un valor que case    </p>
+<p><code>null</code> es para objetos<br />
+<code>undefined</code> es para propiedades, metodos o variables que no han sido inicializadas  </p>
+<p>chequear si algo es <code>undefined</code> ó <code>null</code>  </p>
+<pre><code class="language-javascript">if (x === undefined || x === null) {
+  ...
+}
+// o aprovechar que tanto undefined como null se consideran false
+if (!x) {
+  ...
+}
+</code></pre>
+<hr />
+<h2 id="estructuras-de-control">ESTRUCTURAS DE CONTROL</h2>
+<ul>
+<li><strong>if ... else</strong></li>
+</ul>
+<pre><code class="language-javascript">if (condicion1) {
+  instrucciones_if_condicion1_es_true;
+} else if (condicion2) {
+  instrucciones_if_condicion2_es_true;
+} else if (condicion3) {
+  instrucciones_if_condicion3_es_true;
+} ...
+else {
+  instrucciones_if_ninguna_condicion_es_true
+}
+</code></pre>
+<ul>
+<li><strong>while</strong></li>
+</ul>
+<p><code>while</code> El codigo puede que no se ejecute nunca</p>
+<pre><code class="language-javascript">while (condicion) {
+  instrucciones_while_condicion_es_true;
+}
+</code></pre>
+<p><code>do while</code> El codigo se ejecuta minimo una vez</p>
+<pre><code class="language-javascript">do {
+  instrucciones_while_condicion_es_true
+} while (condicion)
+</code></pre>
+<ul>
+<li><strong>for</strong></li>
+</ul>
+<p><code>inicializacion</code> - Se ejecuta antes que el bucle empiece  <br />
+<code>condicion</code> - Define la condicion para seguir ejecutando el bucle  <br />
+<code>actualizacion</code> - Se ejecuta cada vez que el bucle se ha ejecutado</p>
+<pre><code class="language-html">for (inicializacion; condicion; actualizacion) {
+  codigo_se_ejecuta:con_cada_bucle;
+}
+
+for (var i = 0; i &lt; 10; i++) {
+  document.writeln(i);
+}
+</code></pre>
+<ul>
+<li><strong>for in</strong></li>
+</ul>
+<p>Recorre todas las propiedades de un objeto o array incluidas las heredadas  </p>
+<pre><code class="language-javascript">const  obj = {a: 1, b: 2, c: 3};
+for (let v in obj) {
+  console.log(v);         // a b c
+}
+</code></pre>
+<p>Para evitar las propiedades heredadas se usa <code>hasOwnProperty</code>  </p>
+<pre><code class="language-javascript">for (var key in person) {
+  if (person.hasOwnProperty(key)) {
+    console.log(key);
+  }
+}
+</code></pre>
+<ul>
+<li><strong>for of</strong></li>
+</ul>
+<p>Itera sobre los valores de Arrays, Strings, Maps ,NodeLists y mas colecciones</p>
+<pre><code class="language-js">const cars = ['BMW', 'Volvo', 'Mini'];
+let x;
+
+for (x of cars) {
+  console.log(x);
+} 
+</code></pre>
+<ul>
+<li><strong>for each ... in</strong></li>
+</ul>
+<p><code>DEPRECATED</code> NO USAR  </p>
+<ul>
+<li><strong>switch</strong></li>
+</ul>
+<pre><code class="language-javascript">switch(expresion) {
+  case 'uno':
+    instrucciones;
+    break;
+  case 'dos':
+    instrucciones;
+    break;
+  default:
+    instrucciones_por_defecto;
+    break;
+}
+</code></pre>
+<pre><code class="language-javascript">switch (new Date().getDay()) {   //getDay() numero de dia de la semana
+  case 6:
+    text = &quot;Sabado&quot;;
+    break;
+  case 0:
+    text = &quot;Domingo&quot;;
+    break;
+  default:
+    text = &quot;Entre semana&quot;;
+    break;
+}
+</code></pre>
+<hr />
+<h2 id="funciones">FUNCIONES</h2>
+<p>Las funciones son enlazadas a <code>Function.prototype</code> que a su vez esta enlazado a <code>Object.prototype</code><br />
+Cada funcion se crea con una propiedad prototype cuyo valor es un objeto con una propiedad constructor cuyo valor es la funcion<br />
+Cada funcion se crea con dos propiedades ocultas  <br />
+- El contexto de la funcion<br />
+- El codigo que implementa el comportamiento de la funcion  </p>
+<ul>
+<li><strong>Parametros y Argumentos</strong></li>
+</ul>
+<p>Pequeña diferencia entre ambos  </p>
+<ul>
+<li>Parametros: son las variables que se definen cuando se declara la funcion</li>
+<li>Argumentos: son los valores que se pasan a la funcion al invocarla</li>
+<li>Si a una funcion le pasamos demasiados parametros los que sobran los ignora</li>
+<li>Si a una funcion le pasamos menos parametros a los que faltan les asigna undefined</li>
+</ul>
+<p><code>arguments object</code> - Un objeto similar a un Array (pero sin ninguno de sus metodos) que se corresponde con los argumentos pasados a la función.</p>
+<pre><code class="language-javascript">function fourArguments (a, b, c) {
+  console.log(arguments.length);
+  console.log(arguments[0]);
+  console.log(arguments[3]);
+}
+fourArguments('uno', 'dos', 'tres', 'cuatro');
+// 
+function sinParametros () {
+  return arguments;
+}
+var args = sinParametros(&quot;uno&quot;,&quot;dos&quot;,&quot;tres&quot;,&quot;cuatro&quot;,&quot;cinco&quot;)
+args.length // 5
+</code></pre>
+<p>Asignar valores por defecto a los parametros  </p>
+<pre><code class="language-javascript">function pair(x, y) { 
+  x = x || 0; 
+  y = y || 0; 
+  return[x,y];
+}
+</code></pre>
+<ul>
+<li><strong>Hoisting</strong>  </li>
+</ul>
+<p>Significa mover al comienzo del alcance o rango de vision (scope)  </p>
+<p>Las declaraciones de funciones son completamente <code>hoisted</code> por ello se puede llamar a una funcion antes de que sea declarada  </p>
+<p>Las expresiones de funciones no son <code>hoisted</code> y por ello no se pueden llamar antes de ser declaradas  </p>
+<ul>
+<li><strong>return multiples valores</strong></li>
+</ul>
+<p>Para ello usan un array</p>
+<pre><code class="language-javascript">funcion getMedidas(anchura, altura, profundidad) {
+  var area = anchura * altura;
+  var volumen = anchura * altura * profundidad;
+  var medidas = [area, volumen];
+  return medidas;
+}
+var area1 = getMedidas(5,4,10)[0];
+var volumen1 = getMedidas(5,4,10)[1];
+</code></pre>
+<ul>
+<li><strong>Invocacion</strong> Se realiza <code>nombrefuncion();</code></li>
+</ul>
+<p>Cuando invocamos una funcion</p>
+<pre><code class="language-javascript">1- Se suspende la ejecucion de la funcion actual
+2- Pasa el control y los parametros a la nueva funcion
+3- Tambien se pasan this y arguments
+4- El valor de this depende del patron de invocacion de los cuales
+existen 4
+</code></pre>
+<p>Patrones de invocacion</p>
+<pre><code class="language-javascript">- Metodos, this se refiere al objecto desde el que se invoca el metodo
+- Funcion, this se refiere al objeto global
+- Constructor, this se refiere al nuevo objeto que se esta construyendo
+- Apply PENDIENTE
+</code></pre>
+<h3 id="tipos-de-funciones">Tipos de funciones</h3>
+<ul>
+<li><strong>Named functions</strong></li>
+</ul>
+<blockquote>
+<ul>
+<li>Declaracion de funciones <code>function declaration</code> - las puedes llamar cuando quieras antes de que se lean, incluso en el onload</li>
+</ul>
+</blockquote>
+<pre><code class="language-javascript">function nombreFuncion () {
+  codigo;
+}
+</code></pre>
+<blockquote>
+<ul>
+<li>Expresiones de funciones <code>function expressions</code> - no se pueden usar hasta que este encontrada y definida</li>
+</ul>
+</blockquote>
+<pre><code class="language-javascript">ANONIMAS
+var nombreFuncion = function() {
+  codigo;
+}
+NAMED
+var referenciaFuncion = function nombreFuncion() {
+  codigo;
+}
+</code></pre>
+<ul>
+<li><strong>Anonymous functions</strong></li>
+</ul>
+<pre><code class="language-javascript">function () {
+  codigo;
+}
+</code></pre>
+<ul>
+<li><strong>Autoejecutables</strong></li>
+</ul>
+<p>Immediately Invoked Function Expressions (IIFEs)  <br />
+Una vez declarada se llama a si misma para inicializarse y estar ya disponible para otras partes de la aplicacion  <br />
+Se usa para declarar variables que no afectan al resto del codigo fuera de la funcion pues contiene la visibilidad de las variables  <br />
+Pueden usar tambien <code>return</code></p>
+<pre><code class="language-javascript">ANONIMA
+(function(){
+    //código de tu función
+}());
+// con parametros
+(function(w,d,o){
+    //Ahora w es un alias (shortcut) para window
+    //d es un alias de document
+    //o es un alias de otraVariableMuyLarga
+}(window, document, otraVariableMuyLarga));
+</code></pre>
+<pre><code class="language-javascript">NAMED
+(function nombreFuncion(){
+    //código de tu función
+}());
+</code></pre>
+<h3 id="recursividad">Recursividad</h3>
+<p>Una funcion que se llama a si misma es recursiva</p>
+<pre><code class="language-javascript">function power(base, exponent) {
+  if (exponent == 0)
+    return 1;
+  else
+    return base * power(base, exponent - 1);
+}
+console.log(power(2, 3));              // → 8
+</code></pre>
+<hr />
+<h2 id="closure">CLOSURE</h2>
+<p>Es una forma de "recordar" y tener acceso a las variables de una funcion una vez que ya ha terminado de ejecutarse.</p>
+<p>Closure ejemplo1</p>
+<pre><code class="language-javascript">function crearContador(x) {
+  function sumarCantidad(y) {
+    return x + y;
+  }
+  return sumarCantidad
+}
+var sumarADos = crearContador(2);
+console.log(sumarADos(1)); // 3
+console.log(sumarADos(5)); // 7
+</code></pre>
+<p>Closure ejemplo2</p>
+<pre><code class="language-javascript">function wrapValue(n) {
+  var localVariable = n;
+  return function() {
+    return localVariable;
+  };
+}
+var wrap1 = wrapValue(1);
+var wrap2 = wrapValue(2);
+console.log(wrap1());         // → 1
+console.log(wrap2());         // → 2
+</code></pre>
+<hr />
+<h2 id="errores">ERRORES</h2>
+<h3 id="contexto-de-ejecucion">Contexto de ejecucion</h3>
+<blockquote>
+<p>Se corresponden con el alcance o visibilidad de las variables</p>
+</blockquote>
+<p>- <code>Contexto Global</code>: codigo que esta en el script pero no en una funcion. Solo hay un contexto global en una pagina<br />
+- <code>Contexto de funcion</code>: codigo que se ejecuta dentro de una funcion. Cada funcion tiene su propio contexto  </p>
+<blockquote>
+<p>Cada vez que un script entra en un nuevo contexto de ejecucion hay dos fases :</p>
+</blockquote>
+<p>- <code>Preparacion</code>:, se crea un nuevo alcance. Se crean variables, funciones y argumentos y se determina el valor de <code>this</code>.<br />
+- <code>Ejecucion</code>: ahora se pueden asignar valores a las variables, se referencian las funciones y se ejecuta su codigo y se ejecutan tambien las sentencias  </p>
+<blockquote>
+<p><strong>Objeto variables</strong></p>
+</blockquote>
+<p>- Cada contexto de ejecucion tiene su propio objeto <code>variables</code> que tiene las variables, funciones y parametros que estan disponibles para ese contexto.<br />
+- Cada contxto de ejecucion tiene tambien acceso al padre de objeto <code>variables</code>  </p>
+<blockquote>
+<p><strong>Excepciones</strong></p>
+</blockquote>
+<p>Cuando se produce un error, mira en su contexto a ver si hay codigo para manejar el error, si no lo hay sube hacia arriba por el stack buscando codigo para manejar el error. Si llega al contexto global y no lo encuentra termina la ejecucion del script y crea un objeto <code>Error</code></p>
+<h3 id="objecto-error">Objecto Error</h3>
+<ul>
+<li><strong>Tipos de objetos error</strong></li>
+</ul>
+<p><code>Error</code> - error generico<br />
+<code>SyntaxError</code> - no se ha respetado la sintaxis  <br />
+<code>ReferenceError</code> - se ha referenciado una variable que o no esta declarada o esta fuera del alcance  <br />
+<code>TypeError</code> - hay un inesperado tipo de datos que no puede ser forzado  <br />
+<code>RangeError</code> - numeros en un rango no aceptable +0 <br />
+<code>URIError</code> - metodos del tipo encodeURI() decodeURI() mal usados  <br />
+<code>EvalError</code> - funcion eval() mal usada</p>
+<ul>
+<li><strong>Propiedades</strong></li>
+</ul>
+<p><code>name</code> - tipo de ejecucion  <br />
+<code>message</code> - descripcion  <br />
+<code>fileNumber</code> - nombre del archivo javascript  <br />
+<code>lineNumber</code> - numero de la linea con error</p>
+<h3 id="manejo-excepciones">Manejo excepciones</h3>
+<p>Interrumpen la ejecucion del programa. Para evitarlo hay que capturarlas</p>
+<pre><code class="language-javascript">try {
+  // intenta ejecutar este codigo
+} catch (exception) {
+  // si hay una excepcion ejecuta este codigo
+} finally {
+  // esto siempre se ejecuta
+}
+</code></pre>
+<h3 id="throwing-errors">Throwing errors</h3>
+<p>Si sabes que algo podria causar un fallo puedes generar tus propios errores antes que el interprete lo haga.</p>
+<p><code>throw new Error("mensaje");</code></p>
+<pre><code class="language-javascript">var width = 12;                                     
+var height = 'test';                              
+function calcArea(width, height) {
+  try {
+    var area = width * height;                      
+    if (!isNaN(area)) {                   // If it is a number
+      return area;                                  
+    } else {                              // Otherwise throw an error
+      throw new Error('calcArea() received invalid number');
+    }
+  } catch(e) {                            // If there was an error
+    console.log(e.name + ' ' + e.message);          
+    return 'We were unable to calculate the area.';
+  }
+}
+document.getElementById('area').innerHTML = calcArea(width, height);
+</code></pre>
+<pre><code class="language-javascript">function getPerson (id) {
+  if (id &lt; 0) {
+    throw new Error('ID must not be negative: ' + id);
+  }
+  return { id: id }; // normally: retrieved from database
+}
+function getPersons (ids) {
+  var result = [];
+  ids.forEach(function (id) {
+    try {
+      var person = getPerson(id);
+      result.push(person);
+    } catch (exception) {
+      console.log(exception);
+    }
+  });
+  return result;
+}
+</code></pre>
+<hr />
+<h2 id="programacion-asincrona">PROGRAMACION ASINCRONA</h2>
+<ul>
+<li><strong>Tareas Asincronas</strong></li>
+</ul>
+<p>- Peticiones de red (llamadas AJAX, peticiones al servidor... etc)<br />
+- Operaciones con el sistema de archivos (leer/escribir archivos ... etc)<br />
+- Operaciones retrasadas a proposito (alarmas, repeticiones periodicas.. etc)  </p>
+<h3 id="callback">Callback</h3>
+<p>Son funciones que se ejecutan una vez que el proceso asincrono que las llama se ha terminado</p>
+<pre><code class="language-javascript">function nombreCompleto (nombre, apellido, callback) {
+  console.log(&quot;Me llamo &quot; + nombre + &quot; &quot; + apellido);
+  callback(apellido);
+}
+var saludos = function (ape) {
+  console.log(&quot;Hola, Sr &quot; + ape);
+};
+nombreCompleto(&quot;Brus&quot;, &quot;Bilis&quot;, saludos);
+</code></pre>
+<pre><code class="language-javascript">// url.js
+db.getList(printList);
+
+function printList (rows) {
+  console.log('rows', rows);
+}
+// database.js
+getList: function (callback) {
+  console.log('list');
+  con.query('SELECT * FROM url', function (err, rows) {
+    if (err) throw err;   // error-first callbacks convencion
+    callback(rows);
+  });
+},
+</code></pre>
+<h3 id="promises">Promises</h3>
+<pre><code class="language-javascript">var p = new Promise(function(resolve, reject) {  
+   if (/* condition */) {
+      resolve(/* value */);  // fulfilled successfully
+   }
+   else {
+      reject(/* reason */);  // error, rejected
+   }
+});
+</code></pre>
+<pre><code class="language-javascript">(function () {
+  'use strict';
+
+  var body = document.querySelector('body');
+  var myImage = new Image();
+  // Call the function with the URL we want to load, but then chain
+  // the promise then() method on to the end of it. This contains two
+  // callbacks
+  imgLoad('darth.jpg').then(function (response) {
+    // The first runs when the promise resolves, with the 
+    // request.response specified within the resolve() method.
+    var imageURL = window.URL.createObjectURL(response);
+    myImage.src = imageURL;
+    body.appendChild(myImage);
+  // The second runs when the promise is rejected, and logs the 
+  //Error specified with the reject() method.
+  }, function (Error) {
+    console.log(Error);
+  });
+/* otra sintaxis
+  }).catch(function (Error) {
+    console.log(Error);
+  });
+*/
+
+  // tambien podemos almacenar la promesa en una variable para una
+  // sintaxis mas clara
+  // var p = imgLoad(url);
+  // p.then(bla bla);
+  // p.catch(bla bla);
+
+  function imgLoad (url) {
+    // Create new promise with the Promise() constructor. This has as
+    // its argument a function with two parameters, resolve and reject
+    return new Promise(function (resolve, reject) {
+      // Standard XHR to load an image
+      var request = new XMLHttpRequest();
+      request.open('GET', url);
+      request.responseType = 'blob';
+      // When the request loads, check whether it was successful
+      request.onload = function () {
+        if (request.status === 200) {
+          // If successful, resolve the promise by passing back the 
+          // request response
+          resolve(request.response);
+        } else {
+          // If it fails, reject the promise with a error message
+          reject(Error(&quot;Image didn't load successfully; error code:&quot; +
+            request.statusText));
+        }
+      };
+      request.onerror = function () {
+        // Also deal with the case when the entire request fails to 
+        // begin with
+        // This is probably a network error, so reject the promise
+        // with an appropriate message
+        reject(Error('There was a network error.'));
+      };
+      // Send the request
+      request.send();
+    });
+  }
+}());
+</code></pre>
+<hr />
+<h2 id="patrones-de-diseno">PATRONES DE DISEÑO</h2>
+<p><a href="https://addyosmani.com/resources/essentialjsdesignpatterns/book/#modulepatternjavascript">Libro bueno de patrones de diseño</a></p>
+<p>Se usa para replicar el concepto de clases para guardar metodos y variables
+publicas y privadas dentro de un objeto.<br />
+Eso nos permite crear una API publica para los metodos que queramos </p>
+<h3 id="funciones-iife">Funciones IIFE</h3>
+<ul>
+<li><strong>funciones autoejecutables IIFEs</strong></li>
+</ul>
+<pre><code class="language-javascript">(function () {
+  // todas las variables y funciones son locales a esto
+  // pero aun tiene acceso a todas las globales
+}());
+</code></pre>
+<ul>
+<li><strong>Importacion global</strong></li>
+</ul>
+<pre><code class="language-javascript">(function ($, YAHOO) {
+    // Nos da acceso a las globales jQuery (as $) y YAHOO aqui dentro
+}(jQuery, YAHOO));
+</code></pre>
+<pre><code class="language-javascript">var app = (function () {
+  'use strict';
+
+  function init () {
+    console.log('Inicio', Dungeon.hola());
+    renderer.setMyCanvas();
+    renderer.drawMyCanvas();
+  }
+
+  return {
+    init: init
+  };
+}());
+
+var renderer = (function () {
+  'use strict';
+  var cols = 80;
+  var rows = 50;
+  var ppp = 10;
+
+  function setMyCanvas () {
+    canvas = document.getElementById('myCanvas');
+    ctx = canvas.getContext('2d');
+    canvas.width = cols * ppp;
+    canvas.height = rows * ppp;
+  }
+
+  function drawMyCanvas () {
+    console.log('Drawing Map...');
+  }
+  return {
+    setMyCanvas: setMyCanvas,
+    drawMyCanvas: drawMyCanvas
+  };
+}());
+
+var Dungeon = {
+  hola: function () {
+    return 'ROGUE';
+  }
+};
+
+addEventListener('load', app.init);
+</code></pre>
+<ul>
+<li><strong>Con creacion manual de objetos</strong></li>
+</ul>
+<pre><code class="language-js">function User(){
+  var username, password;
+  function doLogin(user,pw) {
+    username = user;
+    password = pw;
+  }
+  var publicAPI = {
+    login: doLogin
+  };
+  return publicAPI;
+}
+var fred = User();                              // crea un modulo User  
+fred.login(&quot;fred&quot;, &quot;Battery34&quot;);
+</code></pre>
+<ul>
+<li><strong>Module Export</strong></li>
+</ul>
+<pre><code class="language-js">var Modulo = (function () {
+  var mod = {};
+  var privadaVariable = 1;
+  function privadoMetodo () {
+    return privadaVariable++;
+  }
+  mod.moduloPropiedad = 'Hola';
+  mod.moduloMetodo = function () {
+    return privadoMetodo();
+  };
+  return mod;
+})();
+console.log(Modulo.moduloPropiedad);                  // Hola
+console.log(Modulo.moduloMetodo());                   // 1
+console.log(Modulo.moduloMetodo());                   // 2
+</code></pre>
+<ul>
+<li><strong>Object Interface</strong></li>
+</ul>
+<pre><code class="language-js">var weekDay = function() {
+  var names = [&quot;Sunday&quot;, &quot;Monday&quot;, &quot;Tuesday&quot;, &quot;Wednesday&quot;,&quot;Thursday&quot;,
+                                              &quot;Friday&quot;, &quot;Saturday&quot;];
+  return {
+    name: function(number) {
+      return names[number];
+    },
+    number: function(name) {
+      return names.indexOf(name);
+    }
+  };
+}();
+console.log(weekDay.name(weekDay.number(&quot;Sunday&quot;)));    // → Sunday
+</code></pre>
+<h3 id="object-literal">Object literal</h3>
+<pre><code class="language-js">var myModule = {
+  myProperty: &quot;someValue&quot;,
+  myConfig: {
+    useCaching: true,
+    language: &quot;en&quot;
+  },
+  saySomething: function () {
+    console.log( &quot;Where is Paul Irish today?&quot; );
+  },
+  reportMyConfig: function () {
+    console.log( &quot;Caching is: &quot; +
+        ( this.myConfig.useCaching ? &quot;enabled&quot; : &quot;disabled&quot;) );
+  },
+  updateMyConfig: function( newConfig ) {
+     if ( typeof newConfig === &quot;object&quot; ) {
+      this.myConfig = newConfig;
+      console.log( this.myConfig.language );
+    }
+  }
+};
+myModule.saySomething();                // Where is Paul Irish today?
+myModule.reportMyConfig();              // Caching is: enabled
+myModule.updateMyConfig({               // fr
+  language: &quot;fr&quot;,
+  useCaching: false
+});
+myModule.reportMyConfig();              // Caching is: disabled
+</code></pre>
+<h3 id="datos-arrays-vs-objects">Datos: Arrays vs Objects</h3>
+<blockquote>
+<p>Grupos de objetos se pueden almacenar en arrays o como propiedades de otros objetos  </p>
+</blockquote>
+<ul>
+<li><strong>Objetos en un array</strong></li>
+</ul>
+<pre><code class="language-javascript">var people = [
+  {name: 'Casey ', rate: 70, active: true},
+  {name: 'Camille', rate: 80, active: true},  
+  {name: 'Gordon', rate: 75, active: false},
+  {name: 'Nigel', rate: 120, active: true}
+]
+</code></pre>
+<ul>
+<li><strong>Objetos como propiedades de otros objetos</strong></li>
+</ul>
+<pre><code class="language-javascript">var people = {
+  Casey= {rate: 70, active: true},
+  Camille = {rate: 80, active: true},
+  Gordon= {rate: 75, active: false} ,
+  Nigel = {rate: 120, active: true }
+}
+</code></pre>
+<hr />
+<h2 id="es6">ES6</h2>
+<h3 id="const-let">const - let</h3>
+<ul>
+<li><strong>const</strong></li>
+</ul>
+<p>Crea constantes que no se pueden modificar, ha de asignarse el valor en la declaracion</p>
+<ul>
+<li><strong>let</strong></li>
+</ul>
+<p>Declara variables que no son accesibles mas alla del ambito de creacion<br />
+Ejemplo mejor: para los <code>for</code></p>
+<h3 id="funcion-arrow">funcion arrow</h3>
+<p>Para las funciones anonimas</p>
+<pre><code class="language-javascript">// ES5
+var multiplicar = function(x, y) {
+  return x * y;
+}
+// ES6
+var multiplicar = (x, y) =&gt; {
+  return x * y
+};
+</code></pre>
+<h3 id="template-strings">template strings</h3>
+<pre><code class="language-javascript">let nombre1 = &quot;JavaScript&quot;;  
+let nombre2 = &quot;awesome&quot;;  
+console.log(`Sólo quiero decir que ${nombre1} is ${nombre2}`);
+</code></pre>
+<h3 id="modulos">modulos</h3>
+<p>bar.js</p>
+<pre><code class="language-javascript">function hello(who) {
+    return &quot;Let me introduce: &quot; + who;
+}
+export hello;
+</code></pre>
+<p>foo.js</p>
+<pre><code class="language-javascript">import hello from &quot;bar&quot;;      // import only `hello()` from &quot;bar&quot; module
+var hungry = &quot;hippo&quot;;
+function awesome() {
+    console.log(
+        hello( hungry ).toUpperCase()
+    );
+}
+export awesome;
+</code></pre>
+<p>baz.js</p>
+<pre><code class="language-javascript">module foo from &quot;foo&quot;;      // import the entire &quot;foo&quot; and &quot;bar&quot; modules
+module bar from &quot;bar&quot;;
+console.log(
+    bar.hello( &quot;rhino&quot; )
+);                             // Let me introduce: rhino
+foo.awesome();                 // LET ME INTRODUCE: HIPPO
+</code></pre>
+<hr />
+          
+          
+        </div>
+      </div>
+    </div>
+    <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebarwrapper">
+        <!--
+  <p class="logo">
+    <a href="..">
+      <img class="logo" src="../_img/chuletas128.png" title="Chuletas">
+    </a>
+  </p>
+  
+
+
+
+        
+        <h2>Navigation</h2>
+
+
+<ul>
+  
+      
+        <li>
+          <a href="">Menu</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="html/">HTML</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="css/">CSS</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="frontend/">Front End</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript/">Javascript</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript-apis/">Javascript APIs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript-para-web/">Javascript para web</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript-snippets/">Javascript snippets</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="reactjs/">Reactjs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="nodejs/">Nodejs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="expressjs/">Expressjs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="nodejs-snippets/">Nodejs snippets</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="nodejs-bases-de-datos/">Nodejs Bases de Datos</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang/">Golang</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang-para-web/">Golang para web</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang-snippets/">Golang snippets</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang-bases-de-datos/">Golang Bases de Datos</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="debian/">Debian</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="varios/">Varios</a>
+        </li>
+      
+    
+  </ul>
+        
+
+
+
+<h3>Contenidos</h3>
+
+<nav>
+  
+
+<ul>
+  
+  <li><a href="#operadores">OPERADORES</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#variables">VARIABLES</a></li>
+  <ul>
+  
+  <li><a href="#alcance">Alcance</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#conversion-de-tipos">Conversion de tipos</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#numeros">NUMEROS</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#string">STRING</a></li>
+  <ul>
+  
+  <li><a href="#metodos">Metodos</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#arrays">ARRAYS</a></li>
+  <ul>
+  
+  <li><a href="#metodos_1">Metodos</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#objetos">OBJETOS</a></li>
+  <ul>
+  
+  <li><a href="#crear-objetos">Crear Objetos</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#objectkeys">Object.keys</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#objectentries">Object.entries</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#estructuras-de-datos">Estructuras de Datos</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#this">this</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#prototipos">Prototipos</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#boolean">BOOLEAN</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#null-undefined">NULL - UNDEFINED</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#estructuras-de-control">ESTRUCTURAS DE CONTROL</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#funciones">FUNCIONES</a></li>
+  <ul>
+  
+  <li><a href="#tipos-de-funciones">Tipos de funciones</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#recursividad">Recursividad</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#closure">CLOSURE</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#errores">ERRORES</a></li>
+  <ul>
+  
+  <li><a href="#contexto-de-ejecucion">Contexto de ejecucion</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#objecto-error">Objecto Error</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#manejo-excepciones">Manejo excepciones</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#throwing-errors">Throwing errors</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#programacion-asincrona">PROGRAMACION ASINCRONA</a></li>
+  <ul>
+  
+  <li><a href="#callback">Callback</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#promises">Promises</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#patrones-de-diseno">PATRONES DE DISEÑO</a></li>
+  <ul>
+  
+  <li><a href="#funciones-iife">Funciones IIFE</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#object-literal">Object literal</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#datos-arrays-vs-objects">Datos: Arrays vs Objects</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#es6">ES6</a></li>
+  <ul>
+  
+  <li><a href="#const-let">const - let</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#funcion-arrow">funcion arrow</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#template-strings">template strings</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#modulos">modulos</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+</ul>
+
+
+  
+</nav>
+        
+        <div id="searchbox" style="display: none;" role="search">
+  <h3>Quick search</h3>
+  <form class="search" action="../search.html" method="get">
+    <input name="q" type="text">
+    <input value="Go" type="submit">
+  </form>
+  <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+  </p>
+</div>
+<script type="text/javascript">
+  document.getElementById("searchbox").style.display = "block";
+</script>
+        -->
+
+        
+
+        
+        
+  <p class="logo">
+    <a href="..">
+      <img class="logo" src="../_img/chuletas128.png" title="Chuletas">
+    </a>
+  </p>
+  
+
+
+
+        
+        <div class="menuNav">
+
+  
+  <ul>
+    
+    
+    <li>
+      <a href="../">Menu</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../html/">HTML</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../css/">CSS</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../frontend/">Front End</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript/">Javascript</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript-apis/">Javascript APIs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript-para-web/">Javascript para web</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript-snippets/">Javascript snippets</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../reactjs/">Reactjs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../nodejs/">Nodejs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../expressjs/">Expressjs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../nodejs-snippets/">Nodejs snippets</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../nodejs-bases-de-datos/">Nodejs Bases de Datos</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang/">Golang</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang-para-web/">Golang para web</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang-snippets/">Golang snippets</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang-bases-de-datos/">Golang Bases de Datos</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../debian/">Debian</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../varios/">Varios</a>
+    </li>
+    
+    
+  </ul>
+</div>
+        
+        
+
+
+
+<h3>Contenidos</h3>
+
+<nav>
+  
+
+<ul>
+  
+  <li><a href="#operadores">OPERADORES</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#variables">VARIABLES</a></li>
+  <ul>
+  
+  <li><a href="#alcance">Alcance</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#conversion-de-tipos">Conversion de tipos</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#numeros">NUMEROS</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#string">STRING</a></li>
+  <ul>
+  
+  <li><a href="#metodos">Metodos</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#arrays">ARRAYS</a></li>
+  <ul>
+  
+  <li><a href="#metodos_1">Metodos</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#objetos">OBJETOS</a></li>
+  <ul>
+  
+  <li><a href="#crear-objetos">Crear Objetos</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#objectkeys">Object.keys</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#objectentries">Object.entries</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#estructuras-de-datos">Estructuras de Datos</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#this">this</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#prototipos">Prototipos</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#boolean">BOOLEAN</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#null-undefined">NULL - UNDEFINED</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#estructuras-de-control">ESTRUCTURAS DE CONTROL</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#funciones">FUNCIONES</a></li>
+  <ul>
+  
+  <li><a href="#tipos-de-funciones">Tipos de funciones</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#recursividad">Recursividad</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#closure">CLOSURE</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#errores">ERRORES</a></li>
+  <ul>
+  
+  <li><a href="#contexto-de-ejecucion">Contexto de ejecucion</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#objecto-error">Objecto Error</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#manejo-excepciones">Manejo excepciones</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#throwing-errors">Throwing errors</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#programacion-asincrona">PROGRAMACION ASINCRONA</a></li>
+  <ul>
+  
+  <li><a href="#callback">Callback</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#promises">Promises</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#patrones-de-diseno">PATRONES DE DISEÑO</a></li>
+  <ul>
+  
+  <li><a href="#funciones-iife">Funciones IIFE</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#object-literal">Object literal</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#datos-arrays-vs-objects">Datos: Arrays vs Objects</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#es6">ES6</a></li>
+  <ul>
+  
+  <li><a href="#const-let">const - let</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#funcion-arrow">funcion arrow</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#template-strings">template strings</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#modulos">modulos</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+</ul>
+
+
+  
+</nav>
+        
+
+        
+
+      </div>
+    </div>
+    <div class="clearer"></div>
+  </div>
+
+  
+  <div class="footer">
+    
+    
+    
+    Powered by <a href="http://www.mkdocs.org">mkdocs 1.4.2</a>
+    &amp; <a href="https://github.com/iamale/mkdocs-alabaster">mkdocs-alabaster</a>
+    
+  </div>
+  
+
+  <!--
+  MkDocs version      : 1.4.2
+  Docs Build Date UTC : 2023-09-28 09:46:52.120875+00:00
+  -->
+</body>
+
+</html>

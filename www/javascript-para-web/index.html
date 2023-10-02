@@ -1,0 +1,1743 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+  <title>Javascript para web &mdash; Chuletas</title>
+
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <link rel="stylesheet" href="../css/alabaster.css" type="text/css">
+  <link rel="stylesheet" href="../css/alabaster-overrides.css" type="text/css">
+
+  
+  <link href="../_extra/css/extra.css" rel="stylesheet">
+  
+
+  
+  <script src="../_extra/js/highlight.pack.js"></script>
+  
+  <script src="../search/main.js"></script>
+  
+
+  <link rel="stylesheet" href="../_extra/css/atom-one-light.css">
+  <script src="../_extra/js/highlight.pack.js"></script>
+
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+  
+
+</head>
+
+<body>
+
+  <div class="document">
+    <div class="documentwrapper">
+      <div class="bodywrapper">
+        <div class="body" role="main">
+          
+          <h1 id="javascript-para-web">JAVASCRIPT PARA WEB</h1>
+<hr />
+<h2 id="built-in-objects">BUILT-IN OBJECTS</h2>
+<h3 id="document-object-model">Document Object Model</h3>
+<p><a href="#dom">Document Object Model</a></p>
+<h3 id="browser-object-model">Browser Object Model</h3>
+<ul>
+<li>El objeto superior es <code>window</code> que representa la ventana o pestaña del navegador.</li>
+</ul>
+<p><img alt="js" src="../_img/js/bom.png" /></p>
+<ul>
+<li>Propiedades</li>
+</ul>
+<p><code>window.innerHeight</code> - altura (excluding browser chrome/user interface) (px)<br />
+<code>window.innerWidth</code> - anchura (excluding browser chrome/user interface) (px)<br />
+<code>window.pageXOffset</code> - Distance document has been scrolled horizontally (px)<br />
+<code>window.pageYOffset</code> - Distance document has been scrolled vertically (px)<br />
+<code>window.screenX</code> - Coordenada X, respecto esquina superior-izquierda (px)<br />
+<code>window.screenY</code> - Coordenada Y, respecto esquina superior-izquierda (px) <code>window.location</code> - URL actual (o ruta local al archivo)<br />
+<code>window.document</code> - Referencia al objeto documento, usado para representar la pagina actual contenida en windows<br />
+<code>window.history</code> - Referencia al objeto history de la pestaña o ventana del navegador que contiene detalles de las paginas que han sido vistas en esa ventana o pestaña<br />
+<code>window.history.length</code> - numero de historias en el objeto history para esa pestaña o ventana del navegador<br />
+<code>window.screen</code> - Hace referencia al objeto screen del monitor<br />
+<code>window.screen.width</code> - Anchura de la pantalla del monitor(px)<br />
+<code>window.screen.height</code> - Altura de la pantalla del monitor (px)</p>
+<ul>
+<li>Metodos</li>
+</ul>
+<p><code>window.a1ert()</code> - Crea una caja de dialogo con mensaje. El usuario debe pinchar OK para cerrarla<br />
+<code>window.open()</code> - Abre una nueva ventana de navegador cuya URL es la especificada como parametro (no funciona si el navegador tiene bloqueado los pop-up)<br />
+<code>window.print()</code> - Avisa al navegador que el usuario quiere escribir contenidos de la pagina actual (como si el usuario hubiera pulsado la opcion de imprimir del navegador)</p>
+<h3 id="global-javascript-objects">Global Javascript Objects</h3>
+<ul>
+<li>Es un grupo de objetos individuales que cada uno hace referencia a una parte del lenguaje javascript</li>
+</ul>
+<p><img alt="js" src="../_img/js/gjo.png" /></p>
+<h4 id="string"><a href="../javascript/#string">String</a></h4>
+<h4 id="numero"><a href="../javascript/#numeros">Numero</a></h4>
+<h4 id="math"><a href="../javascript-apis/#math">Math</a></h4>
+<h4 id="date"><a href="../javascript-apis/#date">Date</a></h4>
+<hr />
+<h2 id="dom">DOM</h2>
+<blockquote>
+<p>Hay 3 tecnicas de actualizar contenido HTML</p>
+<ol>
+<li><code>document.write()</code></li>
+<li><em><code>element</code></em><code>.innerHTML</code></li>
+<li>Manipulacion del DOM</li>
+</ol>
+</blockquote>
+<h3 id="arbol-dom">Arbol DOM</h3>
+<blockquote>
+<p>El arbol DOM es una maqueta de una pagina web</p>
+</blockquote>
+<p><img alt="js" src="../_img/js/domTree.png" /></p>
+<ul>
+<li>
+<p><img alt="js" src="../_img/js/docNodes.png" /><br />
+  En la parte superior del arbol esta un nodo documento que representa la pagina entera. Es el punto de arranque para todas las rutas por el arbol DOM.<br />
+  Coincide con el <code>document object</code></p>
+</li>
+<li>
+<p><img alt="js" src="../_img/js/elementNodes.png" /><br />
+  Los nodos elemento es lo que se busca en el arbol DOM antes de acceder a los nodes de atributo y texto<br />
+  Para eso estan los metodos que permiten buscar y acceder a nodos elemento</p>
+</li>
+<li>
+<p><img alt="js" src="../_img/js/attributeNodes.png" /><br />
+  Las etiquetas abiertas de los elementos HTML pueden contener atributos que estan representados por nodos atributos en al arbol DOM<br />
+  No son hijos del elemento que los tiene, son parte de ese elemento, por eso hay metodos y propiedades especificas para leer y modificar esos atributos</p>
+</li>
+<li>
+<p><img alt="js" src="../_img/js/textNodes.png" /><br />
+  Una vez accedido al nodo elemento puedes coger el texto dentro del elemento que esta contenido en su propio nodo texto<br />
+  Pueden tener hijos pero seran hijos del elemento que los contiene</p>
+</li>
+</ul>
+<h3 id="objeto-document">Objeto document</h3>
+<blockquote>
+<p>El objeto superior es <code>document</code> que representa la pagina como un todo</p>
+</blockquote>
+<p><img alt="js" src="../_img/js/dom.png" /> <img alt="js" src="../_img/js/nearbyNodes.png" /></p>
+<ul>
+<li>Propiedades</li>
+</ul>
+<p><code>document.title</code> - Titulo del documento actual<br />
+<code>document.lastModified</code> - Fecha de la ultima modificacion del documento actual<br />
+<code>document.URL</code> - Devuelve una cadena con la URL del documento actual<br />
+<code>document.domain</code> - Devuelve el dominio del documento actual</p>
+<ul>
+<li>Metodos</li>
+</ul>
+<p><code>document.write()</code> - Escribe texto al documento<br />
+<code>document.getElementByld()</code> - Devuelve el elemento que coincide con el valor de id que se pasa<br />
+<code>document.querySe1ectorA11()</code> - Devuelve lista de elementos que coincide con el selector CSS que se pasa como parametro<br />
+<code>document.createElement()</code> - Crea un nuevo elemento<br />
+<code>document.createTextNode()</code> - Crea un nuevo nodo de texto</p>
+<h3 id="acceder-a-elementos">Acceder a elementos</h3>
+<ul>
+<li>Seleccionar un elemento</li>
+</ul>
+<p><code>document.getElementById("name")</code> - Selecciona el elemento con id="name"<br />
+<code>document.querySelector("h4")</code> - Selecciona el primer elemento h4<br />
+<em><code>element</code></em><code>.parentNode</code> - Toma el padre del elemento actual<br />
+<em><code>element</code></em><code>.previousSibling</code> - Coge el hermano previo<br />
+<em><code>element</code></em><code>.nextSibling</code> - Coge el hermano siguiente<br />
+<em><code>element</code></em><code>.firstChild</code> - Coge el primer hijo del actual elemento<br />
+<em><code>element</code></em><code>.lastChild</code> - Coge el ultimo hijo del actual elemento</p>
+<pre><code>¡ OJO ! En estos 5 ultimos con los WhiteSpace Nodes
+</code></pre>
+<ul>
+<li>Seleccionar varios elementos : Los metodos devuelven una <code>NodeList</code></li>
+</ul>
+<p><code>document.getElementsByClassName("name")</code> - Selecciona todos los elementos que tienen la clase="name"<br />
+<code>document.getElementsByTagName("li")</code> - Coge todos los elementos que tienen el tag name="li"<br />
+<code>document.querySelectorAll(h4)</code> - Selecciona todos los elementos que poseen h4</p>
+<h3 id="trabajar-con-elementos">Trabajar con elementos</h3>
+<h4 id="propiedades">Propiedades</h4>
+<p><em><code>element</code></em><code>.nodeValue</code> - Permite acceder al contenido de un nodo texto<br />
+<em><code>element</code></em><code>.innerHTML</code> - Permite acceder a elementos hijo y contenido de texto y de markup<br />
+<em><code>element</code></em><code>.textContent</code> - Permite acceder al texto del elemento y de sus hijos <em><code>element</code></em><code>.className</code> - Valor del atributo class<br />
+<em><code>element</code></em><code>.id</code> - Valor del atributo id</p>
+<p><img alt="js" src="../_img/js/accessText.png" /></p>
+<ul>
+<li><em><code>element</code></em><code>.nodeValue</code><br />
+  Una vez llegas de un elemento a su nodo texto, este tiene la propiedad nodeValue que te da acceso al valor del texto</li>
+</ul>
+<pre><code class="language-javascript">document.getElementById(&quot;one&quot;).firstChild.nextSibling.nodeValue;
+</code></pre>
+<ul>
+<li><em><code>element</code></em><code>.textContent</code><br />
+  Permite acceder al texto del elemento y de sus hijos</li>
+</ul>
+<pre><code class="language-javascript">document.getElementByid(&quot;one&quot;).textContent;
+</code></pre>
+<ul>
+<li>
+<p><em><code>element</code></em><code>.innerText</code> <strong>NO USAR</strong></p>
+</li>
+<li>
+<p><em><code>element</code></em><code>.innerHTML</code></p>
+</li>
+</ul>
+<pre><code class="language-javascript">var elContent = document.getElementByld('one').innerHTML;     // Get
+// elContent =  &quot;&lt;em&gt;fresh&lt;/em&gt; figs&quot;
+document.getElementByld('one').innerHTML = elContent;         // Set
+</code></pre>
+<h4 id="manipulacion-dom">Manipulacion DOM</h4>
+<p><code>document.createElement()</code> - Crea nodos<br />
+<code>document.createTextNode()</code> - Crea nodos de texto<br />
+<em><code>element</code></em><code>.appendChild()</code> - Añade nodos<br />
+<em><code>element</code></em><code>.removeChild()</code> - Elimina nodo<br />
+<em><code>element</code></em><code>.hasAttribute(n)</code> - Chequea si existe el atributo n<br />
+<em><code>element</code></em><code>.getAttribute(n)</code> - Consigue el valor del atributo n<br />
+<em><code>element</code></em><code>.setAttribute(n)</code> - Pone el valor del atributo n<br />
+<em><code>element</code></em><code>.removeAttribute(n)</code> - Elimina el atributo n</p>
+<blockquote>
+<p>Crear nuevo contenido en la pagina</p>
+</blockquote>
+<ol>
+<li><code>document.createElement()</code> - Crea un nuevo nodo elemento y se guarda en una variable</li>
+<li><code>document.createTextNode()</code> - Crea un nuevo nodo texto y se guarda en una variable</li>
+<li><em><code>element</code></em><code>.appendChild()</code> - Lo añade al arbol DOM como un hijo</li>
+</ol>
+<pre><code class="language-javascript">var newEl = document.createElement(&quot;li&quot;);
+var newText document.createTextNode(&quot;quinoa&quot;);
+newEl.appendChild(newText);
+// Ahora lo posicionamos donde le corresponda
+var position = document.getElementsByTagName(&quot;ul&quot;)[O];
+position.appendChild(newEl);
+</code></pre>
+<blockquote>
+<p>Eliminar contenido en la pagina</p>
+</blockquote>
+<ol>
+<li>Almacenar el elemento a borrar en una variable</li>
+<li>Almacenar el padre del elemento a borrar en una variable</li>
+<li>Eliminar el elemento desde su elemento padre</li>
+</ol>
+<pre><code class="language-javascript">var removeEl = document.getElementsByTagName(&quot;li&quot;)[3];
+var containerEl = removeEl.parentNode;
+containerEl.removeChild(removeEl);
+</code></pre>
+<h4 id="style-objects">Style Objects</h4>
+<p><a href="http://www.w3schools.com/jsref/dom_obj_style.asp">Style Objects</a>  </p>
+<p><code>document.getElementById("myH1").style.color = "red";</code></p>
+<h3 id="nodelists">NodeLists</h3>
+<blockquote>
+<p>Son <code>collections</code>, parecen <code>arrays</code> y estan numerados como tal pero no lo son</p>
+</blockquote>
+<ul>
+<li>Propiedades</li>
+</ul>
+<p><code>length</code> - indica cuantos items hay en la NodeList</p>
+<ul>
+<li>Metodos</li>
+</ul>
+<p><code>item(n)</code> - devuelve el item con indice numero n<br />
+<code>nodeLista[n]</code> - es mas comun esta sintaxis con corchetes</p>
+<pre><code class="language-javascript">var lista = document.getElementsByClassName(&quot;hot&quot;)
+if (lista.length &gt;= 1) {
+  var primero = lista.item(0);
+  var primero = lista[0];
+}
+</code></pre>
+<ul>
+<li>Iteraciones</li>
+</ul>
+<pre><code class="language-javascript">var lista = document.querySelectorAll(&quot;li.cold&quot;)
+for (var i = 0; i &lt; lista.lenth; i++) {
+  lista[i].className = &quot;hot&quot;;
+}
+</code></pre>
+<h3 id="xss-atacks">XSS Atacks</h3>
+<blockquote>
+<p><strong>Escapar todo el contenido que generan los usuarios</strong><br />
+Todos los datos introducidos por usuarios deben escaparse en el servidor antes de ser mostrados en la pagina.</p>
+</blockquote>
+<ul>
+<li>HTML - Escapar todos estos caracteres para que se muestren como caracteres y no sean procesados como codigo</li>
+</ul>
+<p><img alt="js" src="../_img/js/escapeHTML.png" /></p>
+<ul>
+<li>
+<p>Javascript -No incluir datos de fuentes sin confianza.Escapar todos los caracteres ASCII de valor menor a 256 que no sean caracteres alfanumericos</p>
+</li>
+<li>
+<p>URLs - Si tienes enlaces que datos que han introducido los usuarios usa el metodo <code>encodeURIComponent()</code> para codificar los siguientes caracteres :</p>
+</li>
+</ul>
+<p><img alt="js" src="../_img/js/escapeURLs.png" /></p>
+<blockquote>
+<p><strong>Añadir contenido del usuario</strong></p>
+</blockquote>
+<ul>
+<li>Javascript:  </li>
+</ul>
+<p>- Usar <code>textContent</code> o <code>innerText</code><br />
+- NO usar <code>innerHTML</code></p>
+<ul>
+<li>jQuery:</li>
+</ul>
+<p>- Usar <code>.text()</code><br />
+- NO Usar <code>.html()</code> salvo:</p>
+<ul>
+<li>No permitir al usuario contenido con markup</li>
+<li>Escapar todo el contenido del usuario y añadirlo como texto en lugar de como HTML</li>
+</ul>
+<hr />
+<h2 id="eventos">EVENTOS</h2>
+<blockquote>
+<ol>
+<li>Las Interacciones del usuario crean Eventos</li>
+<li>Los Eventos disparan Codigo</li>
+<li>El Codigo responde a los usuarios (p ej : modificando el DOM)</li>
+</ol>
+</blockquote>
+<ol>
+<li>Seleccionar el elemento que queremos tenga un evento</li>
+<li>Indicar que evento en ese elemento disparara la respuesta</li>
+<li>Indicar el codigo a ejecutar cuando ocurra el evento</li>
+</ol>
+<h3 id="lista-eventos">Lista Eventos</h3>
+<ul>
+<li>User Interface Events</li>
+</ul>
+<p><code>load</code> - La pagina web se ha terminado de cargar</p>
+<pre><code class="language-javascript">function setup() {         
+  // Al haber cargado la pagina ya esta el contenido disponible 
+}
+window.addEventListener('load', setup, false);
+</code></pre>
+<p><code>unload</code> - La pagina web se esta descargando a causa de haber pedido otra<br />
+<code>beforeunload</code> - Justo antes de que el usuario abandone la pagina<br />
+<code>error</code> - Navegador encuentra un error de Javascript<br />
+<code>resize</code> - Navegador se ha redimensionado<br />
+<code>scroll</code> - Usuario ha hecho scroll hacia arriba o abajo, puede referirse a la pagina entera o a un elemento especifico como por ejemplo textarea</p>
+<ul>
+<li>Keyboard Events</li>
+</ul>
+<p><code>keydown</code> - Pulsar una tecla(se repite mientras la tecla esta presionada)<br />
+<code>keyup</code> - Soltar una tecla<br />
+<code>keypress</code> - Mientras se inserta el caracter (se repite mientras la tecla esta presionada)</p>
+<ul>
+<li>Mouse Events</li>
+</ul>
+<p><code>click</code> - Pulsar y soltar un boton sobre el mismo elemento<br />
+<code>dblclick</code> - Pulsar y soltar un boton dos veces sobre el mismo elemento<br />
+<code>mousedown</code> - Pulsar un botón del ratón mientras esta sobre un elemento<br />
+<code>mouseup</code> - Soltar un botón del ratón mientras esta sobre un elemento<br />
+<code>mousemove</code> - Mover el raton<br />
+<code>mouseover</code> - Mover el raton por encima de un elemento<br />
+<code>mouseout</code> - Mover el raton fuera de un elemento</p>
+<ul>
+<li>Focus Events</li>
+</ul>
+<p><code>focus</code> , <code>focusin</code> - EL elemento gana el foco<br />
+<code>blur</code> , <code>focusout</code> - EL elemento pierde el foco</p>
+<ul>
+<li>Form Events</li>
+</ul>
+<p><code>input</code> - Cambia el valor de cualquier <code>&lt;input&gt;</code>, <code>&lt;textarea&gt;</code> o elemento con el atributo <code>contenteditable</code><br />
+<code>change</code> - Cambia el valor en un <code>select box</code>, <code>checkbox</code> o <code>radio button</code><br />
+<code>submit</code> - Al enviar un formulario (usando un boton o una tecla)<br />
+<code>reset</code> - Usuario pincha un boton de resetear formulario (Muy raro verlo)<br />
+<code>cut</code> - Usuario corta contenido de un campo del formulario<br />
+<code>copy</code> - Usuario copia contenido de un campo del formulario<br />
+<code>paste</code> - Usuario pega contenido a un campo del formulario<br />
+<code>select</code> - Usuario selecciona algo de texto en un campo de formulario</p>
+<ul>
+<li>Mutation Events : Ocurren cuando la estructura DOM cambia por un script</li>
+</ul>
+<p><code>DOMSubtreeModified</code> - Cambio affecta al documento<br />
+<code>DOMNodeInserted</code> - Se ha insertado un nodo como hijo de otro nodo<br />
+<code>DOMNodeRemoved</code> - Se ha eliminado un nodo desde otro nodo<br />
+<code>DOMNodeInsertedIntoDocument</code> - Se ha insertado un nodo como descendiente de otro nodo<br />
+<code>DOMNodeRemovedFromDocument</code> - Se ha eliminado un nodo como descendiente de otro nodo</p>
+<ul>
+<li>HTML5 Events</li>
+</ul>
+<p><code>DOMContentLoaded</code> - Salta cuando el arbol DOM (toda la estructura HTML) ya esta cargada) a diferencia de <code>load</code> que salta cuando todo el HTML y sus recursos (imagenes, iframes, scripts, css) se han cargado.<br />
+Asi la pagina parece que es mas rapida de cargar. Se asigna al <code>document</code> o al <code>window</code><br />
+<code>hashchange</code> - Salta cuando hay cambios en la URL a partir del ancla #.<br />
+Funciona sobre el objeto <code>window</code> y despues de saltar el objeto <code>event</code> tendra dos propiedades <code>oldURL</code>, <code>newURL</code><br />
+<code>beforeunload</code> - Salta en el objeto <code>windows</code> antes de tirar la pagina. Es el que usan para molestar diciendo si estas seguro de querer abandonar la pagina</p>
+<h3 id="manejadores-eventos">Manejadores Eventos</h3>
+<ul>
+<li>HTML Event Handlers <code>NO USAR</code></li>
+</ul>
+<pre><code class="language-html">&lt;form method=&quot;post&quot; action=&quot;http://www.example.org/register&quot;&gt;
+  &lt;label for=&quot;username&quot;&gt;Create a username: &lt;/label&gt;
+  &lt;input type=&quot;text&quot; id=&quot;username&quot; onblur=&quot;checkUsername()&quot; /&gt;
+  &lt;div id=&quot;feedback&quot;&gt;&lt;/div&gt;
+  &lt;label for=&quot;password&quot;&gt;Create a password: &lt;/label&gt;
+  &lt;input type=&quot;password&quot; id=&quot;password&quot; /&gt;
+  &lt;input type=&quot;submit&quot; value=&quot;sign up!&quot; /&gt;
+&lt;/form&gt;
+</code></pre>
+<pre><code class="language-javascript">function checkUsername() {                             
+  var elMsg = document.getElementById('feedback');     
+  var elUsername = document.getElementById('username');
+  if (elUsername.value.length &lt; 5) {                   
+    elMsg.textContent = 'Username must be 5 characters or more';
+  } else {                                               
+    elMsg.textContent = '';                             
+  }
+}
+</code></pre>
+<ul>
+<li>Traditional DOM Event Handlers<br />
+  La pega es que solo puedes vincular una funcion a un evento<br />
+<em><code>element</code><strong><code>.on</code></strong><code>event</code></em><code>=</code><em><code>functionName</code></em>;</li>
+</ul>
+<pre><code class="language-javascript">function checkUsername() {                             
+  // codigo que sea
+}
+var el = document.getElementByld(&quot;username&quot;) ;
+el.onblur = checkUsername;
+</code></pre>
+<ul>
+<li>Event Listeners (DOM level 2 ) <code>USAR</code><br />
+  Permite que un solo evento dispare varios scripts</li>
+</ul>
+<h3 id="event-listener">Event Listener</h3>
+<ul>
+<li><strong>Concepto</strong></li>
+</ul>
+<p><img alt="js" src="../_img/js/eventListener.png" /></p>
+<ul>
+<li><strong>Ejemplo</strong></li>
+</ul>
+<pre><code class="language-javascript">function checkUsername() {                             
+  // codigo que sea
+}
+var el = document.getElementByld(&quot;username&quot;) ;
+el.addEventListener(&quot;blur&quot;, checkUsername, false);
+</code></pre>
+<ul>
+<li><strong>Usando Parametros</strong></li>
+</ul>
+<p><img alt="js" src="../_img/js/parametersEvents.png" /></p>
+<pre><code class="language-javascript">var elUsername = document.getElementById('username');   
+var elMsg      = document.getElementById('feedback');   
+
+function checkUsername(minLength) {                     
+  if (elUsername.value.length &lt; minLength) {            
+    elMsg.innerHTML = 'Username must be ' + minLength + ' chars or more';
+  } else {                                             
+    elMsg.innerHTML = '';                              
+  }
+}
+
+elUsername.addEventListener('blur', function() {        
+  checkUsername(5);                                     
+}, false);
+</code></pre>
+<pre><code class="language-javascript">var button = document.querySelector(&quot;button&quot;);
+button.addEventListener(&quot;mousedown&quot;, function(event) {
+  if (event.which == 1)
+    console.log(&quot;Left button&quot;);
+  else if (event.which == 2)
+    console.log(&quot;Middle button&quot;);
+  else if (event.which == 3)
+    console.log(&quot;Right button&quot;);
+});
+</code></pre>
+<h3 id="event-flow">Event FLow</h3>
+<blockquote>
+<p>Describe el orden en el que los eventos se procesan<br />
+<code>Propagacion</code> : Los eventos registrados en nodos con hijos reciben algunos eventos que ocurren en los hijos. Si pulsamos un buton dentro de un parrafo los manejadores de evento del parrafo tambien recibiran el evento click. Si los dos tienen el evento el manejador mas especifico (el mas interno) va primero</p>
+</blockquote>
+<ul>
+<li>
+<p><code>bubbling</code> - el evento se captura y maneja primero por el elemento mas interno y despues de propaga hacua los elementos exteriores</p>
+</li>
+<li>
+<p><code>Capturing</code> - el evento se captura primero por el elemento mas externo y se propaga hacia los elementos internos</p>
+</li>
+</ul>
+<p><img alt="js" src="../_img/js/eventFlow.png" /></p>
+<h3 id="objeto-event">Objeto Event</h3>
+<ul>
+<li>Propiedades</li>
+</ul>
+<p><code>target</code> - Objetivo del evento<br />
+<code>type</code> - Tipo de evento que se ha disparado<br />
+<code>cancelable</code> - Si se puede cancelar el comportamiento predeterminado de un elemento<br />
+<code>screenX</code> , <code>screenY</code> - Coordenada de la posicion del cursor respecto del monitor<br />
+<code>pageX</code> , <code>pageY</code> - Coordenada de la posicion del cursor respecto de la pagina<br />
+<code>clientX</code> , <code>clientY</code> - Coordenada de la posicion del cursor respecto del navegador</p>
+<ul>
+<li>Metodos</li>
+</ul>
+<p><code>preventDefault()</code> - Cancela el comportamiento por defecto del evento (si es posible)<br />
+<code>stopPropagation()</code> - Detiene la propagacion del evento por bubbling o capturing</p>
+<ul>
+<li>Event listener sin parametros</li>
+</ul>
+<p>La referencia al objeto event se pasa automaticamente aunque en la funcion debe nombrarse (lo normal es <code>e</code> para <code>event</code>)</p>
+<pre><code class="language-javascript">function checkUsername(e) {
+  var target = e.target;
+}
+var el = document.getElementById(&quot;username&quot;);
+el.addEventListener(&quot;blur&quot;, checkUsername, false);
+</code></pre>
+<ul>
+<li>Event listener con parametros</li>
+</ul>
+<p>La referencia al objeto event se pasa automaticamente pero debe nombrarse en los parametros</p>
+<pre><code class="language-javascript">function checkUsername(e, min) {
+  var target = e.target;
+}
+var el = document.getElementById(&quot;username&quot;);
+el.addEventListener(&quot;blur&quot;, function(e) {
+  checkUsername(e, 5);
+}, false);
+</code></pre>
+<h3 id="delegacion">Delegacion</h3>
+<p>Para evitar malos rendimientos por ejemplo en listas o celdas o tablas se pone el <code>event listener</code> en el elemento que los contiene y luego se usa la propiedad <code>target</code> del objeto <code>event</code> para encontrar al hijo que desato el evento</p>
+<h3 id="setting-timers">Setting Timers</h3>
+<p><code>setTimeout</code>: similar a <code>requestAnimationFrame</code>, fija una funcion para ser ejecutada mas tarde, pero en lugar de llamarla en el siguiente redibujado espera un numero de milisegundos</p>
+<pre><code class="language-javascript">document.body.style.background = &quot;blue&quot;;
+setTimeout(function() {
+  document.body.style.background = &quot;yellow&quot;;
+}, 2000);
+</code></pre>
+<p><code>clearTimeout</code> cancela la ejecucion de la funcion planeada</p>
+<pre><code class="language-javascript">var bombTimer = setTimeout(function() {
+  console.log(&quot;BOOM!&quot;);
+}, 500);
+
+if (Math.random() &lt; 0.5) { // 50% chance
+  console.log(&quot;Defused.&quot;);
+  clearTimeout(bombTimer);
+}
+</code></pre>
+<p><code>setInterval</code> y <code>clearInterval</code> son para lo mismo pero la ejecucion se repite cada X milisegundos</p>
+<pre><code class="language-javascript">var ticks = 0;
+var clock = setInterval(function() {
+  console.log(&quot;tick&quot;, ticks++);
+  if (ticks == 10) {
+    clearInterval(clock);
+    console.log(&quot;stop.&quot;);
+  }
+}, 200);
+</code></pre>
+<h3 id="debouncing">Debouncing</h3>
+<p>Hay eventos que se pueden disparar muy muy rapidamente (como <code>mousemove</code> o <code>scroll</code> pej). Hay que tener cuidado de no consumir mucho tiempo en su manejador o la pagina se lageara.</p>
+<p>Se puede usar setTimeout para suavizar el evento y que no haya lageos</p>
+<pre><code class="language-javascript">// Aqui se responde a mousemove pero una vez cada 250 milisegundos
+function displayCoords(event) {
+  document.body.textContent = &quot;Mouse &quot; + event.pageX + &quot;, &quot; + event.pageY;
+}
+var scheduled = false, lastEvent;
+addEventListener(&quot;mousemove&quot;, function(event) {
+  lastEvent = event;
+  if (!scheduled) {
+    scheduled = true;
+    setTimeout(function() {
+      scheduled = false;
+      displayCoords(lastEvent);
+    }, 250);
+  }
+});
+</code></pre>
+<hr />
+<h2 id="ajax">AJAX</h2>
+<h3 id="conceptos">Conceptos</h3>
+<blockquote>
+<p>Ajax permite pedir datos al servidor y cargarlos sin tener que refrescar la pagina entera<br />
+Los servidores usan para enviar los datos HTML, XML o JSON<br />
+Ajax usa un modelo asicrono, permite hacer cosas mientras el navegador espera los datos del servidor para cargarlos</p>
+<p><img alt="js" src="../_img/js/ajaxFlow.png" /></p>
+<ol>
+<li>
+<p>Peticion: El navegador pide datos al servidor, la peticion puede incluir datos que el servidor necesite al igual que un formulario puede enviar datos a un servidor</p>
+</li>
+<li>
+<p>En el servidor ocurre lo que sea y se genera una respuesta que puede ser en forma de HTML u otro formato como XML o JSON que luego el navegador convertira en HTML</p>
+</li>
+<li>
+<p>Respuesta: cuando el navegador recibe la respuesta del servidor dispara un evento el cual puede ser usado para ejecutar una funcion javascipt que procesara los datos y los mostrara en pantalla</p>
+</li>
+</ol>
+</blockquote>
+<h3 id="xmlhttprequest-object">XMLHttpRequest Object</h3>
+<blockquote>
+<p>Los navegadores usan el objeto <code>XMLHttpRequest</code> para manejar peticiones Ajax. Cuando el servidor responde a la peticion del navegador el mismo objeto <code>XMLHttpRequest</code> procesa el resultado</p>
+</blockquote>
+<ul>
+<li><strong>Peticiones</strong></li>
+</ul>
+<blockquote>
+<p><img alt="js" src="../_img/js/ajaxRequest.png" /></p>
+<ol>
+<li>Se instancia el objeto <code>XMLHttpRequest</code> para crear un nuevo objeto <code>xhr</code></li>
+<li><code>.open()</code> - Metodo HTTP , url que manejara la peticion, true|false si es asincrono</li>
+<li><code>.send()</code> - Envia la peticion al servidor, se puede pasar informacion extra o no</li>
+</ol>
+</blockquote>
+<ul>
+<li><strong>Respuestas</strong></li>
+</ul>
+<blockquote>
+<p><img alt="js" src="../_img/js/ajaxResponse.png" /></p>
+<ol>
+<li>Cuando el navegador recibe y carga la respuesta del servidor se dispara el evento <code>onload</code>. Esto provoca que se ejecute una funcion</li>
+<li>La funcion chequea la propiedad <code>status</code> del objeto para asegurarse de que la respuesta del servidor esta bien</li>
+</ol>
+</blockquote>
+<h3 id="formatos-de-datos">Formatos de datos</h3>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;JavaScript AJAX - Loading HTML, JSON y XML&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;header&gt;&lt;h1&gt;THE MAKER BUS&lt;/h1&gt;&lt;/header&gt;
+    &lt;h2&gt;The bus stops here.&lt;/h2&gt;
+    &lt;section id=&quot;content&quot;&gt;&lt;/section&gt;
+    &lt;script src=&quot;js/data.js&quot;&gt;&lt;/script&gt;
+
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<pre><code class="language-html">// data.html
+&lt;div class=&quot;event&quot;&gt;
+  &lt;img src=&quot;img/map-ca.png&quot; alt=&quot;Map of California&quot; /&gt;
+  &lt;p&gt;&lt;b&gt;Los Angeles, CA&lt;/b&gt;  
+  May 1&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;event&quot;&gt;
+  &lt;img src=&quot;img/map-tx.png&quot; alt=&quot;Map of MI casa&quot; /&gt;
+  &lt;p&gt;&lt;b&gt;Austin, TX&lt;/b&gt;  
+  May 15&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;event&quot;&gt;
+  &lt;img src=&quot;img/map-ny.png&quot; alt=&quot;Map of New York&quot; /&gt;
+  &lt;p&gt;&lt;b&gt;New York, NY&lt;/b&gt;  
+  May 30&lt;/p&gt;
+&lt;/div&gt;
+</code></pre>
+<pre><code class="language-json">// data.json
+{
+  &quot;events&quot;: [
+    {
+      &quot;location&quot;: &quot;San Francisco, CA&quot;,
+      &quot;date&quot;: &quot;May 1&quot;,
+      &quot;map&quot;: &quot;img/map-ca.png&quot;
+    },
+    {
+      &quot;location&quot;: &quot;Austin, TX&quot;,
+      &quot;date&quot;: &quot;May 15&quot;,
+      &quot;map&quot;: &quot;img/map-tx.png&quot;
+    },
+    {
+      &quot;location&quot;: &quot;New York, NY&quot;,
+      &quot;date&quot;: &quot;May 30&quot;,
+      &quot;map&quot;: &quot;img/map-ny.png&quot;
+    }
+  ]
+}
+</code></pre>
+<pre><code class="language-xml">// data.xml
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;events&gt;
+  &lt;event&gt;
+    &lt;location&gt;San Francisco, CA&lt;/location&gt;
+    &lt;date&gt;May 1&lt;/date&gt;
+    &lt;map&gt;img/map-ca.png&lt;/map&gt;
+  &lt;/event&gt;
+  &lt;event&gt;
+    &lt;location&gt;Austin, TX&lt;/location&gt;
+    &lt;date&gt;May 15&lt;/date&gt;
+    &lt;map&gt;img/map-tx.png&lt;/map&gt;
+  &lt;/event&gt;
+  &lt;event&gt;
+    &lt;location&gt;New York, NY&lt;/location&gt;
+    &lt;date&gt;May 30&lt;/date&gt;
+    &lt;map&gt;img/map-ny.png&lt;/map&gt;
+  &lt;/event&gt;
+&lt;/events&gt;
+</code></pre>
+<ul>
+<li><strong>HTML</strong></li>
+</ul>
+<pre><code class="language-javascript">var xhr = new XMLHttpRequest();       // Create XMLHttpRequest object
+
+xhr.onload = function() {             // When response has loaded
+  if(xhr.status === 200) {            // If server status was ok update
+    var response = xhr.responsetext;  
+    document.getElementById('content').innerHTML = response;
+  }
+};
+
+xhr.open('GET', 'data/data.html', true);        // Prepare the request
+xhr.send(null);
+</code></pre>
+<ul>
+<li><strong>JSON</strong></li>
+</ul>
+<pre><code class="language-javascript">var xhr = new XMLHttpRequest();         // Create XMLHttpRequest object
+
+xhr.onload = function() {               // When readystate changes
+  if(xhr.status === 200) {              // If server status was ok
+    responseObject = JSON.parse(xhr.responseText);
+
+    // BUILD UP STRING WITH NEW CONTENT (could also use DOM manipulation)
+    var newContent = '';
+    // Loop through object
+    for (var i = 0; i &lt; responseObject.events.length; i++) {
+      newContent += '&lt;div class=&quot;event&quot;&gt;';
+      newContent += '&lt;img src=&quot;' + responseObject.events[i].map + '&quot; ';
+      newContent += 'alt=&quot;' + responseObject.events[i].location + '&quot; /&gt;';
+      newContent += '&lt;p&gt;&lt;b&gt;' + responseObject.events[i].location +
+                                                        '&lt;/b&gt;  ';
+      newContent += responseObject.events[i].date + '&lt;/p&gt;';
+      newContent += '&lt;/div&gt;';
+    }
+
+    // Update the page with the new content
+    document.getElementById('content').innerHTML = newContent;
+
+  //}
+};
+
+xhr.open('GET', 'data/data.json', true);        // Prepare the request
+xhr.send(null);
+</code></pre>
+<ul>
+<li><strong>XML</strong></li>
+</ul>
+<pre><code class="language-javascript">var xhr = new XMLHttpRequest();          // Create XMLHttpRequest object
+
+xhr.onload = function() {                // When response has loaded
+  if (xhr.status === 200) {              // If server status was ok
+    var response = xhr.responseXML;      // Get XML from the server
+    // Find &lt;event&gt; elements and loop through them
+    var events = response.getElementsByTagName('event');
+    for (var i = 0; i &lt; events.length; i++) {            
+      var container, image, location, city, newline;     
+      container = document.createElement('div');          
+      container.className = 'event';                     
+      // Add map image
+      image = document.createElement('img');              
+      image.setAttribute('src', getNodeValue(events[i], 'map'));
+      image.setAttribute('alt', getNodeValue(events[i], 'location'));
+      container.appendChild(image);
+      // Add location data
+      location = document.createElement('p');             
+      city = document.createElement('b');
+      newline = document.createElement('br');
+      city.appendChild(document.createTextNode(getNodeValue(
+                                            events[i], 'location')));
+      location.appendChild(newline);
+      location.insertBefore(city, newline);
+      location.appendChild(document.createTextNode(getNodeValue(
+                                            events[i], 'date')));
+      container.appendChild(location);
+
+      document.getElementById('content').appendChild(container);
+    }
+  }
+}
+  // Gets content from XML
+  function getNodeValue(obj, tag) {                   
+    return obj.getElementsByTagName(tag)[0].firstChild.nodeValue;
+  }
+};
+
+xhr.open('GET', 'data/data.xml', true);             // Prepare the request
+xhr.send(null);
+</code></pre>
+<h3 id="datos-de-otros-servidores">Datos de otros servidores</h3>
+<blockquote>
+<p>Por seguridad AJAX no carga respùestas de otros dominios (conocidas como <code>cross-domain requests</code>)<br />
+Alternativas</p>
+<ol>
+<li><code>Proxy</code> - Crear un archivo en mi servidor que recoge los datos del servidor remoto. Asi las demas paginas de mi web pueden pedir los datos de ese archivo que actua de proxy</li>
+<li><code>JSONP</code></li>
+<li><code>Cross-Origin resources Sharing CORS</code> - Añadir informacion extra a las cabeceras HTTP - <a href="http://www.html5rocks.com/en/tutorials/cors/?redirect_from_locale=es">Buena Guia para CORS</a></li>
+</ol>
+</blockquote>
+<ul>
+<li><strong>JSONP</strong></li>
+</ul>
+<pre><code class="language-html">// data-jsonp.html
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;JavaScript Ajax - JSONP&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;header&gt;&lt;h1&gt;THE MAKER BUS&lt;/h1&gt;&lt;/header&gt;
+  &lt;h2&gt;The bus stops here&lt;/h2&gt;
+  &lt;section id=&quot;content&quot;&gt;&lt;/section&gt;
+  &lt;script src=&quot;js/data-jsonp.js&quot;&gt;&lt;/script&gt;
+  &lt;script
+    src=&quot;http://htmlandcssbook.com/js/jsonp.js?callback=showEvents&quot;&gt;
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<pre><code class="language-javascript">// js/data-jsonp.js
+function showEvents(data) {           // Callback when JSON loads
+  var newContent = '';                // Variable to hold HTML
+  // BUILD UP STRING WITH NEW CONTENT (could also use DOM manipulation)
+  for (var i = 0; i &lt; data.events.length; i++) {    // Loop through object
+    newContent += '&lt;div class=&quot;event&quot;&gt;';
+    newContent += '&lt;img src=&quot;' + data.events[i].map + '&quot; ';
+    newContent += 'alt=&quot;' + data.events[i].location + '&quot; /&gt;';
+    newContent += '&lt;p&gt;&lt;b&gt;' + data.events[i].location + '&lt;/b&gt;  ';
+    newContent += data.events[i].date + '&lt;/p&gt;';
+    newContent += '&lt;/div&gt;';
+  }
+  // Update the page with the new content
+  document.getElementById('content').innerHTML = newContent;
+}
+</code></pre>
+<pre><code class="language-javascript">// data/data-jsonp.js
+showEvents({
+  &quot;events&quot;: [
+    {
+      &quot;location&quot;: &quot;San Francisco, CA&quot;,
+      &quot;date&quot;: &quot;May 1&quot;,
+      &quot;map&quot;: &quot;img/map-ca.png&quot;
+    },
+    {
+      &quot;location&quot;: &quot;Austin, TX&quot;,
+      &quot;date&quot;: &quot;May 15&quot;,
+      &quot;map&quot;: &quot;img/map-tx.png&quot;
+    },
+    {
+      &quot;location&quot;: &quot;New York, NY&quot;,
+      &quot;date&quot;: &quot;May 30&quot;,
+      &quot;map&quot;: &quot;img/map-ny.png&quot;
+    }
+  ]
+});
+</code></pre>
+<hr />
+<h2 id="json">JSON</h2>
+<h3 id="notacion-json">Notacion JSON</h3>
+<p>JSON es solo texto plano que envias por internet y luego el navegador convierte en objetos para usarlos</p>
+<blockquote>
+<p><img alt="js" src="../_img/js/jsonSyntaxis.png" /></p>
+<ul>
+<li>
+<p>KEYS colocados entre comillas (no comillas simples y separados del valor por dos puntos.</p>
+</li>
+<li>
+<p>VALUES alguno de los siguientes tipos de datos</p>
+</li>
+<li>
+<p><code>string</code> - Texto escrito entre comillas</p>
+</li>
+<li><code>number</code> - Numero</li>
+<li><code>boolean</code> - <code>true</code> o <code>false</code></li>
+<li><code>array</code> - array de valores o de objetos</li>
+<li><code>object</code> - objeto javascript que puede contener objetos hijos o arrays</li>
+<li>
+<p><code>null</code> - cuando el valor esta vacio o perdido</p>
+</li>
+<li>
+<p>Cada pareja clave/valor esta separada por una coma excepto la ultima</p>
+</li>
+</ul>
+</blockquote>
+<h3 id="objeto-json">Objeto JSON</h3>
+<blockquote>
+<p>events es un array que contiene dos objetos (uno por evento)</p>
+</blockquote>
+<pre><code class="language-json">{
+  &quot;events&quot; : [
+    {
+      &quot;location&quot;: &quot;San Francisco, CA&quot;,
+      &quot;date&quot;: &quot;May l&quot;,
+      &quot;map&quot;: &quot;img/map-ca.png &quot;
+    },
+    {    
+      &quot;location&quot; : &quot;Austin, TX&quot;,
+      &quot;date&quot; : &quot;May 15&quot;,
+      &quot;map&quot;: &quot;img/map-tx.png&quot;
+    }
+  ]
+}
+</code></pre>
+<p><code>JSON.stringify()</code> convierte objetos javascript en una cadena formateada usando JSON. Esto permite enviar objetos javascript de el navegador a otra aplicacion</p>
+<p><code>JSON.parse()</code> convierte una cadena de datos JSON en objetos javascript que el navegador pueda usar</p>
+<hr />
+<h2 id="xml">XML</h2>
+<p>Parecido a HTML pero las etiquetas describen el tipo de dato que hay dentro<br />
+Se puede procesar XML usando los mismos metodos DOM de HTML, por eso es mas facil usando jQuery</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.O&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;events&gt;
+  &lt;event&gt;
+  &lt;location&gt;San Francisco, CA&lt;/location&gt;
+  &lt;date&gt;May 1 &lt;/date&gt;
+  &lt;map&gt;img/map-ca.png&lt;/map&gt;
+  &lt;/event&gt;
+  &lt;event&gt;
+  &lt;location&gt;Austin, TX&lt;/location&gt;
+  &lt;date&gt;May 15&lt;/ date&gt;
+  &lt;map&gt;img/map-tx.png&lt;/map&gt;
+  &lt;/event&gt;
+&lt;/events&gt;
+</code></pre>
+<hr />
+<h2 id="formularios">FORMULARIOS</h2>
+<h3 id="helper-functions">Helper functions</h3>
+<ul>
+<li>Añadir un <code>event listener</code></li>
+</ul>
+<pre><code class="language-javascript">function addEvent (el, event, callback) {
+  if ('addEventListener' in el) {                  
+    el.addEventListener(event, callback, false);   
+  } else {                                         
+    el['e' + event + callback] = callback;         
+    el[event + callback] = function () {
+      el['e' + event + callback](window.event);
+    };
+    el.attachEvent('on' + event, el[event + callback]);
+  }
+}
+</code></pre>
+<ul>
+<li>Borrar un <code>event listener</code></li>
+</ul>
+<pre><code class="language-javascript">function removeEvent(el, event, callback) {
+  if ('removeEventListener' in el) {                       
+    el.removeEventListener(event, callback, false);        
+  } else {                                                
+    el.detachEvent('on' + event, el[event + callback]);   
+    el[event + callback] = null;  
+    el['e' + event + callback] = null;  
+  }  
+}  
+</code></pre>
+<h3 id="elemento-form">Elemento Form</h3>
+<p>El <code>document</code> tiene una coleccion de formularios que guarda referencias a cada formulario de la pagina</p>
+<blockquote>
+<ul>
+<li><code>document.forms[1]</code> accede al segundo formulario de la pagina</li>
+<li><code>document.forms.login</code> accede al formulario cuyo atributo name="login"</li>
+</ul>
+</blockquote>
+<p>Cada elemento <code>&lt;form&gt;</code> de la pagina tiene tambien una coleccion de elementos que tiene todos los controles del formulario dentro</p>
+<blockquote>
+<ul>
+<li><code>document.forms[1].element[0]</code> accede al primer control del segundo formulario de la pagina</li>
+<li><code>documento.forms[1].elements.password</code> accede al elemento del segundo formulario cuyo atributo name="password"</li>
+</ul>
+</blockquote>
+<ul>
+<li><strong>Propiedades</strong></li>
+</ul>
+<p><code>action</code> - La URL a que el formulario es enviado para ser procesado<br />
+<code>method</code> - si se envia por GET o POST<br />
+<code>name</code> - se usa poco, lo mas comun es seleccionar un formulario por su atributo id<br />
+<code>elements</code> - una coleccion de elementos en el formulario con los que el usuario puede interactuar. Se puede acceder a ellos por los indices o por los valores de sus atributos ´name´</p>
+<ul>
+<li><strong>Metodos</strong></li>
+</ul>
+<p><code>submit()</code> - Tiene el mismo efecto que pinchar el boton submit<br />
+<code>reset()</code> - Resetea el formulario a los valores iniciales como si la pagina se hubiera recargado</p>
+<ul>
+<li><strong>Eventos</strong></li>
+</ul>
+<p><code>submit</code> - Se dispara cuando el formulario es enviado<br />
+<code>reset</code> - Se dispara cuando se resetea el formulario</p>
+<h3 id="controles-del-formulario">Controles del formulario</h3>
+<ul>
+<li><strong>Propiedades</strong></li>
+</ul>
+<p><code>value</code> - En una entrada de texto es el texto que el usuario introduce, es el valor del atributo <code>value</code><br />
+<code>type</code> - Cuando un formulario se crea usando el elemento <code>&lt;input&gt;</code> esto define el tipo del elemento (text, radio, checkbox, password ..)<br />
+<code>name</code> - Devuelve o establece el valor de atributo <code>name</code><br />
+<code>defaultValue</code> - Es el valor inicial de una entrada de texto cuando la pagina se renderiza<br />
+<code>form</code> - El formulario al que el control pertenece<br />
+<code>disabled</code> - Inhabilita el elemento del formulario<br />
+<code>checked</code> - Indica que checkboxes o botones de radio han sido chequeados. Es un booleano que indica true si esta chequeado<br />
+<code>defaultChecked</code> - El valor inicial de un checkbox o radio button (booleano)<br />
+<code>selected</code> - Indica que un elemento de una select box esta seleccionado. Es un booleano que indica true si esta seleccionado.</p>
+<ul>
+<li><strong>Metodos</strong></li>
+</ul>
+<p><code>focus()</code> - Le da el foco a un elemento<br />
+<code>blur()</code> - Le quita el fofo al elemento<br />
+<code>select()</code> - Selecciona e ilumina el contenido de texto de un elemento de entrada de texto<br />
+<code>click()</code> - Dispara un</p>
+<blockquote>
+<ul>
+<li>evento <code>click</code> en botones, checkboxes y carga de archivos.</li>
+<li>evento <code>submit</code> en el boton submit</li>
+<li>evento <code>reset</code> en el boton reset</li>
+</ul>
+</blockquote>
+<ul>
+<li><strong>Eventos</strong></li>
+</ul>
+<p><code>blur</code> - Salta cuando el usuario sale de un campo<br />
+<code>focus</code> - Salta cuando el usuario entra en un campo<br />
+<code>click</code> - Salta cuando el usuario pincha un elemento<br />
+<code>change</code> - Salta cuando el valor de un elemento cambia<br />
+<code>input</code> - Salta cuando cambia el valor de los elementos <code>&lt;input&gt;</code> ó <code>&lt;textarea&gt;</code><br />
+<code>keydown</code>, <code>keyup</code>, <code>keypress</code> - Salta cuando se interactua con el teclado</p>
+<hr />
+          
+          
+        </div>
+      </div>
+    </div>
+    <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebarwrapper">
+        <!--
+  <p class="logo">
+    <a href="..">
+      <img class="logo" src="../_img/chuletas128.png" title="Chuletas">
+    </a>
+  </p>
+  
+
+
+
+        
+        <h2>Navigation</h2>
+
+
+<ul>
+  
+      
+        <li>
+          <a href="">Menu</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="html/">HTML</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="css/">CSS</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="frontend/">Front End</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript/">Javascript</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript-apis/">Javascript APIs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript-para-web/">Javascript para web</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript-snippets/">Javascript snippets</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="reactjs/">Reactjs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="nodejs/">Nodejs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="expressjs/">Expressjs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="nodejs-snippets/">Nodejs snippets</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="nodejs-bases-de-datos/">Nodejs Bases de Datos</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang/">Golang</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang-para-web/">Golang para web</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang-snippets/">Golang snippets</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang-bases-de-datos/">Golang Bases de Datos</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="debian/">Debian</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="varios/">Varios</a>
+        </li>
+      
+    
+  </ul>
+        
+
+
+
+<h3>Contenidos</h3>
+
+<nav>
+  
+
+<ul>
+  
+  <li><a href="#built-in-objects">BUILT-IN OBJECTS</a></li>
+  <ul>
+  
+  <li><a href="#document-object-model">Document Object Model</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#browser-object-model">Browser Object Model</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#global-javascript-objects">Global Javascript Objects</a></li>
+  <ul>
+  
+  <li><a href="#string">String</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#numero">Numero</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#math">Math</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#date">Date</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#dom">DOM</a></li>
+  <ul>
+  
+  <li><a href="#arbol-dom">Arbol DOM</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#objeto-document">Objeto document</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#acceder-a-elementos">Acceder a elementos</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#trabajar-con-elementos">Trabajar con elementos</a></li>
+  <ul>
+  
+  <li><a href="#propiedades">Propiedades</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#manipulacion-dom">Manipulacion DOM</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#style-objects">Style Objects</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#nodelists">NodeLists</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#xss-atacks">XSS Atacks</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#eventos">EVENTOS</a></li>
+  <ul>
+  
+  <li><a href="#lista-eventos">Lista Eventos</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#manejadores-eventos">Manejadores Eventos</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#event-listener">Event Listener</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#event-flow">Event FLow</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#objeto-event">Objeto Event</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#delegacion">Delegacion</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#setting-timers">Setting Timers</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#debouncing">Debouncing</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#ajax">AJAX</a></li>
+  <ul>
+  
+  <li><a href="#conceptos">Conceptos</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#xmlhttprequest-object">XMLHttpRequest Object</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#formatos-de-datos">Formatos de datos</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#datos-de-otros-servidores">Datos de otros servidores</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#json">JSON</a></li>
+  <ul>
+  
+  <li><a href="#notacion-json">Notacion JSON</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#objeto-json">Objeto JSON</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#xml">XML</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#formularios">FORMULARIOS</a></li>
+  <ul>
+  
+  <li><a href="#helper-functions">Helper functions</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#elemento-form">Elemento Form</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#controles-del-formulario">Controles del formulario</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+</ul>
+
+
+  
+</nav>
+        
+        <div id="searchbox" style="display: none;" role="search">
+  <h3>Quick search</h3>
+  <form class="search" action="../search.html" method="get">
+    <input name="q" type="text">
+    <input value="Go" type="submit">
+  </form>
+  <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+  </p>
+</div>
+<script type="text/javascript">
+  document.getElementById("searchbox").style.display = "block";
+</script>
+        -->
+
+        
+
+        
+        
+  <p class="logo">
+    <a href="..">
+      <img class="logo" src="../_img/chuletas128.png" title="Chuletas">
+    </a>
+  </p>
+  
+
+
+
+        
+        <div class="menuNav">
+
+  
+  <ul>
+    
+    
+    <li>
+      <a href="../">Menu</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../html/">HTML</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../css/">CSS</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../frontend/">Front End</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript/">Javascript</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript-apis/">Javascript APIs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript-para-web/">Javascript para web</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript-snippets/">Javascript snippets</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../reactjs/">Reactjs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../nodejs/">Nodejs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../expressjs/">Expressjs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../nodejs-snippets/">Nodejs snippets</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../nodejs-bases-de-datos/">Nodejs Bases de Datos</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang/">Golang</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang-para-web/">Golang para web</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang-snippets/">Golang snippets</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang-bases-de-datos/">Golang Bases de Datos</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../debian/">Debian</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../varios/">Varios</a>
+    </li>
+    
+    
+  </ul>
+</div>
+        
+        
+
+
+
+<h3>Contenidos</h3>
+
+<nav>
+  
+
+<ul>
+  
+  <li><a href="#built-in-objects">BUILT-IN OBJECTS</a></li>
+  <ul>
+  
+  <li><a href="#document-object-model">Document Object Model</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#browser-object-model">Browser Object Model</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#global-javascript-objects">Global Javascript Objects</a></li>
+  <ul>
+  
+  <li><a href="#string">String</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#numero">Numero</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#math">Math</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#date">Date</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#dom">DOM</a></li>
+  <ul>
+  
+  <li><a href="#arbol-dom">Arbol DOM</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#objeto-document">Objeto document</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#acceder-a-elementos">Acceder a elementos</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#trabajar-con-elementos">Trabajar con elementos</a></li>
+  <ul>
+  
+  <li><a href="#propiedades">Propiedades</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#manipulacion-dom">Manipulacion DOM</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#style-objects">Style Objects</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#nodelists">NodeLists</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#xss-atacks">XSS Atacks</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#eventos">EVENTOS</a></li>
+  <ul>
+  
+  <li><a href="#lista-eventos">Lista Eventos</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#manejadores-eventos">Manejadores Eventos</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#event-listener">Event Listener</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#event-flow">Event FLow</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#objeto-event">Objeto Event</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#delegacion">Delegacion</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#setting-timers">Setting Timers</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#debouncing">Debouncing</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#ajax">AJAX</a></li>
+  <ul>
+  
+  <li><a href="#conceptos">Conceptos</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#xmlhttprequest-object">XMLHttpRequest Object</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#formatos-de-datos">Formatos de datos</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#datos-de-otros-servidores">Datos de otros servidores</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#json">JSON</a></li>
+  <ul>
+  
+  <li><a href="#notacion-json">Notacion JSON</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#objeto-json">Objeto JSON</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#xml">XML</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#formularios">FORMULARIOS</a></li>
+  <ul>
+  
+  <li><a href="#helper-functions">Helper functions</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#elemento-form">Elemento Form</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#controles-del-formulario">Controles del formulario</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+</ul>
+
+
+  
+</nav>
+        
+
+        
+
+      </div>
+    </div>
+    <div class="clearer"></div>
+  </div>
+
+  
+  <div class="footer">
+    
+    
+    
+    Powered by <a href="http://www.mkdocs.org">mkdocs 1.4.2</a>
+    &amp; <a href="https://github.com/iamale/mkdocs-alabaster">mkdocs-alabaster</a>
+    
+  </div>
+  
+
+  <!--
+  MkDocs version      : 1.4.2
+  Docs Build Date UTC : 2023-09-28 09:46:52.109024+00:00
+  -->
+</body>
+
+</html>
