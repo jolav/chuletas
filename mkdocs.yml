@@ -30,7 +30,7 @@ nav:
 theme:
   name: alabaster
   custom_dir: chuletas-theme
-site_dir: 'chuletas'
+site_dir: 'www'
 docs_dir: 'docs'
 extra_css:
 - '_extra/css/extra.css'
