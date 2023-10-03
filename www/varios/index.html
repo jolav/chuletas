@@ -1,0 +1,769 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+  <title>Varios &mdash; Chuletas</title>
+
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <link rel="stylesheet" href="../css/alabaster.css" type="text/css">
+  <link rel="stylesheet" href="../css/alabaster-overrides.css" type="text/css">
+
+  
+  <link href="../_extra/css/extra.css" rel="stylesheet">
+  
+
+  
+  <script src="../_extra/js/highlight.pack.js"></script>
+  
+  <script src="../search/main.js"></script>
+  
+
+  <link rel="stylesheet" href="../_extra/css/atom-one-light.css">
+  <script src="../_extra/js/highlight.pack.js"></script>
+
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+  
+
+</head>
+
+<body>
+
+  <div class="document">
+    <div class="documentwrapper">
+      <div class="bodywrapper">
+        <div class="body" role="main">
+          
+          <h1 id="miscellaneus">MISCELLANEUS</h1>
+<hr />
+<h2 id="imagemagick">IMAGEMAGICK</h2>
+<p><a href="https://www.imagemagick.org/Usage/">Ejemplos</a></p>
+<ul>
+<li>Hacer el fondo transparente</li>
+</ul>
+<pre><code class="language-sh">convert input.png -transparent red output.png
+</code></pre>
+<ul>
+<li>Conversion entre formatos</li>
+</ul>
+<pre><code class="language-sh">convert image.png image.jpg
+// bajando la calidad
+convert image.png -quality 90 image.jpg
+</code></pre>
+<ul>
+<li>Convertir color de fondo a transparente o a otro color.  </li>
+</ul>
+<pre><code class="language-sh">convert image.png -background white white.png
+</code></pre>
+<ul>
+<li>Montar imagenes</li>
+</ul>
+<pre><code class="language-sh">montage -label 'FRONT END' frontEnd.png  
+ -label 'BACK END' backEnd.png   
+ -label 'DATABASE' database.png   
+ -label 'UTILS' utils.png   
+ -tile 2x2  -geometry 200x200 total.png
+</code></pre>
+<ul>
+<li>Recortar los bordes</li>
+</ul>
+<pre><code class="language-sh">shave
+</code></pre>
+<ul>
+<li>Hacer el canvas mayor para encajar la imagen  </li>
+</ul>
+<pre><code class="language-sh">convert input.png -gravity center -background white -extent 500x500
+output.png
+</code></pre>
+<ul>
+<li>Optimizar imagenes</li>
+</ul>
+<pre><code class="language-sh">// png
+convert INPUT.png -strip [-resize WxH] [-alpha Remove] OUTPUT.png
+
+//jpg
+convert INPUT.jpg -sampling-factor 4:2:0 -strip [-resize WxH] 
+[-quality 85] [-interlace JPEG] [-colorspace Gray/sRGB] OUTPUT.jpg
+</code></pre>
+<ul>
+<li>Comprimir imagenes</li>
+</ul>
+<pre><code class="language-sh">// ojo que esto modifica el fichero actual, no crea uno nuevo
+mogrify -strip -interlace Plane -gaussian-blur 0.05 -quality 40% *.jpg 
+</code></pre>
+<hr />
+<h2 id="git">GIT</h2>
+<ul>
+<li><strong>Instalar</strong></li>
+</ul>
+<pre><code class="language-sh">// Debian backports para pillar la ultima version
+deb http://ftp.debian.org/debian strecth-backports main
+aptitude -t strecth-backports install &quot;package&quot;
+
+// debian
+aptitude install git
+git config --global user.name &quot;John Doe&quot;
+git config --global user.email johndoe@example.com
+git config --list
+nano ~/.gitconfig
+</code></pre>
+<ul>
+<li><strong>Commands</strong></li>
+</ul>
+<p><code>git init [project-name]</code> - Añade el directorio donde estamos y crea el .git<br />
+<code>git status</code> - lista todos los archivos nuevos o modificados sin haber sido committed    </p>
+<p><code>git add [file]</code> - - Añade el fichero a la staging area y empieza a seguir los cambios que en el se producen <br />
+<code>git add .</code> -  Añade todo en el directorio de forma recursiva a la staging area  <br />
+<code>git reset [file]</code> - Saca al archivo de la staging area    </p>
+<p><code>git diff</code> - Vemos los cambio del archivo<br />
+<code>git diff --staged</code> - Vemos los cambio que hemos mandado al staging<br />
+<code>git commit -m "mensaje"</code> - Realiza un commit y le asigna un "mensaje"  </p>
+<p><code>git log</code> - Es un diario con los cambios hechos en commits an la actual rama    </p>
+<ul>
+<li><strong>de .gitignore a github</strong></li>
+</ul>
+<p>Si añadimos algo a .gitignore ya no se commiteara pero tampoco desaparece lo existente en github. Para que se elimine de github ...</p>
+<p><code>git rm -r --cached some-directory</code><br />
+<code>git commit -m 'Remove the now ignored directory "some-directory"'</code><br />
+<code>git push origin master</code> - normalmente con <code>git push</code> vale</p>
+<ul>
+<li><strong>ramas</strong></li>
+</ul>
+<p><code>git checkout -b nuevaRama</code> - crea nueva rama de rama nuevaRama<br />
+<code>git checkout -d nombreRama</code> - delete rama nombreRama<br />
+<code>git checkout otraRama</code> - cambia a la rama otraRama  <br />
+<code>git push origin nombreRama</code> - push los commits de nombreRama  </p>
+<p><code>git stash</code> - cambios no committed se arrastran de una rama a otra. Para mantenerlos separados hacemos un stash antes de movernos a otra rama para guardar esos cambios antes de cambiar de rama.   <br />
+<code>git stash apply</code> - cuando vuelves a una rama recuperas los cambios sin hacer commit que se guardaron en esa rama.    </p>
+<ul>
+<li><strong>volver a estado anterior</strong>  </li>
+</ul>
+<p><code>git reset --hard HEAD~5</code> - elimina los ultimos 5 commits<br />
+<code>git push origin -f</code> - sincroniza la nueva situacion  </p>
+<p><a href="https://stackoverflow.com/questions/2116778/reduce-git-repository-size">Reducir el tamaño del directorio .git</a></p>
+<hr />
+<h2 id="mkdocs">MKDOCS</h2>
+<ul>
+<li><strong>Instalacion</strong></li>
+</ul>
+<p><code>apt-get install python-pip</code> <br />
+<code>pip install mkdocs</code> <br />
+<code>pip install -U mkdocs</code> -  actualizar mkdocs  </p>
+<p>instalar mas temas  </p>
+<p><code>pip install mkdocs-bootstrap</code><br />
+<code>pip install mkdocs-bootswatch</code><br />
+<code>pip install mkdocs-material</code><br />
+<code>pip install mkdocs-alabaster</code><br />
+<code>pip install mkdocs-cinder</code>  </p>
+<ul>
+<li><strong>Configuracion</strong></li>
+</ul>
+<pre><code class="language-sh">mkdocs new my-project
+cd my-project
+</code></pre>
+<pre><code class="language-sh">$ mkdocs serve
+Running at: http://127.0.0.1:8000/
+</code></pre>
+<ul>
+<li><strong>Comandos</strong></li>
+</ul>
+<p><code>mkdocs build</code> - crea un directorio site con todo el contenido estatico que se subira al servidor </p>
+<p><code>mkdocs build --clean</code> - limpia lo que sobra de antes  </p>
+<p><code>mkdocs build -d ruta/donde/gustes</code> - crea el resultado y con el nombre gustes    </p>
+<ul>
+<li><strong>Ejemplo mkdocs.yml</strong></li>
+</ul>
+<pre><code class="language-yml">site_name: Chuletas
+google_analytics: [&quot;UA-114956807-1&quot;, &quot;auto&quot;]
+repo_url: https://github.com/jolav/chuletas
+strict: true
+
+nav:
+  - 'Menu': 'index.md'
+  - 'HTML': 'html.md'  
+  - 'CSS': 'css.md'
+  - 'Front End': 'frontend.md'
+  - 'Javascript': 'javascript.md'
+  - 'Javascript snippets': 'javascript-snippets.md'
+  - 'Reactjs': 'reactjs.md'
+  - 'Vuejs': 'vuejs.md'
+  - 'Nodejs con Expressjs': 'nodejs-expressjs.md'
+  - 'Nodejs snippets': 'nodejs-snippets.md'
+  - 'Nodejs Bases de Datos': 'nodejs-bases-de-datos.md'
+  - 'Golang': 'golang.md'
+  - 'Golang web': 'golang-web.md'
+  - 'Golang snippets': 'golang-snippets.md'
+  - 'Golang Bases de Datos': 'golang-bases-de-datos.md'
+  - 'Debian': 'debian.md'
+  - 'Varios': 'varios.md'
+
+#theme: alabaster
+#theme_dir: &quot;chuletas-theme&quot;
+theme:
+  name: alabaster
+  custom_dir: chuletas-theme
+site_dir: 'chuletas'
+docs_dir: 'docs'
+extra_css:
+- '_extra/css/extra.css'
+extra_javascript:
+- '_extra/js/highlight.pack.js'
+extra:
+  logo: '_img/chuletas128.png'
+  include_toc: true
+</code></pre>
+<hr />
+<h2 id="glitchcom">GLITCH.COM</h2>
+<p>Plantilla package.json</p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;sp500&quot;,
+  &quot;version&quot;: &quot;0.1.11&quot;,
+  &quot;description&quot;: &quot;betazone finance sp500 stock real time data&quot;,
+  &quot;main&quot;: &quot;sp.js&quot;,
+  &quot;scripts&quot;: {
+    &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;,
+    &quot;start&quot;: &quot;node sp.js&quot;
+  },
+  &quot;engines&quot;: {
+    &quot;node&quot;: &quot;8.x&quot;
+  },
+  &quot;author&quot;: &quot;jolav&quot;,
+  &quot;license&quot;: &quot;BSD-3-Clause&quot;,
+  &quot;repository&quot;: {
+    &quot;type&quot;: &quot;git&quot;,
+    &quot;url&quot;: &quot;git+https://github.com/jolav/betazone.git&quot;
+  },
+  &quot;bugs&quot;: {
+    &quot;url&quot;: &quot;https://github.com/jolav/betazone/issues&quot;
+  },
+  &quot;homepage&quot;: &quot;https://github.com/jolav/betazone#readme&quot;,
+  &quot;dependencies&quot;: {
+    &quot;express&quot;: &quot;^4.16.2&quot;,
+    &quot;dotenv&quot;: &quot;^5.0.0&quot;,
+  }
+}
+</code></pre>
+<h2 id="expresiones-regulares">EXPRESIONES REGULARES</h2>
+<ul>
+<li><strong>Flags</strong></li>
+</ul>
+<p>Se añaden despues de la expresion regular para indicar algo</p>
+<p><code>/expReg/i</code> - ignora mayusculas o minusculas<br />
+<code>/expReg/g</code> - repetir la busqueda a traves de la cadena entera  </p>
+<ul>
+<li><strong>Basicos</strong></li>
+</ul>
+<p><code>.</code> - cualquier cosa<br />
+<code>\s</code> - espacio en blanco<br />
+<code>\S</code> - cualquiera menos espacio en blanco<br />
+<code>\d</code> - numero<br />
+<code>\D</code> - no numero<br />
+<code>\w</code> - caracter alfanumerico (a-z, A-Z, 0-9)<br />
+<code>\W</code> - no caracter alfanumerico<br />
+<code>\t</code> - tabulador<br />
+<code>\r</code> - retorno de carro <br />
+<code>\n</code> - nueva linea   </p>
+<ul>
+<li><strong>Limites</strong></li>
+</ul>
+<p><code>^</code> - Comienzo de cadena o de multilinea<br />
+<code>\A</code> - Comienzo de cadena<br />
+<code>$</code> - Fin de cadena o fin de multilinea <br />
+<code>\Z</code> - Fin de cadena<br />
+<code>\b</code> - Palabra limite , "\bcat\b" pilla en "cat in the hat" pero no en "locate"<br />
+<code>\B</code> - No es una palabra limite<br />
+<code>\&lt;</code> - Comienzo de palabra <br />
+<code>\&gt;</code> - Fin de palabra  </p>
+<ul>
+<li><strong>Grupos y rangos</strong></li>
+</ul>
+<p>Los rangos son inclusive  </p>
+<p><code>(X|Y)</code> - X o Y, ejemplo \b(cat|dog)s\b  pilla "cats" o "dogs"<br />
+<code>(...)</code> - Grupos<br />
+<code>[abc]</code> - Rango ("a" ó "b" ó "c")<br />
+<code>[^abc]</code> - No ("a" ó "b" ó "c")<br />
+<code>[a-h]</code> - Minuscula entre la "a" y la "h"<br />
+<code>[A-H]</code> - Mayucula entre la "a" y la "h"<br />
+<code>[3-6]</code> - Numero entre 3 y 6 ambos inclusive  </p>
+<ul>
+<li><strong>Cuantificadores</strong></li>
+</ul>
+<p>Por defecto los cuantificadores solo se aplican a un caracter, para aplicarlo
+a mas usar (...) para especificar la cadena buscada  </p>
+<p><code>X*</code> - 0 ó mas repeticiones de X<br />
+<code>X+</code> - 1 ó mas repeticiones de X<br />
+<code>X?</code> - 0 ó instancias de X, vamos que es opcional<br />
+<code>X{m}</code> - exactamente m instancias de X<br />
+<code>X{m,}</code> - al menos m instancias de X<br />
+<code>X{m,n}</code> - entre m y n instancias(incluidas) de X  </p>
+<ul>
+<li><strong>Especiales</strong></li>
+</ul>
+<p><code>{}[]()^$.|*+?\</code> y <code>-</code> entre corchetes deben ser escapados con contrabarra <code>\</code></p>
+<h3 id="javascript">Javascript</h3>
+<p>En Javascript las expresiones regulares han de estar en una sola linea.<br />
+Los espacios en blanco son significativos<br />
+Delimitadas por barras /  </p>
+<pre><code class="language-js">var expreg = /ab+c/;
+var expreg = new RegExp('/ab+c/');
+expreg.test(variableATestarConLaexpresionRegular) // da true o false
+</code></pre>
+<ul>
+<li><strong>Metodos</strong></li>
+</ul>
+<p><code>regexp.exec(string)</code> Si la expresion regular casa con el string devuelve un
+array  </p>
+<ul>
+<li>array[0] es la subcadena que casa con la expresion regular</li>
+<li>array[1] el texto capturado por el primer grupo</li>
+<li>array[2] el texto capturado por el segundo grupo</li>
+<li>array[n] el texto capturado por el n grupo</li>
+<li>Si la expresion regular tiene una bandera g la busqueda empieza en la posicion regexp.lastIndex (inicialmente cero). Si la busqueda es exitosa regexp.lastIndex pasara a ser el siguiente caracter tras la coincidencia. Si falla pasa a 0.  </li>
+<li>Esto permite buscar varias coincidencias en una sola cadena</li>
+</ul>
+<p><code>regexp.test(string)</code> Si la expresion regular casa con el string devuelve
+true, si no false</p>
+<pre><code class="language-js">var b = /&amp;.+;/.test('frank &amp; beans'); // b is true
+</code></pre>
+<p><code>string.replace(expreg, nueva)</code> - en la cadena string reemplaza lo que casa con la expresion regular por la string nueva  </p>
+<p><code>string.match(regexp)</code> - busca la regexp en la cadena string y devuelve las coincidencias en un array</p>
+<pre><code class="language-js">var str = &quot;The rain in SPAIN stays mainly in the plain&quot;;
+var res = str.match(/ain/g); 
+console.log(res) // [ 'ain', 'ain', 'ain' ]
+</code></pre>
+<h3 id="expreg-comunes">ExpReg Comunes</h3>
+<p><code>.replace(/\s+/g, "")</code> - Elimina todos los espacios en blancos<br />
+<code>.replace(/\s/g, "loQueSea")</code> - Reemplaza todos los espacios en blanco por
+loQueSea   </p>
+<p><code>/^(([^&lt;&gt;()[\]\\.,;:\s@\"]+(\.[^&lt;&gt;()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/</code> - direccion de correo valida</p>
+<p><a href="http://code.tutsplus.com/tutorials/8-regular-expressions-you-should-know--net-6149">Aqui</a></p>
+<hr />
+<hr />
+          
+          
+        </div>
+      </div>
+    </div>
+    <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebarwrapper">
+        <!--
+  <p class="logo">
+    <a href="..">
+      <img class="logo" src="../_img/chuletas128.png" title="Chuletas">
+    </a>
+  </p>
+  
+
+
+
+        
+        <h2>Navigation</h2>
+
+
+<ul>
+  
+      
+        <li>
+          <a href="">Menu</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="html/">HTML</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="css/">CSS</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="frontend/">Front End</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript/">Javascript</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript-apis/">Javascript APIs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript-para-web/">Javascript para web</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript-snippets/">Javascript snippets</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="reactjs/">Reactjs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="nodejs/">Nodejs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="expressjs/">Expressjs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="nodejs-snippets/">Nodejs snippets</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="nodejs-bases-de-datos/">Nodejs Bases de Datos</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang/">Golang</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang-para-web/">Golang para web</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang-snippets/">Golang snippets</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang-bases-de-datos/">Golang Bases de Datos</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="debian/">Debian</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="varios/">Varios</a>
+        </li>
+      
+    
+  </ul>
+        
+
+
+
+<h3>Contenidos</h3>
+
+<nav>
+  
+
+<ul>
+  
+  <li><a href="#imagemagick">IMAGEMAGICK</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#git">GIT</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#mkdocs">MKDOCS</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#glitchcom">GLITCH.COM</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#expresiones-regulares">EXPRESIONES REGULARES</a></li>
+  <ul>
+  
+  <li><a href="#javascript">Javascript</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#expreg-comunes">ExpReg Comunes</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+</ul>
+
+
+  
+</nav>
+        
+        <div id="searchbox" style="display: none;" role="search">
+  <h3>Quick search</h3>
+  <form class="search" action="../search.html" method="get">
+    <input name="q" type="text">
+    <input value="Go" type="submit">
+  </form>
+  <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+  </p>
+</div>
+<script type="text/javascript">
+  document.getElementById("searchbox").style.display = "block";
+</script>
+        -->
+
+        
+
+        
+        
+  <p class="logo">
+    <a href="..">
+      <img class="logo" src="../_img/chuletas128.png" title="Chuletas">
+    </a>
+  </p>
+  
+
+
+
+        
+        <div class="menuNav">
+
+  
+  <ul>
+    
+    
+    <li>
+      <a href="../">Menu</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../html/">HTML</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../css/">CSS</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../frontend/">Front End</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript/">Javascript</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript-apis/">Javascript APIs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript-para-web/">Javascript para web</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript-snippets/">Javascript snippets</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../reactjs/">Reactjs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../nodejs/">Nodejs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../expressjs/">Expressjs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../nodejs-snippets/">Nodejs snippets</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../nodejs-bases-de-datos/">Nodejs Bases de Datos</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang/">Golang</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang-para-web/">Golang para web</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang-snippets/">Golang snippets</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang-bases-de-datos/">Golang Bases de Datos</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../debian/">Debian</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../varios/">Varios</a>
+    </li>
+    
+    
+  </ul>
+</div>
+        
+        
+
+
+
+<h3>Contenidos</h3>
+
+<nav>
+  
+
+<ul>
+  
+  <li><a href="#imagemagick">IMAGEMAGICK</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#git">GIT</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#mkdocs">MKDOCS</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#glitchcom">GLITCH.COM</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#expresiones-regulares">EXPRESIONES REGULARES</a></li>
+  <ul>
+  
+  <li><a href="#javascript">Javascript</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#expreg-comunes">ExpReg Comunes</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+</ul>
+
+
+  
+</nav>
+        
+
+        
+
+      </div>
+    </div>
+    <div class="clearer"></div>
+  </div>
+
+  
+  <div class="footer">
+    
+    
+    
+    Powered by <a href="http://www.mkdocs.org">mkdocs 1.4.2</a>
+    &amp; <a href="https://github.com/iamale/mkdocs-alabaster">mkdocs-alabaster</a>
+    
+  </div>
+  
+
+  <!--
+  MkDocs version      : 1.4.2
+  Docs Build Date UTC : 2023-10-03 14:52:40.968775+00:00
+  -->
+</body>
+
+</html>

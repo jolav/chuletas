@@ -1,0 +1,1496 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+  <title>Expressjs &mdash; Chuletas</title>
+
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <link rel="stylesheet" href="../css/alabaster.css" type="text/css">
+  <link rel="stylesheet" href="../css/alabaster-overrides.css" type="text/css">
+
+  
+  <link href="../_extra/css/extra.css" rel="stylesheet">
+  
+
+  
+  <script src="../_extra/js/highlight.pack.js"></script>
+  
+  <script src="../search/main.js"></script>
+  
+
+  <link rel="stylesheet" href="../_extra/css/atom-one-light.css">
+  <script src="../_extra/js/highlight.pack.js"></script>
+
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+  
+
+</head>
+
+<body>
+
+  <div class="document">
+    <div class="documentwrapper">
+      <div class="bodywrapper">
+        <div class="body" role="main">
+          
+          <h1 id="express-416x">EXPRESS 4.16.X</h1>
+<hr />
+<h2 id="uso">USO</h2>
+<h3 id="instalacion">instalacion</h3>
+<p><code>npm install -g express</code>  - Lo instalamos globalmente<br />
+<code>npm install -g express-generator</code> - Y el generador de codigo plantilla que nos permite usar el comando express  </p>
+<ul>
+<li>
+<p>A pelo<br />
+<code>npm init</code> - te pregunta muchas cosas para generar el <code>package.json</code>  </p>
+</li>
+<li>
+<p>Con plantillas<br />
+<code>express -h</code> Muestra las opciones<br />
+<code>express --hbs miApp</code> Crea el proyecto miApp con handlebars pej<br />
+<code>cd miApp &amp; npm install</code> Instala las dependencias  </p>
+</li>
+</ul>
+<p><img alt="express" src="../_img/express/fileStructure.png" />
+<img alt="express" src="../_img/express/fileStructure2.png" /></p>
+<h3 id="api">api</h3>
+<ul>
+<li><code>application app</code> Es una instancia de la aplicacion express que se usa
+normalmente para configurar la aplicacion</li>
+<li><code>request req</code> Es una envoltura del objeto request del modulo HTTP usado
+para extraer informacion sobre la peticion</li>
+<li><code>response res</code> Es una envoltura del objeto response del modulo HTTP usado
+para enviar los datos y cabeceras de la respuesta</li>
+</ul>
+<p><strong>Application settings:</strong></p>
+<ul>
+<li>env: production, development ...</li>
+<li>viewcache</li>
+<li>view engine: jade, ejs, hbs ...</li>
+<li>views</li>
+<li>trustproxy (NGINX)</li>
+</ul>
+<p><img alt="express" src="../_img/express/expressChuleta.png" /></p>
+<p><strong>Seguimiento de una peticion en express</strong></p>
+<p><img alt="express" src="../_img/express/requestExpress.png" /></p>
+<h2 id="main-file">MAIN FILE</h2>
+<p><strong><code>app.js</code> o <code>main.js</code></strong> Cosas que se hacen en este fichero:</p>
+<ol>
+<li><code>Dependencias</code> - Incluir paquetes de terceros y modulos nuestros como
+ manejadores, utilidades ayudantes y modelos</li>
+<li><code>Instanciaciones</code> - configurar las opciones de express como motor de plantillas</li>
+<li><code>Configuraciones</code> - ajustes y como conectar las bases de datos</li>
+<li><code>Middlewares</code> - Definir middlewares</li>
+<li><code>Ruteo</code> - definir rutas</li>
+<li><code>Arranque</code> - iniciar la app o exportarla app como un modulo</li>
+</ol>
+<h3 id="ajustes">ajustes</h3>
+<p><code>app.set(nombre, valor)</code> - para definir un valor</p>
+<pre><code class="language-js">app.set('port', process.env.PORT || 3000);
+</code></pre>
+<p><code>app.get(nombre)</code> - para conseguir un valor<br />
+<code>app.enable()</code> - <br />
+<code>app.disable()</code> -<br />
+<code>app.enabled()</code> - <br />
+<code>app.disabled()</code> -<br />
+<code>env</code> - almacena el modo de entorno actual para ese proceso de node.js. Se toma
+de <code>process.env.NODE_ENV</code> o se pone <code>development</code> por defecto. Opciones
+{development, test, stage, preview, production}<br />
+<code>view cache</code> - ponerlo a <code>true</code> para produccion<br />
+<code>view engine</code> - <a href="#motor-de-plantillas">view engine</a><br />
+<code>views</code> -  la ruta absoluta al directorio con las plantillas  </p>
+<pre><code class="language-js"> app.set('views', path.join(__dirname, 'templates'))
+</code></pre>
+<p><code>trust proxy</code> - ponerlo a true se esta detras de un proxy como nginx. Por
+defecto esta desactivado, para activarlo  </p>
+<pre><code class="language-js">app.set('trust proxy', true);
+app.enable('trust proxy');
+</code></pre>
+<p><code>jsonp callback name</code> - vale para hacer llamadas ajax desde otros dominios
+usando CORS  </p>
+<pre><code class="language-js">app.set('jsonp callback name', 'cb');
+</code></pre>
+<p><code>json replacer</code> - <code>json spaces</code> - son dos parametros que se aplican a todas las
+funciones JSON.stringify(). <br />
+replacer es un filtro<br />
+spaces es valor de indentacion  </p>
+<pre><code class="language-js">app.set('json replacer', function(key, value){
+  if (key === 'discount')
+    return undefined;
+  else
+    return value;
+});
+app.set('json spaces', 4);
+</code></pre>
+<p><code>case sensitive routing</code> - por defecto disabled, asi /nombre y /Nombres es la
+misma ruta<br />
+<code>strict routing</code> - por defeto disabled, asi /users y /users/ son la misma ruta<br />
+<code>x-powered-by</code> - establece la opcion de la respuesta <code>x-powered-by</code> con el
+valor Express. Por seguridad lo mejor es desactivarla  </p>
+<pre><code class="language-js">app.set('x-powered-by', false) // o
+app.disable('x-powered-by')
+</code></pre>
+<p><code>etag</code> - dejarlo como esta es lo mejor<br />
+<code>query parser</code> - para parsear las <code>query-string</code> enviadas en la URL. Por defecto
+extended (usa el modulo qs), true (qs), false (lo desactiva), simple (usa el
+modulo del nucleo querystring)  </p>
+<pre><code class="language-js">app.set('query parser', 'simple');
+app.set('query parser', false);
+app.set('query parser', customQueryParsingFunction);
+</code></pre>
+<p><code>subdomain offset</code> - Para aplicaciones desplegadas en varios subdominios  </p>
+<h3 id="contenido-estatico">contenido estatico</h3>
+<ul>
+<li><strong>Usar directorio de contenido estatico</strong></li>
+</ul>
+<p>Para servir contenido estatico se usa el middleware <code>express.static</code> incorporado
+en express.  </p>
+<pre><code class="language-js">var publicPath = path.resolve(__dirname, 'public');
+app.use(express.static(publicPath));
+</code></pre>
+<p>Ya puedes cargar archivos del directorio <code>public</code><br />
+El nombre del directorio <code>public</code> no es parte de la url<br />
+<code>http://localhost:3000/css/style.css</code> <br />
+<code>http://localhost:3000/public/css/style.css</code> NO   </p>
+<ul>
+<li><strong>Usar multiples directorios de contenido estatico</strong>   </li>
+</ul>
+<p>Express busca los archivos en el orden en el que se declaran los directorios
+estaticos  </p>
+<pre><code class="language-js">app.use(express.static('public'));
+app.use(express.static('files'));
+</code></pre>
+<ul>
+<li><strong>Prefijo de ruta virtual</strong></li>
+</ul>
+<pre><code class="language-js">app.use('/static', express.static('public'));
+</code></pre>
+<p>Ahora para cargar los archivos :
+<code>http://localhost:3000/static/css/style.css</code></p>
+<hr />
+<h2 id="templates">TEMPLATES</h2>
+<hr />
+<h2 id="request-peticion">REQUEST (Peticion)</h2>
+<p><a href="https://expressjs.com/en/4x/api.html#req">Request API</a></p>
+<p><strong><code>req.query</code></strong> - Esta propiedad es un objeto que tiene una propiedad para cada query string en la ruta. Si no hay query string es un objeto vacio {}.</p>
+<pre><code class="language-js">// GET /search?q=jolav
+req.query.q // =&gt; &quot;jolav&quot;
+
+// GET /shoes?order=desc&amp;shoe[color]=blue&amp;shoe[type]=converse
+req.query.order   // =&gt; &quot;desc&quot;
+req.query.shoe.color  // =&gt; &quot;blue&quot;
+req.query.shoe.type // =&gt; &quot;converse&quot;
+</code></pre>
+<p><strong><code>req.params</code></strong> - Esta propiedad es un objeto con propiedades mapeadas a la ruta "parametros".<br />
+Ejemmplo una ruta /usuario/:nombre, la propiedad 'nombre'
+ esta disponoble en req.params.nombre. Por defecto el objeto es {}</p>
+<pre><code class="language-js">// GET /user/jolav on route /user/:name
+req.params.name // =&gt; &quot;jolav&quot;
+
+// GET /file/js/react.js on royte /file/*
+req.params[0]
+// =&gt; &quot;js/react.js&quot;
+</code></pre>
+<p><strong><code>req.body</code></strong> - Contiene pares clave-valor de datos enviados en el body de la peticion. Por defecto es undefined y se llena cuando usas un middleware body-parsing como por ejemplo body-parser o multer  </p>
+<p><strong><code>req.route</code></strong> - Contiene la ruta actual como una string</p>
+<pre><code class="language-js">app.get('/user/:id?', function userIdHandler(req, res) {
+  console.log(req.route);
+  res.send('GET');
+});
+
+{ path: '/user/:id?',
+  stack:
+   [ { handle: [Function: userIdHandler],
+       name: 'userIdHandler',
+       params: undefined,
+       path: undefined,
+       keys: [],
+       regexp: /^\/?$/i,
+       method: 'get' } ],
+  methods: { get: true }  }
+</code></pre>
+<p><strong><code>req.cookies</code></strong> - Al usar middleware cookie-parser esta propiedad es un objeto que contiene las cookies enviadas con la peticion. Si no hay cookies por defecto es {}</p>
+<p><strong><code>req.headers</code></strong> -  </p>
+<p><strong><code>req.xhr</code></strong> - Es una propiedad booleana que es true si el campo de la cabecera X-Requested-With header de la peticion es “XMLHttpRequest”</p>
+<p><strong><code>req.hostname</code></strong> - Contiene el hostname sacado de la cabecera Host HTTP Header de la peticion. Vamos, de que pagina web viene la peticion </p>
+<pre><code class="language-js">// Host: &quot;example.com:3000&quot;
+req.hostname
+// =&gt; &quot;example.com&quot;
+</code></pre>
+<p><strong><code>req.originalUrl - req.path - req.baseUrl</code></strong> -</p>
+<pre><code class="language-js">// GET /search?q=something
+req.originalUrl  // =&gt; &quot;/search?q=something&quot;
+
+// example.com/users?sort=desc
+req.path // =&gt; &quot;/users&quot;
+
+// GET 'http://www.example.com/admin/new'
+app.use('/admin', function(req, res, next) {  
+  console.log(req.originalUrl); // '/admin/new'
+  console.log(req.baseUrl); // '/admin'
+  console.log(req.path); // '/new'
+  next();
+});
+</code></pre>
+<p><strong><code>req.protocol</code></strong> - Contiene el protocolo de la peticion como string (http o https)</p>
+<hr />
+<h2 id="response-respuesta">RESPONSE (Respuesta)</h2>
+<p><a href="https://expressjs.com/en/4x/api.html#res">Response API</a></p>
+<p><strong><code>res.headersSent</code></strong> - Propiedad booleana que indica si la aplicacion ya ha enviado cabeceras http para la respuesta (vamos, si ya ha enviado alguna respuesta)</p>
+<pre><code class="language-js">app.get('/', function (req, res) {
+  console.log(res.headersSent); // false
+  res.send('OK');
+  console.log(res.headersSent); // true
+});
+</code></pre>
+<p><strong><code>res.cookie(name, value [, options])</code></strong> - Establece el nombre de la cookie a value (que puede ser una string o un objeto convertido en JSON). Las options es un objeto que puede tener las siguientes propiedades (domain, encode, expires, httpOnly, maxAge, path, secure, signed ,sameSite)</p>
+<p><strong><code>res.download(path [, filename] [, options] [, fn])</code></strong> - Transfiere el archivo en la ruta (path) como un adjunto. Lo normal es que el navegador del cliente pregunte para permitir la descarga</p>
+<pre><code class="language-js">res.download('/report-12345.pdf', 'report.pdf', function(err){
+  if (err) {
+    // Handle error, response may be partially-sent, check res.headersSent
+  } else {
+    // decrement a download credit, etc.
+  }
+});
+</code></pre>
+<p><strong><code>res.end([data] [, encoding])</code></strong> - Finaliza el proceso de respuesta. Se usa para terminar la respuesta sin enviar ningun dato. Si necesitas respondee con datos usas metodos como res.send() o res.json()</p>
+<p><strong><code>res.render(view, [locals], callback)</code></strong> - Renderiza una vista y envia el HTML renderizado como string al cliente</p>
+<p><strong><code>res.set(field, [value])</code></strong> - Determina el valor de la cabecera de respuesta http de nombre field a value. Para establecer multiples campos a la vez pasa un objeto como parametro</p>
+<pre><code class="language-js">res.set('Content-Type', 'text/plain');
+res.set({
+  'Content-Type': 'text/plain',
+  'Content-Length': '123',
+  'ETag': '12345'
+});
+res.setHeader('Content-Type', 'application/json');
+// res.header() is an alias of res.set() method from Express framework.
+// The only difference is res.setHeader() allows you only to set a 
+// singular header and res.header() will allow you to set multiple headers
+// res.setHeader() is a native method of Node.js
+</code></pre>
+<p><strong><code>res.status(code)</code></strong> - Establece el estatus HTTP para la respuesta. Se puede encadenar</p>
+<pre><code class="language-js">res.status(200).send(JSON.stringify(data, null, 3)); 
+// same as 
+res.status(200).json(data);
+</code></pre>
+<p><strong><code>res.send([status], body)</code></strong> - Envia la respuesta HTTP. El parametro del body puede ser una objeto Buffer, una cadena, un objeto o un array</p>
+<pre><code class="language-js">res.send(new Buffer('whoop'));
+res.send({ some: 'json' });
+res.send('&lt;p&gt;some html&lt;/p&gt;');
+res.status(404).send('Sorry, we cannot find that!');
+res.status(500).send({ error: 'something blew up' });
+</code></pre>
+<p><strong><code>res.sendFile(path [, options] [, fn])</code></strong> - Envia el fichero que se encuentra el la ruta dada (path). Establece la cabecera de respuesta HTTP Content-Type segun la extension del archivo enviado. Salvo que la option root este especificada es el objeto de opciones el path debe ser ruta absoluta al archivo</p>
+<pre><code class="language-js">app.get('/file/:name', function (req, res, next) {
+  const options = {
+    root: __dirname + '/public/',
+    dotfiles: 'deny',
+    headers: {
+        'x-timestamp': Date.now(),
+        'x-sent': true
+    }
+  };
+  const fileName = req.params.name;
+  res.sendFile(fileName, options, function (err) {
+    if (err) {
+      next(err);
+    } else {
+      console.log('Sent:', fileName);
+    }
+  });
+})
+</code></pre>
+<p><strong><code>res.json([status], json)</code></strong> - Envia una respuesta JSON ( con el apropiado content-type) que es el parametro convertido a JSON usando JSON.stringify()</p>
+<p><strong><code>res.jsonp([status], jsonp)</code></strong> - Envia una respuesta JSON con soporte para JSONP. Este metodo es identico a res.json() salvo que añade soporte para el callback de JSONP </p>
+<p><strong><code>res.redirect([status], path)</code></strong> - Redirige a la URL marcada en path con un HTTP status code igual a status, que si no se especifica por defecto es "302"</p>
+<p><strong><code>res.location(path)</code></strong> - Establece la cabecera HTTP header Location a path</p>
+<pre><code class="language-js">res.redirect('/foo/bar');
+res.redirect('http://example.com');
+res.redirect(301, 'http://example.com');
+res.redirect('../login');
+</code></pre>
+<hr />
+<h2 id="middleware">MIDDLEWARE</h2>
+<p><a href="https://expressjs.com/en/resources/middleware.html">https://expressjs.com/en/resources/middleware.html</a></p>
+<h3 id="definicion">Definicion</h3>
+<ul>
+<li>Se usan para gestionar las peticiones HTTP hechas al servidor, manejarlas y responderlas.  </li>
+<li>Son callbacks que se ejecutan cuando ocurre una peticion HTTP.  </li>
+<li>La mayoria son de diseño propio para cubrir nuestras necesidades pero tambien
+los hay para cosas comunes como logueos, servir ficheros estaticos, parseos y
+muchas mas cosas.  </li>
+<li><code>orden</code> - Los middlewares se ejecutan en el mismo orden en el que se cargan  </li>
+</ul>
+<p><strong>Que puede hacer un middleware</strong></p>
+<ul>
+<li>ejecutar codigo  </li>
+<li>hacer cambios en los objetos request y response  </li>
+<li>terminar el ciclo request-response  </li>
+<li>llamar al siguiente middleware  </li>
+</ul>
+<p>Si el middleware en curso no termina el ciclo request-response debe llamar a
+<code>next()</code> para pasar el control al siguiente middleware o la peticion se quedara
+colgada.  </p>
+<p><strong>Cada funcion middleware tiene tres argumentos:</strong></p>
+<ol>
+<li><code>req</code>: objeto que contiene toda la informacion de la peticion HTTP</li>
+<li><code>res</code>: objeto que contiene toda la informacion de la respuesta HTTP</li>
+<li><code>next</code>: es el siguiente middleware definido en el orden de middlewares</li>
+</ol>
+<p><strong>Crear un middleware</strong></p>
+<pre><code class="language-js">var express = require('express');
+var app = express();
+
+// Lo definimos
+var myLogger = function (req, res, next) {
+  console.log('LOGGED');
+  next();
+};
+
+// Lo cargamos en la app antes de definir las rutas o nunca se ejecutara
+app.use(myLogger);
+
+app.get('/', function (req, res) {
+  res.send('Hello World!');
+});
+
+app.listen(3000);
+</code></pre>
+<p>Otro ejemplo middleware pero este manipula la peticion</p>
+<pre><code class="language-js">var express = require('express');
+var app = express();
+
+// Lo definimos
+var requestTime = function (req, res, next) {
+  req.requestTime = Date.now();
+  next();
+};
+
+// Lo cargamos en la app antes de definir las rutas o nunca se ejecutara
+app.use(requestTime);
+
+app.get('/', function (req, res) {
+  var responseText = 'Hello World!&lt;br&gt;';
+  responseText += '&lt;small&gt;Requested at: ' + req.requestTime + '&lt;/small&gt;';
+  res.send(responseText);
+});
+
+app.listen(3000);
+</code></pre>
+<p>Limitar un middleware a una cierta rutas</p>
+<pre><code class="language-js">app.use(/ruta, middlewareParaEsaRuta);
+</code></pre>
+<p><strong>Para cada ciclo request-response de una aplicacion Express</strong>  </p>
+<ul>
+<li>Se ejecutan los middlewares de arriba a abajo</li>
+<li>Para no terminar el ciclo un middleware debe pasar el control al siguiente
+mediante un next();</li>
+<li>next('route'); se salta el resto de middlewares del stack de rutas  </li>
+<li>Para terminar un ciclo debemos usar <code>res.end</code> o usar <code>res.send() ó
+res.sendFile()</code> que internamente llaman a <code>res.end</code>  </li>
+</ul>
+<h3 id="tipos">Tipos</h3>
+<ul>
+<li><strong>A nivel de aplicacion</strong>  </li>
+</ul>
+<pre><code class="language-javascript">const app = express();
+app.use() 
+app.METHOD() [METHOD = GET, PUT, POST, UPDATE ...]
+</code></pre>
+<ul>
+<li><strong>A nivel de router</strong>  </li>
+</ul>
+<pre><code class="language-javascript">const router = express.Router();
+router.use() 
+router.METHOD() [METHOD = GET, PUT, POST, UPDATE ...]
+</code></pre>
+<ul>
+<li><strong>Manejo de error</strong> Tienen un argumento mas (err)   </li>
+</ul>
+<pre><code class="language-javascript">app.use(function(err, req, res, next) {
+  console.error(err.stack);
+  res.status(500).send('Error : something broke!');
+});
+</code></pre>
+<ul>
+<li><strong>Incorporados de serie</strong>  </li>
+</ul>
+<p><code>express.static</code> - sirve recursos estaticos como archivos html, imagenes y cosas asi.  <br />
+<code>express.json``- parsea peticiones entrantes con JSON  .</code>express.urlencoded` - parsea peticiones entrantes con URLEncoded    </p>
+<ul>
+<li><strong>Terceros</strong>  </li>
+</ul>
+<pre><code class="language-javascript">npm install middleware;
+const middleware = require('middleware');
+app.use(middleware());
+</code></pre>
+<h3 id="esenciales">Esenciales</h3>
+<ul>
+<li><strong><code>compression</code></strong> - gzips los datos transferidos. Debe ponerse my arriba para que
+comprima los datos de otros middlewares y rutas  </li>
+</ul>
+<pre><code class="language-js">npm install compression
+var compression = require('compression');
+app.use(compression());
+</code></pre>
+<ul>
+<li><strong><code>express-static</code></strong>   </li>
+</ul>
+<p><a href="#contenido-estatico">contenido estatico</a></p>
+<ul>
+<li><strong><code>morgan</code></strong> - antiguo logger. Lleva registro de todas las peticiones y otra
+informacion importante  </li>
+</ul>
+<pre><code class="language-js">npm install morgan
+var logger = require('morgan');
+app.use(logger(&quot;common | dev | short | tiny | y mas&quot;));  // usar dev
+</code></pre>
+<ul>
+<li><strong><code>cors</code></strong> - soporte cors para express  </li>
+</ul>
+<pre><code class="language-javascript">cors = require('cors');
+app.use(cors());
+</code></pre>
+<p>Si no usamos el middleware poner antes de las rutas este codigo para añadir las cabeceras  </p>
+<pre><code class="language-javascript">app.use(function(req, res, next) {
+  res.header(&quot;Access-Control-Allow-Origin&quot;, &quot;*&quot;);
+  res.header(&quot;Access-Control-Allow-Headers&quot;, 
+      &quot;Origin, X-Requested-With Content-Type, Accept&quot;);
+  next();
+});
+</code></pre>
+<ul>
+<li><strong><code>helmet</code></strong> - middlewares de seguridad  </li>
+</ul>
+<pre><code class="language-javascript">var helmet = require('helmet');
+app.use(helmet());
+</code></pre>
+<ul>
+<li><strong><code>body-parser</code></strong> - permite procesar los datos que vienen y convertirlos en objetos javascript/node usables.  </li>
+</ul>
+<pre><code class="language-js">npm install body-parser
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+</code></pre>
+<ul>
+<li><strong><code>errorhandler</code></strong> - se usa para manejo basico de errores en desarrollo y
+prototipado</li>
+</ul>
+<pre><code class="language-js">npm install errorhandler
+var errorHandler = require('errorhandler');
+if (app.get('env') === 'development') {
+  app.use(errorhandler());
+}
+</code></pre>
+<ul>
+<li><strong><code>connect-busboy</code></strong> - para usar el parseador de formularios <code>busboy</code></li>
+</ul>
+<pre><code class="language-js">npm install connect-busboy
+var busboy = require('connect-busboy');
+app.use('/upload', busboy({immediate: true }));
+</code></pre>
+<ul>
+<li><strong><code>cookie-parser</code></strong> - permite acceder los valores de las cookies del usuario del
+objeto <code>req.cookie</code></li>
+</ul>
+<pre><code class="language-js">npm install cookie-parser
+var cookieParser = require('cookie-parser');
+app.use(cookieParser());
+</code></pre>
+<ul>
+<li><strong><code>method-override</code></strong> - permite al servidor soportar metodos http que el cliente no
+soporte.   </li>
+</ul>
+<pre><code class="language-js">npm install method-override
+var methodOverride = require('method-override');
+app.use(methodOverride(&quot;loQueToque&quot;));
+</code></pre>
+<ul>
+<li><strong><code>serve-index</code></strong> - como un <code>ls</code> en la terminal   </li>
+</ul>
+<pre><code class="language-js">npm install serve-index
+var serveIndex = require('serve-index');
+app.use('/shared', serveIndex(
+  path.join('public','shared'),
+  {'icons': true}
+));
+</code></pre>
+<ul>
+<li><strong><code>express-session</code></strong> - permite al servidor usar sesiones web. Necesita tener activo
+antes a cookie-parser.</li>
+</ul>
+<pre><code class="language-js">npm install express-session
+</code></pre>
+<ul>
+<li><strong><code>response-time</code></strong> - añade la cabecera "X-Response-Time" con un tiempo en ms con un numero de 3 digitos por defecto desde el momento en el que la peticion entro en este middleware.</li>
+</ul>
+<pre><code class="language-js">npm install response-time
+var responseTime = require('response-time');
+app.use(responseTime(4));    // cambio a 4 digitos
+</code></pre>
+<ul>
+<li><strong><code>csurf</code></strong> - para prevenir CSRF</li>
+</ul>
+<pre><code class="language-js">npm install csurf
+var csrf = require('csurf');
+app.use(csrf());
+</code></pre>
+<ul>
+<li><strong><code>serve-favicon</code></strong> - para configurar el favicon que querramos  </li>
+</ul>
+<pre><code class="language-js">npm install serve-favicon
+var favicon = require('serve-favicon');
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname + '/public', 'favicon.ico')));
+</code></pre>
+<ul>
+<li><strong><code>passport</code> y <code>express-session</code></strong> - autenticacion  </li>
+</ul>
+<pre><code class="language-javascript">var passport = require('passport');
+var session = require('express-session');
+// required for passport
+app.use(session({ secret: 'kk', saveUninitialized: true, resave: true}));
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+</code></pre>
+<ul>
+<li><strong><code>vhost</code></strong> - para usar diferentes rutas basadas en dominios. Por ejemplo tenemos
+dos apps con express (api y web) para organizar el codigo para diferentes
+rutas basadas en los dominios api.dominio.com y web.dominio.com  </li>
+</ul>
+<pre><code class="language-js">npm install vhost
+var api = express()
+var web = express()
+app.use(vhost('www.dominio.com', web))
+app.use(vhost('api.dominio.com', api))
+</code></pre>
+<ul>
+<li><strong><code>connect-timeout</code></strong> - establece un temporizador</li>
+</ul>
+<pre><code class="language-js">npm install connect-timeout
+var timeout = require('connect-timeout');
+</code></pre>
+<ul>
+<li><strong><code>cookie-session</code></strong> - almacen de sesion de cookies  </li>
+<li><strong><code>raw-body</code></strong> - para peticiones como buffers  </li>
+<li><strong><code>express-validator</code></strong> - para sanear y validar datos que se reciben  </li>
+<li><strong><code>oauth2-server</code></strong> - autenticacion  </li>
+<li><strong><code>connect-redis</code></strong> - almacen de la sesion en redis  </li>
+</ul>
+<hr />
+<h2 id="sesiones-cookies">SESIONES + COOKIES</h2>
+<p><strong>Actualizacion 04-07-2019</strong> Ya no hacen falta ni <code>cookie-parser</code>, ni <code>body-parser</code>  </p>
+<p>OJO con los dominios desarrollando en local, si expressjs se levanta en localhost, poner el navegador tambien en localhost y no con 127.0.0.1 o las cookies no se podran leer (aunque si funcionan)  </p>
+<pre><code class="language-js">app.use(express.json()); // to support JSON-encoded bodies
+app.use(express.urlencoded({ // to support URL-encoded bodies
+  extended: true
+}));
+
+app.set('trust proxy', 1); // trust first proxy
+app.use(session({
+  secret: &quot;process.env.secretSession&quot;,
+  name: 'alpha',
+  saveUninitialized: false,
+  resave: false,
+  cookie: {
+    httpOnly: false, // true to production
+    //secure: true // comment for localhost, only works for https
+    secure: false,
+    path: &quot;/&quot;
+  },
+}));
+
+</code></pre>
+<hr />
+<h2 id="routing">ROUTING</h2>
+<p>El ruteo determina como responde una aplicacion a una peticion de un cliente que
+contiene una URI (o ruta) y un metodo HTTP (GET, POST ...)<br />
+Cada ruta puede tener una o mas funciones manejadoras que se ejecutan cuando la
+ruta coincide.<br />
+Las rutas se pueden hacer con expresiones regulares  </p>
+<pre><code class="language-sh">protocolo  hostname       port    path       querystring     fragment
+
+http://    localhost      :3000   /about     ?test=1         #history
+http://    www.bing.com           /search    ?q=grunt&amp;first
+https://   google.com             /                          #q=express
+</code></pre>
+<h3 id="appmethod">app.METHOD</h3>
+<p><strong><code>app.METHOD(path, [handler], handler);</code></strong>  </p>
+<ul>
+<li><code>path</code> es la ruta en el servidor que pueden ser cadenas, patrones de
+cadenas o expresiones regulares  </li>
+<li><code>handler</code> es la funcion que se ejecuta cuando la ruta coincide. Cuando hay varios manejadores para evitar que se ejecuten todos hay que invocar next('route') y
+saltara a la siguiente  </li>
+<li><code>METHOD</code>  <ul>
+<li>get, leer  </li>
+<li>post, crear  </li>
+<li>put, actualizar  </li>
+<li>delete, borrar  </li>
+<li>hay otros cuantos  </li>
+<li>all, para todos  </li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-js">// Ejemplos
+app.get('/', function (req, res) {              // GET method route
+  res.send('GET request to the homepage');
+});
+app.post('/', function (req, res) {             // POST method route
+  res.send('POST request to the homepage');
+});
+</code></pre>
+<ul>
+<li><strong>parametros en la ruta</strong></li>
+</ul>
+<p>La ruta puede contener parametros que se capturan en <code>req.params</code></p>
+<pre><code class="language-json">Route path: /users/:userId/books/:bookId
+Request URL: http://localhost:3000/users/34/books/8989
+req.params: { &quot;userId&quot;: &quot;34&quot;, &quot;bookId&quot;: &quot;8989&quot; }
+</code></pre>
+<ul>
+<li><strong>multiples manejadores de ruta</strong></li>
+</ul>
+<p>Se puede establecer múltiples callbacks (manejadores) que se comportan como middlewares para gestionar una petición.<br />
+La unica excepcion es que podrian invocar <code>next("route")</code> para evitar los
+restantes manejadores de esa ruta<br />
+Los manejadores de ruta pueden ser una funcion, un array de funciones o una
+combinacion de ambos  </p>
+<pre><code class="language-js">// varias funciones independientes
+app.get('/example/b', function (req, res, next) {
+  console.log('the response will be sent by the next function ...');
+  next();
+}, function (req, res) {
+  res.send('Hello from B!');
+});
+</code></pre>
+<pre><code class="language-js">// array de funciones
+var cb0 = function (req, res, next) {
+  console.log('CB0');
+  next();
+}
+var cb1 = function (req, res, next) {
+  console.log('CB1');
+  next();
+}
+var cb2 = function (req, res) {
+  res.send('Hello from C!');
+}
+app.get('/example/c', [cb0, cb1, cb2]);
+</code></pre>
+<pre><code class="language-js">// mix de funciones independientes y array de funciones
+var cb0 = function (req, res, next) {
+  console.log('CB0');
+  next();
+}
+var cb1 = function (req, res, next) {
+  console.log('CB1');
+  next();
+}
+app.get('/example/d', [cb0, cb1], function (req, res, next) {
+  console.log('the response will be sent by the next function ...');
+  next();
+}, function (req, res) {
+  res.send('Hello from D!');
+});
+</code></pre>
+<h3 id="approute">app.route()</h3>
+<p>cadena de manejadores de ruta</p>
+<pre><code class="language-js">app.route('/book')
+ .get(function(req, res) {
+   res.send('Get a random book');
+ })
+ .post(function(req, res) {
+   res.send('Add a book');
+ })
+ .put(function(req, res) {
+   res.send('Update the book');
+ });
+</code></pre>
+<h3 id="clase-expressrouter">clase express.Router</h3>
+<p>La clase <code>express.Router</code> se usa para crear manejadores modulares</p>
+<p>Creamos un archivo perfil.js en el subdirectorio para rutas /routes  </p>
+<pre><code class="language-js">var express = require('express');
+var perfil = express.Router();
+
+// middleware especifico para esta ruta si nos hace falta, es opcional
+perfil.use (function(req, res, next) {
+  console.log('Hora = ', Date.now());
+  next();
+});
+perfil.get(&quot;/&quot;, function(req, res, next) {
+  res.send(&quot;En ruta /&quot;);
+});
+perfil.get(&quot;/username&quot;, function(req, res, next) {
+  res.send(&quot;En /username&quot;);
+});
+module.exports = perfil;
+</code></pre>
+<p>Cargamos el modulo de router en la aplicacion en app.js</p>
+<pre><code class="language-js">// en app.js con esto creamos dos rutas &quot;/profile&quot; y &quot;/profile/:username&quot;
+var perfiles = require('./routes/perfil.js');
+app.use('/perfiles', perfiles);
+</code></pre>
+<p>Ahora la app ya atiende a las rutas <code>/perfil</code> y <code>/perfil/:username</code>  </p>
+<p>Cada router puede cargar otros router hasta cargar todos en pej index.js y al
+cargar en app,js /controller/index.js ya estaran todas las rutas  </p>
+<hr />
+<h2 id="errores">ERRORES</h2>
+<p>El middleware de manejo de errores se define el ultimo despues de todos los
+app.use() y manejo de rutas.  </p>
+<ul>
+<li>En desarrollo</li>
+</ul>
+<pre><code class="language-js">if (app.get('env') === 'development') {
+  app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+      message: err.message,
+      error: err
+    });
+  });
+}
+</code></pre>
+<ul>
+<li>En produccion</li>
+</ul>
+<pre><code class="language-js">app.use(function(err, req, res, next) {
+  res.status(err.status || 500);
+  res.render('error', {
+    message: err.message,
+    error: {}
+  });
+});
+</code></pre>
+<p><img alt="express" src="../_img/express/codigosEstado.png" /></p>
+<p>Se produce un error en express cuando llamamos un <code>next("algo ha pasado")</code> <br />
+Se saltara los middleware que haya hasta llegar al primer middleware que maneje errores<br />
+Express no maneja errores producidos por la palabra clave <code>throw</code> y tiene
+protecciones para estas excepciones. La app retirnara un error 500 y esa peticion
+fallara pero la app continuara ejecutandose. Sin embargo los errores de sintaxis
+cascan el programa  </p>
+<pre><code class="language-js">app.use(function(req, res, next) {
+  if (req.url === &quot;/&quot;) {
+    next();
+  } else if (req.url === &quot;/throw&quot;) {
+    throw new Error(&quot;Gimme that error&quot;);
+  } else {
+    next(&quot;You didn't visit the root!&quot;);
+  }
+});
+
+app.use(function(req, res) {
+  res.send(&quot;Welcome to the homepage.&quot;);
+});
+
+app.use(function(err, req, res, next) {
+  console.error(err);
+  res.status(500);
+  next(err);
+});
+
+app.use(function(err, req, res, next) {
+  res.send(&quot;Got an error: &quot; + err);
+});
+</code></pre>
+<hr />
+<h2 id="apis">APIs</h2>
+<p><a href="http://www.tutorialspoint.com/nodejs/nodejs_restful_api.htm">RESTful API</a></p>
+<p><img alt="express" src="../_img/express/traditional.png" />
+<img alt="express" src="../_img/express/restApiAjax.png" /></p>
+<ul>
+<li><strong>CRUD api</strong></li>
+</ul>
+<p><code>crear -&gt; POST</code><br />
+<code>leer -&gt; GET</code><br />
+<code>actualizar -&gt; PUT</code><br />
+<code>borrar -&gt; DELETE</code>  </p>
+<ul>
+<li><strong>Versiones</strong></li>
+</ul>
+<p>Patron para mantener la retrocompatibilidad</p>
+<p><code>api1.js</code>  </p>
+<pre><code class="language-js">var express = require(&quot;express&quot;);
+var api = express.Router();
+api.get(&quot;/timezone&quot;, function(req, res) {
+  res.send(&quot;Sample response for /timezone&quot;);
+});
+api.get(&quot;/all_timezones&quot;, function(req, res) {
+  res.send(&quot;Sample response for /all_timezones&quot;);
+});
+module.exports = api;
+</code></pre>
+<p><code>api2.js</code>  </p>
+<pre><code class="language-js">var express = require(&quot;express&quot;);
+var api = express.Router();
+api.get(&quot;/timezone&quot;, function(req, res) {
+  res.send(&quot;API 2: super cool new response for /timezone&quot;);
+});
+module.exports = api;
+</code></pre>
+<p><code>app.js</code>  </p>
+<pre><code class="language-js">var express = require(&quot;express&quot;);
+var apiVersion1 = require(&quot;./api1.js&quot;);
+var apiVersion2 = require(&quot;./api2.js&quot;);
+var app = express();
+app.use(&quot;/v1&quot;, apiVersion1);
+app.use(&quot;/v2&quot;, apiVersion2);
+app.listen(3000, function() {
+  console.log(&quot;App started on port 3000&quot;);
+});
+</code></pre>
+<hr />
+<h2 id="seguridad">SEGURIDAD</h2>
+<p><a href="http://expressjs.com/en/advanced/best-practice-security.html">Seguridad en express</a></p>
+<ul>
+<li><strong>Cross-site request forgery</strong></li>
+</ul>
+<p><code>npm install --save csurf</code> - Se evita al usar el middleware csurf<br />
+Debe ir precedido por <code>cookie-parser</code> y <code>express-session</code>  </p>
+<pre><code class="language-js">var cookieParser = require('cookie-parser'),
+var session = require('express-session');
+var csrf = require(&quot;csurf&quot;);
+
+app.use(cookieParser('FE28D342-4040-4D0E-B080-B85E85DAF7FD'));
+app.use(session({
+  secret: 'BD564488-5105-4202-8927-5A5C9AE9154E',
+  resave: true,
+  saveUninitialized: true
+}));
+app.use(csrf());
+app.use(function (request, response, next) {
+  response.locals.csrftoken = request.csrfToken();
+  next();
+});
+</code></pre>
+<ul>
+<li><strong>Permisos en procesos</strong></li>
+</ul>
+<p>No correr servicios como root.<br />
+Los servicios se pueden cambiar de usuario en ejecucion usando GID (group ID) y
+UID (user ID)  </p>
+<pre><code class="language-js">var app = express();
+http.createServer(app).listen(app.get('port'), function(){
+  console.log(&quot;Express server listening on port &quot; + app.get('port'));
+  process.setgid(parseInt(process.env.GID, 10));
+  process.setuid(parseInt(process.env.UID, 10));
+});
+</code></pre>
+<ul>
+<li><strong>HTTP Security Headess</strong></li>
+</ul>
+<p>Instalar middleware <code>helmet</code> que es un conjunto de middlewares de seguridad<br />
+<code>npm install --save helmet</code>  </p>
+<pre><code class="language-js">var helmet = require('helmet');
+app.use(helmet());
+</code></pre>
+<ul>
+<li>
+<p><strong>Input Validation</strong></p>
+<ol>
+<li>Chequear manualmente los datos con expresiones regulares de las rutas que
+aceptan datos externos  </li>
+<li>Deben tambien controlarse el mapeo de objetos de los datos   </li>
+<li>La validacion en el navegador es solo por criterios de usabilidad, no
+aporta proteccion a la aplicacion web   </li>
+</ol>
+</li>
+</ul>
+<p><code>npm install --save express-validator</code>  </p>
+<pre><code class="language-js">var validator = require('express-validator');
+// lo aplico despues del body-parser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(validator());
+</code></pre>
+<p>Ahora en los manejadores tenemos acceso a <code>req.assert</code> y <code>req.validationErrors()</code>  </p>
+<pre><code class="language-js">app.post('/login', function(req, res){
+  req.assert('password', 'Password is required').notEmpty();
+  req.assert('email', 'A valid email is required').notEmpty().isEmail();
+  var errors = req.validationErrors();
+  if (errors) {
+    res.render('index', {errors: errors});
+  } else {
+    res.render('login', {email: request.email});
+  }
+});
+</code></pre>
+<ul>
+<li><strong>Seguridad de los paquetes npm</strong></li>
+</ul>
+<pre><code class="language-js">npm install -g nsp
+nsp check --output summary
+</code></pre>
+<ul>
+<li><strong>app.disable('x-powered-by');</strong></li>
+</ul>
+<hr />
+          
+          
+        </div>
+      </div>
+    </div>
+    <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebarwrapper">
+        <!--
+  <p class="logo">
+    <a href="..">
+      <img class="logo" src="../_img/chuletas128.png" title="Chuletas">
+    </a>
+  </p>
+  
+
+
+
+        
+        <h2>Navigation</h2>
+
+
+<ul>
+  
+      
+        <li>
+          <a href="">Menu</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="html/">HTML</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="css/">CSS</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="frontend/">Front End</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript/">Javascript</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript-apis/">Javascript APIs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript-para-web/">Javascript para web</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript-snippets/">Javascript snippets</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="reactjs/">Reactjs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="nodejs/">Nodejs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="expressjs/">Expressjs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="nodejs-snippets/">Nodejs snippets</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="nodejs-bases-de-datos/">Nodejs Bases de Datos</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang/">Golang</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang-para-web/">Golang para web</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang-snippets/">Golang snippets</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang-bases-de-datos/">Golang Bases de Datos</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="debian/">Debian</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="varios/">Varios</a>
+        </li>
+      
+    
+  </ul>
+        
+
+
+
+<h3>Contenidos</h3>
+
+<nav>
+  
+
+<ul>
+  
+  <li><a href="#uso">USO</a></li>
+  <ul>
+  
+  <li><a href="#instalacion">instalacion</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#api">api</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#main-file">MAIN FILE</a></li>
+  <ul>
+  
+  <li><a href="#ajustes">ajustes</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#contenido-estatico">contenido estatico</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#templates">TEMPLATES</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#request-peticion">REQUEST (Peticion)</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#response-respuesta">RESPONSE (Respuesta)</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#middleware">MIDDLEWARE</a></li>
+  <ul>
+  
+  <li><a href="#definicion">Definicion</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#tipos">Tipos</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#esenciales">Esenciales</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#sesiones-cookies">SESIONES + COOKIES</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#routing">ROUTING</a></li>
+  <ul>
+  
+  <li><a href="#appmethod">app.METHOD</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#approute">app.route()</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#clase-expressrouter">clase express.Router</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#errores">ERRORES</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#apis">APIs</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#seguridad">SEGURIDAD</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+
+
+  
+</nav>
+        
+        <div id="searchbox" style="display: none;" role="search">
+  <h3>Quick search</h3>
+  <form class="search" action="../search.html" method="get">
+    <input name="q" type="text">
+    <input value="Go" type="submit">
+  </form>
+  <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+  </p>
+</div>
+<script type="text/javascript">
+  document.getElementById("searchbox").style.display = "block";
+</script>
+        -->
+
+        
+
+        
+        
+  <p class="logo">
+    <a href="..">
+      <img class="logo" src="../_img/chuletas128.png" title="Chuletas">
+    </a>
+  </p>
+  
+
+
+
+        
+        <div class="menuNav">
+
+  
+  <ul>
+    
+    
+    <li>
+      <a href="../">Menu</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../html/">HTML</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../css/">CSS</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../frontend/">Front End</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript/">Javascript</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript-apis/">Javascript APIs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript-para-web/">Javascript para web</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript-snippets/">Javascript snippets</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../reactjs/">Reactjs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../nodejs/">Nodejs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../expressjs/">Expressjs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../nodejs-snippets/">Nodejs snippets</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../nodejs-bases-de-datos/">Nodejs Bases de Datos</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang/">Golang</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang-para-web/">Golang para web</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang-snippets/">Golang snippets</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang-bases-de-datos/">Golang Bases de Datos</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../debian/">Debian</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../varios/">Varios</a>
+    </li>
+    
+    
+  </ul>
+</div>
+        
+        
+
+
+
+<h3>Contenidos</h3>
+
+<nav>
+  
+
+<ul>
+  
+  <li><a href="#uso">USO</a></li>
+  <ul>
+  
+  <li><a href="#instalacion">instalacion</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#api">api</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#main-file">MAIN FILE</a></li>
+  <ul>
+  
+  <li><a href="#ajustes">ajustes</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#contenido-estatico">contenido estatico</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#templates">TEMPLATES</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#request-peticion">REQUEST (Peticion)</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#response-respuesta">RESPONSE (Respuesta)</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#middleware">MIDDLEWARE</a></li>
+  <ul>
+  
+  <li><a href="#definicion">Definicion</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#tipos">Tipos</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#esenciales">Esenciales</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#sesiones-cookies">SESIONES + COOKIES</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#routing">ROUTING</a></li>
+  <ul>
+  
+  <li><a href="#appmethod">app.METHOD</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#approute">app.route()</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#clase-expressrouter">clase express.Router</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#errores">ERRORES</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#apis">APIs</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#seguridad">SEGURIDAD</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+
+
+  
+</nav>
+        
+
+        
+
+      </div>
+    </div>
+    <div class="clearer"></div>
+  </div>
+
+  
+  <div class="footer">
+    
+    
+    
+    Powered by <a href="http://www.mkdocs.org">mkdocs 1.4.2</a>
+    &amp; <a href="https://github.com/iamale/mkdocs-alabaster">mkdocs-alabaster</a>
+    
+  </div>
+  
+
+  <!--
+  MkDocs version      : 1.4.2
+  Docs Build Date UTC : 2023-10-03 14:52:40.863319+00:00
+  -->
+</body>
+
+</html>

@@ -1,0 +1,745 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+  <title>Golang Bases de Datos &mdash; Chuletas</title>
+
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <link rel="stylesheet" href="../css/alabaster.css" type="text/css">
+  <link rel="stylesheet" href="../css/alabaster-overrides.css" type="text/css">
+
+  
+  <link href="../_extra/css/extra.css" rel="stylesheet">
+  
+
+  
+  <script src="../_extra/js/highlight.pack.js"></script>
+  
+  <script src="../search/main.js"></script>
+  
+
+  <link rel="stylesheet" href="../_extra/css/atom-one-light.css">
+  <script src="../_extra/js/highlight.pack.js"></script>
+
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+  
+
+</head>
+
+<body>
+
+  <div class="document">
+    <div class="documentwrapper">
+      <div class="bodywrapper">
+        <div class="body" role="main">
+          
+          <h1 id="golang-para-bases-de-datos">GOLANG para BASES DE DATOS</h1>
+<hr />
+<h2 id="mysql">MYSQL</h2>
+<h3 id="driver">driver</h3>
+<p><a href="https://github.com/go-sql-driver/mysql">go-sql-driver</a></p>
+<p><code>go get -u github.com/go-sql-driver/mysql</code></p>
+<h3 id="crear-conexion-a-la-bbdd">Crear conexion a la BBDD</h3>
+<pre><code class="language-go">package store
+
+import (
+    &quot;database/sql&quot;
+    &quot;fmt&quot;
+
+    // mysql driver
+    _ &quot;github.com/go-sql-driver/mysql&quot;
+)
+
+type configDB struct {
+    DatabaseType string `json:&quot;databaseType&quot;`
+    Host         string `json:&quot;host&quot;`
+    Port         int    `json:&quot;port&quot;`
+    DB           string `json:&quot;db&quot;`
+    User         string `json:&quot;user&quot;`
+    Password     string `json:&quot;password&quot;`
+}
+
+// DB ...
+type DB struct {
+    *sql.DB
+}
+
+// NewDB ...
+func NewDB(mode string) (*DB, error) {
+    var c configDB
+    loadConfigJSON(&amp;c)
+    setDBConnConfig(mode, &amp;c)
+    connPath := fmt.Sprintf(&quot;%s:%s@tcp(%s:%d)/%s?parseTime=true&quot;,
+        c.User,
+        c.Password,
+        c.Host,
+        c.Port,
+        c.DB,
+    )
+    //fmt.Println(&quot;CONNPATH =&gt; &quot;, connPath)
+    db, err := sql.Open(c.DatabaseType, connPath)
+    if err != nil {
+        return nil, err
+    }
+    err = db.Ping()
+    if err != nil {
+        return nil, err
+    }
+    return &amp;DB{db}, nil
+}
+</code></pre>
+<pre><code class="language-go">// lo llamo desde otro paquete
+package login
+
+import (
+    store &quot;casServer/login/store&quot;
+)
+
+var loginDB *store.DB
+
+func init() {
+    db, err := store.NewDB(checkAppConfMode())
+    if err != nil {
+        log.Fatal(&quot;Error connecting DataBase =&gt; &quot;, err)
+    }
+    loginDB = db
+    //users, _ := loginDB.AccountList()
+    //fmt.Println(len(users))
+
+}
+</code></pre>
+<h3 id="select">Select</h3>
+<pre><code class="language-go">func (loginDB *DB) Account(name string) (*User, error) {
+    //fmt.Println(&quot;SEARCHING ...&quot;, name)
+    u := new(User)
+    query := fmt.Sprintf(`
+        SELECT
+            *
+        FROM %s
+        WHERE nickID=?
+        `,
+        usersTable,
+    )
+    //fmt.Println(query)
+    stmt, err := loginDB.Prepare(query)
+    if err != nil {
+        log.Printf(&quot;ERROR 1 DB %s\n&quot;, err)
+        return u, err
+    }
+    defer stmt.Close()
+    err = stmt.QueryRow(name).Scan(
+        &amp;u.NickID,
+        &amp;u.Nick,
+        &amp;u.PassHashed,
+        &amp;u.Email,
+        &amp;u.Verified,
+        &amp;u.Logo,
+        &amp;u.SecretQuest,
+        &amp;u.SecretHashed,
+        &amp;u.CreatedAt,
+        &amp;u.LastSeen,
+        &amp;u.Online)
+    if err != nil {
+        if err == sql.ErrNoRows { // no result
+            //log.Println(&quot;NO RESULT&quot;, u)
+            return u, nil
+        }
+        log.Printf(&quot;ERROR 2 DB %s\n&quot;, err)
+        return nil, err
+    }
+    return u, nil
+}
+</code></pre>
+<pre><code class="language-go">func (loginDB *DB) AccountList() ([]*User, error) {
+    query := fmt.Sprintf(`
+        SELECT
+            nickID
+        FROM %s
+        `,
+        usersTable,
+    )
+    stmt, err := loginDB.Prepare(query)
+    if err != nil {
+        return nil, err
+    }
+    defer stmt.Close()
+
+    rows, err := stmt.Query()
+    if err != nil {
+        return nil, err
+    }
+    defer rows.Close()
+    users := make([]*User, 0)
+    for rows.Next() {
+        user := new(User)
+        err := rows.Scan(
+            &amp;user.NickID,
+        )
+        if err != nil {
+            return nil, err
+        }
+        users = append(users, user)
+    }
+    return users, nil
+}
+</code></pre>
+<pre><code class="language-go">func (loginDB *DB) UserSession(usernameID string) (*Session, error) {
+    s := NewSession()
+    query := fmt.Sprintf(`
+        SELECT
+            *
+        FROM %s
+        WHERE nickID=?
+        `,
+        sessionsTable,
+    )
+    stmt, err := loginDB.Prepare(query)
+    if err != nil {
+        log.Printf(&quot;ERROR 3 DB SESSIONS %s\n&quot;, err)
+        return s, err
+    }
+    defer stmt.Close()
+    err = stmt.QueryRow(usernameID).Scan(
+        &amp;s.NickID,
+        &amp;s.SessionID,
+        &amp;s.Expires,
+    )
+    if err != nil {
+        if err == sql.ErrNoRows { // no result
+            //log.Println(&quot;NO RESULT&quot;, s)
+            return s, nil
+        }
+        log.Printf(&quot;ERROR 4 DB SESSIONS %s\n&quot;, err)
+        return nil, err
+    }
+    return s, nil
+}
+</code></pre>
+<h3 id="insert">Insert</h3>
+<pre><code class="language-go">func (loginDB *DB) NewAccount(u *User) error {
+    //fmt.Println(&quot;USER =&gt; &quot;, u)
+    query := fmt.Sprintf(`
+        INSERT
+        INTO %s
+        (
+            nickID, nick, passHashed, email, verified, logo, 
+            secretQuest, secretHashed, createdAt, lastSeen, online
+        )
+        values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `,
+        usersTable,
+    )
+    stmt, err := loginDB.Prepare(query)
+    //fmt.Println(query)
+    if err != nil {
+        log.Printf(&quot;ERROR 3 DB USERS %s -&gt; %s\n&quot;, u.Nick, err)
+        return err
+    }
+    defer stmt.Close()
+    _, err = stmt.Exec(
+        u.NickID,
+        u.Nick,
+        u.PassHashed,
+        u.Email,
+        u.Verified,
+        u.Logo,
+        u.SecretQuest,
+        u.SecretHashed,
+        u.CreatedAt,
+        u.LastSeen,
+        u.Online,
+    )
+    if err != nil { 
+        log.Printf(&quot;ERROR 4 DB USERS %s -&gt; %s\n&quot;, u.Nick, err)
+        return err
+    }
+    return nil
+}
+</code></pre>
+<pre><code class="language-go">func (loginDB *DB) SaveSession(s *Session) error {
+    query := fmt.Sprintf(`
+        INSERT 
+        INTO %s 
+        (
+            nickID, sessionID, expires
+        ) 
+        values (?, ?, ?)
+        ON DUPLICATE KEY UPDATE sessionID=? , expires= ?
+        `,
+        sessionsTable)
+    stmt, err := loginDB.Prepare(query)
+    if err != nil {
+        log.Printf(&quot;ERROR 1 DB SESSIONS %s -&gt; %s\n&quot;, s.NickID, err)
+        return err
+    }
+    defer stmt.Close()
+    _, err = stmt.Exec(
+        s.NickID,
+        s.SessionID,
+        s.Expires,
+        s.SessionID,
+        s.Expires,
+    )
+    if err != nil {
+        log.Printf(&quot;ERROR 2 DB SESSIONS %s -&gt; %s\n&quot;, s.NickID, err)
+        return err
+    }
+    return nil
+}
+</code></pre>
+<h3 id="update">Update</h3>
+<pre><code class="language-go">
+</code></pre>
+<h3 id="delete">Delete</h3>
+<pre><code class="language-go">func (loginDB *DB) DeleteSession(usernameID string) error {
+    query := fmt.Sprintf(`
+        DELETE 
+        FROM %s 
+        WHERE nickID = ?
+        `,
+        sessionsTable)
+    stmt, err := loginDB.Prepare(query)
+    if err != nil {
+        log.Printf(&quot;ERROR 5 DB SESSIONS %s -&gt; %s\n&quot;, usernameID, err)
+        return err
+    }
+    defer stmt.Close()
+    _, err = stmt.Exec(
+        usernameID,
+    )
+    if err != nil {
+        log.Printf(&quot;ERROR 6 DB SESSIONS %s -&gt; %s\n&quot;, usernameID, err)
+        return err
+    }
+    return nil
+}
+</code></pre>
+          
+          
+        </div>
+      </div>
+    </div>
+    <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebarwrapper">
+        <!--
+  <p class="logo">
+    <a href="..">
+      <img class="logo" src="../_img/chuletas128.png" title="Chuletas">
+    </a>
+  </p>
+  
+
+
+
+        
+        <h2>Navigation</h2>
+
+
+<ul>
+  
+      
+        <li>
+          <a href="">Menu</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="html/">HTML</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="css/">CSS</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="frontend/">Front End</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript/">Javascript</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript-apis/">Javascript APIs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript-para-web/">Javascript para web</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript-snippets/">Javascript snippets</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="reactjs/">Reactjs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="nodejs/">Nodejs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="expressjs/">Expressjs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="nodejs-snippets/">Nodejs snippets</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="nodejs-bases-de-datos/">Nodejs Bases de Datos</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang/">Golang</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang-para-web/">Golang para web</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang-snippets/">Golang snippets</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang-bases-de-datos/">Golang Bases de Datos</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="debian/">Debian</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="varios/">Varios</a>
+        </li>
+      
+    
+  </ul>
+        
+
+
+
+<h3>Contenidos</h3>
+
+<nav>
+  
+
+<ul>
+  
+  <li><a href="#mysql">MYSQL</a></li>
+  <ul>
+  
+  <li><a href="#driver">driver</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#crear-conexion-a-la-bbdd">Crear conexion a la BBDD</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#select">Select</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#insert">Insert</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#update">Update</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#delete">Delete</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+</ul>
+
+
+  
+</nav>
+        
+        <div id="searchbox" style="display: none;" role="search">
+  <h3>Quick search</h3>
+  <form class="search" action="../search.html" method="get">
+    <input name="q" type="text">
+    <input value="Go" type="submit">
+  </form>
+  <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+  </p>
+</div>
+<script type="text/javascript">
+  document.getElementById("searchbox").style.display = "block";
+</script>
+        -->
+
+        
+
+        
+        
+  <p class="logo">
+    <a href="..">
+      <img class="logo" src="../_img/chuletas128.png" title="Chuletas">
+    </a>
+  </p>
+  
+
+
+
+        
+        <div class="menuNav">
+
+  
+  <ul>
+    
+    
+    <li>
+      <a href="../">Menu</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../html/">HTML</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../css/">CSS</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../frontend/">Front End</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript/">Javascript</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript-apis/">Javascript APIs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript-para-web/">Javascript para web</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript-snippets/">Javascript snippets</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../reactjs/">Reactjs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../nodejs/">Nodejs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../expressjs/">Expressjs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../nodejs-snippets/">Nodejs snippets</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../nodejs-bases-de-datos/">Nodejs Bases de Datos</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang/">Golang</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang-para-web/">Golang para web</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang-snippets/">Golang snippets</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang-bases-de-datos/">Golang Bases de Datos</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../debian/">Debian</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../varios/">Varios</a>
+    </li>
+    
+    
+  </ul>
+</div>
+        
+        
+
+
+
+<h3>Contenidos</h3>
+
+<nav>
+  
+
+<ul>
+  
+  <li><a href="#mysql">MYSQL</a></li>
+  <ul>
+  
+  <li><a href="#driver">driver</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#crear-conexion-a-la-bbdd">Crear conexion a la BBDD</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#select">Select</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#insert">Insert</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#update">Update</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#delete">Delete</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+</ul>
+
+
+  
+</nav>
+        
+
+        
+
+      </div>
+    </div>
+    <div class="clearer"></div>
+  </div>
+
+  
+  <div class="footer">
+    
+    
+    
+    Powered by <a href="http://www.mkdocs.org">mkdocs 1.4.2</a>
+    &amp; <a href="https://github.com/iamale/mkdocs-alabaster">mkdocs-alabaster</a>
+    
+  </div>
+  
+
+  <!--
+  MkDocs version      : 1.4.2
+  Docs Build Date UTC : 2023-10-03 14:52:40.876406+00:00
+  -->
+</body>
+
+</html>

@@ -1,0 +1,2471 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+  <title>Golang snippets &mdash; Chuletas</title>
+
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <link rel="stylesheet" href="../css/alabaster.css" type="text/css">
+  <link rel="stylesheet" href="../css/alabaster-overrides.css" type="text/css">
+
+  
+  <link href="../_extra/css/extra.css" rel="stylesheet">
+  
+
+  
+  <script src="../_extra/js/highlight.pack.js"></script>
+  
+  <script src="../search/main.js"></script>
+  
+
+  <link rel="stylesheet" href="../_extra/css/atom-one-light.css">
+  <script src="../_extra/js/highlight.pack.js"></script>
+
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+  
+
+</head>
+
+<body>
+
+  <div class="document">
+    <div class="documentwrapper">
+      <div class="bodywrapper">
+        <div class="body" role="main">
+          
+          <h1 id="golang-snippets">GOLANG SNIPPETS</h1>
+<hr />
+<h2 id="sendreceive-data">SEND/RECEIVE DATA</h2>
+<h3 id="sendjsontoclient">SendJSONToClient</h3>
+<pre><code class="language-go">
+import (
+    &quot;encoding/json&quot;
+    &quot;log&quot;
+    &quot;net/http&quot;
+)
+
+// SendJSONToClient ...
+func SendJSONToClient(w http.ResponseWriter, d interface{}) {
+    w.Header().Set(&quot;Content-Type&quot;, &quot;application/json&quot;)
+    var dataJSON = []byte(`{}`)
+    dataJSON, err := json.MarshalIndent(d, &quot;&quot;, &quot; &quot;)
+    if err != nil {
+        log.Printf(&quot;ERROR Marshaling %s\n&quot;, err)
+        w.Write([]byte(`{}`))
+    }
+    w.Write(dataJSON)
+}
+</code></pre>
+<h3 id="sendxmltoclient">SendXMLToClient</h3>
+<pre><code class="language-go">
+import (
+    &quot;encoding/xml&quot;
+    &quot;log&quot;
+    &quot;net/http&quot;
+)
+
+// SendXMLToClient ...
+func SendXMLToClient(w http.ResponseWriter, d interface{}) {
+    w.Header().Set(&quot;Content-Type&quot;, &quot;application/xml&quot;)
+    var dataXML = []byte(`&lt;output&gt;&lt;/output&gt;`)
+    dataXML, err := xml.Marshal(&amp;d)
+    if err != nil {
+        log.Printf(&quot;ERROR Parsing into XML %s\n&quot;, err)
+        w.Write([]byte(`{}`))
+    }
+    w.Write(dataXML)
+}
+</code></pre>
+<h3 id="senderrortoclient">SendErrorToClient</h3>
+<pre><code class="language-go">import (
+    &quot;encoding/json&quot;
+    &quot;log&quot;
+    &quot;net/http&quot;
+)
+
+// SendErrorToClient ...
+func SendErrorToClient(w http.ResponseWriter, d interface{}) {
+    w.WriteHeader(http.StatusBadRequest)
+    w.Header().Set(&quot;Content-Type&quot;, &quot;application/json&quot;)
+    var dataJSON = []byte(`{}`)
+    dataJSON, err := json.MarshalIndent(d, &quot;&quot;, &quot; &quot;)
+    if err != nil {
+        log.Printf(&quot;ERROR Marshaling %s\n&quot;, err)
+        w.Write([]byte(`{}`))
+    }
+    w.Write(dataJSON)
+}
+</code></pre>
+<h3 id="dogetrequest">DoGetRequest</h3>
+<pre><code class="language-go">import (
+    &quot;encoding/json&quot;
+    &quot;io/ioutil&quot;
+    &quot;log&quot;
+    &quot;net/http&quot;
+    &quot;time&quot;
+)
+
+// DoGetRequest ...
+func DoGetRequest(w http.ResponseWriter, url string, d interface{}) {
+    var netClient = &amp;http.Client{
+        Timeout: time.Second * 10,
+    }
+    resp, err := netClient.Get(url)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    if resp.StatusCode != 200 {
+        log.Fatal(err)
+        return
+    }
+
+    defer resp.Body.Close()
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        log.Fatal(err)
+    }
+    // body is a string, for use we must Unmarshal over a struct
+    err = json.Unmarshal(body, &amp;d)
+    if err != nil {
+        log.Fatalln(err)
+    }
+}
+</code></pre>
+<h3 id="dogetconcurrentrequest">DoGetConcurrentRequest</h3>
+<pre><code class="language-go">import (
+    &quot;encoding/json&quot;
+    &quot;fmt&quot;
+    &quot;io/ioutil&quot;
+    &quot;log&quot;
+    &quot;net/http&quot;
+)
+
+func fillDefaultStocks(links []string) {
+    ch := make(chan []byte)
+    for _, link := range links {
+        go doGetConcurrentRequest(link, ch)
+    }
+    for range links {
+        json.Unmarshal(&lt;-ch, &amp;stocks)
+    }
+}
+
+func doGetConcurrentRequest(url string, ch chan&lt;- []byte) {
+    resp, err := http.Get(url)
+    if err != nil {
+        msg := fmt.Sprintf(&quot;ERROR 1 HTTP Request %s&quot;, err)
+        log.Printf(msg)
+        ch &lt;- []byte(msg)
+        return
+    }
+    if resp.StatusCode != 200 {
+        msg := fmt.Sprintf(&quot;ERROR 2 Status Code %d&quot;, resp.StatusCode)
+        log.Printf(msg)
+        ch &lt;- []byte(msg)
+        return
+    }
+    defer resp.Body.Close()
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        msg := fmt.Sprintf(&quot;ERROR 3 HTTP Request %s&quot;, err)
+        log.Printf(msg)
+        ch &lt;- []byte(msg)
+        return
+    }
+    ch &lt;- body
+}
+</code></pre>
+<h3 id="dopostrequest">DoPostRequest</h3>
+<pre><code class="language-go">func sendRequest(data []byte, a app) {
+    server, _ := os.Hostname()
+    server = strings.ToLower(server)
+    contentType := &quot;application/x-www-form-urlencoded&quot; //; param=value&quot;
+    host := &quot;https://&quot; + a.Conf.Host + a.Conf.PathToAPI
+
+    var client = &amp;http.Client{
+        Timeout: time.Second * 3,
+    }
+    params := url.Values{
+        //&quot;server&quot;: {server},
+        &quot;test&quot;: {a.Conf.Valid},
+        &quot;data&quot;: {string(data)},
+    }
+    params.Add(&quot;server&quot;, server)
+
+    query := bytes.NewBufferString(params.Encode())
+    resp, err := http.NewRequest(&quot;POST&quot;, host, query)
+    resp.Header.Add(&quot;Content-Type&quot;, contentType)
+    resp.Header.Add(&quot;Accept-Charset&quot;, &quot;utf-8&quot;)
+    if err != nil {
+        log.Fatal(&quot;Error preparing POST request =&gt; &quot;, err)
+    }
+
+    r, err := client.Do(resp)
+    if err != nil {
+        log.Fatal(&quot;Error sending POST request =&gt; &quot;, err)
+    }
+    if r.StatusCode != 200 {
+        log.Fatal(&quot;Error received from server =&gt; &quot;, r.Status, &quot; &quot;, err)
+    }
+}
+</code></pre>
+<h3 id="getinterfacestypes">GetInterfacesTypes</h3>
+<pre><code class="language-go">import &quot;fmt&quot;
+
+// GetInterfacesTypes ...
+func GetInterfacesTypes(f interface{}) {
+    switch vf := f.(type) {
+    case map[string]interface{}:
+        //fmt.Println(&quot;is a map:&quot;)
+        for k, v := range vf {
+            switch vv := v.(type) {
+            case string:
+                //fmt.Printf(&quot;%v: is string - %q\n&quot;, k, vv)
+            case int:
+                //fmt.Printf(&quot;%v: is int - %q\n&quot;, k, vv)
+            case float64:
+                //fmt.Printf(&quot;%v: is float64 - %g\n&quot;, k, vv)
+            default:
+                fmt.Sprintln(k, v, vv)
+                //fmt.Printf(&quot;%v: &quot;, k)
+                GetInterfacesTypes(v)
+            }
+        }
+    case []interface{}:
+        //fmt.Println(&quot;is an array:&quot;)
+        for k, v := range vf {
+            switch vv := v.(type) {
+            case string:
+                //fmt.Printf(&quot;%v: is string - %q\n&quot;, k, vv)
+            case int:
+                //fmt.Printf(&quot;%v: is int - %q\n&quot;, k, vv)
+            case float64:
+                //fmt.Printf(&quot;%v: is float64 - %g\n&quot;, k, vv)
+                if k == 4 {
+                    fmt.Println(`ALELUYA==&gt;`, vv)
+                }
+            default:
+                fmt.Sprintln(k, v, vv)
+                //fmt.Printf(&quot;%v: &quot;, k)
+                GetInterfacesTypes(v)
+            }
+        }
+    }
+}
+</code></pre>
+<h3 id="isjson">IsJSON</h3>
+<pre><code class="language-go">import &quot;encoding/json&quot;
+// IsJSON ...
+
+func IsJSON(str string) bool {
+    var js json.RawMessage
+    return json.Unmarshal([]byte(str), &amp;js) == nil
+}
+</code></pre>
+<hr />
+<h2 id="errorcheck">ERRORCHECK</h2>
+<h3 id="check">Check</h3>
+<pre><code class="language-go">import &quot;log&quot;
+
+// Check ...
+func Check(err error) {
+    if err != nil {
+        log.Fatal(err)
+    }
+}
+</code></pre>
+<hr />
+<h2 id="files">FILES</h2>
+<h3 id="readfile">ReadFile</h3>
+<pre><code class="language-go">import (
+    &quot;log&quot;
+    &quot;os&quot;
+)
+
+// ReadFile ...
+func ReadFile(filePath string) string {
+    file, err := os.Open(filePath)
+    defer file.Close()
+    stat, err := file.Stat()
+    if err != nil {
+        log.Fatal(err)
+    }
+    bs := make([]byte, stat.Size())
+    _, err = file.Read(bs)
+    if err != nil {
+        log.Fatal(err)
+    }
+    data := string(bs)
+    return data
+}
+</code></pre>
+<h3 id="readfilelinebyline">ReadFileLineByLine</h3>
+<pre><code class="language-go">import (
+    &quot;bufio&quot;
+    &quot;fmt&quot;
+    &quot;log&quot;
+    &quot;os&quot;
+)
+
+// ReadFileLineByLine ...
+func ReadFileLineByLine(filePath string) {
+    file, err := os.Open(filePath)
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer file.Close()
+    scanner := bufio.NewScanner(file)
+    for scanner.Scan() {
+        line := scanner.Text()
+        fmt.Println(line)
+    }
+    if err := scanner.Err(); err != nil {
+        log.Fatal(err)
+    }
+}
+</code></pre>
+<h3 id="writefile">WriteFile</h3>
+<pre><code class="language-go">import (
+    &quot;log&quot;
+    &quot;os&quot;
+)
+
+// WriteFile ...
+func WriteFile(filePath string, content string) {
+    file, err := os.Create(filePath)
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer file.Close()
+    file.WriteString(content)
+}
+
+</code></pre>
+<h3 id="loadjsonfromfiledecoder">LoadJSONfromFileDecoder</h3>
+<pre><code class="language-go">import (
+    &quot;encoding/json&quot;
+    &quot;log&quot;
+    &quot;os&quot;
+)
+
+// LoadJSONfromFileDecoder ...
+func LoadJSONfromFileDecoder(filePath string, data interface{}) {
+    file, err := os.Open(filePath)
+    if err != nil {
+        log.Fatalln(&quot;Cannot open config file&quot;, err)
+    }
+    defer file.Close()
+    decoder := json.NewDecoder(file)
+    err = decoder.Decode(&amp;data)
+    if err != nil {
+        log.Fatalln(&quot;Cannot get configuration from file&quot;, err)
+    }
+}
+</code></pre>
+<h3 id="loadjsonfromfilemarshall">LoadJSONfromFileMarshall</h3>
+<pre><code class="language-go">import (
+    &quot;encoding/json&quot;
+    &quot;io/ioutil&quot;
+    &quot;log&quot;
+    &quot;os&quot;
+)
+
+// LoadJSONfromFileMarshall ...
+func LoadJSONfromFileMarshall(filePath string, data interface{}) {
+    file, err := os.Open(filePath)
+    if err != nil {
+        log.Fatalln(&quot;Cannot open config file&quot;, err)
+    }
+    defer file.Close()
+    body, err := ioutil.ReadAll(file) //    get file content
+    if err != nil {
+        log.Fatalln(err)
+    }
+    err = json.Unmarshal(body, &amp;data)
+    if err != nil {
+        log.Fatalln(err)
+    }
+}
+</code></pre>
+<h3 id="writejsontofile">WriteJSONtoFile</h3>
+<pre><code class="language-go">import (
+    &quot;encoding/json&quot;
+    &quot;os&quot;
+)
+
+// WriteJSONtoFile ...
+func WriteJSONtoFile(filePath string, d interface{}) {
+    f, err := os.Create(filePath)
+    if err != nil {
+        panic(err)
+    }
+    defer f.Close()
+    e := json.NewEncoder(f)
+    e.Encode(&amp;d)
+}
+</code></pre>
+<h3 id="downloadfile">DownloadFile</h3>
+<pre><code class="language-go">import (
+    &quot;io&quot;
+    &quot;net/http&quot;
+    &quot;os&quot;
+)
+
+// DownloadFile ...
+func DownloadFile(filePath string, url string) (err error) {
+    // Create the file
+    out, err := os.Create(filePath)
+    if err != nil {
+        return err
+    }
+    defer out.Close()
+    // Get the data
+    resp, err := http.Get(url)
+    if err != nil {
+        return err
+    }
+    defer resp.Body.Close()
+    // Writer the body to file
+    _, err = io.Copy(out, resp.Body)
+    if err != nil {
+        return err
+    }
+    return nil
+}
+</code></pre>
+<h3 id="sendfilefromservertoclient">SendFileFromServerToClient</h3>
+<pre><code class="language-go">import (
+    &quot;fmt&quot;
+    &quot;io&quot;
+    &quot;net&quot;
+    &quot;net/http&quot;
+    &quot;time&quot;
+)
+
+func Index(w http.ResponseWriter, r *http.Request) {
+    url := &quot;http://upload.wikimedia.org/wikipedia/en/b/bc/Wiki.png&quot;
+
+    timeout := time.Duration(5) * time.Second
+    transport := &amp;http.Transport{
+        ResponseHeaderTimeout: timeout,
+        Dial: func(network, addr string) (net.Conn, error) {
+            return net.DialTimeout(network, addr, timeout)
+        },
+        DisableKeepAlives: true,
+    }
+    client := &amp;http.Client{
+        Transport: transport,
+    }
+    resp, err := client.Get(url)
+    if err != nil {
+        fmt.Println(err)
+    }
+    defer resp.Body.Close()
+
+    //copy the relevant headers. If you want to preserve the downloaded 
+    // file name, extract it with go's url parser.
+    w.Header().Set(&quot;Content-Disposition&quot;, &quot;attachment; filename=Wiki.png&quot;)
+    w.Header().Set(&quot;Content-Type&quot;, r.Header.Get(&quot;Content-Type&quot;))
+    w.Header().Set(&quot;Content-Length&quot;, r.Header.Get(&quot;Content-Length&quot;))
+
+    //stream the body to the client without fully loading it into memory
+    io.Copy(w, resp.Body)
+}
+
+func main() {
+    http.HandleFunc(&quot;/&quot;, Index)
+    err := http.ListenAndServe(&quot;:8000&quot;, nil)
+
+    if err != nil {
+        fmt.Println(err)
+    }
+}
+</code></pre>
+<h3 id="parsecsvfile">ParseCSVFile</h3>
+<pre><code class="language-csv">// file.csv
+&quot;AAPL&quot;,&quot;Apple Inc&quot;,&quot;4.10%&quot;
+&quot;AMZN&quot;,&quot;Amazon.com Inc&quot;,&quot;3.49%&quot;
+&quot;MSFT&quot;,&quot;Microsoft Corp&quot;,&quot;3.23%&quot;
+&quot;GOOGL&quot;,&quot;Alphabet Inc&quot;,&quot;3.09%&quot;
+</code></pre>
+<pre><code class="language-go">import (
+    &quot;bufio&quot;
+    &quot;encoding/csv&quot;
+    &quot;encoding/json&quot;
+    &quot;fmt&quot;
+    &quot;io&quot;
+    &quot;os&quot;
+)
+
+type stock struct {
+    Symbol string `json:&quot;symbol&quot;`
+}
+
+func main() {
+    csvFile, _ := os.Open(&quot;sp.csv&quot;)
+    reader := csv.NewReader(bufio.NewReader(csvFile))
+    var stocks []stock
+    for {
+        line, error := reader.Read()
+        if error == io.EOF {
+            break
+        }
+        aux := stock{
+            Symbol: line[0],
+        }
+        stocks = append(stocks, aux)
+    }
+    //stocksJSON, _ := json.Marshal(stocks)
+    //fmt.Println(string(stocksJSON))
+
+    f, err := os.Create(&quot;spList.json&quot;)
+    if err != nil {
+        panic(err)
+    }
+    defer f.Close()
+    e := json.NewEncoder(f)
+    e.Encode(&amp;stocks)
+    fmt.Println(`END`)
+}
+</code></pre>
+<pre><code class="language-json">// result
+[
+  {
+    &quot;symbol&quot;: &quot;AAPL&quot;
+  },
+  {
+    &quot;symbol&quot;: &quot;AMZN&quot;
+  },
+  {
+    &quot;symbol&quot;: &quot;MSFT&quot;
+  },
+  {
+    &quot;symbol&quot;: &quot;GOOGL&quot;
+    }
+]
+</code></pre>
+<hr />
+<h2 id="http-server">HTTP SERVER</h2>
+<p>Lectura </p>
+<p><a href="https://www.alexedwards.net/blog/a-recap-of-request-handling">Request Handling in Go</a></p>
+<pre><code class="language-go">type Handler interface {
+    ServeHttp( ResponseWriter, *Request )
+}
+</code></pre>
+<h3 id="wrapper">Wrapper</h3>
+<p>Es muy sencillo pero luego complica para testearlo</p>
+<pre><code class="language-go">mux.HandleFunc(&quot;/path&quot;, func(w http.ResponseWriter, r *http.Request) {
+        nombreFuncion(w, r, loQueQueramosPasar)
+})
+</code></pre>
+<h3 id="handle-handlefunc">Handle + HandleFunc</h3>
+<pre><code class="language-go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;net/http&quot;
+    &quot;time&quot;
+)
+
+func timeHandler1(w http.ResponseWriter, r *http.Request) {
+    tm := time.Now().Format(time.RFC1123)
+    fmt.Println(&quot;/time/&quot; + tm)
+    w.Write([]byte(&quot;The time is: &quot; + tm))
+}
+
+func timeHandler2(format string) http.Handler {
+    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
+        tm := time.Now().Format(format)
+        fmt.Println(&quot;/time/&quot; + tm)
+        w.Write([]byte(&quot;The time is: &quot; + tm))
+    })
+}
+
+/*  lo mismo pero con conversion implicita al tipo HandlerFunc
+func timeHandler2(format string) http.HandlerFunc {
+    return func(w http.ResponseWriter, r *http.Request) {
+        tm := time.Now().Format(format)
+        fmt.Println(&quot;/time/&quot; + tm)
+        w.Write([]byte(&quot;The time is: &quot; + tm))
+    }
+}
+*/
+
+func hiHandler(w http.ResponseWriter, r *http.Request) {
+    fmt.Println(&quot;/hello&quot;)
+    w.Write([]byte(&quot;/hello&quot;))
+}
+
+func main() {
+    mux := http.NewServeMux()
+
+    // Creamos un closure con las variables que queremos usar
+    th2 := timeHandler2(time.RFC3339)
+
+    mux.HandleFunc(&quot;/time/1&quot;, timeHandler1)
+    mux.Handle(&quot;/time/2&quot;, th2)
+    mux.HandleFunc(&quot;/hello&quot;, hiHandler)
+
+    //http.HandleFunc(&quot;/time/1&quot;, timeHandler1)
+    //http.Handle(&quot;/time/2&quot;, th2)
+    //http.HandleFunc(&quot;/hello&quot;, hiHandler)
+
+    http.ListenAndServe(&quot;:3000&quot;, mux /*nil*/)
+}
+
+</code></pre>
+<h3 id="handler">Handler</h3>
+<pre><code class="language-go">type specificHandler struct {
+    Thing string
+}
+
+func(h *specificHandler)ServeHTTP(w http.ResponseWriter,r *http.Request) {
+    w.Write(h.Thing)
+}
+
+func main() {
+  http.Handle(&quot;/something&quot;, &amp;specificHandler{Thing: &quot;Hello world!&quot;})
+  http.ListenAndServe(&quot;:8080&quot;, nil)
+}
+</code></pre>
+<pre><code class="language-go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;net/http&quot;
+    &quot;time&quot;
+)
+
+type timeHandler struct {
+    format string
+}
+
+func (th *timeHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+    tm := time.Now().Format(th.format)
+    fmt.Println(&quot;/time/&quot; + tm)
+    w.Write([]byte(&quot;The time is: &quot; + tm))
+}
+
+type hiHandler struct{}
+
+func (ti *hiHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+    fmt.Println(&quot;/hello&quot;)
+    w.Write([]byte(&quot;/hello&quot;))
+}
+
+func main() {
+    /mux := http.NewServeMux()
+
+    th1 := &amp;timeHandler{format: time.RFC1123}
+    th2 := &amp;timeHandler{format: time.RFC3339}
+    hi := &amp;hiHandler{}
+
+    mux.Handle(&quot;/time/1&quot;, th1)
+    mux.Handle(&quot;/time/2&quot;, th2)
+    mux.Handle(&quot;/hello&quot;, hi)
+
+    //http.Handle(&quot;/time/1&quot;, th1)
+    //http.Handle(&quot;/time/2&quot;, th2)
+    //http.Handle(&quot;/hello&quot;, hi)
+
+    http.ListenAndServe(&quot;:3000&quot;, /*nil*/ mux)
+}
+</code></pre>
+<h3 id="ejemplo-completo">Ejemplo Completo</h3>
+<pre><code class="language-go">package main
+
+import (
+    &quot;errors&quot;
+    &quot;fmt&quot;
+    &quot;log&quot;
+    &quot;net/http&quot;
+    &quot;os&quot;
+    &quot;time&quot;
+
+    _ &quot;github.com/go-sql-driver/mysql&quot;
+)
+
+type app struct {
+    Config struct {
+        Mode          string `json:&quot;mode&quot;`
+        Port          int    `json:&quot;port&quot;`
+        Valid         string `json:&quot;valid&quot;`
+        ErrorsLogFile string `json:&quot;errorsLogFile&quot;`
+        HitsLogFile   string `json:&quot;hitsLogFile&quot;`
+    } `json:&quot;config&quot;`
+    Mysql struct {
+        User      string `json:&quot;user&quot;`
+        Password  string `json:&quot;password&quot;`
+        DB        string `json:&quot;db&quot;`
+        Host      string `json:&quot;host&quot;`
+        Port      int    `json:&quot;port&quot;`
+        TableBW   string `json:&quot;tableBw&quot;`
+        TableHits string `json:&quot;tableHits&quot;`
+    }
+}
+
+type requestError struct {
+    Error      error  `json:&quot;-&quot;`
+    Message    string `json:&quot;message&quot;`
+    StatusCode int    `json:&quot;-&quot;`
+}
+
+func (a *app) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+    r.ParseForm()
+    valid := r.Form.Get(&quot;test&quot;)
+    if valid != a.Config.Valid {
+        http.Error(w, &quot;Unauthorized&quot;, http.StatusUnauthorized)
+        return
+    }
+    updateBw(w, r, a)
+}
+
+func main() {
+    var a app
+    loadConfigJSON(&amp;a)
+    checkMode(&amp;a)
+
+    // Custom Log File
+    if a.Config.Mode == &quot;production&quot; {
+        var f = a.Config.ErrorsLogFile
+        mylog, err := os.OpenFile(f, os.O_WRONLY|os.O_CREATE|os.O_APPEND
+                , 0644)
+        if err != nil {
+            log.Printf(&quot;ERROR opening log file %s\n&quot;, err)
+        }
+        defer mylog.Close() // defer must be in main
+        log.SetOutput(mylog)
+    }
+
+    mux := http.NewServeMux()
+
+    mux.Handle(&quot;/savebw/&quot;, &amp;a)
+    mux.Handle(&quot;/saveHits/&quot;, checkValid(
+        func(w http.ResponseWriter, r *http.Request) {
+            updateHits(w, r, &amp;a)
+        }, a.Config.Valid))
+    mux.HandleFunc(&quot;/get/&quot;, checkValid(
+        func(w http.ResponseWriter, r *http.Request) {
+            getStats(w, r, &amp;a)
+        }, a.Config.Valid))
+    mux.HandleFunc(&quot;/&quot;, badRequest)
+
+    server := http.Server{
+        Addr:           fmt.Sprintf(&quot;localhost:%d&quot;, a.Config.Port),
+        Handler:        mux,
+        ReadTimeout:    10 * time.Second,
+        WriteTimeout:   30 * time.Second,
+        MaxHeaderBytes: 1 &lt;&lt; 20,
+    }
+
+    log.Printf(&quot;Server up listening %s in mode %s&quot;, server.Addr
+            , a.Config.Mode)
+    server.ListenAndServe()
+
+}
+
+func checkValid(next http.HandlerFunc, test string) http.HandlerFunc {
+    return func(w http.ResponseWriter, r *http.Request) {
+        r.ParseForm()
+        valid := r.Form.Get(&quot;test&quot;)
+        if valid != test {
+            http.Error(w, &quot;Unauthorized&quot;, http.StatusUnauthorized)
+            return
+        }
+        next.ServeHTTP(w, r)
+    }
+}
+
+func badRequest(w http.ResponseWriter, r *http.Request) {
+    re := &amp;requestError{
+        Error:      errors.New(&quot;Unexistent Endpoint&quot;),
+        Message:    &quot;Bad Request&quot;,
+        StatusCode: 400,
+    }
+    sendErrorToClient(w, re)
+}
+</code></pre>
+<hr />
+<h2 id="middlewares">MIDDLEWARES</h2>
+<h3 id="ratelimit">RateLimit</h3>
+<pre><code class="language-go">import &quot;net/http&quot;
+
+// ExceedLimit ...
+func ExceedLimit(ip string) bool {
+    // ToDO
+    return false
+}
+
+// RateLimit ...
+func RateLimit(next http.Handler) http.Handler {
+    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+        if ExceedLimit(GetIP(r)) {
+            http.Error(w, &quot;Too many requests&quot;, http.StatusTooManyRequests)
+            return
+        }
+        next.ServeHTTP(w, r)
+    })
+}
+</code></pre>
+<hr />
+<h2 id="network">NETWORK</h2>
+<h3 id="getip">GetIP</h3>
+<pre><code class="language-go">import (
+    &quot;net&quot;
+    &quot;net/http&quot;
+)
+
+// GetIP returns string with IP
+func GetIP(r *http.Request) string {
+    ip := r.Header.Get(&quot;X-Forwarded-For&quot;)
+    if len(ip) &gt; 0 {
+        return ip
+    }
+    ip, _, _ = net.SplitHostPort(r.RemoteAddr)
+    return ip
+}
+</code></pre>
+<h3 id="isvalidurl">IsValidURL</h3>
+<pre><code class="language-go">import &quot;net/url&quot;
+
+// IsValidURL ...
+func IsValidURL(rawurl string) bool {
+    _, err := url.ParseRequestURI(rawurl)
+    if err != nil {
+        return false
+    }
+    return true
+}
+</code></pre>
+<h3 id="existsurl">ExistsURL</h3>
+<pre><code class="language-go">import &quot;net/http&quot;
+
+func ExistsURL(myurl string) bool {
+    resp, err := http.Head(myurl)
+    if err != nil {
+        return false
+    }
+    if resp.StatusCode != http.StatusOK {
+        return false
+    }
+    return true
+}
+</code></pre>
+<h3 id="getlanguage">GetLanguage</h3>
+<pre><code class="language-go">import (
+    &quot;net/http&quot;
+    &quot;strings&quot;
+)
+
+// GetLanguage ...
+func GetLanguage(r *http.Request) string {
+    lang := r.Header.Get(&quot;Accept-Language&quot;)
+    if lang != &quot;&quot; { // curl request doesnt have Accept-Language
+        lang = lang[0:strings.Index(lang, &quot;,&quot;)]
+    }
+    return lang
+}
+</code></pre>
+<h3 id="removeprotocolfromurl">RemoveProtocolFromURL</h3>
+<pre><code class="language-go">// RemoveProtocolFromURL ...
+func RemoveProtocolFromURL(url string) string {
+    if strings.HasPrefix(url, &quot;https://&quot;) {
+        return url[8:]
+    }
+    if strings.HasPrefix(url, &quot;https:/&quot;) {
+        return url[7:]
+    }
+    if strings.HasPrefix(url, &quot;http://&quot;) {
+        return url[7:]
+    }
+    if strings.HasPrefix(url, &quot;http:/&quot;) {
+        return url[6:]
+    }
+    return url
+}
+</code></pre>
+<h3 id="removeprotocolandwwwfromurl">RemoveProtocolAndWWWFromURL</h3>
+<pre><code class="language-go">// RemoveProtocolAndWWWFromURL ...
+func RemoveProtocolAndWWWFromURL(url string) string {
+    if strings.HasPrefix(url, &quot;https://www.&quot;) {
+        return url[12:]
+    }
+    if strings.HasPrefix(url, &quot;https:/www.&quot;) {
+        return url[11:]
+    }
+    if strings.HasPrefix(url, &quot;http://www.&quot;) {
+        return url[11:]
+    }
+    if strings.HasPrefix(url, &quot;http:/www.&quot;) {
+        return url[10:]
+    }
+    return RemoveProtocolFromURL(url)
+}
+</code></pre>
+<hr />
+<h2 id="numbers">NUMBERS</h2>
+<h3 id="getrandomint">GetRandomInt</h3>
+<pre><code class="language-go">import (
+    &quot;math/rand&quot;
+    &quot;time&quot;
+)
+
+// GetRandomInt [min, max] both included
+func GetRandomInt(min, max int) int {
+    r := rand.New(rand.NewSource(time.Now().UnixNano()))
+    //rand.Seed(time.Now().UnixNano())
+    //  return rand.Intn(max-min+1) + min
+    return r.Intn(max-min+1) + min
+}
+</code></pre>
+<h3 id="getrandomfloat64">GetRandomFloat64</h3>
+<pre><code class="language-go">import (
+    &quot;math/rand&quot;
+    &quot;time&quot;
+)
+
+// GetRandomFloat64 [min, max] both included
+func GetRandomFloat64(min, max float64) float64 {
+    rand.Seed(time.Now().UnixNano())
+    return (rand.Float64() * (max - min)) + (min)
+}
+</code></pre>
+<h3 id="tofixedfloat64">ToFixedFloat64</h3>
+<pre><code class="language-go">import &quot;math&quot;
+
+// ToFixedFloat64 (untruncated, num) -&gt; untruncated.toFixed(num)
+func ToFixedFloat64(untruncated float64, precision int) float64 {
+    coef := math.Pow10(precision)
+    truncated := float64(int(untruncated*coef)) / coef
+    return truncated
+}
+</code></pre>
+<h3 id="tofixedfloat32">ToFixedFloat32</h3>
+<pre><code class="language-go">import &quot;math&quot;
+
+// ToFixedFloat32 (untruncated, num) -&gt; untruncated.toFixed(num)
+func ToFixedFloat32(untruncated float32, precision int) float32 {
+    coef := float32(math.Pow10(precision))
+    truncated := float32(int(untruncated*coef)) / coef
+    return truncated
+}
+</code></pre>
+<h3 id="roundfloat64">RoundFloat64</h3>
+<pre><code class="language-go">// RoundFloat64 -&gt; rounds float64 into integer
+func RoundFloat64(num float64) int {
+    if num &lt; 0 {
+        return int(num - 0.5)
+    }
+    return int(num + 0.5)
+}
+</code></pre>
+<h3 id="roundfloat32">RoundFloat32</h3>
+<pre><code class="language-go">// RoundFloat32 -&gt; rounds float32 into integer
+func RoundFloat32(num float32) int {
+    if num &lt; 0 {
+        return int(num - 0.5)
+    }
+    return int(num + 0.5)
+}
+</code></pre>
+<h3 id="reversesliceint">ReverseSliceInt</h3>
+<pre><code class="language-go">// ReverseSliceInt [0,1,2,3,4,5] ==&gt; [5,4,3,2,1,0]
+func ReverseSliceInt(reverse []int) []int {
+    for i, j := 0, len(reverse)-1; i &lt; j; i, j = i+1, j-1 {
+        reverse[i], reverse[j] = reverse[j], reverse[i]
+    }
+    return reverse
+}
+</code></pre>
+<h3 id="transposematrixint">TransposeMatrixInt</h3>
+<pre><code class="language-go">// TransposeMatrixInt rows &gt; cols or cols &gt; rows
+// but rows.elements &gt;= cols.elements
+func TransposeMatrixInt(matrix [][]int) [][]int {
+    result := make([][]int, len(matrix[0]))
+    for i := range result {
+        result[i] = make([]int, len(matrix))
+    }
+    for y, v := range matrix {
+        for x, t := range v {
+            result[x][y] = t
+        }
+    }
+    return result
+}
+</code></pre>
+<h3 id="slicecontainsint">SliceContainsInt</h3>
+<pre><code class="language-go">// SliceContainsInt ... returns true/false
+func SliceContainsInt(num int, slice []int) bool {
+    for _, v := range slice {
+        if v == num {
+            return true
+        }
+    }
+    return false
+}
+</code></pre>
+<h3 id="arabictoromannumbers">ArabicToRomanNumbers</h3>
+<pre><code class="language-go">import &quot;math&quot;
+
+// ArabicToRomanNumbers converts arabic int to roman numeral (string)
+func ArabicToRomanNumbers(n int) string {
+    var rom string
+    hundreds := []string{
+        &quot;C&quot;, &quot;CC&quot;, &quot;CCC&quot;, &quot;CD&quot;, &quot;D&quot;, &quot;DC&quot;, &quot;DCC&quot;, &quot;DCCC&quot;, &quot;CM&quot;}
+    tens := []string{
+        &quot;X&quot;, &quot;XX&quot;, &quot;XXX&quot;, &quot;XL&quot;, &quot;L&quot;, &quot;LX&quot;, &quot;LXX&quot;, &quot;LXXX&quot;, &quot;XC&quot;}
+    units := []string{
+        &quot;I&quot;, &quot;II&quot;, &quot;III&quot;, &quot;IV&quot;, &quot;V&quot;, &quot;VI&quot;, &quot;VII&quot;, &quot;VIII&quot;, &quot;IX&quot;}
+    t := int(math.Floor(float64(n / 1000)))
+    h := int(math.Floor(float64(n % 1000 / 100)))
+    d := int(math.Floor(float64(n % 100 / 10)))
+    u := int(math.Floor(float64(n % 10)))
+    for i := 0; i &lt; t; i++ {
+        rom += &quot;M&quot;
+    }
+    if h &gt; 0 {
+        rom += hundreds[h-1]
+    }
+    if d &gt; 0 {
+        rom += tens[d-1]
+    }
+    if u &gt; 0 {
+        rom += units[u-1]
+    }
+    return rom
+}
+
+</code></pre>
+<hr />
+<h2 id="strings">STRINGS</h2>
+<h3 id="removeallwhitespaces">RemoveAllWhitespaces</h3>
+<pre><code class="language-go">import &quot;strings&quot;
+
+// RemoveAllWhitespaces ...
+func RemoveAllWhitespaces(str string) string {
+    return strings.Replace(str, &quot; &quot;, &quot;&quot;, -1)
+}
+</code></pre>
+<h3 id="replaceallwhitespacesbychar">ReplaceAllWhitespacesByChar</h3>
+<pre><code class="language-go">import &quot;strings&quot;
+
+// ReplaceAllWhitespacesByChar ...
+func ReplaceAllWhitespacesByChar(str string, otherChar string) string {
+    return strings.Replace(str, &quot; &quot;, otherChar, -1)
+}
+
+</code></pre>
+<h3 id="reverseslicestring">ReverseSliceString</h3>
+<pre><code class="language-go">// ReverseSliceString [&quot;H&quot;,&quot;O&quot;,&quot;L&quot;,&quot;A&quot;] ==&gt; [&quot;A&quot;,&quot;L&quot;,&quot;O&quot;,&quot;H&quot;]
+func ReverseSliceString(reverse []string) []string {
+    for i, j := 0, len(reverse)-1; i &lt; j; i, j = i+1, j-1 {
+        reverse[i], reverse[j] = reverse[j], reverse[i]
+    }
+    return reverse
+}
+</code></pre>
+<h3 id="transposematrixstring">TransposeMatrixString</h3>
+<pre><code class="language-go">// TransposeMatrixString rows &gt; cols or cols &gt; rows
+// but rows.elements &gt;= cols.elements
+func TransposeMatrixString(matrix [][]string) [][]string {
+    result := make([][]string, len(matrix[0]))
+    for i := range result {
+        result[i] = make([]string, len(matrix))
+    }
+    for y, v := range matrix {
+        for x, t := range v {
+            result[x][y] = t
+        }
+    }
+    return result
+}
+</code></pre>
+<h3 id="slicecontainsstring">SliceContainsString</h3>
+<pre><code class="language-go">// SliceContainsString ... returns true/false
+func SliceContainsString(str string, slice []string) bool {
+    for _, v := range slice {
+        if v == str {
+            return true
+        }
+    }
+    return false
+}
+</code></pre>
+<h3 id="fixbadencodedstrings">FixBadEncodedStrings</h3>
+<pre><code class="language-go">// FixBadEncodedStrings ...
+func FixBadEncodedStrings(bad string) string {
+    //bad := &quot;KlÃ¤der&quot;
+    var good []byte
+    for _, c := range bad {
+        good = append(good, byte(c))
+    }
+    //fmt.Println(string(good))
+    return string(good)
+}
+</code></pre>
+<hr />
+<h2 id="os">OS</h2>
+<h3 id="execcommand">execCommand</h3>
+<pre><code class="language-go">import (
+    &quot;fmt&quot;
+    &quot;os/exec&quot;
+)
+
+func main()  {
+    command := []string{&quot;vnstat&quot;, &quot;-i&quot;, ifinterface, &quot;--json&quot;}
+    ///fmt.Println(&quot;Command =&gt;&quot;, command)
+    chunk, err := execCommand(command)
+    if err != nil {
+        log.Fatal(err)
+    }
+    //fmt.Println(`CHUNK =&gt;`, string(chunk))
+}
+
+func execCommand(args []string) (err error) {
+    _, err = exec.Command(args[0], args[1:len(args)]...).CombinedOutput()
+    if err != nil {
+        fmt.Println(err)
+        return err
+    }
+    return err
+}
+
+func execCommand(args []string) (c []byte, err error) {
+    c, err = exec.Command(args[0], args[1:len(args)]...).CombinedOutput()
+    if err != nil {
+        return nil, err
+    }
+    return c, err
+}
+
+func execCommand(comm string) {
+    _, err := exec.Command(&quot;sh&quot;, &quot;-c&quot;, comm).CombinedOutput()
+    if err != nil {
+        log.Fatal(err)
+    }
+}
+</code></pre>
+<hr />
+<h2 id="time">TIME</h2>
+<h3 id="parsestringtotime">ParseStringToTime</h3>
+<pre><code class="language-go">import &quot;time&quot;
+
+// ParseStringToTime ...
+func ParseStringToTime(start string) time.Time {
+    layout1 := &quot;2006-01-02&quot; // Layout numbers?
+    layout2 := &quot;2006-01-02T15:04:05&quot;
+    t, err := time.Parse(layout1, start)
+    if err != nil {
+        t, err = time.Parse(layout2, start)
+    }
+    return t
+}
+</code></pre>
+<h3 id="gettimestampfromdate">GetTimestampFromDate</h3>
+<pre><code class="language-go">import (
+    &quot;strconv&quot;
+    &quot;strings&quot;
+    &quot;time&quot;
+)
+
+// GetTimestampFromDateString ...(yyyy-mm-dd)
+func GetTimestampFromDateString(date string) float64 {
+    var t int64
+    params := strings.Split(date, &quot;-&quot;)
+    day, _ := strconv.Atoi(params[2])
+    month, _ := strconv.Atoi(params[1])
+    year, _ := strconv.Atoi(params[0])
+    auxT := time.Date(year, time.Month(month), day, 0, 0, 0, 0, time.UTC)
+    t = int64(auxT.UnixNano() / int64(time.Millisecond))
+    return float64(t)
+}
+</code></pre>
+<h3 id="onceadaytask">OnceADayTask</h3>
+<pre><code class="language-go">import &quot;time&quot;
+
+func onceADayTask() {
+    t := time.Now()
+    n := time.Date(t.Year(),t.Month(),t.Day(),3,10,10,0,t.Location())
+    d := n.Sub(t)
+    if d &lt; 0 {
+        n = n.Add(24 * time.Hour)
+        d = n.Sub(t)
+    }
+    for {
+        time.Sleep(d)
+        d = 24 * time.Hour
+        doSomeTask()
+    }
+}
+</code></pre>
+<h3 id="setinterval">SetInterval</h3>
+<pre><code class="language-go">
+import (
+    &quot;fmt&quot;
+    &quot;net/http&quot;
+    &quot;time&quot;
+)
+
+type updates []struct {
+    Symbol string  `json:&quot;symbol&quot;`
+    Price  float64 `json:&quot;price&quot;`
+}
+
+func initUpdateIntervals() {
+    var u updates
+    var w http.ResponseWriter
+    ticker := time.NewTicker(time.Millisecond * 1000)
+    go func() {
+        for _ = range ticker.C {
+            u = updates{}
+            lib.MakeGetRequest(w, url, &amp;u)
+            for _, v := range u {
+                if v.Symbol != &quot;&quot; {
+                    stocks[v.Symbol].PriceNow = v.Price
+                }
+            }
+            t := time.Now()
+            hour, min, sec := t.Clock()
+            fmt.Println(`TICK`, hour, min, sec)
+            if hour == 6 &amp;&amp; min == 1 {
+                if sec &gt; 0 &amp;&amp; sec &lt; 6 {
+                    go dailyWork()
+                }
+            }
+        }
+    }()
+}
+</code></pre>
+<pre><code class="language-go">ticker := time.NewTicker(2 * time.Second)
+quit := make(chan struct{})
+go func() {
+    for {
+        select {
+        case &lt;-ticker.C:
+            fmt.Println(&quot;Se ejecuta cada X * time.Second&quot;)
+        case &lt;-quit:
+            ticker.Stop()
+            return
+        }
+    }
+}()
+</code></pre>
+<pre><code class="language-go">func interval() {
+    ticker := time.NewTicker(time.Millisecond * 2000)
+    for _ = range ticker.C {
+        fmt.Println(&quot;Hi Every 2 secs&quot;)
+    }
+}
+</code></pre>
+<hr />
+<h2 id="logs">LOGS</h2>
+<h3 id="custom-logs">Custom Logs</h3>
+<pre><code class="language-go">// main.go
+/////// Custom Error Log File + Custom Info Log File /////////
+iLog := createCustomInfoLogFile2(a.Conf.InfoLogFile)
+mylog := createCustomErrorLogFile(a.Conf.ErrorsLogFile)
+defer mylog.Close()
+//////////////////////////////////////////////////////////////
+
+// ya por donde queramos
+func createCustomErrorLogFile(f string) *os.File {
+    mylog,err:=os.OpenFile(f,os.O_WRONLY|os.O_CREATE|os.O_APPEND,0644)
+    if err != nil {
+        log.Fatalf(&quot;ERROR opening Error log file %s\n&quot;, err)
+    }
+    log.SetOutput(mylog)
+    return mylog
+}
+
+func createCustomInfoLogFile2(f string) *log.Logger {
+    infoLog,err:=os.OpenFile(f,os.O_WRONLY|os.O_CREATE|os.O_APPEND,0644)
+    if err != nil {
+        log.Fatalf(&quot;ERROR opening Info log file %s\n&quot;, err)
+    }
+    var iLog *log.Logger
+    iLog = log.New(infoLog, &quot;INFO :\t&quot;, log.Ldate|log.Ltime)
+    return iLog
+}
+</code></pre>
+<h3 id="prettyprint-structs">PrettyPrint Structs</h3>
+<pre><code class="language-go">func prettyPrintStruct(s interface{}) {
+    result, _ := json.MarshalIndent(s, &quot;&quot;, &quot;\t&quot;)
+    fmt.Print(string(result), &quot;\n&quot;)
+}
+</code></pre>
+<hr />
+<h2 id="flags">FLAGS</h2>
+<h3 id="binarios-con-versiones">Binarios con versiones</h3>
+<pre><code class="language-go">package main
+
+import (
+    &quot;flag&quot;
+    &quot;fmt&quot;
+    &quot;os&quot;
+)
+
+var version = &quot;0.0.0&quot;
+var when = &quot;undefined&quot;
+
+func main() {
+    checkFlags()
+    fmt.Println(&quot;Continue...&quot;)
+}
+
+func checkFlags() {
+    versionFlag := flag.Bool(&quot;v&quot;, false, &quot;Show current version and exit&quot;)
+    flag.Parse()
+    switch {
+    case *versionFlag:
+        fmt.Printf(&quot;Version:\t: %s\n&quot;, version)
+        fmt.Printf(&quot;Date   :\t: %s\n&quot;, when)
+        os.Exit(0)
+    }
+}
+
+/*
+go build  -ldflags=&quot;
+-X 'main.version=v0.2.0' 
+-X 'main.when=$(date -u +%F_%T)'&quot;
+
+go build  -ldflags=&quot;-X 'main.when=$(date -u +%F_%T)'&quot;
+
+luego podemos hacer ./binary -v
+*/
+</code></pre>
+<hr />
+<h2 id="organizacion-de-codigo">ORGANIZACION DE CODIGO</h2>
+<h3 id="compartir-structs-entre-paquetes">Compartir structs entre paquetes</h3>
+<pre><code class="language-go">// main.go
+package main
+
+import (
+    s &quot;pruebas/secondarypkg&quot;
+    &quot;time&quot;
+)
+
+func main() {
+    p := &amp;s.Placeholder{
+        Name: &quot;FooBar&quot;,
+        Date: time.Now().String(),
+    }
+    s.Foo(p)
+}
+
+// secondarypkg/otro.go
+package secondarypkg
+
+import &quot;fmt&quot;
+
+type Placeholder struct {
+    Name string
+    Date string
+}
+
+func Foo(p *Placeholder) {
+    fmt.Println(p.Date, p.Name)
+}
+</code></pre>
+<pre><code class="language-go">// main.go
+package main
+
+import (
+    s &quot;pruebas/paquete&quot;
+    &quot;time&quot;
+)
+func main() {
+    p := s.NewPlaceHolder(&quot;FooBar&quot;, time.Now().String())
+    p.Foo()
+}
+
+// secondarypkg/otro.go
+package secondarypkg
+
+import &quot;fmt&quot;
+
+type Placeholder struct {
+    Name string
+    Date string
+}
+
+func (p *Placeholder) Foo() {
+    fmt.Println(p.Date, p.Name)
+}
+
+func NewPlaceHolder(name string, date string) *Placeholder {
+    return &amp;Placeholder{
+        Name: name,
+        Date: date,
+    }
+}
+</code></pre>
+<p>Lo mismo usando interfaces</p>
+<pre><code class="language-go">// main.go
+package main
+
+import (
+    s &quot;pruebas/paquete&quot;
+    &quot;time&quot;
+)
+
+func main() {
+    p := s.NewPlaceHolder(&quot;FooBar&quot;, time.Now().String())
+    p.Foo()
+}
+
+// secondarypkg/otro.go
+package secondarypkg
+
+import &quot;fmt&quot;
+
+type PlaceHolder interface {
+    Foo()
+}
+
+type placeholder struct {
+    Name string
+    Date string
+}
+
+func (p *placeholder) Foo() {
+    fmt.Println(p.Date, p.Name)
+}
+
+func NewPlaceHolder(name string, date string) PlaceHolder {
+    return &amp;placeholder{
+        Name: name,
+        Date: date,
+    }
+}
+</code></pre>
+<hr />
+          
+          
+        </div>
+      </div>
+    </div>
+    <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebarwrapper">
+        <!--
+  <p class="logo">
+    <a href="..">
+      <img class="logo" src="../_img/chuletas128.png" title="Chuletas">
+    </a>
+  </p>
+  
+
+
+
+        
+        <h2>Navigation</h2>
+
+
+<ul>
+  
+      
+        <li>
+          <a href="">Menu</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="html/">HTML</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="css/">CSS</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="frontend/">Front End</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript/">Javascript</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript-apis/">Javascript APIs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript-para-web/">Javascript para web</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript-snippets/">Javascript snippets</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="reactjs/">Reactjs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="nodejs/">Nodejs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="expressjs/">Expressjs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="nodejs-snippets/">Nodejs snippets</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="nodejs-bases-de-datos/">Nodejs Bases de Datos</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang/">Golang</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang-para-web/">Golang para web</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang-snippets/">Golang snippets</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang-bases-de-datos/">Golang Bases de Datos</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="debian/">Debian</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="varios/">Varios</a>
+        </li>
+      
+    
+  </ul>
+        
+
+
+
+<h3>Contenidos</h3>
+
+<nav>
+  
+
+<ul>
+  
+  <li><a href="#sendreceive-data">SEND/RECEIVE DATA</a></li>
+  <ul>
+  
+  <li><a href="#sendjsontoclient">SendJSONToClient</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#sendxmltoclient">SendXMLToClient</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#senderrortoclient">SendErrorToClient</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#dogetrequest">DoGetRequest</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#dogetconcurrentrequest">DoGetConcurrentRequest</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#dopostrequest">DoPostRequest</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#getinterfacestypes">GetInterfacesTypes</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#isjson">IsJSON</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#errorcheck">ERRORCHECK</a></li>
+  <ul>
+  
+  <li><a href="#check">Check</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#files">FILES</a></li>
+  <ul>
+  
+  <li><a href="#readfile">ReadFile</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#readfilelinebyline">ReadFileLineByLine</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#writefile">WriteFile</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#loadjsonfromfiledecoder">LoadJSONfromFileDecoder</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#loadjsonfromfilemarshall">LoadJSONfromFileMarshall</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#writejsontofile">WriteJSONtoFile</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#downloadfile">DownloadFile</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#sendfilefromservertoclient">SendFileFromServerToClient</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#parsecsvfile">ParseCSVFile</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#http-server">HTTP SERVER</a></li>
+  <ul>
+  
+  <li><a href="#wrapper">Wrapper</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#handle-handlefunc">Handle + HandleFunc</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#handler">Handler</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#ejemplo-completo">Ejemplo Completo</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#middlewares">MIDDLEWARES</a></li>
+  <ul>
+  
+  <li><a href="#ratelimit">RateLimit</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#network">NETWORK</a></li>
+  <ul>
+  
+  <li><a href="#getip">GetIP</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#isvalidurl">IsValidURL</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#existsurl">ExistsURL</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#getlanguage">GetLanguage</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#removeprotocolfromurl">RemoveProtocolFromURL</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#removeprotocolandwwwfromurl">RemoveProtocolAndWWWFromURL</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#numbers">NUMBERS</a></li>
+  <ul>
+  
+  <li><a href="#getrandomint">GetRandomInt</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#getrandomfloat64">GetRandomFloat64</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#tofixedfloat64">ToFixedFloat64</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#tofixedfloat32">ToFixedFloat32</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#roundfloat64">RoundFloat64</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#roundfloat32">RoundFloat32</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#reversesliceint">ReverseSliceInt</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#transposematrixint">TransposeMatrixInt</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#slicecontainsint">SliceContainsInt</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#arabictoromannumbers">ArabicToRomanNumbers</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#strings">STRINGS</a></li>
+  <ul>
+  
+  <li><a href="#removeallwhitespaces">RemoveAllWhitespaces</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#replaceallwhitespacesbychar">ReplaceAllWhitespacesByChar</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#reverseslicestring">ReverseSliceString</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#transposematrixstring">TransposeMatrixString</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#slicecontainsstring">SliceContainsString</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#fixbadencodedstrings">FixBadEncodedStrings</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#os">OS</a></li>
+  <ul>
+  
+  <li><a href="#execcommand">execCommand</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#time">TIME</a></li>
+  <ul>
+  
+  <li><a href="#parsestringtotime">ParseStringToTime</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#gettimestampfromdate">GetTimestampFromDate</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#onceadaytask">OnceADayTask</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#setinterval">SetInterval</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#logs">LOGS</a></li>
+  <ul>
+  
+  <li><a href="#custom-logs">Custom Logs</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#prettyprint-structs">PrettyPrint Structs</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#flags">FLAGS</a></li>
+  <ul>
+  
+  <li><a href="#binarios-con-versiones">Binarios con versiones</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#organizacion-de-codigo">ORGANIZACION DE CODIGO</a></li>
+  <ul>
+  
+  <li><a href="#compartir-structs-entre-paquetes">Compartir structs entre paquetes</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+</ul>
+
+
+  
+</nav>
+        
+        <div id="searchbox" style="display: none;" role="search">
+  <h3>Quick search</h3>
+  <form class="search" action="../search.html" method="get">
+    <input name="q" type="text">
+    <input value="Go" type="submit">
+  </form>
+  <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+  </p>
+</div>
+<script type="text/javascript">
+  document.getElementById("searchbox").style.display = "block";
+</script>
+        -->
+
+        
+
+        
+        
+  <p class="logo">
+    <a href="..">
+      <img class="logo" src="../_img/chuletas128.png" title="Chuletas">
+    </a>
+  </p>
+  
+
+
+
+        
+        <div class="menuNav">
+
+  
+  <ul>
+    
+    
+    <li>
+      <a href="../">Menu</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../html/">HTML</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../css/">CSS</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../frontend/">Front End</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript/">Javascript</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript-apis/">Javascript APIs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript-para-web/">Javascript para web</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript-snippets/">Javascript snippets</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../reactjs/">Reactjs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../nodejs/">Nodejs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../expressjs/">Expressjs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../nodejs-snippets/">Nodejs snippets</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../nodejs-bases-de-datos/">Nodejs Bases de Datos</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang/">Golang</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang-para-web/">Golang para web</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang-snippets/">Golang snippets</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang-bases-de-datos/">Golang Bases de Datos</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../debian/">Debian</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../varios/">Varios</a>
+    </li>
+    
+    
+  </ul>
+</div>
+        
+        
+
+
+
+<h3>Contenidos</h3>
+
+<nav>
+  
+
+<ul>
+  
+  <li><a href="#sendreceive-data">SEND/RECEIVE DATA</a></li>
+  <ul>
+  
+  <li><a href="#sendjsontoclient">SendJSONToClient</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#sendxmltoclient">SendXMLToClient</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#senderrortoclient">SendErrorToClient</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#dogetrequest">DoGetRequest</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#dogetconcurrentrequest">DoGetConcurrentRequest</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#dopostrequest">DoPostRequest</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#getinterfacestypes">GetInterfacesTypes</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#isjson">IsJSON</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#errorcheck">ERRORCHECK</a></li>
+  <ul>
+  
+  <li><a href="#check">Check</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#files">FILES</a></li>
+  <ul>
+  
+  <li><a href="#readfile">ReadFile</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#readfilelinebyline">ReadFileLineByLine</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#writefile">WriteFile</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#loadjsonfromfiledecoder">LoadJSONfromFileDecoder</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#loadjsonfromfilemarshall">LoadJSONfromFileMarshall</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#writejsontofile">WriteJSONtoFile</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#downloadfile">DownloadFile</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#sendfilefromservertoclient">SendFileFromServerToClient</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#parsecsvfile">ParseCSVFile</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#http-server">HTTP SERVER</a></li>
+  <ul>
+  
+  <li><a href="#wrapper">Wrapper</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#handle-handlefunc">Handle + HandleFunc</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#handler">Handler</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#ejemplo-completo">Ejemplo Completo</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#middlewares">MIDDLEWARES</a></li>
+  <ul>
+  
+  <li><a href="#ratelimit">RateLimit</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#network">NETWORK</a></li>
+  <ul>
+  
+  <li><a href="#getip">GetIP</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#isvalidurl">IsValidURL</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#existsurl">ExistsURL</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#getlanguage">GetLanguage</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#removeprotocolfromurl">RemoveProtocolFromURL</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#removeprotocolandwwwfromurl">RemoveProtocolAndWWWFromURL</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#numbers">NUMBERS</a></li>
+  <ul>
+  
+  <li><a href="#getrandomint">GetRandomInt</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#getrandomfloat64">GetRandomFloat64</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#tofixedfloat64">ToFixedFloat64</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#tofixedfloat32">ToFixedFloat32</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#roundfloat64">RoundFloat64</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#roundfloat32">RoundFloat32</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#reversesliceint">ReverseSliceInt</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#transposematrixint">TransposeMatrixInt</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#slicecontainsint">SliceContainsInt</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#arabictoromannumbers">ArabicToRomanNumbers</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#strings">STRINGS</a></li>
+  <ul>
+  
+  <li><a href="#removeallwhitespaces">RemoveAllWhitespaces</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#replaceallwhitespacesbychar">ReplaceAllWhitespacesByChar</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#reverseslicestring">ReverseSliceString</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#transposematrixstring">TransposeMatrixString</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#slicecontainsstring">SliceContainsString</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#fixbadencodedstrings">FixBadEncodedStrings</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#os">OS</a></li>
+  <ul>
+  
+  <li><a href="#execcommand">execCommand</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#time">TIME</a></li>
+  <ul>
+  
+  <li><a href="#parsestringtotime">ParseStringToTime</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#gettimestampfromdate">GetTimestampFromDate</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#onceadaytask">OnceADayTask</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#setinterval">SetInterval</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#logs">LOGS</a></li>
+  <ul>
+  
+  <li><a href="#custom-logs">Custom Logs</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#prettyprint-structs">PrettyPrint Structs</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#flags">FLAGS</a></li>
+  <ul>
+  
+  <li><a href="#binarios-con-versiones">Binarios con versiones</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#organizacion-de-codigo">ORGANIZACION DE CODIGO</a></li>
+  <ul>
+  
+  <li><a href="#compartir-structs-entre-paquetes">Compartir structs entre paquetes</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+</ul>
+
+
+  
+</nav>
+        
+
+        
+
+      </div>
+    </div>
+    <div class="clearer"></div>
+  </div>
+
+  
+  <div class="footer">
+    
+    
+    
+    Powered by <a href="http://www.mkdocs.org">mkdocs 1.4.2</a>
+    &amp; <a href="https://github.com/iamale/mkdocs-alabaster">mkdocs-alabaster</a>
+    
+  </div>
+  
+
+  <!--
+  MkDocs version      : 1.4.2
+  Docs Build Date UTC : 2023-10-03 14:52:40.885619+00:00
+  -->
+</body>
+
+</html>

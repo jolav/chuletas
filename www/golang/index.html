@@ -1,0 +1,3132 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+  <title>Golang &mdash; Chuletas</title>
+
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <link rel="stylesheet" href="../css/alabaster.css" type="text/css">
+  <link rel="stylesheet" href="../css/alabaster-overrides.css" type="text/css">
+
+  
+  <link href="../_extra/css/extra.css" rel="stylesheet">
+  
+
+  
+  <script src="../_extra/js/highlight.pack.js"></script>
+  
+  <script src="../search/main.js"></script>
+  
+
+  <link rel="stylesheet" href="../_extra/css/atom-one-light.css">
+  <script src="../_extra/js/highlight.pack.js"></script>
+
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+  
+
+</head>
+
+<body>
+
+  <div class="document">
+    <div class="documentwrapper">
+      <div class="bodywrapper">
+        <div class="body" role="main">
+          
+          <h1 id="golang-121x">GOLANG 1.21.X</h1>
+<hr />
+<h2 id="instalacion"><strong>INSTALACION</strong></h2>
+<p><a href="https://golang.org/dl/">descargarlo de aqui</a></p>
+<p>Como root<br />
+<code>tar -C /usr/local -xzf go-file.tar.gz</code></p>
+<pre><code class="language-sh">// como usuario
+nano $HOME/.bashrc 
+nano $HOME/.profile 
+
+// añadir a cada uno
+
+# Golang conf
+export PATH=$PATH:/usr/local/go/bin
+export GOPATH=$HOME/path/to/golang/code
+export PATH=$PATH:$GOPATH/bin
+// La siguiente linea hay veces que es necesaria
+export GOBIN=$PATH:$GOPATH/bin
+</code></pre>
+<p>Para recargar la configuracion<br />
+<code>source ~/.profile</code>   </p>
+<p>Carpetas que se crean:  </p>
+<ul>
+<li><code>bin</code> - Contiene los binarios compilados. Podemos añadir la carpeta <code>bin</code> al path del sistema para hacer los binarios compilados ejecutables desde cualquier  sitio  </li>
+<li><code>pkg</code> - contiene los versiones compiladas de las librerias disponibles para
+que el compilador las pueda enlazar sin tener que recompilarlas  </li>
+<li><code>src</code> -  contiene todo el codigo organizado por rutas de import  </li>
+</ul>
+<p><strong>VS Code</strong></p>
+<p><code>Go: Install/Update Tools</code></p>
+<hr />
+<h2 id="enlaces-utiles">ENLACES UTILES</h2>
+<ul>
+<li><strong>Go</strong></li>
+</ul>
+<p><code><a href="http://jordanorelli.com/post/32665860244/how-to-use-interfaces-in-go">Interfaces</a></code><br />
+<code><a href="http://jordanorelli.com/post/42369331748/function-types-in-go-golang">Tipos de funcion</a></code><br />
+<code><a href="https://github.com/golang/go/wiki/Modules">Modulos</a></code><br />
+<code><a href="https://gobyexample.com/">Ejemplos - gobyexample</a></code><br />
+<code><a href="https://www.rosettacode.org/wiki/Category:Go">Ejemplos - rosettacode</a></code>  </p>
+<p><code><a href="https://github.com/golang/go/wiki/gopls">GO MODULES en VSCODE</a></code><br />
+<code><a href="https://github.com/Microsoft/vscode-go/wiki/Go-modules-support-in-Visual-Studio-Code">GO MODULES en VSCODE</a></code><br />
+<code><a href=""></a></code>
+<code><a href=""></a></code>
+<code><a href=""></a></code></p>
+<ul>
+<li><strong>Blogs</strong></li>
+</ul>
+<p><code><a href="https://jacobmartins.com/article-list/">Jacob Martin</a></code> - Articulos y tutoriales <br />
+<code><a href="https://dave.cheney.net/">Dave Cheney</a></code><br />
+<code><a href="https://www.alexedwards.net/blog/">Alex Edwards</a></code>
+<code><a href=""></a></code>
+<code><a href=""></a></code>
+<code><a href=""></a></code></p>
+<ul>
+<li><strong>Desarrollo Web</strong></li>
+</ul>
+<p><code><a href="https://golang.org/doc/articles/wiki/">Writing Web Applications</a></code> - Tutorial basico de la wiki de golang.org<br />
+<code><a href="https://gowebexamples.com/">Ejemplos Golang para web - gowebexamples</a></code>
+<code><a href=""></a></code>
+<code><a href=""></a></code>
+<code><a href=""></a></code>
+<code><a href=""></a></code></p>
+<ul>
+<li><strong>Librerias</strong></li>
+</ul>
+<p><code><a href="http://go-database-sql.org/index.html">database/sql</a></code><br />
+<code><a href="https://github.com/go-sql-driver/mysql">go-sql-driver/mysql</a></code><br />
+<code><a href="https://github.com/gorilla/websocket">gorilla-websocket</a></code><br />
+<code><a href="https://github.com/gobwas/ws">gobwas-ws</a></code><br />
+<code><a href=""></a></code>
+<code><a href=""></a></code>
+<code><a href=""></a></code>
+<code><a href=""></a></code></p>
+<ul>
+<li><strong>Utilidades</strong></li>
+</ul>
+<p><code><a href="https://mholt.github.io/curl-to-go/">curl-to-Go</a></code> - Herramienta online que convierte comandos curl en codigo Go  <br />
+<code><a href="https://mholt.github.io/json-to-go/">JSON-to-Go</a></code> - Herramienta online que convierte JSON en structs para Go<br />
+<code><a href=""></a></code>
+<code><a href=""></a></code></p>
+<ul>
+<li><strong>Despliegue y seguridad</strong></li>
+</ul>
+<p><code><a href=""></a></code>
+<code><a href=""></a></code>
+<code><a href=""></a></code>
+<code><a href=""></a></code>
+<code><a href=""></a></code></p>
+<hr />
+<h2 id="go-tool"><strong>GO TOOL</strong></h2>
+<pre><code class="language-sh">    go &lt;command&gt; [arguments]
+
+The commands are:
+
+    bug         start a bug report
+    build       compile packages and dependencies
+    clean       remove object files and cached files
+    doc         show documentation for package or symbol
+    env         print Go environment information
+    fix         update packages to use new APIs
+    fmt         gofmt (reformat) package sources
+    generate    generate Go files by processing source
+    get         download and install packages and dependencies
+    install     compile and install packages and dependencies
+    list        list packages or modules
+    mod         module maintenance
+    run         compile and run Go program
+    test        test packages
+    tool        run specified go tool
+    version     print Go version
+    vet         report likely mistakes in packages
+
+Use &quot;go help &lt;command&gt;&quot; for more information about a command.
+
+Additional help topics:
+
+    buildmode   build modes
+    c           calling between Go and C
+    cache       build and test caching
+    environment environment variables
+    filetype    file types
+    go.mod      the go.mod file
+    gopath      GOPATH environment variable
+    gopath-get  legacy GOPATH go get
+    goproxy     module proxy protocol
+    importpath  import path syntax
+    modules     modules, module versions, and more
+    module-get  module-aware go get
+    packages    package lists and patterns
+    testflag    testing flags
+    testfunc    testing functions
+
+Use &quot;go help &lt;topic&gt;&quot; for more information about that topic.
+</code></pre>
+<h3 id="install"><strong>install</strong></h3>
+<pre><code class="language-sh">// descarga el codigo y todas sus dependencias. Lo compila e instala el  
+// binario en el directorio $GOPATH/bin
+go install github.com/ruta/codigo  
+
+// instalar la ultima version
+go install ruta/codigo@latest
+</code></pre>
+<h3 id="build"><strong>build</strong></h3>
+<pre><code class="language-sh">// -o nombre para el ejecutable
+go build -o nombreEjecutable program.go
+
+// -s -w eliminan el debug y hacen mas pequeño el binario
+go build -ldflags &quot;-s -w&quot; 
+
+// para incluir la fecha en el binario 
+go build -ldflags=&quot;-X 'main.releaseDate=$(date -u +%F_%T)'&quot;
+
+</code></pre>
+<p><code>GOOS</code> -  sistema operativo para el que compilamos <br />
+<code>GOARCH</code> - procesador para el que se compila    </p>
+<pre><code class="language-sh">GOOS=darwin GOARCH=386 go build
+GOOS=linux GOARCH=amd64 go build -o geoip
+// -o fuerza el nombre del binario al del parametro
+</code></pre>
+<pre><code class="language-sh"> GOOS=     GOARCH=
+windows     386
+windows     amd64
+linux       386
+linux       amd64
+linux       arm
+linux       arm64
+android     arm
+darwin      386
+darwin      amd64
+darwin      arm
+darwin      arm64
+</code></pre>
+<p><a href="https://gist.github.com/asukakenji/f15ba7e588ac42795f421b48b8aede63">Lista de combinaciones validas de sistema operativo y arquitectura</a></p>
+<ul>
+<li><strong>Usando cgo</strong></li>
+</ul>
+<p>Ejemplo : usar libreria de C bearlibterminal con bindings para Go. <a href="http://foo.wyrd.name/en:bearlibterminal#download">Descargar aqui</a></p>
+<pre><code class="language-sh">libBearLibTerminal.so (de linuxx64) va a /usr/lib
+
+en gopath (mi caso $HOME/.golang/src/bearlibterminal)
+ponemos 
+BearLibTerminal.go (los bindings a go) y 
+BearLibTerminal.h (las cabeceras de C)
+
+Ahora ya podemos importar la libreria y usarla
+
+import (
+
+    blt &quot;bearlibterminal&quot;
+)
+</code></pre>
+<p>Para Compilar a Windows<br />
+<a href="https://stackoverflow.com/questions/16710047/usr-bin-ld-cannot-find-lnameofthelibrary">usr/bin/ld: cannot find -l<nameOfTheLibrary></a></p>
+<pre><code class="language-sh">// o mingw-64, no tengo claro como van todas esos paquetes tan 
+// similares  
+apt-get install gcc-mingw-w64-x86-64 gcc-multilib
+
+cd /usr/x86_64-w64-mingw32/lib
+// poner ahi todas las librerias para windows *.dll y *.lib
+
+GOOS=windows GOARCH=amd64 CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc 
+go build main.go
+</code></pre>
+<hr />
+<h2 id="operadores">OPERADORES</h2>
+<ul>
+<li><strong>Aritmeticos</strong></li>
+</ul>
+<blockquote>
+<p><code>+</code> Suma<br />
+<code>-</code> Resta<br />
+<code>*</code> Multiplicacion<br />
+<code>/</code> Division<br />
+<code>%</code> Modulo, lo que sobra de la division entera<br />
+<code>++</code> Incremento<br />
+<code>--</code> Decremento  </p>
+</blockquote>
+<ul>
+<li><strong>Asignacion</strong></li>
+</ul>
+<blockquote>
+<p><code>=</code> x = y<br />
+<code>+=</code> x = x + y<br />
+<code>-=</code> x = x - y<br />
+<code>*=</code> x = x * y<br />
+<code>/=</code> x = x / y<br />
+<code>%=</code> x = x % y  </p>
+</blockquote>
+<ul>
+<li><strong>Comparacion</strong></li>
+</ul>
+<blockquote>
+<p><code>==</code> igual<br />
+<code>!=</code> no igual<br />
+<code>&gt;</code> mayor que<br />
+<code>&lt;</code> menor que<br />
+<code>&gt;=</code> mayor o igual que<br />
+<code>&lt;=</code> menor o igual que  </p>
+</blockquote>
+<ul>
+<li><strong>Logicos</strong></li>
+</ul>
+<blockquote>
+<p><code>&amp;&amp;</code> AND<br />
+<code>||</code> OR<br />
+<code>!</code> NOT  </p>
+</blockquote>
+<ul>
+<li><strong>Punteros</strong></li>
+</ul>
+<blockquote>
+<p><code>&amp;</code> devuelve la direccion de una variable<br />
+<code>*</code> puntero a una variable  </p>
+</blockquote>
+<hr />
+<h2 id="variables">VARIABLES</h2>
+<p>Una variable puede contener cualquier tipo, incluso una funcion</p>
+<pre><code class="language-go">func main() {
+    accion := func() {
+        fmt.Println(&quot;Hola&quot;)
+    }
+    accion()
+}
+</code></pre>
+<p>TypeOf(variable) Para averiguar de que tipo es una variable</p>
+<pre><code class="language-go">import (&quot;reflect&quot;)
+fmt.Println(&quot;....&quot;, reflect.TypeOf(variable))
+</code></pre>
+<h3 id="declaracion">Declaracion</h3>
+<ul>
+<li><strong>Declaracion de variables</strong></li>
+</ul>
+<pre><code class="language-go">var (
+    name      string
+    age       int
+    location  string
+)
+var (
+    name, location  string
+    age             int
+)
+var name string
+</code></pre>
+<ul>
+<li><strong>Inicializacion de variables</strong></li>
+</ul>
+<pre><code class="language-go">var (
+    name      string  = &quot;jolav&quot;
+    age       int     = 100
+)
+var (  // inferred typing
+    name = &quot;jolav&quot;
+    age  = 32
+)
+var name, location, age = &quot;jolav&quot;, &quot;casa&quot;, 100
+</code></pre>
+<ul>
+<li><strong>Sentencia de asignacion <code>:=</code></strong><br />
+Dentro de una funcion podemos usar <code>:=</code> en lugar de <code>var</code>  </li>
+</ul>
+<pre><code class="language-go">func main() {
+    name, location := &quot;jolav&quot;, &quot;casa&quot;
+    age := 100
+}
+</code></pre>
+<ul>
+<li><strong>new</strong></li>
+</ul>
+<p>Pone a cero el valor del tipo y devuelve un puntero a el.</p>
+<pre><code class="language-go">x := new(int)
+</code></pre>
+<ul>
+<li><strong>make</strong></li>
+</ul>
+<p>Necesario para <code>slices</code> <code>maps</code> y <code>channels</code>  </p>
+<ul>
+<li><strong>Zero Values</strong></li>
+</ul>
+<p>Cuando se declaran variables sin un valor explicito se les asigna el valor zero  </p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p><code>int</code> - 0<br />
+<code>float</code> - 0.0 <br />
+<code>string</code> - "" <br />
+<code>boolean</code> - false<br />
+<code>pointers</code> - nil<br />
+<code>map</code> - nil<br />
+<code>slices</code> - nil<br />
+<code>array</code> - array listo para usar con sus elementos a zero value que sea<br />
+<code>functions</code> - nil<br />
+<code>interfaces</code> - nil <br />
+<code>channels</code> -nil  </p>
+</blockquote>
+</blockquote>
+</blockquote>
+<ul>
+<li><strong>type</strong></li>
+</ul>
+<pre><code class="language-go">package tempconv
+
+import &quot;fmt&quot;
+
+type Celsius float64
+type Fahrenheit float64
+
+const (
+    AbsoluteZeroC   Celsius = -273.15
+    FreezingC       Celsius = 0
+    BoilingC        Celsius = 100
+)
+
+func CToF(c Celsius) Fahrenheit { 
+    return Fahrenheit(c*9/5 + 32) 
+    }
+func FToC(f Fahrenheit) Celsius { 
+    return Celsius((f - 32) * 5 / 9) 
+}
+</code></pre>
+<h3 id="alcance">Alcance</h3>
+<p>El alcance es la region del programa donde una variable definida existe<br />
+Tipos de variables segun donde se declaren:  </p>
+<ul>
+<li><code>local variables</code> - dentro de una funcion o un bloque. Fuera de ese entorno
+no existen    </li>
+<li><code>package variables</code> - fuera de todas las funciones o bloques. Accesibles desde
+cualquier parte del paquete    </li>
+<li><code>formal parameters</code> - en la definicion de los parametros de una funcion. Se
+tratan como locales para esa funcion y tienen preferencia sobre las globales    </li>
+</ul>
+<p>Cuando coinciden dentro de una funcion o bloque una local y una global prevalece
+la local  </p>
+<h3 id="conversion-de-tipos">Conversion de tipos</h3>
+<p>Go no tiene conversion implicita de tipos<br />
+<code>T(v)</code> - Convierte el valor <code>v</code> al tipo <code>T</code>  </p>
+<pre><code class="language-go">i := 42
+f := float64(i)
+u := uint(f)
+</code></pre>
+<ul>
+<li>
+<p><strong>strconv</strong></p>
+</li>
+<li>
+<p><strong>Type Assertion</strong></p>
+</li>
+</ul>
+<pre><code class="language-go">func diffArray(s1, s2 interface{}) []string {
+    var aux1 []int
+    fmt.Println(reflect.TypeOf(s1))
+    var a1, a2 []string
+    if reflect.TypeOf(s1) == reflect.TypeOf(aux1) { // s1,s2 son []int
+        a1, a2 = convertIntToString(s1.([]int), s2.([]int))
+        // pasamos s1,s2 como []int y usando type assertion
+    } else {
+        a1, a2 = s1.([]string), s2.([]string)
+    }
+    // aqui ya a1,a2 son []string
+
+func diffTwoArrays() {
+    diffArray([]int{1, 2, 3, 5}, []int{1, 2, 3, 4, 5}))
+    diffArray([]string{&quot;diorite&quot;, &quot;andesite&quot;, &quot;grass&quot;, &quot;dirt&quot;, 
+    &quot;pink wool&quot;, &quot;dead shrub&quot;}, 
+    []string{&quot;diorite&quot;, &quot;andesite&quot;, &quot;grass&quot;, &quot;dirt&quot;, &quot;dead shrub&quot;})
+}
+</code></pre>
+<h3 id="punteros">Punteros</h3>
+<ul>
+<li><strong>Punteros vs Valor</strong>  </li>
+</ul>
+<p>Un puntero contiene la direccion de memoria de un valor</p>
+<p>Todo en Go se pasa por valor, pero ...  <br />
+Cuando se declara una variable de tipo de referencia se crea un valor llamado <code>header value</code> que contiene un puntero a la estructura de datos subyacente necesaria para segun cada tipo de referencia.<br />
+Cada tipo de referencia contiene campos unicos para gestionar la estructura de datos subyacente propia.<br />
+El <code>header value</code> contiene un puntero, por lo tanto puedes pasar una copia de cualquier tipo de referencia y compartir la estructura subyacente intrinsicamente al compartir el puntero.   </p>
+<p><code>int</code> - valor  <br />
+<code>float</code> - valor<br />
+<code>string</code> -  variable de tipo de referencia, pero funciona como valor   <br />
+<code>boolean</code> - valor   <br />
+<code>arrays</code> - valor<br />
+<code>slices</code> -  variable de tipo de referencia<br />
+<code>maps</code> -  variable de tipo de referencia<br />
+<code>functions</code> -  variable de tipo de referencia    <br />
+<code>interfaces</code> -  variable de tipo de referencia  <br />
+<code>channels</code> -  variable de tipo de referencia    </p>
+<ul>
+<li><strong>Punteros</strong></li>
+</ul>
+<p>Por defecto Go pasa los argumentos por valor (crea una copia)<br />
+Para pasarlos por referencia hay que pasar punteros o usar estructuras de
+datos que usan valores por referencia como slices y maps.  </p>
+<p><code>&amp;</code> - para conseguir el puntero de un valor lo ponemos delante de su nombre<br />
+<code>*</code> - para desreferenciar un puntero y que nos de acceso a su valor  </p>
+<p>Si <code>p</code> es un puntero a <code>x</code><br />
+<code>&amp;x</code> --&gt;  <code>p = &amp;x</code> p es el puntero de x (contiene la direccion de memoria de x)<br />
+<code>*p</code> --&gt; <code>*p = x</code> *p es el valor de x  </p>
+<pre><code class="language-go">i := 42
+p := &amp;i             // P es un puntero a i 
+fmt.Println(*p)     // 42 , lee i a traves del puntero p 
+*p = 21             // establece i a traves del puntero p
+</code></pre>
+<pre><code class="language-go">func main() {
+    v := *getPointer()
+    fmt.Println(&quot;Value is&quot;, v) // Value is 100
+    m := getPointer()
+    fmt.Println(&quot;Memory is&quot;, m) // Memory is 0xc00018c020
+}
+
+func getPointer() (myPointer *int) {
+    a := 100
+    return &amp;a
+}
+</code></pre>
+<pre><code class="language-go">func main() {
+    x := 5
+    zero(&amp;x)  
+    fmt.Println(x) // x is 0
+}
+func zero(x *int) {
+    *x = 0
+}
+</code></pre>
+<pre><code class="language-go">func  main()  {
+  var i int = 7
+  var p *int
+  p =  &amp;i
+
+  fmt.Println(&quot;i : &quot; , i)
+  fmt.Println(&quot;memory address of i : &quot;, &amp;i)
+  fmt.Println(&quot;p : &quot; , p)
+  fmt.Println(&quot;*p : &quot; , *p)
+}
+[output]
+i :  7
+memory address of i :  0x10328000
+p :  0x10328000
+*p :  7
+</code></pre>
+<ul>
+<li><strong>new</strong></li>
+</ul>
+<p><code>new</code> - coge un tipo como argumento, asigna suficiente memoria para ese tipo
+de dato y devuelve un puntero que apunta a esa memoria. Luego el GC (garbage
+collector lo limpia todo)  </p>
+<pre><code class="language-go">func zero(x *int) {
+    *x = 5
+}
+func main() {
+    x := new(int)
+    zero(x)  
+    fmt.Println(*x) // x is 5
+}
+</code></pre>
+<ul>
+<li><strong>Mutabilidad</strong></li>
+</ul>
+<p>Solo las constantes son inmutables.<br />
+Sin embargo como los argumentos se pasan por valor, una funcion que recibe y
+modifica un argumento no muta el valor original  </p>
+<ul>
+<li>Ejemplo</li>
+</ul>
+<pre><code class="language-go">func addOne(x int) {
+    x++
+}
+func main() {
+    x := 0
+    addOne(x)
+    fmt.Println(x)         // x da 0
+}
+</code></pre>
+<pre><code class="language-go">// Si usamos punteros
+func addOne(x *int) {
+    *x++
+}
+func main() {
+    x := 0
+    addOne(&amp;x)
+    fmt.Println(x)          // x da 1
+}
+</code></pre>
+<p><a href="https://stackoverflow.com/questions/23542989/pointers-vs-values-in-parameters-and-return-values">LECTURA FUNDAMENTAL, stackoverflow pointer vs values</a>   </p>
+<pre><code class="language-go">type data struct {
+    val int
+}
+
+func myfunc() data {
+    // devuelve una copia del struct
+    return data{val: 1}  
+}
+
+func myfunc() *data {
+    // devuelve un puntero al struct creado dentro de la funcion
+    return &amp;data{}
+}
+
+func myfunc(d *data) {
+    // recibe un struct ya existente y sobreescribe su valor
+    d.val = 1
+}
+</code></pre>
+<hr />
+<h2 id="datos-basicos">DATOS BASICOS</h2>
+<h3 id="numeros">Numeros</h3>
+<p>Cuando se definen numeros de forma literal se puede usar <code>guion bajo _</code> para hacerlos mas legibles</p>
+<pre><code class="language-go">const segundosEnUnAño = 31_557_600
+</code></pre>
+<ul>
+<li><strong>Integers</strong></li>
+</ul>
+<p>Los enteros son numeros sin decimal</p>
+<p><code>int</code> - positivos y negativos  <br />
+<code>uint</code> - unsigned, solo los positivos<br />
+<code>byte</code> - alias de uint8 (0-255)<br />
+<code>rune</code> - alias de int32   </p>
+<ul>
+<li><strong>Numeros de Punto Flotante</strong></li>
+</ul>
+<p>Son numeros reales (con parte decimal)  </p>
+<p><code>float32</code> - conocido como simple precision<br />
+<code>float64</code> - conocido como doble precision  </p>
+<ul>
+<li><strong>Numeros Complejos</strong></li>
+</ul>
+<p><code>complex64</code> - parte real float32 + partes imaginarias<br />
+<code>complex128</code> - parte real float64 + partes imaginarias  </p>
+<p><img alt="go" src="../_img/go/basicTypes.png" /></p>
+<h3 id="booleanos">Booleanos</h3>
+<p><code>&amp;&amp;</code> - and<br />
+<code>||</code> - or <br />
+<code>!</code> - not  </p>
+<blockquote>
+<p><img alt="go" src="../_img/go/boolean1.png" />
+<img alt="go" src="../_img/go/boolean2.png" />
+<img alt="go" src="../_img/go/boolean3.png" /></p>
+</blockquote>
+<h3 id="cadenas">Cadenas</h3>
+<p>Estan hechas de bytes (uno por caracter)<br />
+La diferencia entre comillas simples o dobles es que en estas no pueden contener
+nuevas lineas y se permiten escapar caracteres especiales  </p>
+<p><code>len(string)</code> - longitud de la cadena<br />
+<code>"Hola mundo"[1]</code> - acceder a caracteres de la cadena<br />
+<code>"Hello, " + World"</code>  </p>
+<h3 id="constantes">Constantes</h3>
+<p>Se declaran como variables pero con la palabra clave <code>const</code>.<br />
+No se pueden declarar usando <code>:=</code><br />
+Solo pueden ser caracteres, string, booleano o valores numericos.   </p>
+<pre><code class="language-go">const PI = 3.14
+</code></pre>
+<h3 id="iota">Iota</h3>
+<p><a href="https://splice.com/blog/iota-elegant-constants-golang/">iota info</a></p>
+<p>Es un identificador usado en declaraciones de constantes para indicar que son
+autoincrementables.  .
+Se resetea a cero cuando aparece la palabra reservada <code>const</code></p>
+<pre><code class="language-go">const ( // iota is reset to 0
+    c0 = iota  // c0 == 0
+    c1 = iota  // c1 == 1
+    c2 = iota  // c2 == 2
+)
+</code></pre>
+<hr />
+<h2 id="estructuras-de-control">ESTRUCTURAS DE CONTROL</h2>
+<h3 id="for">for</h3>
+<p><code>for init; condition; post { }</code></p>
+<pre><code class="language-go">// for normal 
+sum := 0
+for i := 0; i &lt; 10; i++ {
+  sum = sum + i
+}
+</code></pre>
+<p><code>for condition { }</code>  </p>
+<pre><code class="language-go">// for sin declaraciones pre/post que funciona como un while. Podemos 
+// tambien quitar hasta los punto y coma
+sum := 1
+for ; sum &lt; 1000; {
+for sum &lt; 1000 {
+  sum = sum + sum
+}
+</code></pre>
+<p><code>for {}</code>  </p>
+<pre><code class="language-go">// for infinito
+for {
+    ..codigo
+}
+</code></pre>
+<h3 id="if">if</h3>
+<pre><code class="language-go">if answer != 42 {
+    return &quot;Wrong answer&quot;
+}
+
+if err := foo(); err != nil {
+    panic(err)
+}
+
+if {
+  // codigo
+} else {
+  // codigo
+}
+</code></pre>
+<h3 id="switch">switch</h3>
+<blockquote>
+<p><code>switch</code> en golang  </p>
+</blockquote>
+<ul>
+<li>Solo se pueden comparar valores del mismo tipo  </li>
+<li>declaracion <code>default</code> para ejecutarse si todas las demas fallan  </li>
+<li>en la declaracion se puede usar una expression (pej calcular un valor)<br />
+<code>case 300 - 150:</code>  </li>
+<li>Se puede tener multiples valores un solo caso<br />
+<code>case 6, 7:</code>  </li>
+<li><code>fallthroguh</code> se ejecutan todas las declaraciones que cumplen la condicion    </li>
+<li><code>break</code> sale del switch, por defecto en cada opcion es automatico el break</li>
+</ul>
+<pre><code class="language-go">t := time.Now()
+switch {
+case t.Hour() &lt; 12:
+    fmt.Println(&quot;Good morning!&quot;)
+case t.Hour() &lt; 17:
+    fmt.Println(&quot;Good afternoon.&quot;)
+default:
+    fmt.Println(&quot;Good evening.&quot;)
+}
+
+
+switch os := runtime.GOOS; os {
+case &quot;darwin&quot;:
+    fmt.Println(&quot;OS X.&quot;)
+case &quot;linux&quot;:
+    fmt.Println(&quot;Linux.&quot;)
+default:
+    // freebsd, openbsd,plan9, windows...
+    fmt.Printf(&quot;%s.\n&quot;, os)
+}
+</code></pre>
+<h3 id="range">range</h3>
+<p>Para iterar sobre <code>array</code>, <code>slice</code>, <code>string</code>, <code>map</code> o leer de un <code>channel</code><br />
+El valor que nos da range es una copia del valor del elemento original y por tanto si se modifica no afecta al original</p>
+<pre><code class="language-go">for k,v := range zoo {
+    v.age = 10          // no modifica el original
+    zoo[k].age = 999    // SI modifica el original
+}
+
+</code></pre>
+<ul>
+<li><strong>slice</strong></li>
+</ul>
+<pre><code class="language-go">var pow = []int{1, 2, 4, 8, 16, 32, 64, 128}
+for key, value := range pow {
+    fmt.Println(&quot;Posicion&quot;, key, &quot;valor&quot;, value)
+}
+</code></pre>
+<p>Podemos omitir el index o el value usando <code>_</code>  </p>
+<pre><code class="language-go">for i, _ := range pow
+for _, value := range pow
+</code></pre>
+<p>Podemos omitir tambien el valor omitiendo por completo <code>, value</code>  </p>
+<pre><code class="language-go">var pow = []int{1, 2, 4, 8, 16, 32, 64, 128}
+for key := range pow {
+    fmt.Println(&quot;Posicion&quot;, key)
+}
+for _, value := range pow {
+    fmt.Println(&quot;valor&quot;, value)
+}
+</code></pre>
+<ul>
+<li><strong>map</strong></li>
+</ul>
+<p>El primer parametro no es un entero autoincrementable sino la clave del map  </p>
+<p><code>for key, value := range cities</code></p>
+<ul>
+<li><strong>break</strong></li>
+</ul>
+<p>Paras la iteracion en cualquier momento  </p>
+<ul>
+<li><strong>continue</strong></li>
+</ul>
+<p>Omites una iteracion  </p>
+<hr />
+<h2 id="arrays">ARRAYS</h2>
+<p><strong><code>tipo [n]T</code> - es un array de <code>n</code> elementos de tipo <code>T</code></strong>    </p>
+<ul>
+<li>No se pueden redimensionar  </li>
+<li>Se pueden inicializar al declararlos<br />
+<code>a := [2]string{"hello", "world!"}</code><br />
+<code>a := [...]string{"hello", "world!"}</code> usando una ellipsis para indicar un numero variable de elementos que en este caso son dos<br />
+<code>a := [5]int{1: 10, 2: 20}</code> - inicializando solo algunos valores  </li>
+<li>Mostrar arrays  <br />
+<code>fmt.Printf("%q\n", a)    // ["hello" "world!"]</code></li>
+<li><code>len(array)</code>  </li>
+<li>MultiDimensionales<br />
+<code>var a [4][2]int</code><br />
+<code>array := [4][2]int{{10, 11}, {20, 21}, {30, 31}, {40, 41}}</code>  </li>
+</ul>
+<hr />
+<h2 id="slices">SLICES</h2>
+<p><strong><code>tipo []T</code> - es un slice de elementos de tipo <code>T</code></strong>  </p>
+<ul>
+<li><strong>Crear un slice :</strong>  </li>
+</ul>
+<p>Los slice hay que crearlos antes de usarlos</p>
+<blockquote>
+<ul>
+<li><code>slice literal</code>  <br />
+<code>mySlice := []int{2, 3, 5, 7, 11, 13}</code></li>
+<li><code>make</code> - crea un slice vacio de una longitud y (opcional una capacidad)  <br />
+<code>cities := make([]string, len, cap)</code>  </li>
+</ul>
+</blockquote>
+<ul>
+<li><strong>Recortando un slice</strong></li>
+</ul>
+<p><code>s[a:b]</code> - selecciona elementos desde la pos a (inclusive) hasta b (exclusive)<br />
+<code>s[:b]</code> - un indice <code>a</code> que no se declara es un <code>0</code> implicito<br />
+<code>s[a:]</code> - un indice <code>b</code> que no se declara es implicito un <code>len(s)</code>   </p>
+<ul>
+<li><strong>Añadiendo a un slice</strong></li>
+</ul>
+<p><code>cities = append(cities, "San Diego")</code><br />
+<code>cities = append(cities, "San Diego", "Mountain View")</code><br />
+<code>otherCities := []string{"Santa Monica", "Venice"}</code><br />
+<code>cities = append(cities, otherCities...)</code>  </p>
+<ul>
+<li><strong>Copiar un slice</strong></li>
+</ul>
+<p><code>copy(destino, origen)</code>  </p>
+<ul>
+<li><strong>Length</strong></li>
+</ul>
+<p><code>len(slice)</code>  </p>
+<ul>
+<li><strong>Nil slices</strong></li>
+</ul>
+<p>Declaracion<br />
+<code>var z []int</code> - El valor cero de un slice es nil. Un slice nil tiene una
+longitud de cero<br />
+Inicializacion<br />
+<code>z := make([]int, 0)</code><br />
+<code>z := []int{}</code><br />
+Las tres formas son lo mismo    </p>
+<ul>
+<li><strong>BiDimensional</strong></li>
+</ul>
+<pre><code class="language-go">// allocate composed 2d array
+a := make([][]int, row)
+for i := range a {
+    a[i] = make([]int, col)
+}
+
+// allocate composed 2d array
+a := make([][]int, row)
+e := make([]int, row * col)
+for i := range a {
+    a[i] = e[i*col:(i+1)*col]
+}
+
+// otra posibilidad
+func get(r, c int) int {
+    return e[r*cols+c]
+}
+</code></pre>
+<hr />
+<h2 id="maps">MAPS</h2>
+<p><strong><code>tipo map[a]b - es un map de claves tipo a con valores tipo b</code></strong>   </p>
+<p>Formado por <code>pares clave/valor</code>  </p>
+<ul>
+<li><strong>Crear un map :</strong>  </li>
+</ul>
+<p>Los map hay que crearlos antes de usarlos</p>
+<blockquote>
+<ul>
+<li><code>map literal</code>  <br />
+<code>amigos := map[string]int{"Juan":50, "Elena":21, "Carlos":41,}</code></li>
+<li><code>make</code> - creas un nil map vacio<br />
+<code>amigos := make(map[string]int)</code>  </li>
+</ul>
+</blockquote>
+<p>Si lo declaramos pero no lo inicializamos, al intentar añadir elementos no compilara </p>
+<blockquote>
+<ul>
+<li><code>amigos := map[string]int{}</code> - declarado pero no inicializado  </li>
+</ul>
+</blockquote>
+<ul>
+<li><strong>Modificando maps</strong></li>
+</ul>
+<p><code>m[key] = elem</code> - Insertando o actualizando un valor<br />
+<code>elem = m[key]</code> - Devuelve el elemento<br />
+<code>delete(m, key)</code> - Borrando un elemento <br />
+<code>elem, ok = m[key]</code> - Testea si existe un valor con una clave determinada  </p>
+<pre><code class="language-go">elements := map[string]map[string]string{
+    &quot;H&quot;: map[string]string{
+        &quot;name&quot;:&quot;Hydrogen&quot;,
+        &quot;state&quot;:&quot;gas&quot;,
+    },
+    &quot;He&quot;: map[string]string{
+        &quot;name&quot;:&quot;Helium&quot;,
+        &quot;state&quot;:&quot;gas&quot;,
+    },
+    &quot;Li&quot;: map[string]string{
+        &quot;name&quot;:&quot;Lithium&quot;,
+        &quot;state&quot;:&quot;solid&quot;,
+    },
+}
+if el, ok := elements[&quot;Li&quot;]; ok {
+    fmt.Println(el[&quot;name&quot;], el[&quot;state&quot;])
+}
+</code></pre>
+<hr />
+<h2 id="structs">STRUCTS</h2>
+<p>Es una coleccion de campos/propiedades<br />
+Solo los campos exportados (primera letra mayuscula) son accesibles de fuera del paquete  </p>
+<h3 id="inicializacion">Inicializacion</h3>
+<pre><code class="language-go">type Circle struct {
+    x, y, r float64
+}
+</code></pre>
+<p><code>var c Circle</code> - crea una variable local Circle que pone por defecto los
+valores a cero (0 para int, 0.0 para float. "" para string, nil para punteros)<br />
+<code>c := new(Circle)</code> - asigna memoria para todos los campos, los inicializa a
+cero y devuelve un puntero a la struct (*Circle), los punteros se usan mucho en
+structs paa que las funciones puedan modificar los datos.<br />
+<code>c := Circle{x: 0, y: 0, r: 5}</code><br />
+<code>c := Circle{0, 0, 5}</code><br />
+<code>c := &amp;Circle{0, 0, 5}</code><br />
+<code>c := Circle{x: 1}</code><br />
+<code>c := Circle{}</code>  </p>
+<pre><code class="language-go">type Circle struct {
+    x, y, r float64
+}
+func main() {
+    fmt.Println(c.x, c.y, c.r)
+    c.x = 10
+    c.y = 5
+}
+</code></pre>
+<pre><code class="language-go">// todo en uno
+var addCases = []struct {
+    in   string
+    want string
+}{
+    {
+        &quot;2011-04-25&quot;,
+        &quot;2043-01-01T01:46:40&quot;,
+    },
+    {
+        &quot;1977-06-13&quot;,
+        &quot;2009-02-19T01:46:40&quot;,
+    },
+}
+
+// mas claro
+type addCases2 []struct {
+    in   string
+    want string
+}
+ac := addCases2{
+    {
+        &quot;2011-04-25&quot;,
+        &quot;2043-01-01T01:46:40&quot;,
+    },
+    {
+        &quot;1977-06-13&quot;,
+        &quot;2009-02-19T01:46:40&quot;,
+    },
+}
+
+// para verlos 
+for i, v := range addCases {
+    fmt.Println(i, v.in)
+}
+for i, v := range ac {
+    fmt.Println(i, v)
+}
+// con nombres
+fmt.Printf(&quot;%+v\n&quot;, struct)
+// bien formateado
+s, _ := json.MarshalIndent(g, &quot;&quot;, &quot;\t&quot;)
+fmt.Print(string(s))
+</code></pre>
+<pre><code class="language-go">func show() {
+    fmt.Println(t[0].hola)
+    fmt.Println(test2[1].hola2)
+}
+
+type test []struct {
+    hola string
+}
+
+var t = test{
+    {&quot;prueba1&quot;},
+    {&quot;prueba2&quot;},
+}
+
+var test2 = []struct {
+    hola2 string
+}{
+    {&quot;prueba3&quot;},
+    {&quot;prueba4&quot;},
+}
+</code></pre>
+<h3 id="metodos">Metodos</h3>
+<p>Un metodo es una funcion con el primer argumento implicito llamado receptor.<br />
+<code>func (ReceiverType r) func_name (parameters) (results)</code>  </p>
+<p>El <code>receptor (receiver)</code> del metodo esta entre la palabra clave <code>function</code> y el nombre del metodo</p>
+<p><code>func (u User) Greeting() string</code> - nos permite llamarla con u.Greeting()  </p>
+<ul>
+<li><strong>Organizacion del codigo</strong></li>
+</ul>
+<pre><code class="language-go">package models
+
+// list of packages to import
+
+// list of constants
+
+// list of variables
+
+// Main type(s) for the file,
+// try to keep the lowest amount of structs per file when possible.
+
+// List of functions
+
+// List of methods
+</code></pre>
+<ul>
+<li><strong>Alias</strong></li>
+</ul>
+<p>Para definir metodos en un tipo que no es tuyo se usan alias</p>
+<pre><code class="language-go">import &quot;strings&quot;
+type MyStr string
+func (s MyStr) Uppercase() string {
+    return strings.ToUpper(string(s))
+}
+func main() {
+    fmt.Println(MyStr(&quot;test&quot;).Uppercase())
+}
+</code></pre>
+<ul>
+<li><strong>Usar punteros en los receptores</strong></li>
+</ul>
+<p>Los metodos se pueden asociar a un nombre o a puntero. Ventajas de usar
+punteros:  </p>
+<ul>
+<li>evitar copiar el valor con cada llamada al metodo (pasarlo por referencia)  </li>
+<li>para poder modificar el valor que pasamos  </li>
+</ul>
+<pre><code class="language-go">type User struct {
+    name    string
+    email   string
+}
+
+func (u user) notify() {
+    fmt.Printf(&quot;Mandar correo a %s&lt;%s&gt;\n&quot;, u.name, u.email)
+}
+
+// sin el puntero del receptor el correo no se cambiaria.
+func (u *user) changeEmail(email string) {
+    u.email = email
+}
+</code></pre>
+<pre><code>SUGERENCIA
+
+Después de declarar un nuevo tipo, trate de responder a esta pregunta 
+antes de declarar métodos para el tipo: 
+¿ Añadir o quitar algo de un valor de este tipo necesita crear un nuevo 
+valor o mutar el existente ?  
+- Si la respuesta es crear un nuevo valor, usa receptores de valor en 
+sus métodos. 
+- Si la respuesta es mutar el valor, usa receptores de puntero. 
+
+Esto también se aplica a la forma en que los valores de este tipo deben 
+pasarse a otras partes de su programa. Es importante ser consistente. 
+La idea es no centrarse en lo que el método está haciendo con el valor,
+sino centrarse en cuál es la naturaleza del valor.
+</code></pre>
+<h3 id="composicion">Composicion</h3>
+<pre><code class="language-go">type User struct {
+    Id              int
+    Name, Location  string
+}
+type Player struct {
+    User
+    GameId  int
+}
+</code></pre>
+<p>Podemos acceder a la Struct de User:<br />
+<code>a := new(Player)</code><br />
+<code>a.User.Name</code><br />
+<code>a.Name</code></p>
+<hr />
+<h2 id="interfaces">INTERFACES</h2>
+<p><a href="http://jordanorelli.com/post/32665860244/how-to-use-interfaces-in-go">Explicacion de interfaces</a></p>
+<p><a href="https://go-book.appspot.com/interfaces.html">Mas Explicacion de interfaces</a> </p>
+<p><a href="https://www.goinggo.net/2014/05/methods-interfaces-and-embedded-types.html">Mas aun sobre interfaces</a>   </p>
+<ul>
+<li>Es un conjunto de metodos  </li>
+<li>Es un tipo de datos</li>
+</ul>
+<pre><code class="language-go">package main
+
+import &quot;fmt&quot;
+
+type cat struct {
+    name string
+}
+
+func (c *cat) born() {
+    fmt.Println(c.name, &quot;is born Miaouu&quot;)
+}
+
+type dog struct {
+    name string
+}
+
+func (d *dog) born() {
+    fmt.Println(d.name, &quot;is born Wharff&quot;)
+}
+
+type animal interface {
+    born()
+}
+
+func born(a animal) {
+    a.born()
+}
+
+func main() {
+    Jasper := &amp;cat{&quot;JASPER&quot;}
+    Lucy := &amp;dog{&quot;Lucy&quot;}
+    Max := new(dog)
+    Max.name = &quot;Max&quot;
+    Max.born()
+    // call born function
+    born(Jasper)
+    born(Lucy)
+    born(Max)
+}
+</code></pre>
+<pre><code class="language-go">package main
+
+import &quot;fmt&quot;
+
+type Human struct {
+    name  string
+    age   int
+    phone string
+}
+
+type Student struct {
+    Human  //an anonymous field of type Human
+    school string
+    loan   float32
+}
+
+// A human likes to stay... err... *say* hi
+func (h *Human) SayHi() {
+    fmt.Printf(&quot;Hi, I am %s you can call me on %s\n&quot;, h.name, h.phone)
+}
+
+// A human can sing a song, preferrably to a familiar tune!
+func (h *Human) Sing(lyrics string) {
+    fmt.Println(&quot;La la, la la la, la la la la la...&quot;, lyrics)
+}
+
+// A Human man likes to guzzle his beer!
+func (h *Human) Guzzle(beerStein string) {
+    fmt.Println(&quot;Guzzle Guzzle Guzzle...&quot;, beerStein)
+}
+
+// A Student borrows some money
+func (s *Student) BorrowMoney(amount float32) {
+    s.loan += amount // (again and again and...)
+}
+
+func Prestar(y YoungChap, amount float32) {
+    y.BorrowMoney(amount)
+
+}
+
+// INTERFACES
+type Men interface {
+    SayHi()
+    Sing(lyrics string)
+    Guzzle(beerStein string)
+}
+
+type YoungChap interface {
+    SayHi()
+    Sing(song string)
+    BorrowMoney(amount float32)
+}
+
+func main() {
+    mike := Student{Human{&quot;Mike&quot;, 25, &quot;222-222-XXX&quot;}, &quot;MIT&quot;, 150.50}
+    mike.BorrowMoney(10)
+    mike.BorrowMoney(10)
+    Prestar(&amp;mike, 100)
+    fmt.Println(&quot;Debe ..&quot;, mike.loan)
+}
+</code></pre>
+<ul>
+<li><strong>interfaces vacias</strong> </li>
+</ul>
+<p>1- Todo tiene un <code>type</code>, puedes definir un nuevo <code>type</code> por ejemplo <code>T</code> que tiene tres metodos <code>A</code>, <code>B</code> y <code>C</code><br />
+2- El conjunto de metodos especificos de un <code>type</code> se llama <code>interface type</code>. En nuestro ejemplo <code>T_interface = (A, B, C)</code><br />
+3- Puedes crear un nuevo <code>interface type</code> definiendo los metodos que tiene. Pro ejemplo creo <code>MyInterface = (A)</code><br />
+4- Cuando especificas una variable de tipo <code>interface type</code> le puedes asignar solo los tipos que esten en una interface que sea un superset de tu interface, vamos que todos los metodos de <code>MyInterface</code> deben estar en <code>T_interface</code></p>
+<p>Conclusion : Todos los tipos de variables satisfacen la <code>empty interface</code>. Por tanto una funcion que tiene una <code>interface{}</code> como argumento admite cualquier valor sea el que sea. Pero dentro de la funcion el runtime de Go convierte ese valor a un valor <code>interface{}</code></p>
+<pre><code class="language-go">func DoSomething(v interface{}) {
+   // la funcion acepta cualquier valor una vez dentro
+   // v es del tipo interface{}
+}
+</code></pre>
+<p>EL valor de una interfaz son dos <code>word</code> de datos:<br />
+- una <code>word</code> es un puntero a una tabla de metodos para el valor del <code>type</code> subyacente<br />
+- la otra <code>word</code> es un puntero a los datos actuales de ese valor  </p>
+<hr />
+<h2 id="funciones">FUNCIONES</h2>
+<ul>
+<li><strong>Call Stack</strong></li>
+</ul>
+<pre><code class="language-go">func main() {
+    fmt.Println(f1())
+}
+func f1() int {
+    return f2()
+}
+func f2() int {
+    return 1
+}
+</code></pre>
+<blockquote>
+<blockquote>
+<blockquote>
+<p><img alt="go" src="../_img/go/callStack.png" /></p>
+</blockquote>
+</blockquote>
+</blockquote>
+<ul>
+<li>
+<p><strong>Argumentos</strong></p>
+</li>
+<li>
+<p>Argumentos que reciben. Las funciones pueden recibir 0 o mas argumentos todos tipados despues del nombre de la variable.    </p>
+</li>
+</ul>
+<pre><code class="language-go">func add(x int, y int) int {
+    return x + y
+}
+func add(x, y int) int {   // int afecta a todos los parametros (x, y)
+    return x + y
+}
+</code></pre>
+<pre><code class="language-go">// ... funciones que aceptan un numero variable de parametros
+func add(args ...int) int {   
+    total := 0
+    for _, v := range args {
+        total += v
+    }
+    return total
+}
+func main() {         // pasamos los parametros que queramos
+    fmt.Println(add(1,2,3))
+    xs := []int{1,2,3}
+    fmt.Println(add(xs...)) // tambien podemos pasar un slice
+}
+</code></pre>
+<ul>
+<li>Retorno de parametros, puede devolver cualquier numero de ellos  </li>
+</ul>
+<pre><code class="language-go">return region, continente   // devuelve mas de un valor
+// Si los parametros de retorno estan nombrados vale con solo return
+func location(name, city string) (region, continent string) {
+    ..codigo
+    return    // devuelve region y continent
+}
+</code></pre>
+<ul>
+<li><strong>Closures</strong></li>
+</ul>
+<pre><code class="language-go">func generadorPares() func() uint {
+    i := uint(0)
+    return func() (ret uint) {
+        ret = i
+        i = i + 2
+        return
+    }
+}
+func main() {
+    nextPar := generadorPares()
+    fmt.Println(nextPar()) // 0
+    fmt.Println(nextPar()) // 2
+    fmt.Println(nextPar()) // 4
+}
+</code></pre>
+<ul>
+<li><strong>Recursion</strong></li>
+</ul>
+<pre><code class="language-go">func factorial(x uint) uint {   
+    if x == 0 {
+        return 1
+    }
+    return x * factorial(x-1)
+}
+</code></pre>
+<h3 id="type-function">type function</h3>
+<pre><code class="language-go">package main
+import &quot;fmt&quot;
+
+type test_int func(int) bool
+
+// isOdd takes an ints and returns a bool set to true if the
+// int parameter is odd, or false if not.
+// isOdd is of type func(int) bool which is what test_int
+// is declared to be.
+
+func isOdd(integer int) bool {
+    if integer%2 == 0 {
+        return false
+    }
+    return true
+}
+
+// Same comment for isEven
+func isEven(integer int) bool {
+    if integer%2 == 0 {
+        return true
+    }
+    return false
+}
+
+// We could've written:
+// func filter(slice []int, f func(int) bool) []int
+func filter(slice []int, f test_int) []int {
+    var result []int
+    for _, value := range slice {
+        if f(value) {
+            result = append(result, value)
+        }
+    }
+    return result
+}
+
+func main(){
+    slice := []int {1, 2, 3, 4, 5, 7}
+    fmt.Println(&quot;slice = &quot;, slice)
+    odd := filter(slice, isOdd)
+    fmt.Println(&quot;Odd elements of slice are: &quot;, odd)
+    even := filter(slice, isEven)
+    fmt.Println(&quot;Even elements of slice are: &quot;, even)
+}
+
+</code></pre>
+<h3 id="defer">defer</h3>
+<p>Aplaza la ejecucion de una funcion hasta que termina la funcion en la que se encuentra. 
+Lo tipico es cerrar archivos o desbloquear un mutex(mutual exclusion, para asegurar que solo una goroutine puede acceder a la vez a una variable)</p>
+<pre><code class="language-go">func main() {
+    defer fmt.Println(&quot;world&quot;)
+    fmt.Println(&quot;hello&quot;)
+}
+</code></pre>
+<p>Se usa para liberar recursos cuando se pueda</p>
+<pre><code class="language-go">f, _ := os.Open(filename)
+defer f.Close()
+</code></pre>
+<h3 id="panic-recover">panic, recover</h3>
+<p><code>panic("valor de panic")</code> - crea un runtime error . <br />
+<code>recover()</code> - detiene el panic y devuelve el valor que fue pasado con la
+llamada a panic</p>
+<p>Un <code>panic</code> generalmente indica un error de programacion o una condicion
+excepcional de la que no hay forma facil de recuperarse  </p>
+<pre><code class="language-go">func main() {
+    defer func() {
+        str := recover()
+        fmt.Println(str)
+    }()
+    panic(&quot;PANIC&quot;)
+}
+</code></pre>
+<hr />
+<h2 id="concurrencia">CONCURRENCIA</h2>
+<h3 id="goroutines">goroutines</h3>
+<p><code>go f(x)</code> comienza la ejecucion de una nueva goroutine que es una funcion capaz de ejecutarse concurrentemente con otras funciones.  </p>
+<pre><code class="language-go">// sin wait, el programa main puede acabar antes de que las goroutines 
+// hagan lo que tengan que hacer
+func parallelLetFreq() {
+    var wg sync.WaitGroup
+    wg.Add(3)   // suma 3 a las goroutines a esperar
+    go count(&quot;1&quot;, &amp;wg)
+    go count(&quot;2&quot;, &amp;wg)
+    go count(&quot;3&quot;, &amp;wg)
+    wg.Wait() // espera a todas las goroutines (3 en este caso)
+}
+
+func count(n int, wg *sync.WaitGroup) {
+    defer wg.Done() // al terminar la funcion terminar goroutine
+    fmt.Println(&quot;Number --&gt; &quot;, n))
+}
+</code></pre>
+<h3 id="channels">channels</h3>
+<p><code>channels</code> - son un conducto a traves del cual puedes recibir y enviar datos con
+el operador <code>&lt;-</code>  </p>
+<p><code>ch &lt;- data</code> - Envia data al canal ch<br />
+<code>data := &lt;-ch</code> - Recibe informacion del canal ch y lo asigna a data  </p>
+<p><code>ch := make(chan int)</code> - Los canales hay que crearlos antes de usarlos  </p>
+<p>Por defecto los envios y recepciones esperan hasta que el otro lado este listo.
+Esto permite a las goroutines sincronizarse sin bloqueos especificos o
+condiciones  </p>
+<pre><code class="language-go">func sum(a []int, c chan int) {
+    sum := 0
+    for _, v := range a {
+        sum += v
+    }
+    c &lt;- sum // send sum to c
+}
+
+func main() {
+    a := []int{7, 2, 8, -9, 4, 0}
+    c := make(chan int)
+    go sum(a[:len(a)/2], c)
+    go sum(a[len(a)/2:], c)
+    x, y := &lt;-c, &lt;-c // receive from c
+    fmt.Println(x, y, x+y)
+}
+</code></pre>
+<ul>
+<li><strong>Buffered channels</strong></li>
+</ul>
+<p><code>ch := make(chan int, 100)</code> - Ponemos un buffer a los canales indicando su
+longitud como segundo argumento en el <code>make</code> para inicializar el canal<br />
+Enviar datos aun canal con buffer se bloquea si el buffer esta lleno <br />
+Recibir datos de un canal con  buffer se bloquea si el buffer esta vacio  </p>
+<pre><code class="language-go">func main() {
+    c := make(chan int, 2)
+    c &lt;- 1;    c &lt;- 2;   c &lt;- 3
+    fmt.Println(&lt;-c);    fmt.Println(&lt;-c);   fmt.Println(&lt;-c)
+}       // fatal error: all goroutines are asleep - deadlock!
+</code></pre>
+<p>Sin embargo el siguiente funcionaria. Al añadir el valor extra desde una
+goroutine no se bloquea el hilo principal pues aunque la goroutine se llama
+antes que el canal se vacie esta esperara hasta que haya espacio en el canal.  </p>
+<pre><code class="language-go">func main() {
+    c := make(chan int, 2)
+    c &lt;- 1;     c &lt;- 2
+    c3 := func() { c &lt;- 3 }
+    go c3()
+    fmt.Println(&lt;-c);    fmt.Println(&lt;-c);    fmt.Println(&lt;-c)
+}
+</code></pre>
+<ul>
+<li><strong>Close</strong></li>
+</ul>
+<p><code>close(ch)</code> - Solo un emisor puede cerrar un canal. Enviar a un canal cerrado
+causa un panic. No son como ficheros que hace falta cerrarlos. Solo se cierran
+para avisar al receptor de que no llegaran mas datos y para terminar los loop
+range      </p>
+<p><code>v, ok := &lt;-ch</code> - Un emisor puede cerrar un canal para indicar que no se enviara nada mas. Los receptores pueden testear cuando un canal ha sido cerrado
+asignando un segundo parametro a la expresion receptora<br />
+<code>ok</code> sera falso cuando no haya mas valores que recibir y el canal este cerrado.  </p>
+<p><code>for i := range ch</code> - recibe valores del canal hasta que se cierre</p>
+<ul>
+<li><strong>Select</strong></li>
+</ul>
+<p>Es como <code>switch</code> pero con canales  </p>
+<p>1A - 89<br />
+1B - 103   </p>
+<hr />
+<h2 id="modules">MODULES</h2>
+<pre><code class="language-go">go mod init nombreModulo
+go mod init github.com/jolav/nombreModulo
+
+// listar todos los modulos con sus dependencias
+go list -m all 
+go list all ./...
+
+// chechear paquetes con actualizaciones
+go list -m -u all
+go list -m -u -json all
+
+// actualizar
+// cambiar manualmenrte el archivo go.mod o
+// actualiza todas salvo nueva version mayor, 
+go get -v -u ./...
+// para versiones especificas o nueva version mayor
+go get -v -u github.com/user/repo@v1.1.1 
+//despues para asegurar que el el codigo que tenemos en el modulo coincide
+// con el archivo gp.mod ejecutamos
+go mod tidy
+
+</code></pre>
+<hr />
+<h2 id="paquetes">PAQUETES</h2>
+<p>Un programa Go esta hecho con paquetes. Los programas empiezan ejecutando la
+funcion <code>main</code> dentro del paquete <code>main</code>.<br />
+Por convencion el nombre del paquete es la ultima palabra de la ruta del import.<br />
+El paquete "math/rand" comprende archivos que comienzan con la sentencia
+<code>package rand</code>  </p>
+<p>Paquetes que no son de la libreria estandar se importan usando una URL web,
+pero antes hay que descargarlos con <code>go get</code></p>
+<pre><code class="language-go">go get github.com/creador/ruta/al/paquete
+import &quot;github.com/creador/ruta/al/paquete&quot;
+</code></pre>
+<p>Despues de importar un paquete podemos usar los nombres que el exporta (sean
+variables, metodos o funciones) desde fuera de el paquete.
+Los nombres exportados en Go comienzan por letra mayuscula</p>
+<pre><code class="language-go">package main
+import ( &quot;fmt&quot;  &quot;math&quot; )
+func main() {
+    fmt.Println(math.Pi)
+    fmt.Println(math.pi)
+}
+// cannot refer to unexported name math.pi
+</code></pre>
+<blockquote>
+<blockquote>
+<p><strong>Otras formas de importar paquetes</strong></p>
+</blockquote>
+</blockquote>
+<ul>
+<li><code>ìmport alias "fmt"</code> - Crea un alias de fmt. Ahora es alias.LoQueSea en lugar de fmt.LoQueSea  </li>
+<li><code>import . "fmt"</code> -  Permite acceder al contenido directamente sin tener que
+ir precedido de fmt  </li>
+<li><code>import _ "fmt"</code> - Elimina las advertencia del compilado sobre ese paquete
+si no se usa y  ejecuta si hay las funciones de inicializacion (<code>func init() {}</code>), El resto del
+paquete permanece inaccesible.  </li>
+</ul>
+<h3 id="crear-paquetes">Crear paquetes</h3>
+<p>Los nombres de paquetes coinciden con la carpeta donde estan. Esto se puede
+cambiar pero no merece la pena<br />
+Por convencion el nombre del paquete es la ultima palabra de la ruta del import.  </p>
+<p><code>~/src/proyectoX/main.go</code></p>
+<pre><code class="language-go">package main
+import &quot;fmt&quot;
+import &quot;proyectoX/utilidades&quot;  // la ruta es a partir de srcs
+func main() {
+    // llamada a  utilidades.Media(xs)
+}
+</code></pre>
+<p><code>~/src/proyectoX/utilidades/media.go</code></p>
+<pre><code class="language-go">package utilidades
+func Media() {
+    // codigo que sea
+}
+</code></pre>
+<h3 id="desinstalar-paquetes">Desinstalar paquetes</h3>
+<p><code>go clean -i ruta/paquete...</code> - teoricamente borras los pkg y bin, los src hay que borrarlos manualmente  </p>
+<h3 id="actualizar">Actualizar</h3>
+<p><code>go get -u all</code> -  Actualiza todos  </p>
+<p><code>go get -u full/package/name</code> -  Actualizar solo ese paquete</p>
+<hr />
+<h2 id="ejecucion">EJECUCION</h2>
+<p>El programa se inicia por la funcion <code>main</code> del <code>package main</code>  </p>
+<p>Antes se ejecutan las funciones <code>init</code> de ese fichero</p>
+<p>Los paquetes importados "_ import "ruta/paquete" hacen que el compilador acepte un paquete que no se usa y ademas ejecutan la o las funciones <code>init</code> de ese paquete  </p>
+<hr />
+<h2 id="testing">TESTING</h2>
+<p>El compilador ignora todos los archivos que terminan en <code>_test.go</code>  </p>
+<p><code>~/src/proyectoX/utilidades/media_test.go</code></p>
+<pre><code class="language-go">package utilidades
+
+import &quot;testing&quot;
+
+type testpair struct {
+    values  []float64
+    average float64
+}
+
+var tests = []testpair{
+    {[]float64{1, 2}, 1.5},
+    {[]float64{1, 1, 1, 1, 1, 1}, 1},
+    {[]float64{-1, 1}, 0},
+}
+
+func TestAverage(t *testing.T) {
+    for _, pair := range tests {
+        v := Media(pair.values)
+        if v != pair.average {
+            t.Error(
+                &quot;For&quot;, pair.values,
+                &quot;expected&quot;, pair.average,
+                &quot;got&quot;, v,
+            )
+        }
+    }
+}
+</code></pre>
+<p><code>go test</code></p>
+<hr />
+<h2 id="errors">ERRORS</h2>
+<p><a href="https://blog.golang.org/error-handling-and-go">Errores en Go</a></p>
+<p>Los captura un tipo interfaz predefinido cuyo unico metodo <code>Error</code> devuelve
+una cadena  </p>
+<pre><code class="language-go">type error interface {
+    Error() string
+}
+</code></pre>
+<p>Forma estandard de tratar los errores.<br />
+<code>log.Fatal(err)</code> - manda el error a la terminal y detiene el programa  </p>
+<pre><code class="language-go">f, err := os.Open(&quot;filename.ext&quot;)
+if err != nil {
+    log.Fatal(err)
+}
+</code></pre>
+<p>Podemos aligerar la repeticion un poco usando:  </p>
+<pre><code class="language-go">func check(e error) {
+    if e != nil {
+        panic(e)
+    }
+}
+// y ahora ya solo ponemos
+check(err)
+</code></pre>
+<hr />
+<h2 id="libreria-estandar"><strong>LIBRERIA ESTANDAR</strong></h2>
+<h3 id="fmt"><strong>FMT</strong></h3>
+<p><code>import "fmt"</code></p>
+<p><code>fmt.Print()</code> - imprime<br />
+<code>fmt.Println()</code> - imprime y salta de linea <br />
+<code>fmt.Printf()</code> - imprime con un determinado formato  </p>
+<pre><code class="language-go">type point struct {
+    x, y int
+}
+p := point{1, 2}
+
+fmt.Printf(&quot;%v\n&quot;, p)                   // {1 2}
+
+// en una struct, `%+v` incluye los nombres de los campos de la struct
+fmt.Printf(&quot;%+v\n&quot;, p)                  // {x:1 y:2}
+
+// Imprimir el tipo de un valor
+fmt.Printf(&quot;%T\n&quot;, p)                   // main.point
+
+// `%d` para enteros standard
+fmt.Printf(&quot;%d\n&quot;, 123)                 // 123
+
+// Imprime el caracter que corresponde al entero
+fmt.Printf(&quot;%c\n&quot;, 65)                  // a
+
+// Imprime floats
+fmt.Printf(&quot;%f\n&quot;, 78.9)                // 78.90000
+
+// Imprime string basicas `%s`.
+fmt.Printf(&quot;%s\n&quot;, &quot;\&quot;string\&quot;&quot;)        // &quot;string&quot;
+
+// Imprimir Booleano
+fmt.Printf(&quot;%t\n&quot;, a ==b)               // true o false
+
+// Imprime un puntero`%p`.
+fmt.Printf(&quot;%p\n&quot;, &amp;p)                  // 0x42135100
+</code></pre>
+<p><code>fmt.Sprint()</code> - devuelve el resultado a una string  <br />
+<code>fmt.Sprintln()</code> - devuelve el resultado con salto de linea a una string  <br />
+<code>fmt.Sprintf()</code> - devuelve el resultado con un determinado formato a una string  </p>
+<pre><code class="language-go">// las Sxxx() son como las normales en vez de imprimir el resultado
+// lo devuelven como un string
+s := fmt.Sprintf(&quot;Hi, my name is %s and I'm %d years old.&quot;, &quot;Bob&quot;, 23)
+// s vale &quot;Hi, my name is Bob and I'm 23 years old.&quot;
+</code></pre>
+<p><code>fmt.Scan()</code> - para leer una palabra del teclado , almacena sucesivos valores
+separados por un espacio en sucesivos argumentos. Saltos de linea cuentan como
+espacio <br />
+<code>fmt.Scanln()</code> - para leer una palabra del teclado , almacena sucesivos valores
+separados por un espacio en sucesivos argumentos. Saltos de linea acaban con la
+lectura de datos  </p>
+<ul>
+<li><strong>verbos</strong></li>
+</ul>
+<p>- General<br />
+<code>%v</code> - valor en formato por defecto. En structs <code>%+v</code> añade los nombres de los campos<br />
+<code>%T</code> - tipo del valor<br />
+<code>%#v</code> - representacion del tipo del valor con sintaxis de golang<br />
+- Booleano <br />
+<code>%t</code> - booleano, devuelve palabra true o false <br />
+- Integer <br />
+<code>%b</code> - devuelve en base 2<br />
+<code>%c</code> - devuelve caracter representado por el correspondiente codigo Unicode  <br />
+<code>%d</code> - devuelve en base 10 <br />
+<code>%U</code> - formato Unicode<br />
+- Floating point <br />
+<code>f%</code> - notacion decimal sin exponentes  <br />
+<code>e%</code> - notacion decimal con exponentes
+- Strings y []byte
+<code>%s</code> -  cadenas normales<br />
+<code>%q</code> -  para escapar comillas dobles<br />
+<code>%x</code> - convierte a base hexadecimal    </p>
+<hr />
+<h3 id="strings"><strong>STRINGS</strong></h3>
+<p><code>import "strings"</code>  </p>
+<p><code>strings.Contains("test", "es")</code> = true - Contiene "test" a "es"    <br />
+<code>strings.Count("test", "t")</code> = 2 - Cuantas "t" hay en "test"<br />
+<code>strings.HasPrefix("test", "te")</code> = true - Comienza "test" por "te"  <br />
+<code>strings.HasSuffix("test", "st")</code> = True -  Acaba "test" en "st"  <br />
+<code>strings.Index("test", "e")</code> = 1 - Posicion de string "e" dentro de string
+"test", si no esta devuelve -1<br />
+<code>strings.Join([]string{"a","b"}, "-")</code> = "a-b" - Coge una lista de strings y
+las junta en una separadas por otra string ("-" en el ejemplo) <br />
+<code>strings.Repeat("a", 5)</code> = aaaaa -  Repite una string n veces<br />
+<code>strings.Replace("aaaa", "a", "b", 2)</code> = "bbaa" - reemplaza en una cadena una
+parte por otra n veces (o todas las que se pueda si pasamos -1)<br />
+<code>strings.Split("a-b-c-d-e", "-")</code> = []string{"a","b","c","d","e"} - Parte una
+string en un array de strings usando otra string como separador<br />
+<code>strings.ToLower("test")</code> = "TEST "- convierte la cadena a minusculas<br />
+<code>strings.ToUpper("TEST")</code> = "test" - convierte la cadena a mayusculas<br />
+<code>strings.Fields("cadena que sea)</code> = como split usando espacios en blanco. es equivalente a si usaramos <code>strings.Split(text, " ")</code><br />
+<code>strings.Trim("cadena","loquecorta")</code> = elimina en cadena todas las loquecorta pero solo del comienzo y del final  <br />
+strings.Trim(" !!! Achtung! Achtung! !!! ", "! ") == ["Achtung! Achtung"]  </p>
+<p>Convertir string en slice of bytes y viceversa<br />
+<code>arr := []byte("test")</code><br />
+<code>str := string([]byte{'t','e','s','t'})</code></p>
+<p>Fuera del paquete string</p>
+<p><code>len("aquiunacadena")</code> - nos da la longitud de la string   <br />
+<code>"cadena"[3]</code> - nos da el codigo ASCII del caracter de indice 3, "e" = 101<br />
+<code>string(cadena[n])</code> - nos da el caracter de la cadena en la posicion n  </p>
+<hr />
+<h3 id="strconv"><strong>STRCONV</strong></h3>
+<p><code>import "strconv"</code> - conversiones entre numeros y strings  </p>
+<p><code>s := strconv.Itoa(-42)</code> - int to string<br />
+<code>i, err := strconv.Atoi("-42")</code> - string to int<br />
+<code>b, err := strconv.ParseBool("true")</code> - string to boolean<br />
+<code>f, err := strconv.ParseFloat("3.1415", 64)</code> - string to float<br />
+<code>i, err := strconv.ParseInt("-42", 10, 64)</code> - string to int<br />
+<code>u, err := strconv.ParseUint("42", 10, 64)</code> - string to uint<br />
+<code>s := strconv.FormatBool(true)</code> - boolean value to string<br />
+<code>s := strconv.FormatFloat(3.1415, 'E', -1, 64)</code> - float to string<br />
+<code>s := strconv.FormatInt(-42, 16)</code> - int to string<br />
+<code>s := strconv.FormatUint(42, 16)</code> - uint to string  </p>
+<hr />
+<h3 id="append"><strong>APPEND</strong></h3>
+<p><a href="https://github.com/golang/go/wiki/SliceTricks">Trucos con slices</a> </p>
+<p><code>func append(slice []T, elements...T) []T.</code></p>
+<hr />
+<h3 id="io"><strong>IO</strong></h3>
+<p><code>import "io"</code>    </p>
+<p>Tiene dos interfaces principales</p>
+<ul>
+<li>
+<p><strong>Reader</strong><br />
+soporta leer a a traves del metodo Read  </p>
+</li>
+<li>
+<p><strong>Writer</strong><br />
+soporta escribir a traves del metodo Write</p>
+</li>
+</ul>
+<h3 id="ioioutil"><strong>IO/IOUTIL</strong></h3>
+<p><code>import io/ioutil</code>    </p>
+<ul>
+<li><strong>leer y escribir un archivo</strong>  </li>
+</ul>
+<p>De esta forma cargamos todo el archivo en memoria de golpe.
+Mas control a traves de un <code>File struct</code> del paquete OS</p>
+<pre><code class="language-go">data := []byte(&quot;Hello World!\n&quot;)
+
+// write 
+err := ioutil.WriteFile(&quot;data1&quot;, data, 0644)
+if err != nil {
+    panic(err)
+}
+
+//read
+read, err := ioutil.ReadFile(&quot;data1&quot;)
+if err != nil {
+    return
+}
+fmt.Print(string(read1))
+</code></pre>
+<ul>
+<li><strong>Limitar tamaño io</strong></li>
+</ul>
+<pre><code class="language-go">defer resp.Body.Close()
+limitReader := &amp;io.LimitedReader{R: resp.Body, N: 2e6} // (2mb)
+body, err := ioutil.ReadAll(limitReader)
+</code></pre>
+<hr />
+<h3 id="os"><strong>OS</strong></h3>
+<p><code>import "os"</code>  </p>
+<ul>
+<li><strong>Saber donde estamos</strong></li>
+</ul>
+<pre><code class="language-go">os.Getwd()
+</code></pre>
+<ul>
+<li><strong>leer escribir un archivo</strong>  </li>
+</ul>
+<pre><code class="language-go">// Una forma
+file, err := os.Open(&quot;test.txt&quot;)
+if err != nil {
+    // handle the error here
+}
+defer file.Close()
+stat, err := file.Stat()              // get the file size
+if err != nil {
+    return
+}
+bs := make([]byte, stat.Size())       // read the file
+_, err = file.Read(bs)
+if err != nil {
+    return
+}
+str := string(bs)
+fmt.Println(str)
+</code></pre>
+<pre><code class="language-go">// otra forma
+data := []byte(&quot;Hello World!\n&quot;)
+
+// write to file and read from file using the File struct
+file1, _ := os.Create(&quot;data2&quot;)
+defer file1.Close()
+
+bytes, _ := file1.Write(data)
+fmt.Printf(&quot;Wrote %d bytes to file\n&quot;, bytes)
+
+file2, _ := os.Open(&quot;data2&quot;)
+defer file2.Close()
+
+read2 := make([]byte, len(data))
+bytes, _ = file2.Read(read2)
+fmt.Printf(&quot;Read %d bytes from file\n&quot;, bytes)
+fmt.Println(string(read2))
+</code></pre>
+<ul>
+<li><strong>crear un archivo</strong>  </li>
+</ul>
+<pre><code class="language-go">func main() {
+  file, err := os.Create(&quot;test.txt&quot;)
+  if err != nil {
+      return
+  }
+  defer file.Close()
+  file.WriteString(&quot;test&quot;)
+}
+</code></pre>
+<ul>
+<li><strong>Leer el contenido de un directorio</strong>  </li>
+</ul>
+<p><code>Readdir</code> - coge un argumento que es el numero de entradas que devuelve. Con -1
+devuelve todas  </p>
+<pre><code class="language-go">func main() {
+    dir, err := os.Open(&quot;.&quot;)
+    if err != nil {
+        return
+    }
+    defer dir.Close()
+    fileInfos, err := dir.Readdir(-1)
+    if err != nil {
+        return
+    }
+    for _, fi := range fileInfos {
+        fmt.Println(fi.Name())
+    }
+}
+</code></pre>
+<p><code>Walk</code> - para recorrer recursivamente un directorio. Pertenece al paquete
+<a href="#pathfilepath">path/filepath</a>  </p>
+<ul>
+<li><strong>Command line arguments</strong></li>
+</ul>
+<p>el primer valor del slice de argumentos es el nombre del comando path incluido</p>
+<p><code>argsWithProg := os.Args</code>- slice completo con comando nombre path incluido<br />
+<code>argsWithoutProg := os.Args[1:]</code> - slice solo de argumentos<br />
+<code>arg := os.Args[x]</code> - devuelve argumento de posicion X  </p>
+<ul>
+<li><strong>environment variables</strong>  </li>
+</ul>
+<p><code>os.Setenv("nombreVariable", "valor")</code> - establece un par clave/valor para una variable de entorno<br />
+<code>os.Getenv("nombreVariable")</code> - devuelve el valor de esa clave  </p>
+<pre><code class="language-go">// os.Environ es una lista de todas las variables de entorno
+for _, e := range os.Environ() {
+    pair := strings.Split(e, &quot;=&quot;)
+        fmt.Println(pair[0], &quot;--&gt;&quot;, pair[1])
+}
+</code></pre>
+<hr />
+<h3 id="pathfilepath"><strong>PATH/FILEPATH</strong></h3>
+<p><code>import path/filepath</code>    </p>
+<ul>
+<li><strong>Recorrer recursivamente un directorio</strong></li>
+</ul>
+<p><code>Walk</code>  </p>
+<pre><code class="language-go">func main() {
+    filepath.Walk(&quot;.&quot;, func(path string, info os.FileInfo, err error)
+                                                              error {
+        fmt.Println(path)
+        return nil
+    })
+}
+</code></pre>
+<h3 id="regexp"><strong>REGEXP</strong></h3>
+<p><code>import "regexp"</code>  </p>
+<pre><code class="language-go">// Comprueba si es una cadena
+patron := &quot;loquequeremoscomprobar&quot;
+match, _ := regexp.MatchString(&quot;p([a-z]+)ch&quot;, patron)
+fmt.Println(match)
+
+// o compilamos primero una struct optimizada para regexp
+patron := &quot;loquequeremoscomprobar&quot;
+r, _ := regexp.Compile(&quot;p([a-z]+)ch&quot;)
+fmt.Println(r.MatchString(patron))
+</code></pre>
+<pre><code class="language-go">// Por ejemplo cambiar en la cadena s los guiones bajos por guiones
+r := regexp.MustCompile(&quot;_&quot;)
+s = r.ReplaceAllString(s, `-`)
+</code></pre>
+<hr />
+<h3 id="json"><strong>JSON</strong></h3>
+<p><code>import "encoding/json"</code>  </p>
+<p><a href="https://blog.golang.org/json-and-go">Golang JSON</a>  </p>
+<p><code>dataJson, err := json.Marshal(structObject)</code> - Go struct data to JSON data  <br />
+<code>dataJson, err:= json.MarshalIndent(strObj, "", "  ")</code> - bien preformateado  </p>
+<p><code>err := json.Unmarshal(dataJson, &amp;structObject)</code> - JSON data to Go struct data  </p>
+<pre><code class="language-go">urlDir := &quot;https://jolav.me/api/que/queramos&quot;
+resp, err := http.Get(urlDir)
+if err != nil {
+    log.Fatal(err)
+}
+defer resp.Body.Close()
+
+body, err := ioutil.ReadAll(resp.Body)
+if err != nil {
+    log.Fatal(err)
+}
+body = body[5 : len(body)-6] // quitar mis pegatinas de &lt;pre&gt;&lt;/pre&gt;
+
+var s structObject
+err = json.Unmarshal(body, &amp;s)
+fmt.Println(s)
+</code></pre>
+<ul>
+<li><strong>Convertir json to go struct</strong>  </li>
+</ul>
+<p><a href="https://mholt.github.io/json-to-go/">JSON-to-Go online</a></p>
+<p><code>json:"-"</code> ignora ese campo tanto al convertir a json o al convertir desde json<br />
+<code>json:"nombreCampo,omitempy</code> - no se incluye el campo al convertir a json si ese campo ya tiene un valor por defecto.</p>
+<ul>
+<li><strong>Decoder</strong></li>
+</ul>
+<p>Ademas de <code>Unmarshal/Marshal</code> existe <code>Decoder/Encoder</code>, que se debe usar si los datos vienen de una stream io.Reader como por ejemplo el Body de una http.Request.<br />
+Si los datos estan en una string o en memoria mejor usar Unmarshal</p>
+<pre><code class="language-go">type configuration struct { lo que sea }
+
+file, _ := os.Open(&quot;conf.json&quot;)
+defer file.Close()
+decoder := json.NewDecoder(file)
+conf := configuration{}
+err := decoder.Decode(&amp;conf)
+if err != nil {
+    fmt.Println(&quot;Error:&quot;, err)
+}
+fmt.Println(conf)
+</code></pre>
+<ul>
+<li><strong>Parsing Interfaces</strong></li>
+</ul>
+<p>Análisis de una interfaz  </p>
+<p>Si realmente no tienes ni idea de cómo podría ser tu JSON, se puede analizar en una interfaz genérica{}. Una interfaz vacía es una forma de definir una variable en Go como "esto podría ser cualquier cosa". En tiempo de ejecución, Go asignará la memoria adecuada para que se ajuste a lo que decida almacenar en ella.  </p>
+<p>Esto es lo que parece: </p>
+<pre><code class="language-go">var parsed interface{}
+err := json.Unmarshal(data, &amp;parsed)
+</code></pre>
+<p>En realidad, el uso de parsed es un poco laborioso, ya que Go no puede usarlo sin saber de qué tipo es. </p>
+<pre><code class="language-go">switch parsed.(type) {
+    case int:
+        someGreatIntFunction(parsed.(int))
+    case map:
+        someMapThing(parsed.(map))
+    default:
+        panic(&quot;JSON type not understood&quot;)
+}
+</code></pre>
+<p>También puedes hacer aserciones de tipo similares en línea:</p>
+<pre><code class="language-go">intVal, ok := parsed.(int)
+if !ok {
+    panic(&quot;JSON value must be an int&quot;)
+}
+</code></pre>
+<p>Afortunadamente, sin embargo, es raro no tener idea de lo que puede ser un valor. Si, por ejemplo, sabe que su valor JSON es un objeto, puedes analizarlo en una interfaz de map[string]interface{}. Esto te da la ventaja de poder referirte a claves específicas. Un ejemplo:</p>
+<pre><code class="language-go">var parsed map[string]interface{}
+data := []byte(`
+    {
+        &quot;id&quot;: &quot;k34rAT4&quot;,
+        &quot;age&quot;: 24
+    }
+`)
+err := json.Unmarshal(data, &amp;parsed)
+</code></pre>
+<p>A continuación, puedes referirte a las teclas específicas sin ningún problema:</p>
+<pre><code class="language-go">parsed[&quot;id&quot;]
+</code></pre>
+<p>Sin embargo, todavía tienes interfaces como valor de su map, por lo que debes hacer type assertions para utilizarlas:</p>
+<pre><code class="language-go">idString := parsed[&quot;id&quot;].(string)
+</code></pre>
+<p>Go utiliza estos seis tipos para todos los valores analizados en las interfaces:</p>
+<pre><code class="language-go">bool, for JSON booleans
+float64, for JSON numbers
+string, for JSON strings
+[]interface{}, for JSON arrays
+map[string]interface{}, for JSON objects
+nil for JSON null
+</code></pre>
+<p>Es decir, tus números siempre serán de tipo float64, y necesitarán ser casteados a int, por ejemplo. Si tiene una necesidad de obtener enteros directamente, puedes usar el método UseNumber. Lo que te da un objeto que puede convertirse en un float64 o en un int a tu discreción.</p>
+<p>De manera similar, todos los objetos decodificados en una interfaz serán map[string]interface{}, y necesitarán ser mapeados manualmente a cualquier estructura aue quieras usar.</p>
+<p><a href="https://eager.io/blog/go-and-json/">Sobre JSON</a></p>
+<hr />
+<h3 id="time"><strong>TIME</strong></h3>
+<p><code>import "time"</code>  </p>
+<p><code>now := time.Now()</code> - nos da la hora actual 2012-10-31 15:50:13.793654 +0000 UTC</p>
+<p><code>then := time.Date(2015, 10, 10, 18, 30, 08, 0, time.UTC)</code> - Creamos un struct de tiempo asociado a una localizacion (time zone)   </p>
+<pre><code class="language-go">then.Year()
+then.Month()
+then.Day()
+then.Hour()
+then.Minute()
+then.Second()
+then.Nanosecond()
+then.Location()
+then.Weekday()
+then.Before(now)
+then.After(now)
+then.Equal(now)
+</code></pre>
+<p><code>diff := now.Sub(then)</code> - metodo Sub devuelve duracion del intervalo entre dos tiempos  </p>
+<pre><code class="language-go">diff.Hours()
+diff.Minutes()
+diff.Seconds()
+diff.Nanoseconds()
+// avanzar o retroceder en el tiempo
+then.Add(diff)
+then.Add(-diff)
+
+// sumar tiempo
+tiempoQueSea.Add( 1000 * time.Hours)
+</code></pre>
+<ul>
+<li><strong>String to Time</strong></li>
+</ul>
+<pre><code class="language-go">// pasar una fecha a string segun un determinado formato
+layout := &quot;2006-01-02 15:04:05&quot;  
+t, err := time.Parse(layout1, start)
+if err != nil {
+    fmt.Prinltln(err)
+}
+
+// Hora actual a string con determinado formato  
+horaActual = time.Now().Format(layout)
+</code></pre>
+<ul>
+<li><strong>Time to String</strong></li>
+</ul>
+<pre><code class="language-go">myString = myTime.String()
+</code></pre>
+<ul>
+<li><strong>Timestamp</strong></li>
+</ul>
+<p><code>Unix epoch</code></p>
+<pre><code class="language-go">now := time.Now()
+secs := now.Unix()
+nanos := now.UnixNano()
+millis := nanos / 1000000
+
+time.Unix(secs, 0)
+time.Unix(0, nanos)
+</code></pre>
+<ul>
+<li><strong>Intervalos</strong></li>
+</ul>
+<p><code>timers</code> - para hacer algo una vez dentro de un tiempo  </p>
+<pre><code class="language-go">timer1 := time.NewTimer(time.Second * 2)
+&lt;-timer1.C
+fmt.Println(&quot;Timer 1 expired&quot;)
+timer2 := time.NewTimer(time.Second)
+go func() {
+    &lt;-timer2.C
+    fmt.Println(&quot;Timer 2 expired&quot;)
+}()
+stop2 := timer2.Stop()
+if stop2 {
+    fmt.Println(&quot;Timer 2 stopped&quot;)
+}
+// Timer 1 expired
+// Timer 2 stopped
+// Timer 2 expired NUNCA APARECE, se cancela antes
+</code></pre>
+<p><code>tickers</code> -  para hacer algo repetidamente a intervalos regulares  </p>
+<pre><code class="language-go">ticker := time.NewTicker(time.Millisecond * 500)
+go func() {
+    for t := range ticker.C {
+        fmt.Println(&quot;Tick at&quot;, t)
+    }
+}()
+time.Sleep(time.Millisecond * 1600)
+ticker.Stop()
+fmt.Println(&quot;Ticker stopped&quot;)
+</code></pre>
+<hr />
+<h3 id="math"><strong>MATH</strong></h3>
+<p><code>import "math"</code>  </p>
+<p><code>math.Floor(x float64) float64</code> - devuelve el entero (int) mas grande poisble menor o igual que x<br />
+<code>math.Pow(x,y float64) float64</code> - x elevado a y    </p>
+<hr />
+<h3 id="mathrand"><strong>MATH/RAND</strong></h3>
+<p><code>import "math/rand"</code>  </p>
+<p><code>rand.Intn(10)</code>- genera un numero aleatorio entero &gt;= 0 y &lt; 10<br />
+<code>rand.Float64()</code>- genera un numero aleatorio &gt;= 0.0 y &lt; 1.0<br />
+<code>(rand.Float64()*5)+5</code>- genera entre &gt;= 5.0 y &lt; 10.0   </p>
+<p><code>s1 := rand.NewSource(time.Now().UnixNano())</code>- semilla para que no sea siempre igual<br />
+<code>r1 := rand.New(s1)</code>- para ir cambiando la semilla  </p>
+<p><code>rand.Seed(time.Now().UTC().UnixNano())</code> - otra forma de cambiar la semilla para que no siempre sea igual  </p>
+<pre><code class="language-go">func init() {
+    //fmt.Println(`Init from package tracker`)
+    r = rand.New(rand.NewSource(time.Now().UnixNano()))
+}
+var r *rand.Rand
+func createRandomString() string {
+    const chars = &quot;abcdefghijklmnopqrstuvwxyz0123456789&quot;
+    result := &quot;&quot;
+    for i := 0; i &lt; lenID; i++ {
+        result += string(chars[r.Intn(len(chars))])
+    }
+    return result
+}
+</code></pre>
+<hr />
+<h3 id="databasesql"><strong>DATABASE/SQL</strong></h3>
+<p><a href="http://go-database-sql.org/index.html">database/sql</a></p>
+<hr />
+<h3 id="flag"><strong>FLAG</strong></h3>
+<p><code>import "flag"</code>  </p>
+<p>Para enviar argumentos a un comando  </p>
+<p><a href="https://gobyexample.com/command-line-flags">Ejemplos</a>  </p>
+<hr />
+<h3 id="sort"><strong>SORT</strong></h3>
+<p><code>import sort</code>    </p>
+<p>Contiene funciones para ordenar datos arbitrario de slices de ints y floats y
+structs definidas por el usuario  </p>
+<ul>
+<li><strong>s = []strings</strong></li>
+</ul>
+<p><code>sort.strings(s)</code> -  De menor a mayor alfabeticamente  </p>
+<ul>
+<li><strong> n = []ints || float32 || float64</strong></li>
+</ul>
+<p><code>sort.Ints(n)</code> -  Ordena los numeros de menor a mayor<br />
+<code>sort.IntsAreSorted(n)</code> -  booleano que devuelve si estan ordenados  </p>
+<ul>
+<li><strong>custom sorting</strong></li>
+</ul>
+<pre><code class="language-go">package main
+
+import &quot;sort&quot;
+import &quot;fmt&quot;
+
+// If I have an array/slice of structs in Go and want to sort them
+// using the sort package it seems to me that I need to implement
+// the whole sort interface which contains 3 methods:
+// https://golang.org/pkg/sort/#Interface  
+
+type ByLength []string
+
+func (s ByLength) Len() int {
+    return len(s)
+}
+
+func (s ByLength) Swap(i, j int) {
+    s[i], s[j] = s[j], s[i]
+}
+
+func (s ByLength) Less(i, j int) bool {
+    return len(s[i]) &lt; len(s[j])
+}
+
+func main() {
+    fruits := []string{&quot;peach&quot;, &quot;banana&quot;, &quot;kiwi&quot;}
+    sort.Sort(ByLength(fruits))
+    fmt.Println(fruits)
+}
+</code></pre>
+<hr />
+          
+          
+        </div>
+      </div>
+    </div>
+    <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebarwrapper">
+        <!--
+  <p class="logo">
+    <a href="..">
+      <img class="logo" src="../_img/chuletas128.png" title="Chuletas">
+    </a>
+  </p>
+  
+
+
+
+        
+        <h2>Navigation</h2>
+
+
+<ul>
+  
+      
+        <li>
+          <a href="">Menu</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="html/">HTML</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="css/">CSS</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="frontend/">Front End</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript/">Javascript</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript-apis/">Javascript APIs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript-para-web/">Javascript para web</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript-snippets/">Javascript snippets</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="reactjs/">Reactjs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="nodejs/">Nodejs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="expressjs/">Expressjs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="nodejs-snippets/">Nodejs snippets</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="nodejs-bases-de-datos/">Nodejs Bases de Datos</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang/">Golang</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang-para-web/">Golang para web</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang-snippets/">Golang snippets</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang-bases-de-datos/">Golang Bases de Datos</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="debian/">Debian</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="varios/">Varios</a>
+        </li>
+      
+    
+  </ul>
+        
+
+
+
+<h3>Contenidos</h3>
+
+<nav>
+  
+
+<ul>
+  
+  <li><a href="#instalacion">INSTALACION</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#enlaces-utiles">ENLACES UTILES</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#go-tool">GO TOOL</a></li>
+  <ul>
+  
+  <li><a href="#install">install</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#build">build</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#operadores">OPERADORES</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#variables">VARIABLES</a></li>
+  <ul>
+  
+  <li><a href="#declaracion">Declaracion</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#alcance">Alcance</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#conversion-de-tipos">Conversion de tipos</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#punteros">Punteros</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#datos-basicos">DATOS BASICOS</a></li>
+  <ul>
+  
+  <li><a href="#numeros">Numeros</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#booleanos">Booleanos</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#cadenas">Cadenas</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#constantes">Constantes</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#iota">Iota</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#estructuras-de-control">ESTRUCTURAS DE CONTROL</a></li>
+  <ul>
+  
+  <li><a href="#for">for</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#if">if</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#switch">switch</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#range">range</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#arrays">ARRAYS</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#slices">SLICES</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#maps">MAPS</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#structs">STRUCTS</a></li>
+  <ul>
+  
+  <li><a href="#inicializacion">Inicializacion</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#metodos">Metodos</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#composicion">Composicion</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#interfaces">INTERFACES</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#funciones">FUNCIONES</a></li>
+  <ul>
+  
+  <li><a href="#type-function">type function</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#defer">defer</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#panic-recover">panic, recover</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#concurrencia">CONCURRENCIA</a></li>
+  <ul>
+  
+  <li><a href="#goroutines">goroutines</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#channels">channels</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#modules">MODULES</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#paquetes">PAQUETES</a></li>
+  <ul>
+  
+  <li><a href="#crear-paquetes">Crear paquetes</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#desinstalar-paquetes">Desinstalar paquetes</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#actualizar">Actualizar</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#ejecucion">EJECUCION</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#testing">TESTING</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#errors">ERRORS</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#libreria-estandar">LIBRERIA ESTANDAR</a></li>
+  <ul>
+  
+  <li><a href="#fmt">FMT</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#strings">STRINGS</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#strconv">STRCONV</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#append">APPEND</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#io">IO</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#ioioutil">IO/IOUTIL</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#os">OS</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#pathfilepath">PATH/FILEPATH</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#regexp">REGEXP</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#json">JSON</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#time">TIME</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#math">MATH</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#mathrand">MATH/RAND</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#databasesql">DATABASE/SQL</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#flag">FLAG</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#sort">SORT</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+</ul>
+
+
+  
+</nav>
+        
+        <div id="searchbox" style="display: none;" role="search">
+  <h3>Quick search</h3>
+  <form class="search" action="../search.html" method="get">
+    <input name="q" type="text">
+    <input value="Go" type="submit">
+  </form>
+  <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+  </p>
+</div>
+<script type="text/javascript">
+  document.getElementById("searchbox").style.display = "block";
+</script>
+        -->
+
+        
+
+        
+        
+  <p class="logo">
+    <a href="..">
+      <img class="logo" src="../_img/chuletas128.png" title="Chuletas">
+    </a>
+  </p>
+  
+
+
+
+        
+        <div class="menuNav">
+
+  
+  <ul>
+    
+    
+    <li>
+      <a href="../">Menu</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../html/">HTML</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../css/">CSS</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../frontend/">Front End</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript/">Javascript</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript-apis/">Javascript APIs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript-para-web/">Javascript para web</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript-snippets/">Javascript snippets</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../reactjs/">Reactjs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../nodejs/">Nodejs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../expressjs/">Expressjs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../nodejs-snippets/">Nodejs snippets</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../nodejs-bases-de-datos/">Nodejs Bases de Datos</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang/">Golang</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang-para-web/">Golang para web</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang-snippets/">Golang snippets</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang-bases-de-datos/">Golang Bases de Datos</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../debian/">Debian</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../varios/">Varios</a>
+    </li>
+    
+    
+  </ul>
+</div>
+        
+        
+
+
+
+<h3>Contenidos</h3>
+
+<nav>
+  
+
+<ul>
+  
+  <li><a href="#instalacion">INSTALACION</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#enlaces-utiles">ENLACES UTILES</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#go-tool">GO TOOL</a></li>
+  <ul>
+  
+  <li><a href="#install">install</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#build">build</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#operadores">OPERADORES</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#variables">VARIABLES</a></li>
+  <ul>
+  
+  <li><a href="#declaracion">Declaracion</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#alcance">Alcance</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#conversion-de-tipos">Conversion de tipos</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#punteros">Punteros</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#datos-basicos">DATOS BASICOS</a></li>
+  <ul>
+  
+  <li><a href="#numeros">Numeros</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#booleanos">Booleanos</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#cadenas">Cadenas</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#constantes">Constantes</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#iota">Iota</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#estructuras-de-control">ESTRUCTURAS DE CONTROL</a></li>
+  <ul>
+  
+  <li><a href="#for">for</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#if">if</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#switch">switch</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#range">range</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#arrays">ARRAYS</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#slices">SLICES</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#maps">MAPS</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#structs">STRUCTS</a></li>
+  <ul>
+  
+  <li><a href="#inicializacion">Inicializacion</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#metodos">Metodos</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#composicion">Composicion</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#interfaces">INTERFACES</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#funciones">FUNCIONES</a></li>
+  <ul>
+  
+  <li><a href="#type-function">type function</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#defer">defer</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#panic-recover">panic, recover</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#concurrencia">CONCURRENCIA</a></li>
+  <ul>
+  
+  <li><a href="#goroutines">goroutines</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#channels">channels</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#modules">MODULES</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#paquetes">PAQUETES</a></li>
+  <ul>
+  
+  <li><a href="#crear-paquetes">Crear paquetes</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#desinstalar-paquetes">Desinstalar paquetes</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#actualizar">Actualizar</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#ejecucion">EJECUCION</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#testing">TESTING</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#errors">ERRORS</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#libreria-estandar">LIBRERIA ESTANDAR</a></li>
+  <ul>
+  
+  <li><a href="#fmt">FMT</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#strings">STRINGS</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#strconv">STRCONV</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#append">APPEND</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#io">IO</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#ioioutil">IO/IOUTIL</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#os">OS</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#pathfilepath">PATH/FILEPATH</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#regexp">REGEXP</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#json">JSON</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#time">TIME</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#math">MATH</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#mathrand">MATH/RAND</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#databasesql">DATABASE/SQL</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#flag">FLAG</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#sort">SORT</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+</ul>
+
+
+  
+</nav>
+        
+
+        
+
+      </div>
+    </div>
+    <div class="clearer"></div>
+  </div>
+
+  
+  <div class="footer">
+    
+    
+    
+    Powered by <a href="http://www.mkdocs.org">mkdocs 1.4.2</a>
+    &amp; <a href="https://github.com/iamale/mkdocs-alabaster">mkdocs-alabaster</a>
+    
+  </div>
+  
+
+  <!--
+  MkDocs version      : 1.4.2
+  Docs Build Date UTC : 2023-10-03 14:52:40.892746+00:00
+  -->
+</body>
+
+</html>

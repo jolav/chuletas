@@ -1,0 +1,2456 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+  <title>Debian &mdash; Chuletas</title>
+
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <link rel="stylesheet" href="../css/alabaster.css" type="text/css">
+  <link rel="stylesheet" href="../css/alabaster-overrides.css" type="text/css">
+
+  
+  <link href="../_extra/css/extra.css" rel="stylesheet">
+  
+
+  
+  <script src="../_extra/js/highlight.pack.js"></script>
+  
+  <script src="../search/main.js"></script>
+  
+
+  <link rel="stylesheet" href="../_extra/css/atom-one-light.css">
+  <script src="../_extra/js/highlight.pack.js"></script>
+
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+  
+
+</head>
+
+<body>
+
+  <div class="document">
+    <div class="documentwrapper">
+      <div class="bodywrapper">
+        <div class="body" role="main">
+          
+          <h1 id="debian">DEBIAN</h1>
+<hr />
+<h2 id="stable"><strong>STABLE</strong></h2>
+<p>Para andar con ojo en las actualizaciones instalar<br />
+<code>aptitude install apt-listbugs</code></p>
+<p><code><a href="https://tracker.debian.org/">Debian Package Searcher</a></code></p>
+<ul>
+<li><strong>Repositories</strong> </li>
+</ul>
+<p><code>nano /etc/apt/sources.list</code></p>
+<pre><code class="language-sh">## Debian stable
+deb http://ftp.de.debian.org/debian/ stable main contrib non-free
+## Debian Security
+deb http://security.debian.org/ stable-security main contrib non-free 
+## Debian updates
+deb http://ftp.debian.org/debian/ stable-proposed-updates main contrib
+non-free
+## Debian Multimedia
+deb http://www.deb-multimedia.org/ stable main non-free
+## backports
+deb http://ftp.debian.org/debian buster-backports main
+# apt-get -t stretch-backports install &quot;package&quot;
+
+## Dropbox
+deb [arch=i386,amd64] http://linux.dropbox.com/debian/ sid main 
+## node
+deb https://deb.nodesource.com/node_16.x/ buster main
+# Chrome
+deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
+# VirtualBox
+deb https://download.virtualbox.org/virtualbox/debian buster contrib
+### Insync
+deb http://apt.insync.io/debian bullseye non-free contrib
+# Opera
+deb http://deb.opera.com/opera-stable/ stable non-free
+# Mono
+deb https://download.mono-project.com/repo/debian stable-buster main
+# Teamviewer
+deb https://linux.teamviewer.com/deb stable main
+# Steam
+deb [arch=amd64,i386] https://repo.steampowered.com/steam/ stable steam
+</code></pre>
+<p><code>apt install aptitude htop smartmontools sshpass rsync curl wget nano apt-transport-https iperf zip arc arj bzip2 cabextract lzop nomarch p7zip p7zip-full pax tnef unrar-free unzip unrar deborphan net-tools intel-microcode hdparm ncdu rename iftop dns9utils nethogs tcptrack dnsutils</code></p>
+<p><code>curl -sSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -</code></p>
+<hr />
+<h2 id="commands"><strong>COMMANDS</strong></h2>
+<ul>
+<li><strong>Add font</strong></li>
+</ul>
+<p><code>fc-cache -f -v</code> - tras haber copiado la fuente a <code>/usr/share/fonts</code>  </p>
+<ul>
+<li><strong>gpg</strong></li>
+</ul>
+<p><code>gpg -c file.txt</code> - cifra a archivo binario<br />
+<code>gpg -ca file.txt</code> - cifra a archivo de texto  <br />
+<code>gpg --output output.txt -d file.(gpg or txt)</code> - para descifrar </p>
+<pre><code class="language-sh">// convertir directorio en un archivo
+tar czf myfiles.tar.gz mydirectory/
+// convertir archivo a un directorio
+tar xzf myfiles.tar.gz
+</code></pre>
+<p><code>echo RELOADAGENT | gpg-connect-agent</code><br />
+- para eliminar de la memoria la clave y que la pida al descomprimir  </p>
+<ul>
+<li><strong>grep</strong></li>
+</ul>
+<p>Eliminar todas las lineas de una fichero que contienen un determinado 'texto'<br />
+<code>cat nombreArchivo | grep -v 'texto' &gt; nuevoArchivo</code></p>
+<p>Coger solo las lineas de un archivo que contienen un determinado 'texto'<br />
+<code>grep -i</code></p>
+<ul>
+<li><strong>zip</strong></li>
+</ul>
+<p><code>zip -er zipName.zip path/to/folder/</code> - Comprimir carpeta con contraseña  </p>
+<ul>
+<li><strong>dpkg</strong></li>
+</ul>
+<p><code>dpkg -i package.deb</code> - <br />
+<code>apt-get -f install</code> - reparar dependencias incumplidas si las hay<br />
+<code>dpkg -r onlyThaName</code> - desinstalar   <br />
+<code>debconf-show nombrePaquete</code> - muestra configuracion del paquete instalado<br />
+<code>dpkg-reconfigure nombrePaquete</code> - para reconfigurar el paquete   </p>
+<ul>
+<li><strong>Tamaño de ficheros y carpetas</strong></li>
+</ul>
+<p><code>ls -lh</code><br />
+<code>du -ah /path</code><br />
+<code>du -h -d1 | sort -h</code> Lista de directorios (ocultos incluidos) con su tamaño<br />
+<code>df -h</code><br />
+<code>du -sh *</code> Lista de directorios (no ocultos) con su tamaño  </p>
+<pre><code class="language-sh">apt install ncdu
+ncdu
+</code></pre>
+<ul>
+<li><strong>Limpieza</strong></li>
+</ul>
+<pre><code class="language-sh">apt-get autoclean &amp;&amp;  apt-get autoremove &amp;&amp;
+apt-get remove --purge `deborphan`
+</code></pre>
+<p><code>dpkg -l | grep -v ^ii | awk '{print $2}' | sed '1,5d'|xargs
+ dpkg --purge</code>  </p>
+<p>Ver el tamaño de los logs y limpiar todos excepto los ultimos 3 dias<br />
+<code>journalctl --disk-usage</code><br />
+<code>journalctl --vacuum-time=3d</code>  </p>
+<p>Limpiar caches de imagenes<br />
+<code>du -sh ~/.cache/thumbnails</code><br />
+<code>rm -rf ~/.cache/thumbnails/*</code>    </p>
+<ul>
+<li><strong>Process</strong> </li>
+</ul>
+<p><code>pgrep processName</code> - buscar proceso <br />
+<code>ps</code> - listar todos los procesos<br />
+<code>kill processNumber</code> - matar proceso  <br />
+<code>fg</code> - continuar el proceso que estaba detenido   <br />
+<code>nohup comando &amp;</code> - Ejecuta un comando en segundo plano y sigue ejecutandolo aunque salgamos de esa terminal  </p>
+<ul>
+<li><strong>ulimits</strong></li>
+</ul>
+<p><a href="https://www.baeldung.com/linux/error-too-many-open-files">error too many open files</a></p>
+<p><code>lsof</code> - para encontrar file descriptors usados<br />
+<code>lsof -p PID | wc -l</code> - indica cuantos file descriptors (archivos u otros recursos como conexiones http) tiene abiertos el proceso PID<br />
+<code>lsof -c PROCESS-NAME | wc -l</code> - igual que arriba pero por nombre  </p>
+<p><code>ulimit -n</code> - muestra el limite de fd que el usuario puede usar<br />
+<code>ulimit -n 4096</code> - sube ese limite por ejemplo lo normal es 1024 a 4096 pero solo para esa sesion  </p>
+<pre><code class="language-sh">// Para Hacerlo permamente
+nano /etc/security/limits.conf  
+userName soft nofile 2000  
+
+*         hard    nofile      500000
+*         soft    nofile      500000
+root      hard    nofile      500000
+root      soft    nofile      500000
+
+// Cambiar el limite de fd de un proceso en ejecucion
+prlimit --pid pidID --nofile=soft:hard  
+prlimit --pid XXXX --nofile=XXXX:XXXX 
+</code></pre>
+<p>en nginx</p>
+<pre><code class="language-sh">user www-data;
+worker_processes 4;
+pid /run/nginx.pid;
+worker_rlimit_nofile 50000;
+events {
+        worker_connections 4000;
+        # multi_accept on;
+}
+</code></pre>
+<ul>
+<li><strong><a href="https://easyengine.io/tutorials/linux/increase-open-files-limit/">Buena guia</a></strong></li>
+</ul>
+<p><strong>Incrementar limites</strong></p>
+<p>-&gt; Por usuario</p>
+<pre><code class="language-sh">nano /etc/security/limits.conf
+
+Añadir al final
+
+*         hard    nofile      500000
+*         soft    nofile      500000
+root      hard    nofile      500000
+root      soft    nofile      500000
+
+Guardar el archivo y hacer logout y login de nuevo
+</code></pre>
+<p>Si esto no funciona probar con pam-limits</p>
+<pre><code class="language-sh">nano /etc/pam.d/common-session
+
+añadir
+session required pam_limits.so
+</code></pre>
+<p>-&gt; Para Todo el Sistema</p>
+<pre><code>nano /etc/sysctl.conf 
+
+añadir
+fs.file-max = 2097152
+
+Salimos y ejecutamos
+sysctl -p
+
+</code></pre>
+<p>-&gt; Verificar que funcionan los nuevos limites</p>
+<pre><code class="language-sh">cat /proc/sys/fs/file-max
+Hard Limit
+ulimit -Hn
+Soft Limit
+ulimit -Sn
+</code></pre>
+<pre><code class="language-sh">verificar para un usuario
+su - nombreUsuario -c 'ulimit -aHS' -s '/bin/bash'
+</code></pre>
+<pre><code class="language-sh">Verificar para un proceso en ejecucion
+
+conseguimos el PID
+ps aux | grep nombreDelProceso
+cat /proc/XXX/limits
+
+</code></pre>
+<ul>
+<li><strong>Buscar</strong></li>
+</ul>
+<p><code>find /path -name fileName</code> - Buscar archivo   <br />
+<code>find /path -type d -name dirName</code> - Buscar carpeta </p>
+<ul>
+<li><strong>Crear nuevo usuario</strong></li>
+</ul>
+<p><code>useradd -d /home/username -m -s /bin/bash username</code> - Crea un usuario con su carpeta home y consola para usar <br />
+<code>passwd username</code> - Para crear la contraseña del usuario     </p>
+<ul>
+<li><strong>Zona horaria</strong></li>
+</ul>
+<p><code>dpkg-reconfigure tzdata</code> - reconfigurar la zona horaria  </p>
+<ul>
+<li><strong>cpulimit</strong></li>
+</ul>
+<p><code>apt-get install cpulimit</code><br />
+<code>ps aux | grep nombreProceso</code> - nos da el <code>id</code> del proceso  <br />
+<code>cpulimit -p id -l 30</code> - limita el proceso <code>id</code> al 30%<br />
+<code>cpulimit -e nombreProceso -l 50</code> - limita el proceso <code>nombreProceso</code> al 50% <br />
+Añadir <code>&amp;</code> para recuperar el control de la consola     </p>
+<ul>
+<li><strong>averiguar la version de debian</strong></li>
+</ul>
+<p><code>lsb_release -a</code></p>
+<ul>
+<li><strong>dns</strong></li>
+</ul>
+<p><code>dig jolav.me @9.9.9.9</code>  </p>
+<ul>
+<li><strong>cron</strong></li>
+</ul>
+<pre><code class="language-sh">crontab -e
+
+// activar los logs de cron
+nano /etc/rsyslog.conf
+// descomentar la linea
+#cron.*                     -/var/log/cron
+service rsyslog restart
+</code></pre>
+<pre><code class="language-sh">// ejecutar algo al inicio del servidor
+crontab -e // como root
+@reboot  cd /home/user/donde-sea &amp;&amp; ./programa
+</code></pre>
+<ul>
+<li><strong>nmap</strong></li>
+</ul>
+<pre><code class="language-sh">nmap -Pn X.X.X.X || hostname
+</code></pre>
+<ul>
+<li><strong>rename multiple files at once</strong></li>
+</ul>
+<pre><code class="language-sh">apt install rename
+// Reemplazar la 1 ocurrencia de abc por xyz
+rename 's/abc/xyz/' *
+</code></pre>
+<hr />
+<h2 id="security"><strong>SECURITY</strong></h2>
+<h3 id="ssh">SSH</h3>
+<p><code>aptitude install openssh-server openssh-client</code><br />
+<code>nano /etc/ssh/sshd_config</code></p>
+<pre><code class="language-sh">// Para quitar acceso como root
+# Authentication:
+LoginGraceTime 120
+PermitRootLogin without-password // jode mas que poner solo no 
+StrictModes yes
+
+// Por seguridad
+# Para permitir contraseñas vacias pon yes (NI SE TE OCURRA HACERLO)
+PermitEmptyPasswords no
+</code></pre>
+<p><code>service ssh restart</code></p>
+<p><code>sshpass -p contraseña ssh usuario@dominio</code>  </p>
+<ul>
+<li><strong>Broken pipe</strong></li>
+</ul>
+<p>Para prevenir desconexiones del tipo <code>broken pipe</code></p>
+<pre><code class="language-sh">nano -c /etc/ssh/ssh_config
+Host *
+ServerAliveInterval 120
+</code></pre>
+<h3 id="clamav">CLAMAV</h3>
+<p>Antivirus para asegurarnos de que no somos conductores de virus entre maquinas windows y por si las moscas ...<br />
+<code>apt-get install clamav clamav-docs clamav-daemon clamav-freshclam</code>  </p>
+<p><code>aptitude install arc arj bzip2 cabextract lzop nomarch p7zip pax tnef unrar-free unzip zoo lha unrar</code> - Para que escanee archivos comprimidos</p>
+<p><code>nano /etc/clamav/freshclam.conf</code> - El archivo de configuracion por si queremos cambiar algo.<br />
+<code>service clamav-freshclam restart</code> - hacerlo despues para cargar la nueva configuracion</p>
+<pre><code class="language-sh">// Para actualizar, como root
+freshclam
+
+// Si esta bloqueado
+/etc/init.d/clamav-freshclam stop 
+//despues =&gt; 
+service clamav-freshclam start
+
+// para escanear como usuario normal
+clamscan -r /ruta/a/escanear
+</code></pre>
+<h3 id="rkhunter">RKHUNTER</h3>
+<p><code>aptitude install rkhunter</code> </p>
+<pre><code class="language-sh">//para actualizar, como root
+rkhunter --propupd
+rkhunter --update
+
+//para usar, como root tambien
+rkhunter --check
+</code></pre>
+<h3 id="fail2ban">FAIL2BAN</h3>
+<p><code>apt-get install fail2ban whois</code><br />
+<code>cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local</code><br />
+<code>nano /etc/fail2ban/jail.local</code>  </p>
+<pre><code class="language-sh">// Aqui van las IPs que no tendran esas restricciones
+[DEFAULT]
+# &quot;ignoreip&quot; can be an IP address, a CIDR mask or a DNS host
+ignoreip = 127.0.0.1 192.168.1.0/24
+bantime  = 1800
+maxretry = 3
+</code></pre>
+<pre><code class="language-sh">// Correo al que avisar ante sucesos
+# Destination email address used solely for the interpolations in
+# jail.{conf,local} configuration files.
+destemail = root@localhost
+</code></pre>
+<pre><code class="language-sh">[webmin]
+
+enabled   = true
+port      = 10000
+filter    = webmin-auth
+banaction = iptables-multiport
+action    = %(action_mwl)s
+logpath   = /var/log/auth.log
+maxretry  = 3
+
+[ssh]
+
+enabled = true
+port    = ssh
+filter  = sshd
+logpath  = /var/log/auth.log
+maxretry = 3
+
+[ssh-ddos]
+
+enabled  = true
+port     = ssh
+filter   = sshd-ddos
+logpath  = /var/log/auth.log
+maxretry = 3
+</code></pre>
+<p><code>service fail2ban restart</code><br />
+<code>service fail2ban status</code></p>
+<p>Los logs de baneos estan en estos dos archivos<br />
+<code>/var/log/fail2ban.log</code><br />
+<code>/var/log/auth.log</code>   </p>
+<ul>
+<li><strong>manual unban</strong></li>
+</ul>
+<p><code>fail2ban-client set ssh unbanip X.X.X.X</code>  </p>
+<h3 id="ufw">UFW</h3>
+<p><code>apt-get install ufw</code>  </p>
+<p><code>ufw allow ssh/tcp</code><br />
+<code>ufw logging on</code><br />
+ Antes de esto no se podia activar porque nos echa de la sesion de SSH.<br />
+ Ahora si =&gt; <code>ufw enable</code></p>
+<p><code>ufw allow smtp/tcp</code><br />
+<code>ufw allow http/tcp</code><br />
+<code>ufw allow https/tcp</code><br />
+<code>ufw allow webmin</code>  </p>
+<p><code>ufw status</code> - rules list<br />
+<code>ufw status numbered</code> - numbered rules list<br />
+<code>ufw delete X</code> - delete rule X   </p>
+<ul>
+<li><strong>bloquear IPs</strong></li>
+</ul>
+<pre><code class="language-sh">ufw insert 1 deny from X.X.X.X to any  
+nano -c /etc/ufw/before.rules
+# End required lines
+-A ufw-before-input -s X.X.X.X -j DROP
+ufw reload
+</code></pre>
+<hr />
+<h2 id="pm2"><strong>PM2</strong></h2>
+<ul>
+<li><strong>Instalar</strong></li>
+</ul>
+<p><code>npm install pm2 -g</code><br />
+<code>npm remove pm2 -g</code>  </p>
+<ul>
+<li><strong>Configuracion</strong></li>
+</ul>
+<p><a href="http://pm2.keymetrics.io/docs/usage/quick-start/">DOCS</a></p>
+<p><code>pm2 startup</code> - como usuario y seguir instrucciones para hacer que pm2 se ejecute en los reinicios sin necesitar ser root<br />
+<code>pm2 unstartup</code> - para desmontar el chiringuito   </p>
+<p><strong>NO SIEMPRE</strong> Para ejecutar los procesos como user y no como root   <br />
+<code>chmod -R 777 /home/user/.pm2</code> </p>
+<ul>
+<li><strong>Comandos</strong></li>
+</ul>
+<pre><code class="language-sh">pm2 start app.js  
+pm2 kill // para la ejecucion pero con un reboot se activara de nuevo  
+pm2 list
+pm2 stop all|number
+pm2 restart all|number
+pm2 delete 7 // elimina el proceso especifico con ese id  
+pm2 save // salva la lista de procesos en ese momento  
+pm2 start app.js --name &quot;my-name&quot;
+pm2 restart app --name &quot;nuevo-nombre&quot; --update-env // para renombrar
+pm2 reset app // pone el contador de restarts a cero
+</code></pre>
+<ul>
+<li><strong>dev</strong></li>
+</ul>
+<pre><code class="language-sh">pm2-dev start app.js
+pm2-dev start app.js --ignore folder1,folder2,file3.txt
+</code></pre>
+<ul>
+<li><strong>cluster variables</strong></li>
+</ul>
+<pre><code class="language-sh">//  -i numero de procesos que levanta
+pm2 start name.js -i max  
+process.env.NODE_APP_INSTANCE;
+process.env.name
+process.env.pm_id
+</code></pre>
+<ul>
+<li><strong>max-memory-restart</strong></li>
+</ul>
+<pre><code class="language-sh">pm2 start geoip.js -i max --max-memory-restart 1300M
+
+50M
+50K
+1G
+</code></pre>
+<ul>
+<li><strong>scale</strong></li>
+</ul>
+<pre><code class="language-sh">// Sumar 3 procesos al actual
+pm2 scale app +3
+// deja 3 procesos activos de todos los que este usando actualmente
+pm2 scale app 3
+</code></pre>
+<ul>
+<li><strong>cluster logs in the same file</strong></li>
+</ul>
+<pre><code class="language-sh">// ecosystem.config.js
+module.exports = {
+  apps: [{
+    name: 'codetabs',
+    script: 'codetabs.js',
+    ignore_watch: [&quot;node_modules&quot;, &quot;tmp&quot;],
+    output: './../logs/hits.log',
+    error: './../logs/errors.log',
+    env: {
+      NODE_ENV: &quot;development&quot;,
+    },
+    env_production: {
+      NODE_ENV: &quot;production&quot;,
+    },
+    instances: 8,
+    max_memory_restart: &quot;1G&quot;,
+    merge_logs: true,
+    log_date_format: 'YYYY-MM-DD HH:mm:ss',
+  }]
+};
+
+pm2 start ecosystem.config.js --env production
+</code></pre>
+<hr />
+<h2 id="npm-sin-ser-root">NPM sin ser ROOT</h2>
+<p>Como instalar paquetes npm globalmente sin ser root</p>
+<pre><code class="language-sh">// crear carpeta para los paquetes globales
+mkdir &quot;${HOME}/.npm-packages&quot;
+
+// crear .npmrc
+nano ${HOME}/.npmrc
+prefix=${HOME}/.npm-packages
+
+//editar .bashrc
+nano ${HOME}/.bashrc
+NPM_PACKAGES=&quot;${HOME}/.npm-packages&quot;
+PATH=&quot;$NPM_PACKAGES/bin:$PATH&quot;
+unset MANPATH # delete if already modified MANPATH elsewhere
+export MANPATH=&quot;$NPM_PACKAGES/share/man:$(manpath)&quot;
+
+// recargar la configuracion para aplicar los cambios
+source ~/.profile
+</code></pre>
+<hr />
+<h2 id="systemd"><strong>SYSTEMD</strong></h2>
+<p><code>systemctl status servidorGO</code> - nos da informacion del servicion</p>
+<ul>
+<li><strong>Crear Servicio</strong></li>
+</ul>
+<pre><code class="language-sh">nano /etc/systemd/servidorGO.service  
+cp servidorGO.service /etc/systemd/system 
+systemctl enable servidorGO.service 
+service servidorGO.service start
+</code></pre>
+<ul>
+<li><strong>Borrar servicio</strong></li>
+</ul>
+<pre><code class="language-sh">systemctl stop [servicename]
+systemctl disable [servicename]
+rm /etc/systemd/system/[servicename]
+systemctl daemon-reload
+systemctl reset-failed
+</code></pre>
+<ul>
+<li><strong>nombre.service</strong></li>
+</ul>
+<pre><code class="language-sh">[Unit]
+Description= Descripcion de la tarea
+
+[Service]
+User=user
+Group=www-data
+Restart=on-failure   
+WorkingDirectory=/var/www/path/to/binary/folder
+ExecStart=/var/www/path/to/binary/folder/binaryName
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+<ul>
+<li><strong>Commandos</strong></li>
+</ul>
+<p><code>service name status</code><br />
+<code>service name start</code>  </p>
+<p><code>systemctl enable name.service</code><br />
+<code>systemctl disable name.service</code> <br />
+<code>systemctl start name.service</code><br />
+<code>systemctl stop name.service</code><br />
+<code>systemctl restart name.service</code><br />
+<code>systemctl status name.service</code><br />
+<code>systemctl reload name.service</code> </p>
+<pre><code class="language-sh">// Required files
+/etc/systemd/servidorGO.service
+/etc/systemd/system/servidorGO.service
+/etc/systemd/system/multi-user.target.wants/servidorGO.service
+/sys/fs/cgroup/systemd/system.slice/servidorGO.service
+</code></pre>
+<ul>
+<li><strong>Otra opcion ?</strong></li>
+</ul>
+<pre><code class="language-sh">nano /lib/systemd/system/name.service
+
+[Unit]
+Description= Task description
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=5s
+ExecStart=/var/www/path/to/binary/folder/binaryName
+
+[Install]
+WantedBy=multi-user.target
+
+service name start
+service name status
+
+// para activarlo desde el reinicio del sistema  
+systemctl enable name.service
+
+</code></pre>
+<hr />
+<h2 id="systemd-sin-ser-root"><strong>SYSTEMD sin ser ROOT</strong></h2>
+<p><a href="https://vic.demuzere.be/articles/using-systemd-user-units/">Systemd sin ser ROOT</a></p>
+<p>Primero asegurarnos de que este instalado dbus para user<br />
+<code>apt install dbus-user-session</code><br />
+<code>apt install policykit-1</code> por si da guerra org.freedesktop.policytoolkit1  </p>
+<p>Creamos carpeta donde guardar los servicios<br />
+<code>mkdir -p ~/.config/systemd/user</code>    </p>
+<p>En esa carpeta creamos el nombreservicio.service</p>
+<pre><code class="language-sh">[Unit]
+Description= Descripcion de la tarea
+
+[Service]
+RestartSec=5s
+Restart=always   
+WorkingDirectory=/ruta/a/la/carpeta/del/binario
+ExecStart=/ruta/a/la/carpeta/del/binario/./nombreDelBinario
+
+[Install]
+WantedBy=default.target
+</code></pre>
+<p>Ahora hacemos que systemd reconozca los cambios<br />
+<code>systemctl --user daemon-reload</code>  </p>
+<p>Ya podemos gestionar el servicio</p>
+<pre><code class="language-sh">systemctl --user start nombreDelServicio
+systemctl --user stop nombreDelServicio
+systemctl --user restart nombreDelServicio
+systemctl --user status nombreDelServicio 
+</code></pre>
+<p>Para que el servicio se inicie automaticamente cuando el usuario se loguea<br />
+<code>systemctl --user enable nombreDelServicio</code> // sin el .service al final
+Para desactivarlo<br />
+<code>systemctl --user disable nombreDelServicio</code>   </p>
+<p>Hay que hacer que el servicio corra siempre, este o no logueado el dueño y al inicio del sistema. Para ello como root ejecutamos<br />
+<code>loginctl enable-linger NOMBREUSUARIO</code>  </p>
+<p>Ya como usuario normal podemos ver el estado de los servicios<br />
+<code>loginctl user-status NOMBREUSUARIO</code> </p>
+<hr />
+<h2 id="nginx"><strong>NGINX</strong></h2>
+<ul>
+<li><strong>Instalacion</strong></li>
+</ul>
+<p><code>apt-get install nginx</code>  </p>
+<p><code>chown -R user:user /var/www</code> - Para darle permisos al usuario para toda esa carpeta  <br />
+<code>mkdir -p /var/www/site1</code><br />
+<code>mkdir -p /var/www/site2</code>  </p>
+<h3 id="configuracion">Configuracion</h3>
+<p><code>nano /etc/nginx/nginx.conf</code>  </p>
+<p>El archivo de configuracion se llama <code>default</code> y esta en la carpeta <code>/etc/nginx/sites-available</code> .Lo borramos o lo renombramos a <code>default.old</code>. La copia de default que esta en <code>/etc/nginx/sites-enabled</code> hay que borrarla</p>
+<p>Ahora podemos crear nuestro archivo/s de configuracion.<br />
+<code>nano /etc/nginx/sites-available/domain</code>  <br />
+<code>cp /etc/nginx/sites-available/domain /etc/nginx/sites-enabled/domain</code> <br />
+<code>service nginx restart</code><br />
+<code>nginx -s reload</code> solo para recargar el archivo de configuracion  </p>
+<h4 id="server-side-includes">server-side-includes</h4>
+<p><a href="http://nginx.org/en/docs/http/ngx_http_ssi_module.html">Server Side Includes</a><br />
+<a href="http://fortboise.org/useful/ssi-manual.html">Directivas y variables</a></p>
+<p><code>ssi on</code> - <code>/etc/nginx/sites-available</code></p>
+<p>Para las rutas ojo porque es desde la raiz del servidor web nginx para esa location </p>
+<pre><code class="language-nginx">&lt;!-- Head --&gt;
+&lt;!--#include file=&quot;/_public/templates/head.html&quot; --&gt;
+</code></pre>
+<h4 id="ocultar-la-version-de-nginx">ocultar la version de nginx</h4>
+<pre><code class="language-nginx">nano /etc/nginx/nginx.conf
+http {
+  server_tokens off;
+}
+</code></pre>
+<h4 id="headerscabeceras">headers(cabeceras)</h4>
+<p>Ojo, que algunas pueden restringir el comportamiento de las aplicaciones que tengamos </p>
+<pre><code class="language-nginx"># Headers to be added:
+add_header Strict-Transport-Security &quot;max-age=15768000; 
+  includeSubDomains&quot; always;
+add_header X-Frame-Options &quot;DENY&quot;;
+add_header X-Content-Type-Options &quot;nosniff&quot;;
+add_header X-XSS-Protection &quot;1; mode=block&quot;;
+add_header Content-Security-Policy &quot;default-src 'self'&quot;;
+</code></pre>
+<p>En el location block para evitar cualquier indexacion de esa location por parte de los robots de busqueda   </p>
+<pre><code class="language-nginx">add_header  X-Robots-Tag &quot;noindex, nofollow, nosnippet, noarchive&quot;;
+</code></pre>
+<h4 id="limitar-tamano-de-los-archivos-de-subida">Limitar tamaño de los archivos de subida</h4>
+<pre><code class="language-nginx">location /count-loc/ {
+  # set client body size to 10M
+  client_max_body_size 10M;
+}
+</code></pre>
+<h4 id="rate-limit">rate Limit</h4>
+<pre><code class="language-nginx">nano /etc/nginx/nginx.conf
+// aqui definimos por ejemplo la zona=one  
+# limit requests
+limit_req_zone  $binary_remote_addr  zone=one:10m   rate=2r/s;
+
+//luego hay que aplicarlo, mejor en location que en server
+nano /etc/nginx/sites-available/domain
+location /count-loc/ {
+        # requests limit
+        limit_req zone=one burst=20;
+}
+</code></pre>
+<ul>
+<li><strong>Apply limits per IP</strong></li>
+</ul>
+<pre><code class="language-nginx">geo $limit {
+        default 1;
+        X.X.X.X 0;
+        Y.Y.Y.Y 0;
+}
+map $limit $limit_key {
+        0 &quot;&quot;;
+        1 $binary_remote_addr;
+}
+limit_req_zone  $limit_key  zone=one:10m   rate=5r/s;
+limit_req_zone  $limit_key  zone=two:10m   rate=1r/m;
+limit_req_zone  $limit_key  zone=three:10m   rate=12r/m;
+limit_req_zone  $limit_key  zone=four:10m   rate=2r/s;
+</code></pre>
+<h4 id="http2">http2</h4>
+<pre><code class="language-nginx">nano /etc/nginx/nginx.conf 
+// usar solo cifrados muy seguros
+ssl_ciphers EECDH+CHACHA20:EECDH+AES128:RSA+AES128:EECDH+AES256:
+RSA+AES256:EECDH+3DES:RSA+3DES:!MD5;
+
+// hay que generar una nuevas claves, lo mejor en /etc/nginx/ssl
+cd /etc/nginx/ssl
+openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048
+
+// http2 solo funciona con https asi que en el bloque de listen 443
+listen 443 ssl http2 default_server;
+listen [::]:443 ssl http2 default_server;
+
+# my cipher
+ssl_dhparam  /etc/nginx/ssl/dhparam.pem;
+
+// para mejorar rendimiento
+ssl_session_cache shared:SSL:5m;
+ssl_session_timeout 1h;
+</code></pre>
+<h4 id="cache">cache</h4>
+<pre><code class="language-nginx">// en sites-availables bloque propio
+# Expires map
+map $sent_http_content_type $expires {
+    default                    off;
+    text/html                  epoch;
+    text/css                   7d;
+    application/javascript     7d;
+    ~image/                    max;
+}
+
+// luego en el bloque server que queramos añadir
+expires $expires;
+</code></pre>
+<h4 id="zonas-privadas">zonas privadas</h4>
+<pre><code class="language-sh">// crear archivo con la contraseña
+apt-get install apache2-utils
+cd /etc/nginx
+htpasswd -c .rethinkdb.pass &lt;username&gt; // will ask for password
+service nginx restart
+</code></pre>
+<pre><code class="language-nginx">server {
+   listen 443 ssl;
+   server_name sub.domain.com;
+   location / {
+      ...
+   }
+   location /private/ {
+      auth_basic &quot;Restricted&quot;;
+      auth_basic_user_file /etc/nginx/.rethinkdb.pass;
+      ... root or proxy for this location
+   }
+}
+</code></pre>
+<h4 id="custom-404">custom 404</h4>
+<pre><code class="language-sh">mkdir /var/www/error =&gt; 404.html 404.css , js, png ...
+
+server {
+   error_page 404 /404.html;
+   location = /404.html {
+        root /var/www/error;
+        internal;
+   }
+   location = /404.css {
+        root /var/www/error;
+   }
+   location = /caution.png {
+        root /var/www/error;
+   }
+}
+
+En 404.html llamamos a los recursos usando rutas absolutas  
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;/404.css&quot;&gt;
+</code></pre>
+<h4 id="block-domains">block domains</h4>
+<pre><code class="language-sh">map $http_referer $bad_referer {
+    default                  0;
+    &quot;~spamdomain1.com&quot;       1;
+    &quot;~spamdomain2.com&quot;       1;
+    &quot;~spamdomain3.com&quot;       1;
+}
+
+if ($bad_referer) {
+    return 444;
+}
+</code></pre>
+<h3 id="nginxconf">nginx.conf</h3>
+<p><strong>actualizado 2019-05-08</strong></p>
+<pre><code class="language-nginx">user www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+include /etc/nginx/modules-enabled/*.conf;
+
+events {
+  worker_connections 768;
+  # multi_accept on;
+}
+
+http {
+
+  ##
+  # Basic Settings
+  ##
+
+  sendfile on;
+  tcp_nopush on;
+  tcp_nodelay on;
+  keepalive_timeout 65;
+  types_hash_max_size 2048;
+  server_tokens off;
+
+  server_names_hash_bucket_size 64; # 128?
+  # server_name_in_redirect off;
+
+  include /etc/nginx/mime.types;
+  default_type application/octet-stream;
+
+  # set client body size to 5M #
+  client_max_body_size 2M;
+
+  # limit requests
+  geo $limit {
+          default 1;
+          X.X.X.X   0;   #server1
+          X.X.X.X   0;   #server2
+          X.X.X:X   0;   #server3
+          X.X.X.X   0;   #server4
+  }
+  map $limit $limit_key {
+          0 &quot;&quot;;
+          1 $binary_remote_addr;
+  }
+  limit_req_zone  $limit_key  zone=one:10m   rate=5r/s;
+  limit_req_zone  $limit_key  zone=two:10m   rate=2r/m;
+  limit_req_zone  $limit_key  zone=three:10m   rate=12r/m;
+  limit_req_zone  $limit_key  zone=four:10m   rate=2r/s;
+  limit_req_zone  $limit_key  zone=five:10m   rate=1r/s;
+  limit_req_zone  $limit_key  zone=six:1000m   rate=10r/s;
+
+  ##
+  # SSL Settings
+  ##
+
+  ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE
+  ssl_prefer_server_ciphers on;
+  ssl_ciphers EECDH+CHACHA20:EECDH+AES128:RSA+AES128:EECDH+AES256:RSA
+  +AES256:EECDH+3DES:RSA+3DES:!MD5;
+
+  ##
+  # Logging Settings
+  ##
+
+  access_log /var/log/nginx/access.log;
+  error_log /var/log/nginx/error.log;
+
+  ##
+  # Gzip Settings
+  ##
+
+  gzip on;
+  gzip_disable &quot;msie6&quot;;
+
+  gzip_vary on;
+  gzip_proxied any;
+  gzip_comp_level 6;
+  gzip_buffers 16 8k;
+  gzip_http_version 1.1;
+  gzip_types text/plain text/css application/json application/javascript
+   text/xml application/xml applicati$
+
+  ##
+  # Virtual Host Configs
+  ##
+
+  include /etc/nginx/conf.d/*.conf;
+  include /etc/nginx/sites-enabled/*;
+}
+
+</code></pre>
+<h3 id="dominio-templateconf">dominio-template.conf</h3>
+<p><strong>actualizado 2019-05-08</strong></p>
+<pre><code class="language-nginx">  ssl_certificate /etc/letsencrypt/live/domain.com/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/domain.com/privkey.pem;
+  ssl_session_cache shared:SSL:10m;
+  ssl_session_timeout 1h;
+  ssl_ciphers HIGH:!aNULL:!MD5;
+  ssl_prefer_server_ciphers on;
+
+  # my cipher
+  ssl_dhparam  /etc/nginx/ssl/dhparam.pem;
+
+  # server-side-includes
+  ssi on;
+
+  # Headers to be added:
+  add_header Strict-Transport-Security &quot;max-age=15768000; 
+  includeSubDomains&quot; always;
+  add_header X-Frame-Options &quot;DENY&quot;;
+  add_header X-Content-Type-Options &quot;nosniff&quot;;
+  add_header X-XSS-Protection &quot;1; mode=block&quot;;
+  #add_header Content-Security-Policy &quot;default-src 'self'&quot;;
+
+  #cache
+  # set client body size to 4M #
+  # client_max_body_size 4M;
+  expires $expires;
+
+  # custom error
+  error_page 404 /404.html;
+  location = /404.html {
+          root /var/www/codetabs/www/_error;
+          internal;
+  }
+  location = /404.css {
+          root /var/www/codetabs/www/_error;
+  }
+  location = /ct24r.png {
+          root /var/www/codetabs/www/_error;
+  }
+  location = /ct64r.png {
+          root /var/www/codetabs/www/_error;
+  }
+  error_page 429 /429.html;
+  location = /429.html {
+          root /var/www/codetabs/www/_error;
+          #internal;
+  }
+  location /_public {
+          # requests limit, ojo que enlentece la carga de la pagina
+          # limit_req zone=one burst=50;
+          alias /var/www/codetabs/www/_public;
+  }
+</code></pre>
+<h3 id="sitesdomain">SITES/DOMAIN</h3>
+<p><strong>actualizado 2019-05-08</strong></p>
+<pre><code class="language-nginx"># Expires map
+map $sent_http_content_type $expires {
+  default                    off;
+  text/html                  epoch;
+  text/css                   7d;
+  application/javascript     7d;
+  ~image/                    max;
+}
+server {
+  listen 80;
+  # Listen to your server ip address
+  server_name 212.24.108.85;
+  # Redirect all traffic comming from your-server-ip to your domain
+  return 301 https://domain.com$request_uri;
+}
+server {
+  listen 80;
+  listen [::]:80;
+  server_name domain.com www.domain.com;
+  return 301 https://domain.com$request_uri;
+  server_name *.domain.com;
+  return 301 https://*.domain.com$request_uri;
+}
+server {
+  listen 443 ssl;
+  listen [::]:443 ssl;
+  server_name www.domain.com;
+  ssl_certificate /etc/letsencrypt/live/domain.com/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/domain.com/privkey.pem;
+  return 301 https://domain.com$request_uri;
+}
+server {
+  listen 443 ssl http2;
+  listen [::]:443 ssl http2;
+  server_name domain.com;
+
+  include /etc/nginx/sites-available/domain.conf;
+
+  # enable CORS
+  # add_header Access-Control-Allow-Origin '*';
+
+  location / {
+    root /var/www/domain/html;
+    index index.html;
+    }
+  location /freecodecamp {
+          root /var/www/domain;
+          index index.html;
+  }
+  location /notes {
+          root /var/www/domain;
+          index index.html;
+  }
+}
+server {
+  listen 443 ssl http2;
+  listen [::]:443 ssl http2;
+  server_name api.domain.com;
+
+  include /etc/nginx/sites-available/domain.conf;
+
+  # enable CORS
+  add_header 'Access-Control-Allow-Origin' '*' always;
+
+  location /github-stars/ {
+    # requests limit
+    limit_req zone=three ;#burst=50;
+    proxy_pass http://127.0.0.1:3501/;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection 'upgrade';
+    proxy_set_header Host $host;
+    proxy_cache_bypass $http_upgrade;
+    # Para coger ip de visitante añadir las siguientes dos lineas
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+  }
+  location /count-loc/ {
+    # requests limit
+    limit_req zone=three ;#burst=50;
+    # set client body size to 10M 
+    client_max_body_size 10M;
+    proxy_pass http://127.0.0.1:3502/;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection 'upgrade';
+    proxy_set_header Host $host;
+    proxy_cache_bypass $http_upgrade;
+    # Para coger ip de visitante añadir las siguientes dos lineas
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+  }
+  location /game/ {
+    # requests limit
+    limit_req zone=three ;#burst=50;
+    proxy_pass http://127.0.0.1:3503/;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection 'upgrade';
+    proxy_set_header Host $host;
+    proxy_cache_bypass $http_upgrade;
+    # Para coger ip de visitante añadir las siguientes dos lineas
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+  }
+server {
+  listen 443 ssl http2;
+  listen [::]:443 ssl http2;
+  server_name test.domain.com;
+
+  include /etc/nginx/sites-available/domain.conf;
+
+  location /admin {
+    # requests limit
+    # limit_req zone=one ;#burst=50;
+    auth_basic &quot;Area 51&quot;;
+    auth_basic_user_file /etc/nginx/.admin.pass;
+    root /var/www/domain;
+    index admin.html;
+  }
+}
+
+</code></pre>
+<h3 id="subcarpeta-con-php">Subcarpeta con PHP</h3>
+<p><a href="https://serversforhackers.com/c/nginx-php-in-subdirectory">Hracias serversforhackers.com</a></p>
+<pre><code class="language-nginx">server {
+  listen 443 ssl http2;
+  listen [::]:443 ssl http2;
+  server_name domain.com;
+
+  include /etc/nginx/sites-available/domain.conf;
+
+  # enable CORS
+  #add_header Access-Control-Allow-Origin '*';
+
+
+  location / {
+          root /var/www/domain/beta;
+          index index.html;
+  }
+  location ^~ /blog {
+          alias /var/www/wp-domain;
+          index index.php;
+          try_files $uri $uri/ @nested;
+          location ~ \.php$ {
+                  include snippets/fastcgi-php.conf;
+                  fastcgi_param SCRIPT_FILENAME $request_filename;
+                  fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+          }
+  }
+  location @nested {
+          rewrite /blog/(.*)$ /blog/index.php?/$1 last;
+  }
+  location ~ /\. {
+          deny all;
+  }
+  location ~* /(?:uploads|files)/.*\.php$ {
+          deny all;
+  }
+
+}
+</code></pre>
+<ul>
+<li><strong>Dokuwiki</strong></li>
+</ul>
+<pre><code class="language-nginx"># DokuWiki
+location ^~ /wiki {
+        alias /var/www/dokuwiki;
+        index index.php;
+        try_files $uri $uri/ @nested;
+        location ~ \.php$ {
+                include snippets/fastcgi-php.conf;
+                fastcgi_param SCRIPT_FILENAME $request_filename;
+                fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+        }
+        # dokuwiki security
+        location ~ /wiki/(conf|bin|inc)/ {
+                deny all;
+        }
+        location ~ /wiki/data/ {
+                internal;
+        }
+}
+
+location @nested {
+        rewrite /wiki/(.*)$ /wiki/index.php?/$1 last;
+}
+location ~ /\. {
+        deny all;
+}
+location ~* /(?:uploads|files)/.*\.php$ {
+        deny all;
+}
+</code></pre>
+<hr />
+<h2 id="webmin">WEBMIN</h2>
+<ul>
+<li><strong>Instalacion</strong></li>
+</ul>
+<p><a href="http://www.webmin.com/download.html">Descarga el .deb de aqui</a>
+<code>dpkg -i package.deb</code> </p>
+<p>Si debian protesta de dependencias instala las que pida. Estas son las mas posibles:<br />
+<code>apt install perl libnet-ssleay-perl openssl libpam-runtime libio-pty-perl python libauthen-pam-perl libio-pty-perl apt-show-versions</code>  </p>
+<ul>
+<li><strong>Modulos</strong></li>
+</ul>
+<p><code>nginx module</code>- <a href="https://www.justindhoffman.com/project/nginx-webmin-module">https://www.justindhoffman.com/project/nginx-webmin-module</a>  </p>
+<p>webmin -&gt; webmin configuration -&gt; webmin modules  </p>
+<ul>
+<li><strong>Actualizacion</strong></li>
+</ul>
+<p>Despues de actualizarse hay veces que no arranca   </p>
+<pre><code class="language-sh">/etc/init.d/webmin stop
+/etc/init.d/webmin start
+</code></pre>
+<ul>
+<li><strong>Cambiar el password</strong></li>
+</ul>
+<p>Para cambiar la contraseña desde la consola <br />
+<code>/usr/share/webmin/changepass.pl /etc/webmin root NEWPASSWORD</code></p>
+<ul>
+<li><strong>Lets Encrypt Webmin</strong></li>
+</ul>
+<p>webmin &gt; webmin Configuration &gt; SSL Encryption &gt; SSL Settings</p>
+<p><img alt="debian" src="../_img/debian/webmin-letsencrypt.png" /></p>
+<pre><code class="language-sh">/etc/letsencrypt/live/nombreCert/privkey.pem  
+/etc/letsencrypt/live/nombreCert/cert.pem
+</code></pre>
+<p>Apply -&gt; service nginx restart</p>
+<hr />
+<h2 id="lets-encrypt">LETS ENCRYPT</h2>
+<p><a href="https://certbot.eff.org/">HTTPS certbot</a></p>
+<p><code>apt-get install certbot</code> - install    </p>
+<ul>
+<li><strong>Create certificate</strong></li>
+</ul>
+<pre><code class="language-sh">// primero parar nginx
+service nginx stop
+
+// Usar la opcion standalone y creamos todos los dominios juntos 
+// (domain.com www.domain.com sub.domain.com etc) 
+certbot certonly
+
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+
+How would you like to authenticate with the ACME CA?
+-------------------------------------------------------------------------
+1: Place files in webroot directory (webroot)
+2: Spin up a temporary webserver (standalone)
+-------------------------------------------------------------------------
+Select the appropriate number [1-2] then [enter] (press 'c' to cancel): 2
+Please enter in your domain name(s) (comma and/or space separated)  (Enter
+'c' to cancel):domain.com www.domain.com sub.domain.com
+Obtaining a new certificate
+Performing the following challenges:
+tls-sni-01 challenge for domain.com
+tls-sni-01 challenge for www.domain.com
+Waiting for verification...
+Cleaning up challenges
+Generating key (2048 bits): /etc/letsencrypt/keys/0067_key-certbot.pem
+Creating CSR: /etc/letsencrypt/csr/0067_csr-certbot.pem
+
+IMPORTANT NOTES:
+ - Congratulations! Your certificate and chain have been saved at
+   /etc/letsencrypt/live/domain.com/fullchain.pem. Your cert will
+   expire on 2017-11-11. To obtain a new or tweaked version of this
+   certificate in the future, simply run certbot again. To
+   non-interactively renew *all* of your certificates, run &quot;certbot
+   renew&quot;
+ - If you like Certbot, please consider supporting our work by:
+
+   Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
+   Donating to EFF:                    https://eff.org/donate-le
+</code></pre>
+<ul>
+<li><strong>Listar certificados</strong></li>
+</ul>
+<p><code>certbot certificates</code> - Lista de todos los certificados existentes  </p>
+<ul>
+<li><strong>Añadir certificado</strong></li>
+</ul>
+<p><code>service nginx stop</code> - paramos nginx<br />
+<code>certbot certonly -d admin.domain.com,api.domain.com,domain.com,
+sp500.domain.com,www.domain.com,otrosub.domain.com --expand</code> - </p>
+<ul>
+<li><strong>Eliminar certificado</strong></li>
+</ul>
+<p><code>certbot delete</code> - y seleccionamos el que queramos borrar   </p>
+<ul>
+<li><strong>Renovar</strong></li>
+</ul>
+<p><code>certbot renew --dry-run</code> - solo testea  <br />
+<code>certbot renew</code> - renueva de verdad  <br />
+<code>certbot renew --force-renew</code> - fuerza la renovacion aunque falte mucho tiempo aun para su caducidad   <br />
+<code>certbot renew --dry-run --cert-name domain.tld</code><br />
+`</p>
+<ul>
+<li><strong>webroot</strong> , no hace falta parar nginx para hacer las renovaciones</li>
+</ul>
+<p><a href="https://certbot.eff.org/#debianstretch-other">Leer el manual de certot</a></p>
+<pre><code class="language-nginx">server {
+  listen 80;
+  listen [::]:80;
+  server_name beta.jolav.me;
+# location / {
+#   root /var/www/beta.jolav.me;
+#   index index.html;
+# }
+  return 301 https://beta.jolav.me$request_uri; #
+}
+server {
+  listen 443 ssl http2;
+  listen [::]:443 ssl http2;
+  server_name beta.jolav.me;
+
+  ssl_certificate /etc/letsencrypt/live/beta.jolav.me/fullchain.pem;   #
+  ssl_certificate_key /etc/letsencrypt/live/beta.jolav.me/privkey.pem; #
+  ssl_session_cache shared:SSL:10m;
+  ssl_session_timeout 1h;
+  ssl_ciphers HIGH:!aNULL:!MD5;
+  ssl_prefer_server_ciphers on;
+  ssl_dhparam  /etc/nginx/ssl/dhparam.pem;
+
+  #add_header  X-Robots-Tag &quot;noindex, nofollow, nosnippet, noarchive&quot;;
+
+  location / {
+          root /var/www/beta.jolav.me;
+          index index.html;
+  }
+}
+</code></pre>
+<p><code>certbot certonly --webroot -w /var/www/jolav.me -d jolav.me -d www.jolav.me -d beta.jolav.me</code>  </p>
+<ul>
+<li><strong>staging</strong></li>
+</ul>
+<p><code>--staging</code> - permite mayopr numero de intentos mientras testeamos</p>
+<hr />
+<h2 id="monitorizar-red">MONITORIZAR RED</h2>
+<ul>
+<li><strong>vnstat - Bandwidth</strong></li>
+</ul>
+<p><code>aptitude install vnstat</code> </p>
+<pre><code class="language-sh">// lista todas las interfaces de red disponibles
+vnstat --iflist
+// configura interface
+vnstat -u -i eth0
+// comienza la ejecucion del servicio como demonio
+/etc/init.d/vnstat start
+// cambia de dueño para poder escribir en su propia base de datos
+chown -R vnstat:vnstat /var/lib/vnstat/
+</code></pre>
+<p>monitorizar (como un usuario normal)</p>
+<pre><code class="language-sh">// tiempo real
+vnstat -l
+// serie historica por horas-dias-meses-semanas
+vnstat -h|d|w|m
+// top 10 dias
+vnstat -t
+</code></pre>
+<p>archivo configuracion (para cambiar la interfaz que por defecto es eth0)<br />
+<code>nano /etc/vnstat.conf</code>  </p>
+<pre><code class="language-sh">crontab -e
+0 * * * * node /var/www/vnstat/vnstat.js // ejecutar cada hora
+vnstat -i eth0 --json d // dentro de vnstat.js
+</code></pre>
+<ul>
+<li><strong>iftop</strong></li>
+</ul>
+<p><code>apt install iftop</code>  </p>
+<ul>
+<li><strong>nethogs</strong></li>
+</ul>
+<p><code>apt install nethogs</code>  </p>
+<ul>
+<li><strong>tcptrack</strong></li>
+</ul>
+<p><code>apt install tcptrack</code><br />
+<code>tcptrack -i interface</code> muestra todas las conexiones existentes en tiempo real</p>
+<ul>
+<li><strong>nethogs</strong></li>
+</ul>
+<p><code>apt install nethogs</code> </p>
+<hr />
+<h2 id="mysql">MYSQL</h2>
+<h3 id="instalar-mysql-57x">Instalar MYSQL 5.7.X</h3>
+<ul>
+<li><strong>instalacion</strong></li>
+</ul>
+<pre><code class="language-sh">wget =&gt; `https://dev.mysql.com/downloads/repo/apt/` 
+dpkg -i packake.deb
+nano /etc/apt/sources.list.d/mysql.list 
+apt-get update
+apt-get install mysql-server
+mysql_secure_installation
+</code></pre>
+<ul>
+<li><strong>configuracion</strong></li>
+</ul>
+<pre><code class="language-sh">nano /etc/mysql/my.cnf
+// redirige a ...
+nano /etc/mysql/mysql.conf.d/mysqld.cnf
+// Descomentar esta line para evitar acceso desde el exterior
+bind-address            = 127.0.0.1
+service mysql restart
+
+// para crear otros usuarios usamos % en lugar de localhost para 
+// permitir el acceso desde el exterior
+mysql -u root -pPasswordYouDesire
+mysql&gt;CREATE USER 'username'@'%' IDENTIFIED BY 'password';
+mysql&gt;GRANT ALL ON databaseName.* TO 'username'@'%';
+mysql&gt; FLUSH PRIVILEGES;
+</code></pre>
+<ul>
+<li><strong>truncate table with fk</strong></li>
+</ul>
+<pre><code>SET FOREIGN_KEY_CHECKS = 0; 
+TRUNCATE table table_name; 
+SET FOREIGN_KEY_CHECKS = 1;
+</code></pre>
+<hr />
+<h3 id="instalar-mysql-80x">Instalar MYSQL 8.0.X</h3>
+<ul>
+<li><strong>Aviso sobre el nuevo sistema de autenticacion</strong></li>
+</ul>
+<pre><code class="language-sh">MySQL 8 uses a new authentication based on improved SHA256-based password
+methods. It is recommended that all new MySQL Server installations use 
+this method going forward. This new authentication plugin requires new 
+versions of connectors and clients, with support for this new 
+8 authentication(caching_sha2_password). Currently MySQL 8 Connectors 
+and community drivers built with libmysqlclient21 support this new method.
+Clients built with older versions of libmysqlclient may not be able to 
+connect to the new server.         
+
+To retain compatibility with older client software, the default 
+authentication plugin can be set to the legacy value 
+(mysql_native_password) This should only be done if required 
+third-party software has not been updated to work with the new 
+authentication method. The change will be written to the file 
+/etc/mysql/mysql.conf.d/default-auth-override.cnf
+
+After installation, the default can be changed by setting
+the default_authentication_plugin server setting. 
+</code></pre>
+<ul>
+<li><strong>instalacion</strong></li>
+</ul>
+<pre><code class="language-sh">wget =&gt; `https://dev.mysql.com/downloads/repo/apt/` 
+dpkg -i packake.deb
+nano /etc/apt/sources.list.d/mysql.list 
+apt-get update
+apt-get install mysql-server
+mysql_secure_installation
+</code></pre>
+<ul>
+<li><strong>configuracion</strong></li>
+</ul>
+<pre><code class="language-sh">nano /etc/mysql/my.cnf
+// se ven todos los sitios donde puede estar la configuracion
+// vamos a ...
+nano /etc/mysql/mysql.conf.d/mysqld.cnf 
+// y debajo de [mysqld] escribimos
+bind_address = 127.0.0.1 // para prohibir acceso desde el exterior
+service mysql restart
+
+// para crear otros usuarios usamos % en lugar de localhost para 
+// permitir el acceso desde el exterior
+mysql -u root -pPasswordYouDesire
+mysql&gt;CREATE USER 'username'@'%' IDENTIFIED BY 'password';
+mysql&gt;GRANT ALL ON databaseName.* TO 'username'@'%';
+mysql&gt; FLUSH PRIVILEGES;
+</code></pre>
+<pre><code>// para apagar mysql password validation
+UNINSTALL COMPONENT 'file://component_validate_password';
+</code></pre>
+<hr />
+<h2 id="redis">REDIS</h2>
+<h3 id="instalar-redis-40x">Instalar REDIS 4.0.X</h3>
+<ul>
+<li><strong>Instalar</strong></li>
+</ul>
+<pre><code class="language-sh">apt -t stretch-backports install &quot;redis-server&quot;
+service redis status
+</code></pre>
+<ul>
+<li><strong>Configurar</strong></li>
+</ul>
+<pre><code class="language-sh">nano /etc/redis/redis.conf
+appendonly yes
+appendfsync everysec
+service redis restart
+</code></pre>
+<hr />
+<h2 id="vps">VPS</h2>
+<ul>
+<li><strong>Benchmark</strong></li>
+</ul>
+<pre><code class="language-sh">(curl -s wget.racing/nench.sh | bash; curl -s wget.racing/nench.sh | bash)
+ 2&gt;&amp;1 | tee nench.log
+</code></pre>
+<pre><code class="language-sh">wget -qO- bench.sh | bash
+</code></pre>
+<ul>
+<li><strong>Ram</strong></li>
+</ul>
+<pre><code>dmidecode -t 17
+
+dd if=/dev/zero of=/dev/null bs=1024M count=200
+</code></pre>
+<ul>
+<li><strong>iperf</strong></li>
+</ul>
+<pre><code class="language-sh">apt install iperf
+iperf -c iperf.online.net
+</code></pre>
+<ul>
+<li><strong>speedtest</strong></li>
+</ul>
+<pre><code class="language-sh">curl -Lo speedtest-cli
+https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py
+chmod +x speedtest-cli
+</code></pre>
+<p><a href="http://speedtest.tele2.net/">http://speedtest.tele2.net/</a></p>
+<pre><code class="language-sh">download
+wget -O /dev/null http://speedtest.tele2.net/1GB.zip
+upload
+curl -T 1GB.zip ftp://speedtest.tele2.net/upload/
+</code></pre>
+<ul>
+<li><strong>hard disk</strong></li>
+</ul>
+<pre><code class="language-sh">apt install smartmontools
+// informacion
+smartctl -a /dev/sda 
+// testear
+smartctl -t short|long|select /dev/sda
+// resultados
+smartctl -a /dev/sda 
+// o solo testear
+smartctl -l selftest /dev/sdc
+
+// informacion
+hdparm -I /dev/sda
+// testea
+hdparm -tT /dev/sda
+
+// testea
+dd if=/dev/zero of=/tmp/output conv=fdatasync bs=384k count=1k;
+ rm -f /tmp/output
+</code></pre>
+<ul>
+<li><strong>more benchmarks</strong></li>
+</ul>
+<pre><code class="language-sh">openssl speed rsa 
+openssl speed -multi numCores rsa2048 
+
+7z b
+</code></pre>
+<ul>
+<li><strong>SYS arm-XT</strong> arreglar el bug de poca velocidad de subida  </li>
+</ul>
+<p><a href="https://lowendtalk.com/discussion/146114/new-soyoustart-2018-prices/p8">lowendtalk</a></p>
+<pre><code class="language-sh">apt install linux-image-4.9.0-6-armmp linux-headers-4.9.0-6-armmp
+apt purge *armada*
+reboot
+
+modprobe error ufw
+wget http://last.public.ovh.hdaas.snap.mirrors.ovh.net/ubuntu/pool
+/main/l/linux-modules-armada375/linux-modules-armada375_4.5.2-4_armhf.deb
+dpkg -i linux-modules-armada375_4.5.2-4_armhf.deb
+</code></pre>
+<pre><code class="language-sh">grub-mkconfig -o /boot/grub/grub.cfg
+</code></pre>
+<ul>
+<li><strong>rsync</strong></li>
+</ul>
+<p><strong>De local a otra remota</strong></p>
+<pre><code class="language-sh">rsync -aP /home/user/data/ user@destiny.com:/home/user/data
+
+# automatizado sin preguntar contraseña
+rsync -arv --delete -e &quot;sshpass -f '/file/with/passwd' || -p 'password' 
+ssh -p PORT -o StrictHostKeyChecking=no&quot; --progress /source/data/
+user@domain.com:/destination/data
+</code></pre>
+<p><strong>De otra remota a local</strong>*</p>
+<pre><code class="language-sh">rsync -charvzP --delete -e &quot;sshpass -p 'pass' ssh -p port&quot; --progress
+user@remote.host:/remote/path /local/path/
+</code></pre>
+<hr />
+<h2 id="test-api">TEST API</h2>
+<ul>
+<li><strong>siege</strong></li>
+</ul>
+<pre><code class="language-sh">siege -c 30 -r 1 --no-parser https://api.codetabs.com/v1/
+
+siege -c250 -d10 -t3 https://api.codetabs.com/v1/proxy?quest=http
+</code></pre>
+<ul>
+<li><strong>Apache Bench</strong></li>
+</ul>
+<p><code>apt-get install apache2-utils</code> -  </p>
+<p>-n numero de peticiones<br />
+-c concurrencias</p>
+<p><a href="https://httpd.apache.org/docs/current/programs/ab.html">Mas info</a>  </p>
+<pre><code class="language-sh">ab -n 1000 -c 10 https://jolav.me/
+</code></pre>
+<p>¡ Ojo porque ab asume que todas las respuestas son iguales !.<br />
+Si content-length es distinta lo considera un error y aparece como failed request  </p>
+<hr />
+<h2 id="openvpn">OPENVPN</h2>
+<p><a href="https://github.com/angristan/openvpn-install">Script para instalar</a></p>
+<ul>
+<li><strong>Crear un Kill Switch</strong></li>
+</ul>
+<pre><code class="language-sh">// ON-openvpn.sh
+
+#!/bin/bash
+ufw reset
+ufw default deny incoming
+ufw default deny outgoing
+ufw allow out on tun0 from any to any
+ufw enable
+</code></pre>
+<pre><code class="language-sh">// OFF-openvpn.sh
+
+#!/bin/bash
+ufw reset
+ufw default deny incoming
+ufw default allow outgoing
+ufw enable
+</code></pre>
+<p><code>chmod +x ON-openvpn.sh OFF-openvpn.sh</code></p>
+<ol>
+<li>Conectarte a tu openVpn  </li>
+<li>./on-openvpn.sh  </li>
+<li>./off-openvpn.sh  </li>
+</ol>
+<p><a href="https://www.nukeador.com/06/07/2017/vpn-kill-switch-for-linux-protect-from-vpn-drops-and-dns-leaks/">more</a></p>
+<h2 id="flash-firefox">FLASH FIREFOX</h2>
+<p>Download from <a href="https://get.adobe.com/flashplayer/">here</a></p>
+<pre><code class="language-sh">tar -xzf flash_player_ppapi_linux*.tar.gz
+cp libpepflashplayer.so /usr/lib/mozilla/plugins
+cp -r usr/* /usr
+// restart firefox
+</code></pre>
+<hr />
+<h2 id="virtualbox">VIRTUALBOX</h2>
+<p>Descargar de aqui en el apartado "All distributions" el archivo .run</p>
+<p><a href="https://www.virtualbox.org/wiki/Linux_Downloads">https://www.virtualbox.org/wiki/Linux_Downloads</a></p>
+<p>Si tras ejecutarlo e instalarlo dice que falta el dkms es ir aqui buscarlo, bajarlo e instalarlo</p>
+<p><a href="https://tracker.debian.org/pkg/virtualbox">https://tracker.debian.org/pkg/virtualbox</a></p>
+<p>Despues de instalarlo a veces sale este error</p>
+<pre><code class="language-sh">There were problems setting up VirtualBox.  
+To re-start the set-up process, ru /sbin/vboxconfig
+as root.  If your system is using EFI Secure Boot you may need to sign  
+the kernel modules (vboxdrv, vboxnetflt, vboxnetadp, vboxpci) before   
+you can load them.   
+Please see your Linux system's documentation for more information.  
+</code></pre>
+<pre><code class="language-sh">modprobe vboxdrv
+</code></pre>
+<hr />
+<h2 id="gre-tunnel">GRE TUNNEL</h2>
+<pre><code>apt install iptables iproute2
+
+ps aux | grep gre
+ip tunnel show
+</code></pre>
+<ul>
+<li>Pantalla</li>
+</ul>
+<pre><code>modprobe ip_gre
+iptunnel del gre1
+# Solo una vez
+#echo 'net.ipv4.ip_forward=1' &gt;&gt; /etc/sysctl.conf 
+#sysctl -p 
+
+iptunnel add gre1 mode gre local IP_PANTALLA remote IP_SERVIDOR ttl 255
+ip addr add 192.168.168.1/30 dev gre1
+ip link set gre1 up
+# aqui ping a 192.168.168.2
+
+# BUYVM
+# iptables -t nat -A POSTROUTING -s 192.168.168.0/30 ! -o gre+ -j SNAT --to-source IP_PANTALLA
+# aqui curl ip desde servidor
+# iptables -t nat -A PREROUTING -d IP_PANTALLA -j DNAT --to-destination 192.168.168.2
+# iptables -A FORWARD -d 192.168.168.2 -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+# If you're wanting to get more specific, you could add: -p tcp --dport 25565
+
+# HETZNER
+iptables -t nat -A POSTROUTING -s 192.168.168.0/30 ! -o gre+ -j SNAT --to-source IP_PANTALLA
+# aqui curl ip desde servidor
+iptables -A FORWARD -d 192.168.168.2 -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+iptables -A FORWARD -s 192.168.168.2 -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+iptables -t nat -A PREROUTING -d IP_PANTALLA -p tcp -m tcp --dport 80 -j DNAT --to-destination 192.168.168.2
+iptables -t nat -A PREROUTING -d IP_PANTALLA -p tcp -m tcp --dport 443 -j DNAT --to-destination 192.168.168.2
+
+</code></pre>
+<ul>
+<li><strong>Extras</strong></li>
+</ul>
+<pre><code>keepalive en el servidor
+crontab -e
+*/1 * * * *     ping -c2 192.168.168.1
+
+ps aux | grep gre
+ip tunnel show
+</code></pre>
+<ul>
+<li><strong>Servidor</strong> </li>
+</ul>
+<pre><code>modprobe ip_gre
+iptunnel del gre1
+
+iptunnel add gre1 mode gre local IP_SERVIDOR remote IP_PANTALLA ttl 255
+ip addr add 192.168.168.2/30 dev gre1
+ip link set gre1 up
+# TEST-1 ping a 192.168.168.1
+
+# Solo una vez, esto solo se puede borrar luego manualmente
+# echo '100 GRETUNNEL1' &gt;&gt; /etc/iproute2/rt_tables
+ip rule add from 192.168.168.0/30 table GRETUNNEL1
+ip route add default via 192.168.168.1 table GRETUNNEL1
+# TEST-2 
+# curl http://www.cpanel.net/showip.cgi --interface 192.168.168.2
+# wget http://www.cpanel.net/showip.cgi --bind-address=192.168.168.2 -q -O -
+</code></pre>
+<hr />
+          
+          
+        </div>
+      </div>
+    </div>
+    <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebarwrapper">
+        <!--
+  <p class="logo">
+    <a href="..">
+      <img class="logo" src="../_img/chuletas128.png" title="Chuletas">
+    </a>
+  </p>
+  
+
+
+
+        
+        <h2>Navigation</h2>
+
+
+<ul>
+  
+      
+        <li>
+          <a href="">Menu</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="html/">HTML</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="css/">CSS</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="frontend/">Front End</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript/">Javascript</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript-apis/">Javascript APIs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript-para-web/">Javascript para web</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript-snippets/">Javascript snippets</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="reactjs/">Reactjs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="nodejs/">Nodejs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="expressjs/">Expressjs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="nodejs-snippets/">Nodejs snippets</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="nodejs-bases-de-datos/">Nodejs Bases de Datos</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang/">Golang</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang-para-web/">Golang para web</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang-snippets/">Golang snippets</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang-bases-de-datos/">Golang Bases de Datos</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="debian/">Debian</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="varios/">Varios</a>
+        </li>
+      
+    
+  </ul>
+        
+
+
+
+<h3>Contenidos</h3>
+
+<nav>
+  
+
+<ul>
+  
+  <li><a href="#stable">STABLE</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#commands">COMMANDS</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#security">SECURITY</a></li>
+  <ul>
+  
+  <li><a href="#ssh">SSH</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#clamav">CLAMAV</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#rkhunter">RKHUNTER</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#fail2ban">FAIL2BAN</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#ufw">UFW</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#pm2">PM2</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#npm-sin-ser-root">NPM sin ser ROOT</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#systemd">SYSTEMD</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#systemd-sin-ser-root">SYSTEMD sin ser ROOT</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#nginx">NGINX</a></li>
+  <ul>
+  
+  <li><a href="#configuracion">Configuracion</a></li>
+  <ul>
+  
+  <li><a href="#server-side-includes">server-side-includes</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#ocultar-la-version-de-nginx">ocultar la version de nginx</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#headerscabeceras">headers(cabeceras)</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#limitar-tamano-de-los-archivos-de-subida">Limitar tamaño de los archivos de subida</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#rate-limit">rate Limit</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#http2">http2</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#cache">cache</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#zonas-privadas">zonas privadas</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#custom-404">custom 404</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#block-domains">block domains</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#nginxconf">nginx.conf</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#dominio-templateconf">dominio-template.conf</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#sitesdomain">SITES/DOMAIN</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#subcarpeta-con-php">Subcarpeta con PHP</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#webmin">WEBMIN</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#lets-encrypt">LETS ENCRYPT</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#monitorizar-red">MONITORIZAR RED</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#mysql">MYSQL</a></li>
+  <ul>
+  
+  <li><a href="#instalar-mysql-57x">Instalar MYSQL 5.7.X</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#instalar-mysql-80x">Instalar MYSQL 8.0.X</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#redis">REDIS</a></li>
+  <ul>
+  
+  <li><a href="#instalar-redis-40x">Instalar REDIS 4.0.X</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#vps">VPS</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#test-api">TEST API</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#openvpn">OPENVPN</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#flash-firefox">FLASH FIREFOX</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#virtualbox">VIRTUALBOX</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#gre-tunnel">GRE TUNNEL</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+
+
+  
+</nav>
+        
+        <div id="searchbox" style="display: none;" role="search">
+  <h3>Quick search</h3>
+  <form class="search" action="../search.html" method="get">
+    <input name="q" type="text">
+    <input value="Go" type="submit">
+  </form>
+  <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+  </p>
+</div>
+<script type="text/javascript">
+  document.getElementById("searchbox").style.display = "block";
+</script>
+        -->
+
+        
+
+        
+        
+  <p class="logo">
+    <a href="..">
+      <img class="logo" src="../_img/chuletas128.png" title="Chuletas">
+    </a>
+  </p>
+  
+
+
+
+        
+        <div class="menuNav">
+
+  
+  <ul>
+    
+    
+    <li>
+      <a href="../">Menu</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../html/">HTML</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../css/">CSS</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../frontend/">Front End</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript/">Javascript</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript-apis/">Javascript APIs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript-para-web/">Javascript para web</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript-snippets/">Javascript snippets</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../reactjs/">Reactjs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../nodejs/">Nodejs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../expressjs/">Expressjs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../nodejs-snippets/">Nodejs snippets</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../nodejs-bases-de-datos/">Nodejs Bases de Datos</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang/">Golang</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang-para-web/">Golang para web</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang-snippets/">Golang snippets</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang-bases-de-datos/">Golang Bases de Datos</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../debian/">Debian</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../varios/">Varios</a>
+    </li>
+    
+    
+  </ul>
+</div>
+        
+        
+
+
+
+<h3>Contenidos</h3>
+
+<nav>
+  
+
+<ul>
+  
+  <li><a href="#stable">STABLE</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#commands">COMMANDS</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#security">SECURITY</a></li>
+  <ul>
+  
+  <li><a href="#ssh">SSH</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#clamav">CLAMAV</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#rkhunter">RKHUNTER</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#fail2ban">FAIL2BAN</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#ufw">UFW</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#pm2">PM2</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#npm-sin-ser-root">NPM sin ser ROOT</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#systemd">SYSTEMD</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#systemd-sin-ser-root">SYSTEMD sin ser ROOT</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#nginx">NGINX</a></li>
+  <ul>
+  
+  <li><a href="#configuracion">Configuracion</a></li>
+  <ul>
+  
+  <li><a href="#server-side-includes">server-side-includes</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#ocultar-la-version-de-nginx">ocultar la version de nginx</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#headerscabeceras">headers(cabeceras)</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#limitar-tamano-de-los-archivos-de-subida">Limitar tamaño de los archivos de subida</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#rate-limit">rate Limit</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#http2">http2</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#cache">cache</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#zonas-privadas">zonas privadas</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#custom-404">custom 404</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#block-domains">block domains</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#nginxconf">nginx.conf</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#dominio-templateconf">dominio-template.conf</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#sitesdomain">SITES/DOMAIN</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#subcarpeta-con-php">Subcarpeta con PHP</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#webmin">WEBMIN</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#lets-encrypt">LETS ENCRYPT</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#monitorizar-red">MONITORIZAR RED</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#mysql">MYSQL</a></li>
+  <ul>
+  
+  <li><a href="#instalar-mysql-57x">Instalar MYSQL 5.7.X</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#instalar-mysql-80x">Instalar MYSQL 8.0.X</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#redis">REDIS</a></li>
+  <ul>
+  
+  <li><a href="#instalar-redis-40x">Instalar REDIS 4.0.X</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#vps">VPS</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#test-api">TEST API</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#openvpn">OPENVPN</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#flash-firefox">FLASH FIREFOX</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#virtualbox">VIRTUALBOX</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#gre-tunnel">GRE TUNNEL</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+
+
+  
+</nav>
+        
+
+        
+
+      </div>
+    </div>
+    <div class="clearer"></div>
+  </div>
+
+  
+  <div class="footer">
+    
+    
+    
+    Powered by <a href="http://www.mkdocs.org">mkdocs 1.4.2</a>
+    &amp; <a href="https://github.com/iamale/mkdocs-alabaster">mkdocs-alabaster</a>
+    
+  </div>
+  
+
+  <!--
+  MkDocs version      : 1.4.2
+  Docs Build Date UTC : 2023-10-03 14:52:40.851100+00:00
+  -->
+</body>
+
+</html>

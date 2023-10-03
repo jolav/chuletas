@@ -1,0 +1,1563 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+  <title>Golang para web &mdash; Chuletas</title>
+
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <link rel="stylesheet" href="../css/alabaster.css" type="text/css">
+  <link rel="stylesheet" href="../css/alabaster-overrides.css" type="text/css">
+
+  
+  <link href="../_extra/css/extra.css" rel="stylesheet">
+  
+
+  
+  <script src="../_extra/js/highlight.pack.js"></script>
+  
+  <script src="../search/main.js"></script>
+  
+
+  <link rel="stylesheet" href="../_extra/css/atom-one-light.css">
+  <script src="../_extra/js/highlight.pack.js"></script>
+
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+  
+
+</head>
+
+<body>
+
+  <div class="document">
+    <div class="documentwrapper">
+      <div class="bodywrapper">
+        <div class="body" role="main">
+          
+          <h1 id="golang-para-desarrollo-web">GOLANG PARA DESARROLLO WEB</h1>
+<hr />
+<h2 id="nethttp">NET/HTTP</h2>
+<p><code>import net/http</code>    </p>
+<h3 id="static">Static</h3>
+<pre><code class="language-go">// sirve el directorio entero
+func main() {       
+    dir := http.Dir(&quot;./files&quot;)
+    http.ListenAndServe(&quot;:8080&quot;, http.FileServer(dir))
+    http.HandleFunc(&quot;/&quot;, readme)
+}
+</code></pre>
+<pre><code class="language-go">// ServeFile sirve un archivo o un directorio como 3er argumento
+func main() {
+    http.HandleFunc(&quot;/&quot;, public)
+    http.ListenAndServe(&quot;:8080&quot;, nil)
+}
+func public(w http.ResponseWriter, r *http.Request) {
+    http.ServeFile(w, r, &quot;./files/hola.html&quot;)
+    //  http.ServeFile(w, r, &quot;./files/&quot;)
+}
+</code></pre>
+<pre><code class="language-go">// sirve el directorio ./files en la ruta /static/
+// ./files puede estar en cualquier sitio del sistema de archivos
+// no solo en el dir de la aplicacion
+func main() {
+    dir := http.Dir(&quot;./files/&quot;)
+    handler := http.StripPrefix(&quot;/static/&quot;, http.FileServer(dir))
+    http.Handle(&quot;/static/&quot;, handler)
+
+    http.HandleFunc(&quot;/&quot;, homePage)
+    http.ListenAndServe(&quot;:8080&quot;, nil)
+}
+</code></pre>
+<h3 id="handler">Handler</h3>
+<p>- Handlers son cualquier struct que tiene un metodo <code>ServeHTTP(w http.ResponseWriter, r *http.Request)</code> con dos parametros: una interface HTTPResponseWriter y un puntero a una Request struct.<br />
+- Handler functions son funciones que se comportan como handlers. Tienen la misma firma que el metodo ServeHTTP y se utiizan para procesar peticiones (Requests)<br />
+- Handlers y handler functions se pueden encadenar para permitir el procesado en partes de peticiones mediante la separacion de asuntos.<br />
+- Multiplexers(routers) tambien son handlers. ServeMux es un router de peticiones HTTP. Acepta peticiones HTTP y las redirige al handler adecuado segun la URL de la peticion.<br />
+<code>DefaultServeMux</code> es una instancia de <code>ServeMux</code> que se usa como router por defecto</p>
+<ul>
+<li><strong>Handler</strong></li>
+</ul>
+<pre><code class="language-go">// multi handler and chain handler
+package main
+
+import (
+    &quot;fmt&quot;
+    &quot;net/http&quot;
+)
+
+type helloHandler struct{}
+
+func (h *helloHandler) ServeHTTP(w http.ResponseWriter, r *http.Request){
+    fmt.Fprintf(w, &quot;Hello!&quot;)
+}
+
+type worldHandler struct{}
+
+func (h *worldHandler) ServeHTTP(w http.ResponseWriter, r *http.Request){
+    fmt.Fprintf(w, &quot;World!&quot;)
+}
+
+func log(h http.Handler) http.Handler {
+    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
+        fmt.Printf(&quot;Handler called - %T\n&quot;, h)
+        h.ServeHTTP(w, r)
+    })
+}
+
+func protect(h http.Handler) http.Handler {
+    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
+        // some code to make sure the user is authorized
+        h.ServeHTTP(w, r)
+    })
+}
+
+func main() {
+    hello := helloHandler{}
+    world := worldHandler{}
+
+    server := http.Server{
+        Addr: &quot;127.0.0.1:8080&quot;,
+    }
+
+    http.Handle(&quot;/hello&quot;, protect(log(&amp;hello)))
+    http.Handle(&quot;/world&quot;, &amp;world)
+
+    server.ListenAndServe()
+}
+</code></pre>
+<ul>
+<li><strong>HandleFunc</strong></li>
+</ul>
+<pre><code class="language-go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;net/http&quot;
+    &quot;reflect&quot;
+    &quot;runtime&quot;
+)
+
+func hello(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintf(w, &quot;Hello!&quot;)
+}
+
+func world(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintf(w, &quot;World!&quot;)
+}
+
+func log(h http.HandlerFunc) http.HandlerFunc {
+    return func(w http.ResponseWriter, r *http.Request) {
+        name := runtime.FuncForPC(reflect.ValueOf(h).Pointer()).Name()
+        fmt.Println(&quot;Handler function called - &quot; + name)
+        h(w, r)
+    }
+}
+
+func main() {
+    server := http.Server{
+        Addr: &quot;127.0.0.1:8080&quot;,
+    }
+    http.HandleFunc(&quot;/hello&quot;, log(hello))
+    http.HandleFunc(&quot;/world&quot;, world)
+
+    server.ListenAndServe()
+}
+</code></pre>
+<h3 id="request">Request</h3>
+<ul>
+<li><strong>URL</strong></li>
+</ul>
+<pre><code class="language-go">https://golang.org/src/net/url/url.go
+type URL struct {
+    Scheme     string
+    Opaque     string    // encoded opaque data
+    User       *Userinfo // username and password information
+    Host       string    // host or host:port
+    Path       string
+    RawPath    string // encoded path hint 
+    ForceQuery bool   // append a query ('?') even if RawQuery is empty
+    RawQuery   string // encoded query values, without '?'
+    Fragment   string // fragment for references, without '#'
+}
+algunos metodos
+// EscapedPath returns the escaped form of u.Path.
+func (u *URL) EscapedPath() string {}
+// IsAbs reports whether the URL is absolute.
+func (u *URL) IsAbs() bool {}
+// Query parses RawQuery and returns the corresponding values.
+func (u *URL) Query() Values {}
+type Values map[string][]string
+</code></pre>
+<ul>
+<li><strong>Headers</strong></li>
+</ul>
+<p><code>type Header</code><br />
+<code>func (h Header) Add(key, value string)</code><br />
+<code>func (h Header) Del(key string)</code><br />
+<code>func (h Header) Get(key string) string</code><br />
+<code>func (h Header) Set(key, value string)</code><br />
+<code>func (h Header) Write(w io.Writer) error</code><br />
+<code>func (h Header) WriteSubset(w io.Writer, exclude map[string]bool) error</code>  </p>
+<pre><code class="language-go">func headers(w http.ResponseWriter, r *http.Request) {
+    h := r.Header
+    // h := r.Header[&quot;Accept-Encoding&quot;]  // devuelve un map de strings
+    // h := r.Header.Get(&quot;Accept-Encoding&quot;) // devuelve string
+    fmt.Fprintln(w, h)
+}
+http.HandleFunc(&quot;/headers&quot;, headers)
+</code></pre>
+<ul>
+<li><strong>Body</strong></li>
+</ul>
+<pre><code class="language-go">
+func body(w http.ResponseWriter, r *http.Request) {
+    len := r.ContentLength
+    body := make([]byte, len)
+    r.Body.Read(body)
+    fmt.Fprintln(w, string(body))
+}
+    http.HandleFunc(&quot;/body&quot;, body)
+</code></pre>
+<h3 id="responsewriter">ResponseWriter</h3>
+<p>La interface <code>ResponseWriter</code> tiene tres metodos:<br />
+- <code>Write</code> - coge un []bytes y lo escribe en el body de la respuesta HTTP. Si la cabecera no especifica content-type usa los los primeros 512 bytes de datos para detectar el tipo de contenido <br />
+- <code>WriteHeader</code> - envia un numero entero que representa el codigo de estado de la respuesta HTTP. Despues de usar este metodo no se puede escribir ni modificar nada en la cabecera. Si no se use este metodo por defecto cuando se llama a <code>Write</code> se envia el codigo <code>200 OK</code><br />
+Es muy util para enviar codigos de errores<br />
+- <code>Header</code> - devuelve un map de campos de la cabecera que se pueden modificar y que seran enviados en la respuesta al cliente  </p>
+<pre><code class="language-go">type post struct {
+    User    string
+    Langs []string
+}
+
+func writeExample(w http.ResponseWriter, r *http.Request) {
+    str := `&lt;html&gt;
+&lt;head&gt;&lt;title&gt;Write Example&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;&lt;h1&gt;Hello World&lt;/h1&gt;&lt;/body&gt;
+&lt;/html&gt;`
+    w.Write([]byte(str))
+}
+
+func writeHeaderExample(w http.ResponseWriter, r *http.Request) {
+    w.WriteHeader(501)
+    fmt.Fprintln(w, &quot;Not implemented yet&quot;)
+}
+
+func headerExample(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set(&quot;Location&quot;, &quot;https://jolav.me&quot;)
+    w.WriteHeader(302)
+}
+
+func jsonExample(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set(&quot;Content-Type&quot;, &quot;application/json&quot;)
+    post := &amp;post{
+        User:    &quot;jolav&quot;,
+        Langs: []string{&quot;Go&quot;, &quot;HTML&quot;, &quot;Javascript&quot;},
+    }
+    json, _ := json.Marshal(post)
+    w.Write(json)
+}
+
+func main() {
+    server := http.Server{
+        Addr: &quot;127.0.0.1:8080&quot;,
+    }
+    http.HandleFunc(&quot;/write&quot;, writeExample)
+    http.HandleFunc(&quot;/writeheader&quot;, writeHeaderExample)
+    http.HandleFunc(&quot;/redirect&quot;, headerExample)
+    http.HandleFunc(&quot;/json&quot;, jsonExample)
+    server.ListenAndServe()
+}
+</code></pre>
+<h3 id="middleware">Middleware</h3>
+<pre><code class="language-go">type Middleware []http.Handler
+
+// Adds a handler to the middleware
+func (m *Middleware) Add(handler http.Handler) {
+    *m = append(*m, handler)
+}
+func (m Middleware) ServeHTTP(w http.ResponseWriter, r *http. ➥Request) {
+  // Process the middleware
+}
+</code></pre>
+<h3 id="cookies">Cookies</h3>
+<pre><code class="language-go">https://golang.org/src/net/http/cookie.go
+
+type Cookie struct {
+    Name            string
+    Value           string
+    Path          string    // optional
+    Domain      string    // optional
+    Expires     time.Time // optional
+    RawExpires  string    // for reading cookies only
+    // MaxAge=0 means no 'Max-Age' attribute specified.
+    // MaxAge&lt;0 means delete cookie now, equivalently 'Max-Age: 0'
+    // MaxAge&gt;0 means Max-Age attribute present and given in seconds
+    MaxAge          int
+    Secure          bool
+    HttpOnly        bool
+    Raw             string
+    Unparsed        []string // Raw text of unparsed attribute-value pairs
+}
+</code></pre>
+<p>Si no se usa el campo <code>Expires</code> la cookie es de sesion o temporal y se eliminan del navegador cuando este se cierra. De lo contrario la cookie es persistente y dura hasta que expire o se elimine. Usar <code>MaxAge</code> en lugar de <code>Expires</code> que esta deprecada  </p>
+<pre><code class="language-go">package main
+
+import (
+    &quot;encoding/base64&quot;
+    &quot;fmt&quot;
+    &quot;net/http&quot;
+    &quot;time&quot;
+)
+
+func setCookie(w http.ResponseWriter, r *http.Request) {
+    c1 := http.Cookie{
+        Name:     &quot;first cookie&quot;,
+        Value:    &quot;Valor de la primera galleta&quot;,
+        HttpOnly: true,
+    }
+    c2 := http.Cookie{
+        Name:     &quot;second cookie&quot;,
+        Value:    &quot;Valor de la segunda galleta&quot;,
+        HttpOnly: true,
+    }
+    http.SetCookie(w, &amp;c1)
+    http.SetCookie(w, &amp;c2)
+}
+
+func getCookie(w http.ResponseWriter, r *http.Request) {
+    c1, err := r.Cookie(&quot;first cookie&quot;)
+    if err != nil {
+        fmt.Fprintln(w, &quot;Cannot get the first cookie&quot;)
+    }
+    cs := r.Cookies()
+    fmt.Fprintln(w, c1)
+    fmt.Fprintln(w, cs)
+}
+
+func setMessage(w http.ResponseWriter, r *http.Request) {
+    msg := []byte(&quot;Hello World!&quot;)
+    c := http.Cookie{
+        Name:  &quot;flash&quot;,
+        Value: base64.URLEncoding.EncodeToString(msg),
+    }
+    http.SetCookie(w, &amp;c)
+}
+
+func showMessage(w http.ResponseWriter, r *http.Request) {
+    c, err := r.Cookie(&quot;flash&quot;)
+    if err != nil {
+        if err == http.ErrNoCookie {
+            fmt.Fprintln(w, &quot;No message found&quot;)
+        }
+    } else {
+        rc := http.Cookie{
+            Name:    &quot;flash&quot;,
+            MaxAge:  -1,
+            Expires: time.Unix(1, 0),
+        }
+        http.SetCookie(w, &amp;rc)
+        val, _ := base64.URLEncoding.DecodeString(c.Value)
+        fmt.Fprintln(w, string(val))
+    }
+}
+
+func main() {
+    server := http.Server{
+        Addr: &quot;127.0.0.1:8080&quot;,
+    }
+    http.HandleFunc(&quot;/setCookie&quot;, setCookie)
+    http.HandleFunc(&quot;/getCookie&quot;, getCookie)
+    http.HandleFunc(&quot;/setMessage&quot;, setMessage)
+    http.HandleFunc(&quot;/showMessage&quot;, showMessage)
+    server.ListenAndServe()
+}
+</code></pre>
+<h3 id="sessions">Sessions</h3>
+<h3 id="forms">Forms</h3>
+<p>1º - Parseamos la peticion con <code>ParseForm o ParseMultipartForm</code> <br />
+2º - Accedemos al formulario  </p>
+<pre><code class="language-html">// formulario para process1
+&lt;form action=&quot;http://127.0.0.1:8080/process1?hello=world&amp;thread=123&quot; 
+method=&quot;post&quot; enctype=&quot;application/x-www-form-urlencoded&quot;&gt;
+    &lt;input type=&quot;text&quot; name=&quot;hello&quot; value=&quot;jolav&quot; /&gt;
+    &lt;input type=&quot;text&quot; name=&quot;post&quot; value=&quot;1234&quot; /&gt;
+    &lt;input type=&quot;submit&quot; /&gt;
+&lt;/form&gt;
+&lt;!--
+Obtendriamos map[thread:[123] hello:[jolav world] post:[1234]]
+Tenemos los valores de la URL mas los del formulario
+Para sacar solo un campo usamos notacion r.Form[&quot;post&quot;] 
+
+Si usamos r.PostForm se ignoran los pares de la URL y solo se usan los
+del formulario resultando map[post:[1234] hello:[jolav]]
+
+Tambien existe ParseMultipartForm  
+--&gt;
+// formulario para process2 y process3
+&lt;form action=&quot;http://localhost:8080/process?hello=world&amp;thread=123&quot;
+method=&quot;post&quot; enctype=&quot;multipart/form-data&quot;&gt;
+    &lt;input type=&quot;text&quot; name=&quot;hello&quot; value=&quot;jolav&quot; /&gt;
+    &lt;input type=&quot;text&quot; name=&quot;post&quot; value=&quot;1234&quot; /&gt;
+    &lt;input type=&quot;file&quot; name=&quot;uploaded&quot;&gt;
+    &lt;input type=&quot;submit&quot;&gt;
+&lt;/form&gt;
+</code></pre>
+<pre><code class="language-go">package main
+
+import (
+    &quot;fmt&quot;
+    &quot;io/ioutil&quot;
+    &quot;net/http&quot;
+)
+
+func process1(w http.ResponseWriter, r *http.Request) {
+    r.ParseForm()
+    fmt.Fprintln(w, r.Form[&quot;campo&quot;][0])
+    fmt.Prinltln(w, r.Form.Get(&quot;campo&quot;))
+    //  fmt.Fprintln(w, r.PostForm)
+}
+
+func process2(w http.ResponseWriter, r *http.Request) {
+    file, _, err := r.FormFile(&quot;uploaded&quot;)
+    if err == nil {
+        data, err := ioutil.ReadAll(file)
+        if err == nil {
+            fmt.Fprintln(w, string(data))
+        }
+    }
+}
+
+func process3(w http.ResponseWriter, r *http.Request) {
+    r.ParseMultipartForm(1024)
+    fileHeader := r.MultipartForm.File[&quot;uploaded&quot;][0]
+    file, err := fileHeader.Open()
+    if err == nil {
+        data, err := ioutil.ReadAll(file)
+        if err == nil {
+            fmt.Fprintln(w, string(data))
+        }
+    }
+}
+
+func main() {
+    server := http.Server{
+        Addr: &quot;127.0.0.1:8080&quot;,
+    }
+    http.HandleFunc(&quot;/process1&quot;, process1)
+    http.HandleFunc(&quot;/process2&quot;, process2)
+    http.HandleFunc(&quot;/process3&quot;, process3)
+
+    server.ListenAndServe()
+}
+</code></pre>
+<p><img alt="go" src="../_img/go/forms.png" /></p>
+<h3 id="cliente-http">Cliente HTTP</h3>
+<p><code>type Client</code><br />
+<code>func (c *Client) Do(req *Request) (*Response, error)</code><br />
+<code>func (c *Client) Get(url string) (resp *Response, err error)</code><br />
+<code>func (c *Client) Head(url string) (resp *Response, err error)</code><br />
+<code>func (c *Client) Post(url string, bodyType string, body io.Reader) (resp *Response, err error)</code><br />
+<code>func (c *Client) PostForm(url string, data url.Values) (resp *Response, err error)</code>  </p>
+<p>Ejemplo Hacer peticiones <code>get</code>  </p>
+<p>Poner en el main o donde sea para asegurarse que tiene un tiempo maximo de espera y no se queda colgado esperando hasta el infinito (que es el valor por defecto)
+https://reddit.com/r/golang/comments/45mzie/dont_use_gos_default_http_client/</p>
+<pre><code class="language-go">http.DefaultClient.Timeout = 10 * time.Second
+</code></pre>
+<pre><code class="language-go">func getHttpRequest() {
+    url := &quot;https://codetabs.com/tools/geoip/geoip.html&quot; 
+    resp, err := http.Get(url)
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer resp.Body.Close()
+    decoder := json.NewDecoder(resp.Body)
+    err = decoder.Decode(&amp;geo)
+    if err != nil {
+        panic(err)
+    }
+    aux.SendDataToClient(w, r, geo)
+}
+</code></pre>
+<h3 id="servemux">ServeMux</h3>
+<pre><code class="language-go">func mainNormal() {
+    // assets for all apps
+    assets := http.FileServer(http.Dir(&quot;_public&quot;))
+    http.Handle(&quot;/&quot;, http.StripPrefix(&quot;/&quot;, assets))
+
+    // assets for individual apps
+    votingRes := http.FileServer(http.Dir(&quot;voting/assets&quot;))
+    http.Handle(&quot;/voting/assets/&quot;, 
+        http.StripPrefix(&quot;/voting/assets/&quot;, votingRes))
+
+    book := http.FileServer(http.Dir(&quot;./book/&quot;))
+    nightlife := http.FileServer(http.Dir(&quot;./nightlife/&quot;))
+    stock := http.FileServer(http.Dir(&quot;./stock/&quot;))
+
+    http.Handle(&quot;/book/&quot;, http.StripPrefix(&quot;/book&quot;, book))
+    http.Handle(&quot;/nightlife/&quot;, http.StripPrefix(&quot;/nightlife&quot;, nightlife))
+    http.Handle(&quot;/stock/&quot;, http.StripPrefix(&quot;/stock&quot;, stock))
+
+    // any /voting/* will redirect to voting.Voting
+    http.HandleFunc(&quot;/voting/&quot;, voting.Router)
+
+    // any /pintelest/* will redirect to voting.Voting
+    http.HandleFunc(&quot;/pintelest/&quot;, nodePintelest)
+
+    server := http.Server{
+        Addr: &quot;localhost:3006&quot;,
+    }
+    server.ListenAndServe()
+}
+</code></pre>
+<pre><code class="language-go">func mainMux() {
+    mux := http.NewServeMux()
+
+    // assets for all apps
+    assets := http.FileServer(http.Dir(&quot;_public&quot;))
+    mux.Handle(&quot;/&quot;, http.StripPrefix(&quot;/&quot;, assets))
+
+    // assets for individual apps
+    votingRes := http.FileServer(http.Dir(&quot;voting/assets&quot;))
+    mux.Handle(&quot;/voting/assets/&quot;, 
+        http.StripPrefix(&quot;/voting/assets/&quot;, votingRes))
+
+    book := http.FileServer(http.Dir(&quot;./book/&quot;))
+    nightlife := http.FileServer(http.Dir(&quot;./nightlife/&quot;))
+    stock := http.FileServer(http.Dir(&quot;./stock/&quot;))
+
+    mux.Handle(&quot;/book/&quot;, http.StripPrefix(&quot;/book&quot;, book))
+    mux.Handle(&quot;/nightlife/&quot;, http.StripPrefix(&quot;/nightlife&quot;, nightlife))
+    mux.Handle(&quot;/stock/&quot;, http.StripPrefix(&quot;/stock&quot;, stock))
+
+    mux.HandleFunc(&quot;/voting/&quot;, voting.Router)
+    //mux.HandleFunc(&quot;/voting/p/&quot;, nodePintelest)
+
+    // any /pintelest/* will redirect to nodePintelest
+    mux.HandleFunc(&quot;/pintelest/&quot;, nodePintelest)
+
+    server := http.Server{
+        Addr:    &quot;localhost:3006&quot;,
+        Handler: mux,
+    }
+    server.ListenAndServe()
+}
+</code></pre>
+<pre><code class="language-go">// http://codepodu.com/subdomains-with-golang/
+type Subdomains map[string]http.Handler
+func (subdomains Subdomains) ServeHTTP(w http.ResponseWriter, 
+                            r *http.Request) {
+    domainParts := strings.Split(r.Host, &quot;.&quot;)
+    if mux := subdomains[domainParts[0]]; mux != nil {
+        // Let the appropriate mux serve the request
+        mux.ServeHTTP(w, r)
+    } else {
+        // Handle 404
+        http.Error(w, &quot;Not found&quot;, 404)
+    }
+}
+type Mux struct {
+    http.Handler
+}
+func (mux Mux) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+    mux.ServeHTTP(w, r)
+}
+
+func adminHandlerOne(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintf(w, &quot;It's adminHandlerOne , Hello, %q&quot;, r.URL.Path[1:])
+}
+func adminHandlerTwo(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintf(w, &quot;It's adminHandlerTwo , Hello, %q&quot;, r.URL.Path[1:])
+}
+func analyticsHandlerOne(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintf(w, &quot;It's analyticsHandlerOne , Hello, %q&quot;, r.URL.Path[1:])
+}
+func analyticsHandlerTwo(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintf(w, &quot;It's analyticsHandlerTwo , Hello, %q&quot;, r.URL.Path[1:])
+}
+
+func main() {
+    adminMux := http.NewServeMux()
+    adminMux.HandleFunc(&quot;/admin/pathone&quot;, adminHandlerOne)
+    adminMux.HandleFunc(&quot;/admin/pathtwo&quot;, adminHandlerTwo)
+
+    analyticsMux := http.NewServeMux()
+    analyticsMux.HandleFunc(&quot;/analytics/pathone&quot;, analyticsHandlerOne)
+    analyticsMux.HandleFunc(&quot;/analytics/pathtwo&quot;, analyticsHandlerTwo)
+
+    subdomains := make(Subdomains)
+    subdomains[&quot;admin&quot;] = adminMux
+    subdomains[&quot;analytics&quot;] = analyticsMux
+
+    http.ListenAndServe(&quot;:8080&quot;, subdomains)
+}
+</code></pre>
+<hr />
+<h2 id="htmltemplate">HTML/TEMPLATE</h2>
+<p><code>import html/template</code>    </p>
+<ul>
+<li>Para usarlo hay que importar el paquete <code>html/template</code></li>
+<li>crear la plantilla <code>t, _ := template.ParseFiles("index.html")</code></li>
+<li>asignar valor a variables de plantilla <code>template_value := "Hola"</code></li>
+<li>servir la pagina <code>t.Execute(w, template_values)</code></li>
+</ul>
+<p>index.html</p>
+<pre><code class="language-html">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;title&gt;Hello World&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+Hello {{ . }}
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>pagina.go</p>
+<pre><code class="language-go">package main
+
+import (
+    &quot;html/template&quot;
+    &quot;net/http&quot;
+)
+
+func handler(w http.ResponseWriter, r *http.Request) {
+    t, _ := template.ParseFiles(&quot;index.html&quot;)
+    name := &quot;World&quot;
+    t.Execute(w, name)
+}
+
+func main() {
+    http.HandleFunc(&quot;/&quot;, handler)
+    http.ListenAndServe(&quot;:8080&quot;, nil)
+}
+</code></pre>
+<h3 id="fields">Fields</h3>
+<ul>
+<li>
+<p><code>{{}}</code> cualquier cosa a ser renderizada debe ir entre dobles parentesis</p>
+</li>
+<li>
+<p><code>{{.}}</code> abreviatura para el objeto actual</p>
+</li>
+<li>
+<p><code>{{ .FieldName}}</code> campo FieldName del objecto actual</p>
+</li>
+<li>
+<p>Arrays and slices</p>
+</li>
+</ul>
+<pre><code class="language-go">type Friend struct {
+    Fname string
+}
+
+type Person struct {
+    UserName string
+    Emails   []string
+    Friends  []*Friend
+}
+
+func main() {
+    f1 := Friend{Fname: &quot;minux.ma&quot;}
+    f2 := Friend{Fname: &quot;xushiwei&quot;}
+    t := template.New(&quot;fieldname example&quot;)
+    t, _ = t.Parse(`hello {{.UserName}}!
+            {{range .Emails}}
+                an email {{.}}
+            {{end}}
+            {{with .Friends}}
+            {{range .}}
+                my friend name is {{.Fname}}
+            {{end}}
+            {{end}}
+            `)
+    p := Person{UserName: &quot;Astaxie&quot;,
+        Emails:  []string{&quot;astaxie@beego.me&quot;, &quot;astaxie@gmail.com&quot;},
+        Friends: []*Friend{&amp;f1, &amp;f2}}
+    t.Execute(os.Stdout, p)
+}
+</code></pre>
+<ul>
+<li>Arrays and slices index</li>
+</ul>
+<pre><code class="language-go">const tmpl = `
+{{range $index, $link := .}}
+{{$index}}: &lt;a href=&quot;{{$link.Href}}&quot;&gt;{{$link.Name}}&lt;/a&gt;
+{{end}}
+`
+
+type Link struct {
+    Name string
+    Href string
+}
+
+func main() {
+    // arrays
+    var la [2]Link
+    la[0] = Link{&quot;Google&quot;, &quot;https://www.google.com/&quot;}
+    la[1] = Link{&quot;Facebook&quot;, &quot;https://www.facebook.com/&quot;}
+    t, _ := template.New(&quot;foo&quot;).Parse(tmpl)
+    t.Execute(os.Stdout, la)
+
+    // slices
+    var ls []Link
+    ls = append(ls, Link{&quot;Google&quot;, &quot;https://www.google.com/&quot;})
+    ls = append(ls, Link{&quot;Facebook&quot;, &quot;https://www.facebook.com/&quot;})
+    t.Execute(os.Stdout, ls)
+}
+</code></pre>
+<ul>
+<li>Maps</li>
+</ul>
+<pre><code class="language-go">const tmpl = `
+{{range $name, $href := .}}
+&lt;a href=&quot;{{$href}}&quot;&gt;{{$name}}&lt;/a&gt;
+{{end}}
+`
+
+func main() {
+    // map
+    var m = map[string]string{
+        &quot;Google&quot;: &quot;https://www.google.com/&quot;,
+        &quot;Facebook&quot;: &quot;https://www.facebook.com/&quot;,
+    }
+    t, _ := template.New(&quot;foo&quot;).Parse(tmpl)
+    t.Execute(os.Stdout, m)
+}
+</code></pre>
+<h3 id="conditions">Conditions</h3>
+<ul>
+<li>{{if}} {{else}} : Solo para valores booleanos, no hace comparaciones</li>
+</ul>
+<pre><code class="language-go">{{if ``}}
+    Will not print.
+{{end}}
+</code></pre>
+<pre><code class="language-go">{{if `anything`}}
+    Will print.
+{{end}}
+</code></pre>
+<pre><code class="language-go">{{if `anything`}}
+    Print IF part.  
+{{else}}
+  Print ELSE part.
+{{end}}
+</code></pre>
+<h3 id="pipelines">Pipelines</h3>
+<ul>
+<li>{{ . | html}} Por ejemplo usamos esto para coger el objto actual '.' y
+aplicarle escape a HTML al objeto</li>
+</ul>
+<h3 id="variables">Variables</h3>
+<p>Pasar variables a templates</p>
+<pre><code class="language-go">// usando anonymous structs
+var templates = template.Must(template.ParseGlob(&quot;templates/*&quot;))
+
+func handle(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set(&quot;Content-Type&quot;, &quot;text/html; charset=utf-8&quot;)
+    templates.ExecuteTemplate(w, &quot;page.html&quot;, struct {
+        PageTitle string
+        Message string
+        User string
+        }{&quot;Template example: struct&quot;, &quot;Hello&quot;, &quot;World&quot;})
+}
+</code></pre>
+<pre><code class="language-go">// usando Maps
+var templates = template.Must(template.ParseGlob(&quot;templates/*&quot;))
+
+func handle(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set(&quot;Content-Type&quot;, &quot;text/html; charset=utf-8&quot;)
+    m := make(map[string]interface{})
+    m[&quot;PageTitle&quot;] = &quot;Template example: map&quot;
+    m[&quot;Message&quot;] = &quot;Hello&quot;
+    m[&quot;User&quot;] = &quot;World&quot;
+    templates.ExecuteTemplate(w, &quot;page.html&quot;, m)
+}
+</code></pre>
+<pre><code class="language-go">// mapa
+m := map[string]interface{}{
+    &quot;imgs&quot;: imgs, // {{range .imgs.Image}}{{.}}{{end}}
+    &quot;user&quot;: p,    //{{.user.Name}}
+}
+
+// struct , Images []Image
+type Data struct {
+    I Images
+    P Profile
+}
+var d Data
+d.I = imgs // {{range .I.Image}}{{.}}{{end}}
+d.P = p    // {{.P.Name}}*/
+t.Execute(w, &amp;m) 
+</code></pre>
+<h3 id="funciones">Funciones</h3>
+<h4 id="predefinidas">Predefinidas</h4>
+<p>Por ejemplo <code>print</code> equivale a <code>fmt.Sprintf</code></p>
+<pre><code class="language-go">func main() {
+    texto := &quot;{{with $x := `hello`}}{{printf `%s %s` $x `Mary`}}
+        {{end}}!\n&quot;
+    t := template.New(&quot;test&quot;)
+    t = template.Must(t.Parse(texto))
+    t.Execute(os.Stdout, nil)
+</code></pre>
+<p>// Resultado -&gt; hello Mary!</p>
+<h4 id="de-diseno">De Diseño</h4>
+<pre><code class="language-go">const tmpl = `
+&lt;span&gt;hello {{gettext .}}&lt;/span&gt;
+&lt;span&gt;hello {{. | gettext}}&lt;/span&gt;
+`
+
+var funcMap = template.FuncMap{
+    &quot;gettext&quot;: gettext,
+}
+
+func gettext(s string) string {
+    if s == &quot;world&quot; {
+          return &quot;otraCosa&quot;
+    }
+    return s
+}
+
+func main() {
+    t, _ := template.New(&quot;foo&quot;).Funcs(funcMap).Parse(tmpl)
+    s := &quot;world&quot;
+    t.Execute(os.Stdout, s)
+}
+</code></pre>
+<h3 id="must">Must</h3>
+<p>Es una funcion del paquete template para validar plantillas</p>
+<h3 id="nested-templates">Nested templates</h3>
+<ul>
+<li>
+<p>Se puede declarar una plantilla:  </p>
+<blockquote>
+<p>{{ define "sub-plantilla"}} <br />
+  contenido que sea<br />
+{{ end}}</p>
+</blockquote>
+</li>
+<li>
+<p>Luego esa plantilla se inserta</p>
+<blockquote>
+<p>{{ template "sub-plantilla" }}  </p>
+</blockquote>
+</li>
+</ul>
+<p>base.html</p>
+<pre><code class="language-html">{{define &quot;base&quot;}}
+&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;title&gt;{{template &quot;title&quot; .}}&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+{{template &quot;content&quot; .}}
+&lt;/body&gt;
+&lt;/html&gt;
+{{end}}
+</code></pre>
+<p>index.html</p>
+<pre><code class="language-html">{{template &quot;base&quot; .}}
+{{define &quot;title&quot;}}my title{{end}}
+{{define &quot;content&quot;}}
+&lt;div&gt;hello {{.}}&lt;/div&gt;
+{{end}}
+</code></pre>
+<p>nestedTemplates.go</p>
+<pre><code class="language-go">func main() {
+    // cannot put base.html before index.html will give empty output
+    // t, _ := template.ParseFiles(&quot;base.html&quot;, &quot;index.html&quot;)
+    t, _ := template.ParseFiles(&quot;index.html&quot;, &quot;base.html&quot;)
+    name := &quot;world&quot;
+    t.Execute(os.Stdout, name)
+}
+</code></pre>
+<h3 id="pasar-vars-a-js">Pasar vars a js</h3>
+<p>Pasar variables golang a cliente js</p>
+<pre><code class="language-html">&lt;!-- guest.html--&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+  // Pass golang vars to client js
+  //window.addEventListener('load', voting.init({{.}}))
+  var golang = {{.}} // pasa como variable global objeto
+  //var golang = &quot;{{ .}}&quot;; // lo pasa como string
+  window.addEventListener('load', function () {
+    voting.init()
+  })
+&lt;/script&gt;
+</code></pre>
+<pre><code class="language-go">// voting.go
+func guest(w http.ResponseWriter, r *http.Request) {
+    var data aPoll
+    data = aPoll{Question: &quot;Texto de la cuestion&quot;}
+    tmpl[&quot;guest.html&quot;].ExecuteTemplate(w, &quot;guest.html&quot;, data)
+}
+</code></pre>
+<pre><code class="language-javascript">var voting = (function () {
+  function init () {
+    console.log(&quot;Data from golang&quot;, golang);
+  }
+    return {
+    init: init
+  };
+}());
+</code></pre>
+<hr />
+<h2 id="neturl">NET/URL</h2>
+<h3 id="anadir-parametros-a-url">Añadir parametros a URL</h3>
+<pre><code class="language-go">// sobre una URL existente
+values := r.URL.Query()
+values.Add(&quot;nombreNuevoParamatro&quot;, valor)
+values.Get(&quot;nombreDelValor&quot;, valor)
+r.URL.RawQuery = values.Encode()
+fmt.Println(r.URL.String())
+fmt.Println(values[&quot;nombreNuevoParametro&quot;])
+
+// construyendo una URL
+urlData, err := url.Parse(&quot;https://apisquesea.com/custom/v1?q=&quot;)
+params := url.Values{}
+params.Add(&quot;q&quot;, r.URL.Query().Get(&quot;q&quot;))
+params.Add(&quot;cx&quot;, c.APIImage.CseID)
+params.Add(&quot;key&quot;, c.APIImage.Key)
+params.Add(&quot;num&quot;, r.URL.Query().Get(&quot;num&quot;))
+params.Add(&quot;offset&quot;, r.URL.Query().Get(&quot;offset&quot;))
+urlData.RawQuery = params.Encode()
+</code></pre>
+<p><a href="https://gobyexample.com/url-parsing">URL parsing</a>  </p>
+<hr />
+<h2 id="utilidades">UTILIDADES</h2>
+<h3 id="fresh">fresh</h3>
+<p><a href="https://github.com/pilu/fresh">https://github.com/pilu/fresh</a> - Especie de nodemon para golang.   </p>
+<p>archivo de configuracion que se ejecuta con <code>fresh -c ruta/al/archivo</code>  </p>
+<pre><code class="language-sh">root:              .
+tmp_path:          ./tmp
+build_name:        runner-build
+build_log:         runner-build-errors.log
+valid_ext:         .go, .tpl, .tmpl, .html, .css, .js
+ignored:           assets, tmp, pintelest
+build_delay:       600
+colors:            1
+log_color_main:    cyan
+log_color_build:   yellow
+log_color_runner:  green
+log_color_watcher: magenta
+log_color_app:
+</code></pre>
+<hr />
+          
+          
+        </div>
+      </div>
+    </div>
+    <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebarwrapper">
+        <!--
+  <p class="logo">
+    <a href="..">
+      <img class="logo" src="../_img/chuletas128.png" title="Chuletas">
+    </a>
+  </p>
+  
+
+
+
+        
+        <h2>Navigation</h2>
+
+
+<ul>
+  
+      
+        <li>
+          <a href="">Menu</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="html/">HTML</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="css/">CSS</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="frontend/">Front End</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript/">Javascript</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript-apis/">Javascript APIs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript-para-web/">Javascript para web</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="javascript-snippets/">Javascript snippets</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="reactjs/">Reactjs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="nodejs/">Nodejs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="expressjs/">Expressjs</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="nodejs-snippets/">Nodejs snippets</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="nodejs-bases-de-datos/">Nodejs Bases de Datos</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang/">Golang</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang-para-web/">Golang para web</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang-snippets/">Golang snippets</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="golang-bases-de-datos/">Golang Bases de Datos</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="debian/">Debian</a>
+        </li>
+      
+    
+      
+        <li>
+          <a href="varios/">Varios</a>
+        </li>
+      
+    
+  </ul>
+        
+
+
+
+<h3>Contenidos</h3>
+
+<nav>
+  
+
+<ul>
+  
+  <li><a href="#nethttp">NET/HTTP</a></li>
+  <ul>
+  
+  <li><a href="#static">Static</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#handler">Handler</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#request">Request</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#responsewriter">ResponseWriter</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#middleware">Middleware</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#cookies">Cookies</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#sessions">Sessions</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#forms">Forms</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#cliente-http">Cliente HTTP</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#servemux">ServeMux</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#htmltemplate">HTML/TEMPLATE</a></li>
+  <ul>
+  
+  <li><a href="#fields">Fields</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#conditions">Conditions</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#pipelines">Pipelines</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#variables">Variables</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#funciones">Funciones</a></li>
+  <ul>
+  
+  <li><a href="#predefinidas">Predefinidas</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#de-diseno">De Diseño</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#must">Must</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#nested-templates">Nested templates</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#pasar-vars-a-js">Pasar vars a js</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#neturl">NET/URL</a></li>
+  <ul>
+  
+  <li><a href="#anadir-parametros-a-url">Añadir parametros a URL</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#utilidades">UTILIDADES</a></li>
+  <ul>
+  
+  <li><a href="#fresh">fresh</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+</ul>
+
+
+  
+</nav>
+        
+        <div id="searchbox" style="display: none;" role="search">
+  <h3>Quick search</h3>
+  <form class="search" action="../search.html" method="get">
+    <input name="q" type="text">
+    <input value="Go" type="submit">
+  </form>
+  <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+  </p>
+</div>
+<script type="text/javascript">
+  document.getElementById("searchbox").style.display = "block";
+</script>
+        -->
+
+        
+
+        
+        
+  <p class="logo">
+    <a href="..">
+      <img class="logo" src="../_img/chuletas128.png" title="Chuletas">
+    </a>
+  </p>
+  
+
+
+
+        
+        <div class="menuNav">
+
+  
+  <ul>
+    
+    
+    <li>
+      <a href="../">Menu</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../html/">HTML</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../css/">CSS</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../frontend/">Front End</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript/">Javascript</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript-apis/">Javascript APIs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript-para-web/">Javascript para web</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../javascript-snippets/">Javascript snippets</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../reactjs/">Reactjs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../nodejs/">Nodejs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../expressjs/">Expressjs</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../nodejs-snippets/">Nodejs snippets</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../nodejs-bases-de-datos/">Nodejs Bases de Datos</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang/">Golang</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang-para-web/">Golang para web</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang-snippets/">Golang snippets</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../golang-bases-de-datos/">Golang Bases de Datos</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../debian/">Debian</a>
+    </li>
+    
+    
+    
+    <li>
+      <a href="../varios/">Varios</a>
+    </li>
+    
+    
+  </ul>
+</div>
+        
+        
+
+
+
+<h3>Contenidos</h3>
+
+<nav>
+  
+
+<ul>
+  
+  <li><a href="#nethttp">NET/HTTP</a></li>
+  <ul>
+  
+  <li><a href="#static">Static</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#handler">Handler</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#request">Request</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#responsewriter">ResponseWriter</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#middleware">Middleware</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#cookies">Cookies</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#sessions">Sessions</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#forms">Forms</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#cliente-http">Cliente HTTP</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#servemux">ServeMux</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#htmltemplate">HTML/TEMPLATE</a></li>
+  <ul>
+  
+  <li><a href="#fields">Fields</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#conditions">Conditions</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#pipelines">Pipelines</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#variables">Variables</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#funciones">Funciones</a></li>
+  <ul>
+  
+  <li><a href="#predefinidas">Predefinidas</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#de-diseno">De Diseño</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#must">Must</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#nested-templates">Nested templates</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#pasar-vars-a-js">Pasar vars a js</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#neturl">NET/URL</a></li>
+  <ul>
+  
+  <li><a href="#anadir-parametros-a-url">Añadir parametros a URL</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+  <li><a href="#utilidades">UTILIDADES</a></li>
+  <ul>
+  
+  <li><a href="#fresh">fresh</a></li>
+  <ul>
+  
+</ul>
+  
+</ul>
+  
+</ul>
+
+
+  
+</nav>
+        
+
+        
+
+      </div>
+    </div>
+    <div class="clearer"></div>
+  </div>
+
+  
+  <div class="footer">
+    
+    
+    
+    Powered by <a href="http://www.mkdocs.org">mkdocs 1.4.2</a>
+    &amp; <a href="https://github.com/iamale/mkdocs-alabaster">mkdocs-alabaster</a>
+    
+  </div>
+  
+
+  <!--
+  MkDocs version      : 1.4.2
+  Docs Build Date UTC : 2023-10-03 14:52:40.879329+00:00
+  -->
+</body>
+
+</html>
