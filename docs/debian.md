@@ -1,4 +1,4 @@
-# DEBIAN 
+# DEBIAN 12 BOOKWORM
 
 ---
 
@@ -15,41 +15,35 @@ Para andar con ojo en las actualizaciones instalar
 
 ```sh
 ## Debian stable
-deb http://ftp.de.debian.org/debian/ stable main contrib non-free
-## Debian Security
-deb http://security.debian.org/ stable-security main contrib non-free 
+deb https://deb.debian.org/debian/ bookworm main contrib non-free non-free-firmware
+## Debian security
+deb https://deb.debian.org/debian-security bookworm-security non-free contrib main non-free-firmware
 ## Debian updates
-deb http://ftp.debian.org/debian/ stable-proposed-updates main contrib
-non-free
-## Debian Multimedia
-deb http://www.deb-multimedia.org/ stable main non-free
-## backports
-deb http://ftp.debian.org/debian buster-backports main
-# apt-get -t stretch-backports install "package"
+deb https://deb.debian.org/debian/ bookworm-updates non-free contrib main non-free-firmware
+## Debian backports
+#deb https://deb.debian.org/debian/ bookworm-backports main contrib non-free non-free-firmware
 
-## Dropbox
-deb [arch=i386,amd64] http://linux.dropbox.com/debian/ sid main 
-## node
-deb https://deb.nodesource.com/node_16.x/ buster main
+## Insync
+deb https://apt.insync.io/debian bookworm non-free contrib
+
+## NodeSource
+deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main
+
+## Debian Multimedia
+#deb http://www.deb-multimedia.org/ bookworm main non-free
+
 # Chrome
 deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
-# VirtualBox
-deb https://download.virtualbox.org/virtualbox/debian buster contrib
-### Insync
-deb http://apt.insync.io/debian bullseye non-free contrib
-# Opera
-deb http://deb.opera.com/opera-stable/ stable non-free
-# Mono
-deb https://download.mono-project.com/repo/debian stable-buster main
+
 # Teamviewer
-deb https://linux.teamviewer.com/deb stable main
-# Steam
-deb [arch=amd64,i386] https://repo.steampowered.com/steam/ stable steam
+#deb [signed-by=/usr/share/keyrings/teamviewer-keyring.gpg] https://linux.teamviewer.com/deb stable main
 ```
 
 `apt install aptitude htop smartmontools sshpass rsync curl wget nano apt-transport-https iperf zip arc arj bzip2 cabextract lzop nomarch p7zip p7zip-full pax tnef unrar-free unzip unrar deborphan net-tools intel-microcode hdparm ncdu rename iftop dns9utils nethogs tcptrack dnsutils`
 
-`curl -sSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -`
+`curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg`
+
+Para instalar [Dropbox](https://www.dropbox.com/es_ES/install-linux)
 
 ---
 
@@ -81,7 +75,7 @@ Eliminar todas las lineas de una fichero que contienen un determinado 'texto'
 `cat nombreArchivo | grep -v 'texto' > nuevoArchivo`
 
 Coger solo las lineas de un archivo que contienen un determinado 'texto'  
-`grep -i`
+`grep -i "texto" nombreArchivo`
 
 * **zip**
 

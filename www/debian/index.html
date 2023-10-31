@@ -43,7 +43,7 @@
       <div class="bodywrapper">
         <div class="body" role="main">
           
-          <h1 id="debian">DEBIAN</h1>
+          <h1 id="debian-12-bookworm">DEBIAN 12 BOOKWORM</h1>
 <hr />
 <h2 id="stable"><strong>STABLE</strong></h2>
 <p>Para andar con ojo en las actualizaciones instalar<br />
@@ -54,39 +54,32 @@
 </ul>
 <p><code>nano /etc/apt/sources.list</code></p>
 <pre><code class="language-sh">## Debian stable
-deb http://ftp.de.debian.org/debian/ stable main contrib non-free
-## Debian Security
-deb http://security.debian.org/ stable-security main contrib non-free 
+deb https://deb.debian.org/debian/ bookworm main contrib non-free non-free-firmware
+## Debian security
+deb https://deb.debian.org/debian-security bookworm-security non-free contrib main non-free-firmware
 ## Debian updates
-deb http://ftp.debian.org/debian/ stable-proposed-updates main contrib
-non-free
-## Debian Multimedia
-deb http://www.deb-multimedia.org/ stable main non-free
-## backports
-deb http://ftp.debian.org/debian buster-backports main
-# apt-get -t stretch-backports install &quot;package&quot;
+deb https://deb.debian.org/debian/ bookworm-updates non-free contrib main non-free-firmware
+## Debian backports
+#deb https://deb.debian.org/debian/ bookworm-backports main contrib non-free non-free-firmware
 
-## Dropbox
-deb [arch=i386,amd64] http://linux.dropbox.com/debian/ sid main 
-## node
-deb https://deb.nodesource.com/node_16.x/ buster main
+## Insync
+deb https://apt.insync.io/debian bookworm non-free contrib
+
+## NodeSource
+deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main
+
+## Debian Multimedia
+#deb http://www.deb-multimedia.org/ bookworm main non-free
+
 # Chrome
 deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
-# VirtualBox
-deb https://download.virtualbox.org/virtualbox/debian buster contrib
-### Insync
-deb http://apt.insync.io/debian bullseye non-free contrib
-# Opera
-deb http://deb.opera.com/opera-stable/ stable non-free
-# Mono
-deb https://download.mono-project.com/repo/debian stable-buster main
+
 # Teamviewer
-deb https://linux.teamviewer.com/deb stable main
-# Steam
-deb [arch=amd64,i386] https://repo.steampowered.com/steam/ stable steam
+#deb [signed-by=/usr/share/keyrings/teamviewer-keyring.gpg] https://linux.teamviewer.com/deb stable main
 </code></pre>
 <p><code>apt install aptitude htop smartmontools sshpass rsync curl wget nano apt-transport-https iperf zip arc arj bzip2 cabextract lzop nomarch p7zip p7zip-full pax tnef unrar-free unzip unrar deborphan net-tools intel-microcode hdparm ncdu rename iftop dns9utils nethogs tcptrack dnsutils</code></p>
-<p><code>curl -sSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -</code></p>
+<p><code>curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg</code></p>
+<p>Para instalar <a href="https://www.dropbox.com/es_ES/install-linux">Dropbox</a></p>
 <hr />
 <h2 id="commands"><strong>COMMANDS</strong></h2>
 <ul>
@@ -112,7 +105,7 @@ tar xzf myfiles.tar.gz
 <p>Eliminar todas las lineas de una fichero que contienen un determinado 'texto'<br />
 <code>cat nombreArchivo | grep -v 'texto' &gt; nuevoArchivo</code></p>
 <p>Coger solo las lineas de un archivo que contienen un determinado 'texto'<br />
-<code>grep -i</code></p>
+<code>grep -i "texto" nombreArchivo</code></p>
 <ul>
 <li><strong>zip</strong></li>
 </ul>
@@ -2449,7 +2442,7 @@ ip route add default via 192.168.168.1 table GRETUNNEL1
 
   <!--
   MkDocs version      : 1.4.2
-  Docs Build Date UTC : 2023-10-03 14:52:40.851100+00:00
+  Docs Build Date UTC : 2023-10-31 16:22:40.460440+00:00
   -->
 </body>
 
