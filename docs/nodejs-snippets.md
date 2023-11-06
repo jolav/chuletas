@@ -2,6 +2,16 @@
 
 ---
 
+### ES MODULES  
+Hasta que sean nativos en nodejs 21.X la opcion es poner en package.json
+```json
+{
+  "type": "module"
+}
+```
+o usar la extension mjs en lugar de js.
+
+
 ## HTTP Request
 
 ### GET

@@ -15,19 +15,24 @@ Para andar con ojo en las actualizaciones instalar
 
 ```sh
 ## Debian stable
-deb https://deb.debian.org/debian/ bookworm main contrib non-free non-free-firmware
-## Debian security
-deb https://deb.debian.org/debian-security bookworm-security non-free contrib main non-free-firmware
+deb https://deb.debian.org/debian/ bookworm main contrib non-free  
+non-free-firmware  
+## Debian security  
+deb https://deb.debian.org/debian-security bookworm-security non-free  
+contrib  main non-free-firmware
 ## Debian updates
-deb https://deb.debian.org/debian/ bookworm-updates non-free contrib main non-free-firmware
+deb https://deb.debian.org/debian/ bookworm-updates non-free contrib main 
+non-free-firmware
 ## Debian backports
-#deb https://deb.debian.org/debian/ bookworm-backports main contrib non-free non-free-firmware
+#deb https://deb.debian.org/debian/ bookworm-backports main contrib 
+#non-free non-free-firmware
 
 ## Insync
 deb https://apt.insync.io/debian bookworm non-free contrib
 
 ## NodeSource
-deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main
+#deb [signed-by=/etc/apt/keyrings/nodesource.gpg] 
+#https://deb.nodesource.com/  node_20.x nodistro main
 
 ## Debian Multimedia
 #deb http://www.deb-multimedia.org/ bookworm main non-free
@@ -36,7 +41,8 @@ deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node
 deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
 
 # Teamviewer
-#deb [signed-by=/usr/share/keyrings/teamviewer-keyring.gpg] https://linux.teamviewer.com/deb stable main
+#deb [signed-by=/usr/share/keyrings/teamviewer-keyring.gpg]  
+#https://linux.teamviewer.com/deb stable main
 ```
 
 `apt install aptitude htop smartmontools sshpass rsync curl wget nano apt-transport-https iperf zip arc arj bzip2 cabextract lzop nomarch p7zip p7zip-full pax tnef unrar-free unzip unrar deborphan net-tools intel-microcode hdparm ncdu rename iftop dns9utils nethogs tcptrack dnsutils`
