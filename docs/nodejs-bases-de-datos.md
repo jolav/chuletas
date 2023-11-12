@@ -340,7 +340,7 @@ apt-get update
 apt-get install mongodb-org
 ```
 
-[create systemd service](https://jolav.me/chuletas/debian/#systemd)
+[create systemd service](https://jolav.github.io/chuletas/debian/#systemd)
 ```
 [Unit]
 Description=High-performance, schema-free document-oriented database
@@ -838,9 +838,9 @@ Para levantar el servicio con el usuario rethinkdb usar
 # HTTPS server
 server {
    listen 443 ssl;
-   server_name jolav.me;
-   ssl_certificate /etc/letsencrypt/live/jolav.me/fullchain.pem;
-   ssl_certificate_key /etc/letsencrypt/live/jolav.me/privkey.pem;
+   server_name domain.tld;
+   ssl_certificate /etc/letsencrypt/live/domain.tld/fullchain.pem;
+   ssl_certificate_key /etc/letsencrypt/live/domain.tld/privkey.pem;
    ssl_session_cache shared:SSL:1m;
    ssl_session_timeout 5m;
    ssl_ciphers HIGH:!aNULL:!MD5;
@@ -868,15 +868,15 @@ Opcion con subdirectorios
 server {
         listen 80;
         listen [::]:80;
-        server_name s.jolav.me;
-        return 301 https://s.jolav.me$request_uri;
+        server_name s.domain.tld;
+        return 301 https://s.domain.tld$request_uri;
 }
 # HTTPS server
 server {
    listen 443 ssl;
-   server_name s.jolav.me;
-   ssl_certificate /etc/letsencrypt/live/s.jolav.me/fullchain.pem;
-   ssl_certificate_key /etc/letsencrypt/live/s.jolav.me/privkey.pem;
+   server_name s.domain.tld;
+   ssl_certificate /etc/letsencrypt/live/s.domain.tld/fullchain.pem;
+   ssl_certificate_key /etc/letsencrypt/live/s.domain.tld/privkey.pem;
    ssl_session_cache shared:SSL:1m;
    ssl_session_timeout 5m;
    ssl_ciphers HIGH:!aNULL:!MD5;
@@ -905,7 +905,7 @@ service nginx restart
 ```
 
 Ahoya ya en el navegador
-`http://jolav.me/rethinkdb-admin`
+`http://domain.tld/rethinkdb-admin`
 
 * **Crear usuarios**
 

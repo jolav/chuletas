@@ -336,7 +336,7 @@ deb http://repo.mongodb.org/apt/debian jessie/mongodb-org/3.6 main
 apt-get update
 apt-get install mongodb-org
 </code></pre>
-<p><a href="https://jolav.me/chuletas/debian/#systemd">create systemd service</a></p>
+<p><a href="https://jolav.github.io/chuletas/debian/#systemd">create systemd service</a></p>
 <pre><code>[Unit]
 Description=High-performance, schema-free document-oriented database
 After=network.target
@@ -778,9 +778,9 @@ apt-get install rethinkdb
 <pre><code class="language-nginx"># HTTPS server
 server {
    listen 443 ssl;
-   server_name jolav.me;
-   ssl_certificate /etc/letsencrypt/live/jolav.me/fullchain.pem;
-   ssl_certificate_key /etc/letsencrypt/live/jolav.me/privkey.pem;
+   server_name domain.tld;
+   ssl_certificate /etc/letsencrypt/live/domain.tld/fullchain.pem;
+   ssl_certificate_key /etc/letsencrypt/live/domain.tld/privkey.pem;
    ssl_session_cache shared:SSL:1m;
    ssl_session_timeout 5m;
    ssl_ciphers HIGH:!aNULL:!MD5;
@@ -805,15 +805,15 @@ server {
 server {
         listen 80;
         listen [::]:80;
-        server_name s.jolav.me;
-        return 301 https://s.jolav.me$request_uri;
+        server_name s.domain.tld;
+        return 301 https://s.domain.tld$request_uri;
 }
 # HTTPS server
 server {
    listen 443 ssl;
-   server_name s.jolav.me;
-   ssl_certificate /etc/letsencrypt/live/s.jolav.me/fullchain.pem;
-   ssl_certificate_key /etc/letsencrypt/live/s.jolav.me/privkey.pem;
+   server_name s.domain.tld;
+   ssl_certificate /etc/letsencrypt/live/s.domain.tld/fullchain.pem;
+   ssl_certificate_key /etc/letsencrypt/live/s.domain.tld/privkey.pem;
    ssl_session_cache shared:SSL:1m;
    ssl_session_timeout 5m;
    ssl_ciphers HIGH:!aNULL:!MD5;
@@ -837,7 +837,7 @@ htpasswd -c .rethinkdb.pass &lt;username&gt; // &lt;username&gt; nombre que quer
 service nginx restart
 </code></pre>
 <p>Ahoya ya en el navegador
-<code>http://jolav.me/rethinkdb-admin</code></p>
+<code>http://domain.tld/rethinkdb-admin</code></p>
 <ul>
 <li><strong>Crear usuarios</strong></li>
 </ul>
@@ -1561,7 +1561,7 @@ r.connect(config.rethinkdb)
 
   <!--
   MkDocs version      : 1.4.2
-  Docs Build Date UTC : 2023-11-06 17:51:17.421168+00:00
+  Docs Build Date UTC : 2023-11-12 08:15:03.125770+00:00
   -->
 </body>
 

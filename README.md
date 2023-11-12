@@ -6,32 +6,32 @@
 
 Recopilacion de informacion para intentar no estar todo el dia buscando las mismas cosas sobre programacion
 
-[Menu](https://jolav.me/chuletas/)  
+[Menu](https://jolav.github.io/chuletas/)  
 
-[HTML](https://jolav.me/chuletas/html)  
-[CSS](https://jolav.me/chuletas/css)  
+[HTML](https://jolav.github.io/chuletas/html)  
+[CSS](https://jolav.github.io/chuletas/css)  
 
-[Front End](https://jolav.me/chuletas/frontend/)  
+[Front End](https://jolav.github.io/chuletas/frontend/)  
 
-[Javascript](https://jolav.me/chuletas/javascript)  
-[Javascript snippets](https://jolav.me/chuletas/javascript-snippets/)  
-[Javascript APIs](https://jolav.me/chuletas/javascript-apis/)  
-[Javascript para web](https://jolav.me/chuletas/javascript-para-web/)  
-[Reactjs](https://jolav.me/chuletas/reactjs/)  
+[Javascript](https://jolav.github.io/chuletas/javascript)  
+[Javascript snippets](https://jolav.github.io/chuletas/javascript-snippets/)  
+[Javascript APIs](https://jolav.github.io/chuletas/javascript-apis/)  
+[Javascript para web](https://jolav.github.io/chuletas/javascript-para-web/)  
+[Reactjs](https://jolav.github.io/chuletas/reactjs/)  
 
-[Nodejs](https://jolav.me/chuletas/nodejs/)  
-[Expressjs](https://jolav.me/chuletas/expressjs/)   
-[Nodejs snippets](https://jolav.me/chuletas/nodejs-snippets/)  
-[Nodejs Bases De Datos](https://jolav.me/chuletas/nodejs-bases-de-datos/) 
+[Nodejs](https://jolav.github.io/chuletas/nodejs/)  
+[Expressjs](https://jolav.github.io/chuletas/expressjs/)   
+[Nodejs snippets](https://jolav.github.io/chuletas/nodejs-snippets/)  
+[Nodejs Bases De Datos](https://jolav.github.io/chuletas/nodejs-bases-de-datos/) 
 
-[Golang](https://jolav.me/chuletas/golang/)  
-[Golang Desarrollo Web ](https://jolav.me/chuletas/golang-para-web/)  
-[Golang snippets](https://jolav.me/chuletas/golang-snippets/)  
-[Golang Bases De Datos](https://jolav.me/chuletas/golang-bases-de-datos/) 
+[Golang](https://jolav.github.io/chuletas/golang/)  
+[Golang Desarrollo Web ](https://jolav.github.io/chuletas/golang-para-web/)  
+[Golang snippets](https://jolav.github.io/chuletas/golang-snippets/)  
+[Golang Bases De Datos](https://jolav.github.io/chuletas/golang-bases-de-datos/) 
 
-[Debian](https://jolav.me/chuletas/debian/) 
+[Debian](https://jolav.github.io/chuletas/debian/) 
 
-[Varios](https://jolav.me/chuletas/varios/) 
+[Varios](https://jolav.github.io/chuletas/varios/) 
 
 <hr>
 

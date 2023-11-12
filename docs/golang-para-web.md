@@ -232,7 +232,7 @@ func writeHeaderExample(w http.ResponseWriter, r *http.Request) {
 }
 
 func headerExample(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Location", "https://jolav.me")
+	w.Header().Set("Location", "https://jolav.github.io")
 	w.WriteHeader(302)
 }
 

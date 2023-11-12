@@ -2157,7 +2157,7 @@ s = r.ReplaceAllString(s, `-`)
 `err := json.Unmarshal(dataJson, &structObject)` - JSON data to Go struct data  
 
 ```go
-urlDir := "https://jolav.me/api/que/queramos"
+urlDir := "https://domain.tld/api/que/queramos"
 resp, err := http.Get(urlDir)
 if err != nil {
     log.Fatal(err)

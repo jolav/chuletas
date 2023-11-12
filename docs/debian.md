@@ -267,7 +267,7 @@ Añadir `&` para recuperar el control de la consola
 
 * **dns**
 
-`dig jolav.me @9.9.9.9`  
+`dig domain.tld @9.9.9.9`  
 
 
 * **cron**
@@ -1421,20 +1421,20 @@ sp500.domain.com,www.domain.com,otrosub.domain.com --expand` -
 server {
   listen 80;
   listen [::]:80;
-  server_name beta.jolav.me;
+  server_name beta.domain.tld;
 # location / {
-#   root /var/www/beta.jolav.me;
+#   root /var/www/beta.domain.tld;
 #   index index.html;
 # }
-  return 301 https://beta.jolav.me$request_uri; #
+  return 301 https://beta.domain.tld$request_uri; #
 }
 server {
   listen 443 ssl http2;
   listen [::]:443 ssl http2;
-  server_name beta.jolav.me;
+  server_name beta.domain.tld;
 
-  ssl_certificate /etc/letsencrypt/live/beta.jolav.me/fullchain.pem;   #
-  ssl_certificate_key /etc/letsencrypt/live/beta.jolav.me/privkey.pem; #
+  ssl_certificate /etc/letsencrypt/live/beta.domain.tld/fullchain.pem;   #
+  ssl_certificate_key /etc/letsencrypt/live/beta.domain.tld/privkey.pem; #
   ssl_session_cache shared:SSL:10m;
   ssl_session_timeout 1h;
   ssl_ciphers HIGH:!aNULL:!MD5;
@@ -1444,13 +1444,13 @@ server {
   #add_header  X-Robots-Tag "noindex, nofollow, nosnippet, noarchive";
 
   location / {
-          root /var/www/beta.jolav.me;
+          root /var/www/beta.domain.tld;
           index index.html;
   }
 }
 ```
 
-`certbot certonly --webroot -w /var/www/jolav.me -d jolav.me -d www.jolav.me -d beta.jolav.me`  
+`certbot certonly --webroot -w /var/www/domain.tld -d domain.tld -d www.domain.tld -d beta.domain.tld`  
 
 * **staging**
 
@@ -1776,7 +1776,7 @@ siege -c250 -d10 -t3 https://api.codetabs.com/v1/proxy?quest=http
 [Mas info](https://httpd.apache.org/docs/current/programs/ab.html)  
 
 ```sh
-ab -n 1000 -c 10 https://jolav.me/
+ab -n 1000 -c 10 https://jolav.github.io/
 ```
 
 ¡ Ojo porque ab asume que todas las respuestas son iguales !.  

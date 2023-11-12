@@ -243,7 +243,7 @@ solo mostrara uno
 * **A paginas externas**
 
 ```html
-<a href="http://www.jolav.me">href como url absoluta</a>
+<a href="http://www.codetabs.com">href como url absoluta</a>
 ```
 
 * **A paginas del mismo sitio**
@@ -255,7 +255,7 @@ solo mostrara uno
 * **A direcciones de correo**
 
 ```html
-<a href="mailto:info@jolav.me">Mandar correo</a>
+<a href="mailto:info@domain.tld">Mandar correo</a>
 ```
 
 * **A una nueva pestaña**
@@ -397,7 +397,7 @@ usuario lo pinche encima
 
 cols y rows son las dos CODIGO VIEJO, mejor con CSS
 
-<form action="http://jolav.me/chuletas/frontend/html5/#formularios">
+<form action="http://jolav.github.io/chuletas/frontend/html5/#formularios">
   <textarea name="comments" cols="20" rows="4">Escribir Aqui...
   </textarea>
 </form>
@@ -411,7 +411,7 @@ cols y rows son las dos CODIGO VIEJO, mejor con CSS
 
 Puedes elegir una opcion
 
-<form action="http://jolav.me/chuletas/frontend/html5/#formularios">
+<form action="http://jolav.github.io/chuletas/frontend/html5/#formularios">
   <p>Elige una opcion <br />
     <input type="radio" name="opcion" value="1" /> Opcion 1
     <input type="radio" name="opcion" value="2" checked="checked"/> Opcion 2
@@ -434,7 +434,7 @@ Puedes elegir una opcion
 
 Pues elegir cero, una o mas opciones de las disponibles  
 
-<form action="http://jolav.me/chuletas/frontend/html5/#formularios">
+<form action="http://jolav.github.io/chuletas/frontend/html5/#formularios">
   <p>Elige una opcion <br />
     <input type="checkbox" name="opcion" value="1" checked="checked" /> Opcion 1
     <input type="checkbox" name="opcion" value="2" /> Opcion 2
@@ -456,7 +456,7 @@ Pues elegir cero, una o mas opciones de las disponibles
 
 * **`select : drop down list`**
 
-<form action="http://jolav.me/chuletas/frontend/html5/#formularios">
+<form action="http://jolav.github.io/chuletas/frontend/html5/#formularios">
   <p>Opcion a elegir ?</p>
   <select name="opciones">
     <option value="1">Opcion 1</option>
@@ -478,7 +478,7 @@ Pues elegir cero, una o mas opciones de las disponibles
 
 * **`multiple select box`**
 
-<form action="http://jolav.me/chuletas/frontend/html5/#formularios">
+<form action="http://jolav.github.io/chuletas/frontend/html5/#formularios">
   <p>Opcion a elegir ?</p>
   <select name="opciones"size="3" multiple="mutiple">
     <option value="1">Opcion 1</option>
@@ -504,7 +504,7 @@ Pues elegir cero, una o mas opciones de las disponibles
 
 * **`file input box`**
 
-<form action="http://jolav.me/chuletas/frontend/html5/#formularios">
+<form action="http://jolav.github.io/chuletas/frontend/html5/#formularios">
   <p>Subir un archivo</p>
   <input type="file" name="nombreArchivo" /><br />
   <input type="submit" value="Upload" />
@@ -520,7 +520,7 @@ Pues elegir cero, una o mas opciones de las disponibles
 
 * **`image button`**
 
-<form action="http://jolav.me/chuletas/frontend/html5/#formularios" >
+<form action="http://jolav.github.io/chuletas/frontend/html5/#formularios" >
   <p>Texto de lo que sea</p>
   <input type="text" name="email" />
   <input type="image" src="" width="100" height="20" />
@@ -536,7 +536,7 @@ Pues elegir cero, una o mas opciones de las disponibles
 
 * **`button and hidden controls`**
 
-<form action="http://jolav.me/chuletas/frontend/html5/#formularios">
+<form action="http://jolav.github.io/chuletas/frontend/html5/#formularios">
   <button>
     <img src="" alt="add" width="10" height="10" /> Add
   </button>
@@ -590,7 +590,7 @@ uso de etiquetas <label></label> para accesibilidad
 
 * **Validacion**
 
-<form action="http://jolav.me/chuletas/frontend/html5/#formularios">
+<form action="http://jolav.github.io/chuletas/frontend/html5/#formularios">
   Usuario<input type="text" name="usuario" required="required"/> <br />
   Contraseña<input type="password" name="contrasena" required /> <br />
   <input type="submit" value="Enviar" />
@@ -606,7 +606,7 @@ uso de etiquetas <label></label> para accesibilidad
 
 * **Fecha**
 
-<form action="http://jolav.me/chuletas/frontend/html5/#formularios">
+<form action="http://jolav.github.io/chuletas/frontend/html5/#formularios">
   <p>Elige Fecha</p>
   <input type="date" name="date" />
   <input type="submit" value="Enviar" />
@@ -618,7 +618,7 @@ uso de etiquetas <label></label> para accesibilidad
 
 * **Correo**
 
-<form action="http://jolav.me/chuletas/frontend/html5/#formularios">
+<form action="http://jolav.github.io/chuletas/frontend/html5/#formularios">
   <p>Correo</p>
   <input type="email" name="email" />
   <input type="submit" value="Enviar" />
@@ -630,7 +630,7 @@ uso de etiquetas <label></label> para accesibilidad
 
 * **URL**
 
-<form action="http://jolav.me/chuletas/frontend/html5/#formularios">
+<form action="http://jolav.github.io/chuletas/frontend/html5/#formularios">
   <p>URL</p>
   <input type="url" name="url" />
   <input type="submit" value="Enviar" />
@@ -642,7 +642,7 @@ uso de etiquetas <label></label> para accesibilidad
 
 * **Telefono**
 
-<form action="http://jolav.me/chuletas/frontend/html5/#formularios">
+<form action="http://jolav.github.io/chuletas/frontend/html5/#formularios">
   <p>Telefono</p>
   <input type="tel" name="tel" />
   <input type="submit" value="Enviar" />
@@ -654,7 +654,7 @@ uso de etiquetas <label></label> para accesibilidad
 
 * **Numero**
 
-<form action="http://jolav.me/chuletas/frontend/html5/#formularios">
+<form action="http://jolav.github.io/chuletas/frontend/html5/#formularios">
   <p>Numero</p>
   <input type="number" name="number" min="10" max="20" />
   <input type="submit" value="Enviar" />
@@ -666,7 +666,7 @@ uso de etiquetas <label></label> para accesibilidad
 
 * **Range**
 
-<form action="http://jolav.me/chuletas/frontend/html5/#formularios">
+<form action="http://jolav.github.io/chuletas/frontend/html5/#formularios">
   <p>Numero</p>
   <input type="range" name="range" min="0" max="20" step="4" />
   <input type="submit" value="Enviar" />
@@ -678,7 +678,7 @@ uso de etiquetas <label></label> para accesibilidad
 
 * **Color**
 
-<form action="http://jolav.me/chuletas/frontend/html5/#formularios">
+<form action="http://jolav.github.io/chuletas/frontend/html5/#formularios">
   <p>Color</p>
   <input type="color" name="color" />
   <input type="submit" value="Enviar" />
@@ -690,7 +690,7 @@ uso de etiquetas <label></label> para accesibilidad
 
 * **Search**
 
-<form action="http://jolav.me/chuletas/frontend/html5/#formularios">
+<form action="http://jolav.github.io/chuletas/frontend/html5/#formularios">
   <p>Search</p>
   <input type="search" name="search" />
   <input type="submit" value="Enviar" />

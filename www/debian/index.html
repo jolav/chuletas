@@ -267,7 +267,7 @@ Añadir <code>&amp;</code> para recuperar el control de la consola     </p>
 <ul>
 <li><strong>dns</strong></li>
 </ul>
-<p><code>dig jolav.me @9.9.9.9</code>  </p>
+<p><code>dig domain.tld @9.9.9.9</code>  </p>
 <ul>
 <li><strong>cron</strong></li>
 </ul>
@@ -1260,20 +1260,20 @@ sp500.domain.com,www.domain.com,otrosub.domain.com --expand</code> - </p>
 <pre><code class="language-nginx">server {
   listen 80;
   listen [::]:80;
-  server_name beta.jolav.me;
+  server_name beta.domain.tld;
 # location / {
-#   root /var/www/beta.jolav.me;
+#   root /var/www/beta.domain.tld;
 #   index index.html;
 # }
-  return 301 https://beta.jolav.me$request_uri; #
+  return 301 https://beta.domain.tld$request_uri; #
 }
 server {
   listen 443 ssl http2;
   listen [::]:443 ssl http2;
-  server_name beta.jolav.me;
+  server_name beta.domain.tld;
 
-  ssl_certificate /etc/letsencrypt/live/beta.jolav.me/fullchain.pem;   #
-  ssl_certificate_key /etc/letsencrypt/live/beta.jolav.me/privkey.pem; #
+  ssl_certificate /etc/letsencrypt/live/beta.domain.tld/fullchain.pem;   #
+  ssl_certificate_key /etc/letsencrypt/live/beta.domain.tld/privkey.pem; #
   ssl_session_cache shared:SSL:10m;
   ssl_session_timeout 1h;
   ssl_ciphers HIGH:!aNULL:!MD5;
@@ -1283,12 +1283,12 @@ server {
   #add_header  X-Robots-Tag &quot;noindex, nofollow, nosnippet, noarchive&quot;;
 
   location / {
-          root /var/www/beta.jolav.me;
+          root /var/www/beta.domain.tld;
           index index.html;
   }
 }
 </code></pre>
-<p><code>certbot certonly --webroot -w /var/www/jolav.me -d jolav.me -d www.jolav.me -d beta.jolav.me</code>  </p>
+<p><code>certbot certonly --webroot -w /var/www/domain.tld -d domain.tld -d www.domain.tld -d beta.domain.tld</code>  </p>
 <ul>
 <li><strong>staging</strong></li>
 </ul>
@@ -1560,7 +1560,7 @@ siege -c250 -d10 -t3 https://api.codetabs.com/v1/proxy?quest=http
 <p>-n numero de peticiones<br />
 -c concurrencias</p>
 <p><a href="https://httpd.apache.org/docs/current/programs/ab.html">Mas info</a>  </p>
-<pre><code class="language-sh">ab -n 1000 -c 10 https://jolav.me/
+<pre><code class="language-sh">ab -n 1000 -c 10 https://jolav.github.io/
 </code></pre>
 <p>¡ Ojo porque ab asume que todas las respuestas son iguales !.<br />
 Si content-length es distinta lo considera un error y aparece como failed request  </p>
@@ -2448,7 +2448,7 @@ ip route add default via 192.168.168.1 table GRETUNNEL1
 
   <!--
   MkDocs version      : 1.4.2
-  Docs Build Date UTC : 2023-11-06 17:51:17.313953+00:00
+  Docs Build Date UTC : 2023-11-12 08:15:02.962824+00:00
   -->
 </body>
 
