@@ -1309,6 +1309,11 @@ location ~* /(?:uploads|files)/.*\.php$ {
 Si debian protesta de dependencias instala las que pida. Estas son las mas posibles:  
 `apt install perl libnet-ssleay-perl openssl libpam-runtime libio-pty-perl python libauthen-pam-perl libio-pty-perl apt-show-versions`  
 
+Para desinstalar paramos  
+`service webmin stop`  
+y despues  
+`/etc/webmin/uninstall.sh`
+
 * **Modulos**
 
 `nginx module`- [https://www.justindhoffman.com/project/nginx-webmin-module](https://www.justindhoffman.com/project/nginx-webmin-module)  
