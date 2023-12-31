@@ -136,6 +136,11 @@ tar xzf myfiles.tar.gz
 ncdu
 </code></pre>
 <ul>
+<li><strong>Dividir archivo en varios</strong>  </li>
+</ul>
+<p>Dividir archivo en trozos de 200mb asegurandoes que el corte no se produce en medio de una linea<br />
+<code>split -C 200m archivo.txt</code></p>
+<ul>
 <li><strong>Limpieza</strong></li>
 </ul>
 <pre><code class="language-sh">apt-get autoclean &amp;&amp;  apt-get autoremove &amp;&amp;
@@ -1160,6 +1165,10 @@ location ~* /(?:uploads|files)/.*\.php$ {
 <code>dpkg -i package.deb</code> </p>
 <p>Si debian protesta de dependencias instala las que pida. Estas son las mas posibles:<br />
 <code>apt install perl libnet-ssleay-perl openssl libpam-runtime libio-pty-perl python libauthen-pam-perl libio-pty-perl apt-show-versions</code>  </p>
+<p>Para desinstalar paramos<br />
+<code>service webmin stop</code><br />
+y despues<br />
+<code>/etc/webmin/uninstall.sh</code></p>
 <ul>
 <li><strong>Modulos</strong></li>
 </ul>
@@ -2448,7 +2457,7 @@ ip route add default via 192.168.168.1 table GRETUNNEL1
 
   <!--
   MkDocs version      : 1.4.2
-  Docs Build Date UTC : 2023-11-12 08:15:02.962824+00:00
+  Docs Build Date UTC : 2023-12-12 15:38:53.681507+00:00
   -->
 </body>
 

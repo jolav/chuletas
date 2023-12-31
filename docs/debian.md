@@ -108,6 +108,11 @@ apt install ncdu
 ncdu
 ```
 
+* **Dividir archivo en varios**  
+
+Dividir archivo en trozos de 200mb asegurandoes que el corte no se produce en medio de una linea  
+`split -C 200m archivo.txt`
+
 * **Limpieza**
 
 ```sh
