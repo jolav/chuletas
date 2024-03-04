@@ -300,6 +300,12 @@ crontab -e // como root
 // Reemplazar la 1 ocurrencia de abc por xyz
 rename 's/abc/xyz/' *
 </code></pre>
+<ul>
+<li><strong>curl</strong>  </li>
+</ul>
+<pre><code class="language-sh">// tiempo en ir, procesar y volver  
+curl -o /dev/null -s -w 'Total: %{time_total}s\n' https://pagina.web
+</code></pre>
 <hr />
 <h2 id="security"><strong>SECURITY</strong></h2>
 <h3 id="ssh">SSH</h3>
@@ -1332,6 +1338,10 @@ vnstat -t
 vnstat -i eth0 --json d // dentro de vnstat.js
 </code></pre>
 <ul>
+<li><strong>nload</strong></li>
+</ul>
+<p><code>apt install nload</code>  </p>
+<ul>
 <li><strong>iftop</strong></li>
 </ul>
 <p><code>apt install iftop</code>  </p>
@@ -1628,6 +1638,8 @@ Please see your Linux system's documentation for more information.
 </code></pre>
 <hr />
 <h2 id="gre-tunnel">GRE TUNNEL</h2>
+<p><a href="https://community.hetzner.com/tutorials/linux-setup-gre-tunnel">Tutorial patra configurar</a><br />
+<a href="https://richardbernecker.com/configuring-a-persistent-gre-tunnel-via-systemd/">Hacerlo persistente con systemd</a></p>
 <pre><code>apt install iptables iproute2
 
 ps aux | grep gre
@@ -1691,6 +1703,25 @@ ip route add default via 192.168.168.1 table GRETUNNEL1
 # TEST-2 
 # curl http://www.cpanel.net/showip.cgi --interface 192.168.168.2
 # wget http://www.cpanel.net/showip.cgi --bind-address=192.168.168.2 -q -O -
+</code></pre>
+<ul>
+<li><strong>Persistente</strong>  </li>
+</ul>
+<p>crear en cliente y servidor en /etc/systemd/system un nuevo servicio
+greTunnel.service</p>
+<pre><code class="language-sh">[Unit]
+Description=levantar gre tunnel 
+After=network.target
+
+[Service]
+ExecStart=sh /ruta/hasta/el/script
+Restart=always
+User=root
+Group=root
+Type=simple
+
+[Install]
+WantedBy=multi-user.target
 </code></pre>
 <hr />
           
@@ -2457,7 +2488,7 @@ ip route add default via 192.168.168.1 table GRETUNNEL1
 
   <!--
   MkDocs version      : 1.4.2
-  Docs Build Date UTC : 2024-01-11 15:01:13.272216+00:00
+  Docs Build Date UTC : 2024-03-04 09:56:36.904292+00:00
   -->
 </body>
 

@@ -307,6 +307,13 @@ apt install rename
 rename 's/abc/xyz/' *
 ```
 
+* **curl**  
+
+```sh
+// tiempo en ir, procesar y volver  
+curl -o /dev/null -s -w 'Total: %{time_total}s\n' https://pagina.web
+```
+
 ---
 
 ## **SECURITY**
@@ -1506,6 +1513,10 @@ crontab -e
 vnstat -i eth0 --json d // dentro de vnstat.js
 ```
 
+* **nload**
+
+`apt install nload`  
+
 * **iftop**
 
 `apt install iftop`  
@@ -1871,6 +1882,9 @@ modprobe vboxdrv
 
 ## GRE TUNNEL
 
+[Tutorial patra configurar](https://community.hetzner.com/tutorials/linux-setup-gre-tunnel)  
+[Hacerlo persistente con systemd](https://richardbernecker.com/configuring-a-persistent-gre-tunnel-via-systemd/)
+
 ```
 apt install iptables iproute2
 
@@ -1940,5 +1954,24 @@ ip route add default via 192.168.168.1 table GRETUNNEL1
 # wget http://www.cpanel.net/showip.cgi --bind-address=192.168.168.2 -q -O -
 ```
 
+* **Persistente**  
+
+crear en cliente y servidor en /etc/systemd/system un nuevo servicio
+greTunnel.service
+```sh
+[Unit]
+Description=levantar gre tunnel 
+After=network.target
+
+[Service]
+ExecStart=sh /ruta/hasta/el/script
+Restart=always
+User=root
+Group=root
+Type=simple
+
+[Install]
+WantedBy=multi-user.target
+```
 
 ---
