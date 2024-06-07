@@ -123,6 +123,28 @@ Si añadimos algo a .gitignore ya no se commiteara pero tampoco desaparece lo ex
 `git reset --hard HEAD~5` - elimina los ultimos 5 commits  
 `git push origin -f` - sincroniza la nueva situacion  
 
+* **Volver a un commit anterior sin modificar el head**
+
+```sh
+# Paso 1: Encuentra el hash del commit
+git log
+
+# Paso 2: Crea una nueva rama como backup (opcional pero recomendado)
+git checkout -b nueva-rama
+
+# Paso 3: Actualiza el directorio de trabajo al estado del commit
+# Reemplaza <commit-id> con el hash del commit al que deseas volver
+git checkout <commit-id> .
+
+# Paso 4: Añade los cambios al índice (si es necesario)
+git add .
+
+# Paso 5: Haz un nuevo commit (si es necesario)
+git commit -m "Revertir al estado del commit <commit-id>"
+
+# Paso 6: Empuja los cambios al repositorio remoto (si es necesario)
+git push origin nueva-rama
+```
 
 [Reducir el tamaño del directorio .git](https://stackoverflow.com/questions/2116778/reduce-git-repository-size)
 

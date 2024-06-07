@@ -149,6 +149,28 @@ nano ~/.gitconfig
 </ul>
 <p><code>git reset --hard HEAD~5</code> - elimina los ultimos 5 commits<br />
 <code>git push origin -f</code> - sincroniza la nueva situacion  </p>
+<ul>
+<li><strong>Volver a un commit anterior sin modificar el head</strong></li>
+</ul>
+<pre><code class="language-sh"># Paso 1: Encuentra el hash del commit
+git log
+
+# Paso 2: Crea una nueva rama como backup (opcional pero recomendado)
+git checkout -b nueva-rama
+
+# Paso 3: Actualiza el directorio de trabajo al estado del commit
+# Reemplaza &lt;commit-id&gt; con el hash del commit al que deseas volver
+git checkout &lt;commit-id&gt; .
+
+# Paso 4: Añade los cambios al índice (si es necesario)
+git add .
+
+# Paso 5: Haz un nuevo commit (si es necesario)
+git commit -m &quot;Revertir al estado del commit &lt;commit-id&gt;&quot;
+
+# Paso 6: Empuja los cambios al repositorio remoto (si es necesario)
+git push origin nueva-rama
+</code></pre>
 <p><a href="https://stackoverflow.com/questions/2116778/reduce-git-repository-size">Reducir el tamaño del directorio .git</a></p>
 <hr />
 <h2 id="mkdocs">MKDOCS</h2>
@@ -762,7 +784,7 @@ loQueSea   </p>
 
   <!--
   MkDocs version      : 1.4.2
-  Docs Build Date UTC : 2024-03-04 09:56:37.029206+00:00
+  Docs Build Date UTC : 2024-06-06 15:47:41.570641+00:00
   -->
 </body>
 
