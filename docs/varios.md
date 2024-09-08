@@ -156,8 +156,9 @@ git push origin nueva-rama
 * **Instalacion**
 
 `apt-get install python-pip`   
+`pip list --outdated` -lista paquetes que se pueden actualizar    
 `pip install mkdocs`   
-`pip install -U mkdocs` -  actualizar mkdocs  
+`pip install --upgrade mkdocs` -actualizar mkdocs  
 
 instalar mas temas  
 
