@@ -119,6 +119,42 @@ function objectIsEmpty(obj) {
 
 ---
 
+## FETCH
+
+```js
+async function fetchData(c, data) {
+  const options = {
+    timeout: c.timeout,
+    host: c.host,
+    port: c.port,
+    path: c.api,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Accept-Charset': 'utf-8'
+    },
+    body: new URLSearchParams({
+      'key': c.API_KEY,
+      'data': JSON.stringify(data)
+    }),
+  };
+  const url = c.API_URL + c.API_ENDPOINT;
+  try {
+    const response = await fetch(url, options);
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      throw new Error(response.status + " " + response.statusText);
+    }
+  } catch (err) {
+    console.log('ERROR fetchData => ', err);
+  }
+}
+```
+
+---
+
 ## AJAX REQUESTS
 
 ### GET 

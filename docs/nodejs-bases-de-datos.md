@@ -3,7 +3,138 @@
 
 ---
 
-## MYSQL
+## SQLITE
+
+### driver
+
+[better-sqlite3](https://github.com/WiseLibs/better-sqlite3)
+
+### backups
+
+Al activar pragma('journal_mode=WAL'), en vez de un archivo hay 3 para la DB.   
+`nombre.db3`   
+`nombre.db3-shm`   
+`nombre.db3-wal`  
+
+Para hacer un backup sin riesgo consolidando los tres archivos  
+```sh
+apt install sqlite3
+sqlite3 myArchivo.db3 ".backup backup-MyArchivo.db3"
+```
+
+### Select, Replace e Insert  
+
+```js
+/* */
+const options = {};
+
+import sqlite3 from 'better-sqlite3';
+const myDB = new sqlite3('./path/to/databaseFile.db3', options);
+myDB.pragma('journal_mode = WAL');
+
+const store = {
+
+  table1: "table1",
+  readTable1: function () {
+    const sql = `SELECT * FROM ${this.table1}`;
+    const stmt = myDB.prepare(sql);
+    const rows = stmt.all();
+    return rows.map(function (row) {
+      return {
+        server: row.server,
+        data: row.data
+      };
+    });
+  },
+  saveTable1: function (req) {
+    const data = req.body.data;
+    const server = req.body.server;
+    if (!server || !data) {
+      return;
+    }
+    const sql = `REPLACE INTO ${this.table1} (server, data) 
+    VALUES (?, ?)`;
+    const stmt = myDB.prepare(sql);
+    stmt.run(server, data);
+  },
+
+  table2: "table2",
+  readTable2: function () {
+    const sql = `SELECT * FROM "${this.table2}"`;
+    const stmt = myDB.prepare(sql);
+    const rows = stmt.all();
+    return rows.map(function (row) {
+      return {
+        day: row.day,
+        alexa: row.alexa,
+        loc: row.loc,
+        stars: row.stars,
+        proxy: row.proxy,
+        headers: row.headers,
+        weather: row.weather,
+        geoip: row.geoip,
+        video2gif: row.video2gif,
+        sp500: row.sp500,
+        tetris: row.tetris,
+        random: row.random,
+      };
+    });
+  },
+  readTodayTable2: function () {
+    const today = new Date().toISOString().split('T')[0];
+    const sql = `SELECT * FROM "${this.table2}" WHERE day = ?`;
+    const stmt = myDB.prepare(sql);
+    const rows = stmt.all(today);
+    return rows[0];
+  },
+  saveTable2: function (data) {
+    const inserts = [
+      data.day,
+      data.alexa,
+      data.loc,
+      data.stars,
+      data.proxy,
+      data.headers,
+      data.weather,
+      data.geoip,
+      data.video2gif,
+      data.random,
+    ];
+    const sql = `
+    INSERT INTO "${this.table2}" 
+    (day, alexa, loc, stars, proxy, headers, weather, 
+    geoip, video2gif, random)
+    VALUES (?, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+    ON CONFLICT(day) DO UPDATE SET
+      alexa = ?,
+      loc = ?,
+      stars = ?,
+      proxy = ?,
+      headers = ?,
+      weather = ?,
+      geoip = ?,
+      video2gif = ?,
+      random = ?
+    `;
+    const stmt = myDB.prepare(sql);
+    stmt.run(inserts);
+  },
+};
+
+export {
+  store
+};
+
+```
+
+## MYSQL 8
+
+### driver 
+
+[documentacion](https://sidorares.github.io/node-mysql2/docs)  
+[github](https://github.com/sidorares/node-mysql2)
+
+## MYSQL 5 (desactualizado)
 
 ### driver
 
@@ -299,699 +430,5 @@ const db = {
 
 ---
 
-## REDIS 4.0.X
 
-### driver
 
-```sh
-npm install redis
-```
-
-### test
-
-```js
-const redis = require('redis');
-// default redis.createClient() will use 127.0.0.1 and port 6379
-const client = redis.createClient();
-// custom
-const client = redis.createClient(port, host);
-
-client.on('connect', function() {
-    console.log('Redis OK');
-});
-
-client.on('error', function (err) {
-    console.log('Error => ' + err);
-});
-```
-
----
-
-## MONGODB 3.6.X
-
-### Instalar
-
-```sh
-apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv
-2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
-nano /etc/apt/sources.list // strectch repo not yet
-deb http://repo.mongodb.org/apt/debian jessie/mongodb-org/3.6 main
-apt-get update
-apt-get install mongodb-org
-```
-
-[create systemd service](https://jolav.github.io/chuletas/debian/#systemd)
-```
-[Unit]
-Description=High-performance, schema-free document-oriented database
-After=network.target
-Documentation=https://docs.mongodb.org/manual
-
-[Service]
-Restart=on-failure
-User=mongodb
-Group=mongodb
-ExecStart=/usr/bin/mongod --quiet --auth --config /etc/mongod.conf
-
-[Install]
-WantedBy=multi-user.target
-```
-
-* **Desinstalar**
-
-```sh
-service mongod stop
-apt-get purge mongodb-org*
-rm -r /var/log/mongodb
-rm -r /var/lib/mongodb
-```
-
-### Configurar
-
-```sh
-nano /etc/mongod.conf
-bindIp : X.X.X.X
-// 127.0.0.1 only localhost 
-// 0.0.0.0 any Ipv4 allowed
-```
-
-* **crear usuarios**
-```sh
-$ mongo
-> use admin
-> db.createUser({user:"adminUser",pwd:"password"
->                   ,roles:[{role:"root",db:"admin"}]})
-
-$ mongo -u 'adminUser' -p 'password' --authenticationDatabase 'admin'
-> use some_db
-> db.createUser({user: "username",pwd: "password",roles: ["readWrite"]})
-```
-
-### Snippets
-
-#### driver
-
-[3.0.1 - https://github.com/mongodb/node-mongodb-native](https://github.com/mongodb/node-mongodb-native)
-
-`npm install --save mongodb`
-
-```js
-const mongo = require('mongodb');
-connection="mongodb://user:password@database.host.com:port/database"
-```
-
-#### test
-
-```js
-// try - catch doesnt work because of asynchronous
-function testDB () {
-  mongo.connect(connection, function (err, db) {
-    if (err) return console.log(err);
-    console.log('Connected to database ... OK');
-    db.close();
-  });
-}
-```
-
-#### configurar la conexion
-
-```js
-let c = {
-  connection: process.env.DB_URI,
-  dbname: process.env.DB_NAME,
-  collectionName: collectioName
-};
-```
-
-#### buscar
-
-* **Buscar solo uno**
-
-```js
-mongo.connect(connection, function (err, db) {
-  if (err) throw err;
-  const database = db.db('database');
-  const collection = database.collection('collection');
-  collection.findOne({'field': value}, function (err, result) {
-  const id = mongo.ObjectID(id);
-  collection.findOne({ '_id': id }, function (err, result) {
-    if (err) throw err;
-    db.close();
-    cb(result);
-  });
-});
-```
-
-```js
-function getBook (c, bookid, cb) {
-  const target = c.collectionName;
-  mongo.connect(c.connection, function (err, db) {
-    if (err) throw err;
-    const database = db.db(c.dbname);
-    const collection = database.collection(target);
-    collection.findOne({ '_id': parseInt(bookid) }, 
-    function (err, result) {
-      if (err) throw err;
-      db.close();
-      if (!result) {
-        const err = {
-          message: 'no book exists',
-          status: 400
-        };
-        return cb(err);
-      }
-      cb(result);
-    });
-  });
-}
-
-```
-
-* **buscar**
-
-```js
-mongo.connect(connection, function (err, db) {
-  if (err) throw err;
-  const database = db.db('database');
-  const collection = database.collection('collection');
-  collection.find({ 'field': value }, {}).next(function (err, result) {
-    if (err) throw err;
-    db.close();
-    cb(result);
-  });
-});
-
-mongo.connect(connection, function (err, db) {
-  if (err) throw err;
-  const database = db.db('database');
-  const collection = database.collection('collection');
-  collection.find({}, {projection: {'_id': 0}}
-  .toArray(function (err, result) {
-    if (err) throw err;
-    db.close();
-    cb(result);
-  });
-});
-
-// eq => equal
-// gte => greater or equal
-// gt => greater
-// in => in array 
-// lt => less than
-// lte => less or equal
-// ne => not equal
-// nin => not in array
-mongo.connect(connection, function (err, db) {
-  if (err) throw err;
-  const database = db.db('database');
-  const collection = database.collection('collection');
-  collection.find({ 'time': { '$gte': new Date(otherDate) } },
-  {projection: {'_id': 0}})
-    .toArray(function (err, result) {
-      if (err) throw err;
-      db.close();
-      cb(result);  
-    });
-});
-
-
-const search = {
-  user: req.query.user,
-  from: req.query.from,
-  to: req.query.to,
-  limit: req.query.limit || 0
-};
-function searchExercises (c, s, cb) {
-  const target = c.collectionName;
-  mongo.connect(c.connection, function (err, db) {
-    if (err) return console.log(err);
-    const database = db.db(c.dbname);
-    const collection = database.collection(target);
-    let option1 = { 'user': s.user };
-    let option2 = {
-      'user': s.user,
-      'date': {
-        '$gte': s.from,
-        '$lte': s.to
-      }
-    };
-    let search = option1;
-    if (s.from) {
-      search = option2;
-    }
-    let limit = parseInt(s.limit);
-    if (isNaN(limit) || limit < 1) limit = 100;
-    collection.find(search, {projection: {'_id': 0}}).limit(limit)
-    toArray(function (err, result) {
-      if (err) return console.log(err);
-      db.close();
-      cb(result);
-    });
-  });
-}
-```
-
-#### insert 
-
-* **insertar**
-
-```js
-mongo.connect(connection, function (err, db) {
-  if (err) throw err;
-  const database = db.db('database');
-  const collection = database.collection('collection');
-  collection.insert(input, function (err, result) {
-    if (err) throw err;
-    db.close();
-  });
-});
-```
-
-```js
-mongo.connect(connection, function (err, db) {
-  if (err) throw err;
-  const database = db.db('database')
-  const collection = database.collection('collection')
-  collection.insertMany(docs, function (err, result) {
-    if (err) {
-      console.log('ERR =>', err);
-      throw err;
-    }
-    console.log('Inserted = ', result.result.n, ' - ', result.ops.length);
-  });
-});
-```
-
-#### delete
-
-* **borrar uno**
-
-```js
-mongo.connect(connection, function (err, db) {
-  if (err) throw err;
-  const database = db.db('database');
-  const collection = database.collection('collection');
-  collection.deleteOne({'field': value}, function (err, result) {
-    if (err) throw err;
-      db.close();
-  });
-});
-```
-
-* **borrar muchos**
-
-```js
-function deleteAll (c, cb) {
-  const msg = {
-    message: undefined,
-    status: 200
-  };
-  const target = c.collectionName;
-  mongo.connect(c.connection, function (err, db) {
-    if (err) throw err;
-    const database = db.db(c.dbname);
-    const collection = database.collection(target);
-    collection.deleteMany({ '_id': {$gt: 0}}, function (err, result) {
-      if (err) throw err;
-      db.close();
-      cb(msg);
-    });
-  });
-}
-```
-
-#### update
-
-* **actualizar uno**
-
-```js
-mongo.connect(connection, function (err, db) {
-  if (err) throw err;
-  const database = db.db('database');
-  const collection = database.collection('collection');  
-  collection.updateOne({ 'field':value }, 
-    { $set: { 'field': newValue}}, // changes field to newValue 
-    { $push: { 'array': newElement } }, // adds newElement to array
-    function (err, res) {
-      if (err) throw err;
-      db.close();
-  });
-});
-```
-
-```js
-function saveComment (c, bookid, comment, cb) {
-  const target = c.collectionName;
-  mongo.connect(c.connection, function (err, db) {
-    if (err) return console.log(err);
-    const database = db.db(c.dbname);
-    const collection = database.collection(target);
-    collection.updateOne({'_id': parseInt(bookid)},
-      {
-        $push: { 'comments': comment },
-        $inc: { 'commentCount': 1 }
-      },
-      function (err, result) {
-        if (err) return console.log(err);
-        console.log('RESULT=>', result.ok);
-        db.close();
-        const msg = {
-          message: undefined,
-          status: 200
-        };
-        cb(msg);
-      });
-  });
-}
-```
-
-* **actualizar muchos**
-
-```js
-mongo.connect(connection, function (err, db) {
-  if (err) throw err;
-  const database = db.db('database');
-  const collection = database.collection('collection');
-  collection.updateMany({}, {$set: {time: Date.now() / 1000}},
-    function (err, hits) {
-      if (err) throw err;
-      db.close();
-    });
-});
-```
-
-* **buscar y actualizar**
-
-```js
-// change all records in a collection
-mongo.connect(connection, function (err, db) {
-  if (err) throw err;
-  let cont = 0;
-  const database = db.db('database');
-  const collection = database.collection('collection');
-  collection.find({}).forEach(function (doc) {
-    if (err) throw err;
-    const newTime = new Date(doc.time).toISOString().split('T')[0]
-    collection.updateOne({'_id': doc._id}, { $set: { time: newTime } })
-    cont++
-    console.log(cont)
-  }, function () {
-    db.close();
-  }););
-});
-```
-
-#### crear coleccion
-
-```js
-function createCollection (c, cb) {
-  const target = c.collectionName;
-  mongo.connect(c.connection, function (err, db) {
-    if (err) return console.log(err);
-    const database = db.db(c.dbname);
-    database.createCollection(target, function (err, created) {
-      if (err) return console.log(err);
-      if (created) console.log('Collection ', c.collectionName, 
-            ' created');
-      db.close();
-      return cb();
-    });
-  });
-}
-```
-
-#### eliminar coleccion
-
-```js
-function dropCollection (c, cb) {
-  const target = c.collectionName;
-  mongo.connect(c.connection, function (err, db) {
-    if (err) return console.log(err);
-    const database = db.db(c.dbname);
-    database.dropCollection(target, function (err, isDrop) {
-      if (err) return console.log(err);
-      if (isDrop) console.log('Collection ', c.collectionName, 
-              ' deleted');
-      db.close();
-      return cb();
-    });
-  });
-}
-```
-
-#### autoincrementable _id
-
-```js
-// collection counters
-{
-    "_id": "library",
-    "sequence_value": 0
-}
-function saveBook (c, title, cb) {
-  const target = c.collectionName;
-  getNextSequenceValue(c, 'library', function (nextID) {
-    mongo.connect(c.connection, function (err, db) {
-      if (err) return console.log(err);
-      const database = db.db(c.dbname);
-      const collection = database.collection(target);
-      const book = {
-        '_id': nextID,
-        'title': title,
-        'comments': [],
-        'commentCount': 0
-      };
-      collection.insert(book, function (err, result) {
-        if (err) return console.log(err);
-        db.close();
-        const msg = {
-          message: undefined,
-          status: 200
-        };
-        cb(msg);
-      });
-    });
-  });
-}
-function getNextSequenceValue (c, sequenceName, cb) {
-  mongo.connect(c.connection, function (err, db) {
-    if (err) return console.log(err);
-    const database = db.db(c.dbname);
-    const collection = database.collection('counters');
-    collection.findAndModify(
-      { '_id': sequenceName },
-      [], // sort
-      { '$inc': { sequence_value: 1 } },
-      { new: true },
-      function (err, doc) {
-        return cb(doc.value.sequence_value);
-      });
-  });
-}
-```
-
-### Backup
-
-* **mongoexport**
-
-```sh
-mongoexport --db dbname --collection collectioname --out output.json 
--u 'adminuser' -p 'password' --authenticationDatabase 'admin'
-```
-
----
-
-## RETHINKDB
-
-**¡ OJO ! Esto es del 2016. Desde entonces no lo he probado**
-
-* **Instalacion**
-
-```sh
-nano /etc/apt/sources.list // y añadir
-"deb http://download.rethinkdb.com/apt jessie main"
-wget -qO- https://download.rethinkdb.com/apt/pubkey.gpg | apt-key add -
-apt-get update
-apt-get install rethinkdb
-```
-
-* **Configuracion**
-
-Para que arranque al inicio
-
-```sh
-cp /etc/rethinkdb/default.conf.sample
-      /etc/rethinkdb/instances.d/instance1.conf
-/etc/init.d/rethinkdb restart
-```
-
-Archivo configuracion:  
-`nano /etc/rethinkdb/instances.d/instance1.conf`
-
-Para levantar el servicio con el usuario rethinkdb usar  
-`/etc/init.d/rethinkdb restart`
-
-* **Web segura**
-
-` nano /etc/nginx/sites-available/jolav` para añadir la nueva ruta
-
-```nginx
-# HTTPS server
-server {
-   listen 443 ssl;
-   server_name domain.tld;
-   ssl_certificate /etc/letsencrypt/live/domain.tld/fullchain.pem;
-   ssl_certificate_key /etc/letsencrypt/live/domain.tld/privkey.pem;
-   ssl_session_cache shared:SSL:1m;
-   ssl_session_timeout 5m;
-   ssl_ciphers HIGH:!aNULL:!MD5;
-   ssl_prefer_server_ciphers on;
-   location / {
-        ssi on;
-        try_files $uri $uri/ =404;
-        root /var/www/html;
-        index index.html index.htm;
-   }
-   location /rethinkdb-admin/ {
-       auth_basic "Restricted";
-       auth_basic_user_file /etc/nginx/.rethinkdb.pass;
-       proxy_pass http://127.0.0.1:8080/;
-       proxy_redirect off;
-       proxy_set_header Authorization "";
-   }
-}
-```
-
-Opcion con subdirectorios
-
-```nginx
-## Sub
-server {
-        listen 80;
-        listen [::]:80;
-        server_name s.domain.tld;
-        return 301 https://s.domain.tld$request_uri;
-}
-# HTTPS server
-server {
-   listen 443 ssl;
-   server_name s.domain.tld;
-   ssl_certificate /etc/letsencrypt/live/s.domain.tld/fullchain.pem;
-   ssl_certificate_key /etc/letsencrypt/live/s.domain.tld/privkey.pem;
-   ssl_session_cache shared:SSL:1m;
-   ssl_session_timeout 5m;
-   ssl_ciphers HIGH:!aNULL:!MD5;
-   ssl_prefer_server_ciphers on;
-   location / {
-       try_files $uri $uri/ =404;
-   }
-   location /rethinkdb-admin/ {
-       auth_basic "Restricted";
-       auth_basic_user_file /etc/nginx/.rethinkdb.pass;
-       proxy_pass http://127.0.0.1:8080/;
-       proxy_redirect off;
-       proxy_set_header Authorization "";
-   }
-}
-```
-
-`cp /etc/nginx/sites-available/jolav /etc/nginx/sites-enabled/jolav`
-
-
-```sh
-apt-get install apache2-utils
-cd /etc/nginx
-htpasswd -c .rethinkdb.pass <username> // <username> nombre que queramos
-service nginx restart
-```
-
-Ahoya ya en el navegador
-`http://domain.tld/rethinkdb-admin`
-
-* **Crear usuarios**
-
-Un usuario `admin` que no se puede corrar ya existe. Por defecto esta sin
-contraseña pero se puede poner una con un update.  
-La webUI siempre se conecta como admin y se salta el proceso de autenticacion  
-
-```sql
-// Insertando en la tabla del sistema `users`
-r.db('rethinkdb').table('users').insert({id: 'bob', password: 'secret'})
-
-// update to a new value or remove it by using false
-r.db('rethinkdb').table('users').get('bob').update({password: false})
-```
-
-* **Permisos** se almacenan en la tabla del sistema `permissions`
-
-`read` - leer datos de las tablas  
-`write` - modificar datos  
-`connect` - par abrir conexiones http, por seguridad no usar  
-`config` - permite hacer cosas segun el alcance  
-
-* **Alcance**
-
-`table` - afecta solo a una tabla  
-`database` - lo anterior mas crear y eliminar tablas  
-`global` - lo anterior mas crear y eliminar databases  
-
-* **grant** comando para otorgar permisos  
-
-```js
-// set database scope
-r.db('field_notes').grant('bob',
-        {read: true, write: true, config: false});
-
-// set table scopes
-r.db('field_notes').table('calendar').grant('bob',
-        {write: false});
-r.db('field_notes').table('supervisor_only').grant('bob',
-        {read: false, write: false});
-```
-
-* **ejemplo**
-
-la tabla test de ejemplo inicial mejor borrarla y crearla si se quiere de nuevo
-pues parece que permite entrar a todo el mundo .
-
-Si no le pones pass al admin todas las conexiones las interpreta como admin y
-entra directamente  
-
-```js
-r.db("rethinkdb").table("users").get("admin").update({password: "pass"})
-r.db("rethinkdb").table("users").get("user").update({password: "pass"})
-r.table("users").get("usuario").update({password: "pass"})
-r.db('test').grant('usuario', {read: true, write: true, 
-  cnginxonfig: true})
-```
-
-* **Conexion**
-
-```js
-var config = require('./config.json');
-var r = require('rethinkdb');
-
-r.connect(config.rethinkdb)
-  .then(function (conn) {
-    console.log(conn);
-  })
-  .error(function (error) {
-    console.log(error.message);
-  });
-```
-
-```json
-{
-	"rethinkdb": {
-		"host": "dominio.com",
-		"port": 5555,
-		"db": "test",
-        "username" : "userName",
-        "password" : "userPassword"
-    },
-	"express": {
-		"port": 3000
-	}
-}
-```
-
----

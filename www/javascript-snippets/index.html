@@ -126,6 +126,38 @@ arr = arr.filter(v=&gt;v!='');
 }
 </code></pre>
 <hr />
+<h2 id="fetch">FETCH</h2>
+<pre><code class="language-js">async function fetchData(c, data) {
+  const options = {
+    timeout: c.timeout,
+    host: c.host,
+    port: c.port,
+    path: c.api,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Accept-Charset': 'utf-8'
+    },
+    body: new URLSearchParams({
+      'key': c.API_KEY,
+      'data': JSON.stringify(data)
+    }),
+  };
+  const url = c.API_URL + c.API_ENDPOINT;
+  try {
+    const response = await fetch(url, options);
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      throw new Error(response.status + &quot; &quot; + response.statusText);
+    }
+  } catch (err) {
+    console.log('ERROR fetchData =&gt; ', err);
+  }
+}
+</code></pre>
+<hr />
 <h2 id="ajax-requests">AJAX REQUESTS</h2>
 <h3 id="get">GET</h3>
 <pre><code class="language-javascript">function getAjaxData (urlData, callback) {
@@ -572,6 +604,11 @@ image.src = linkToImage;
   
 </ul>
   
+  <li><a href="#fetch">FETCH</a></li>
+  <ul>
+  
+</ul>
+  
   <li><a href="#ajax-requests">AJAX REQUESTS</a></li>
   <ul>
   
@@ -900,6 +937,11 @@ image.src = linkToImage;
   
 </ul>
   
+  <li><a href="#fetch">FETCH</a></li>
+  <ul>
+  
+</ul>
+  
   <li><a href="#ajax-requests">AJAX REQUESTS</a></li>
   <ul>
   
@@ -1027,7 +1069,7 @@ image.src = linkToImage;
 
   <!--
   MkDocs version      : 1.4.2
-  Docs Build Date UTC : 2024-09-08 09:59:25.143918+00:00
+  Docs Build Date UTC : 2024-09-10 14:57:07.205060+00:00
   -->
 </body>
 

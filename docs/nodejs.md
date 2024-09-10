@@ -1,4 +1,4 @@
-# NODEJS 20.X.X
+# NODEJS 22.X.X
 
 ---
 
@@ -36,60 +36,16 @@
 
 ---
 
+## DOCS
+
+[Documentacion oficial de la API](https://nodejs.org/docs/latest/api/)  
+
+Este enlace va a la ultima version de node, si usas LTS u otra desde ahi te salen todas las opciones  
+  
 
 ## MODULOS DEL CORE
 
 ### fs (sistema de archivos)
-
-[File System node 12.x](https://nodejs.org/dist/latest-v12.x/docs/api/fs.html)
-
-`fs.appendFile(file, data[, options], callback)` - añadir datos al final del
-fichero   
-`fs.appendFileSync(file, data[, options])` - añadir datos al final del
-fichero de forma sincrona  
-`fs.close(fd, callback)` - cierra un archivo  
-`fs.closeSync(fd)` - cierra un archivo de forma sincrona  
-`fs.createReadStream(path[, options])` - crea un nuevo objeto ReadStream  
-`fs.createWriteStream(path[, options])` - crea un nuevo objeto WriteStream  
-`fs.mkdir(path[, mode], callback)` - crea un directorio  
-`fs.mkdirSync(path[, mode])` - crea un directorio de forma sincrona  
-`fs.open(path, flags[, mode], callback)` - abre un archivo  
-`fs.openSync(path, flags[, mode])` - abre un archivo de forma sincrona  
-`fs.readdir(path, callback)` - leer un directorio  
-`fs.readdirSync(path)` - leer un directorio de forma sincrona  
-`fs.readFile(file[, options], callback)` - leer el contenido entero de un archivo  
-`fs.readFileSync(file[, options])` - leer el contenido entero de un archivo de
-forma sincrona  
-`fs.read(fd, buffer, offset, length, position, callback)` - lee datos de un archivo  
-`fs.readSync(fd, buffer, offset, length, position)` - lee datos de un archivo de
-forma sincrona   
-`fs.rename(oldPath, newPath, callback)` - cambia el nombre o ubicacion de un
-archivo   
-`fs.renameSync(oldPath, newPath)` - cambia el nombre o ubicacion de un archivo de forma sincrona   
-`fs.rmdir(path, callback)` - borra un directorio  
-`fs.rmdirSync(path)` - borra un directorio de forma sincrona  
-`fs.stat(path, callback)` - consigue el estado de un archivo  
-`fs.statSync(path)` -  consigue el estado de un archivo de forma sincrona  
-`fs.unlink(path, callback)` - borra un archivo  
-`fs.unlinkSync(path)` - borra un archivo de forma sincrona  
-`fs.unwatchFile(filename[, listener])` - deja de vigilar cuando se producen cambios
-en un archivo  
-`fs.watch(filename[, options][, listener])` - vigila cuando se producen cambios en
-un archivo o directorio  
-`fs.watchFile(filename[, options], listener)` - vigila cuando se producen cambios
-en un archivo   
-`fs.write(fd, buffer, offset, length[, position], callback)` - escribe el buffer al
-archivo  
-`fs.writeSync(fd, buffer, offset, length[, position])` - escribe el buffer al
-archivo de forma sincrona  
-`fs.write(fd, data[, position[, encoding]], callback)` - escribe los data al
-archivo  
-`fs.writeSync(fd, data[, position[, encoding]])` - escribe los data al archivo de
-forma sincrona   
-`fs.writeFile(file, data[, options], callback)` - escribe data al archivo    
-`fs.writeFileSync(file, data[, options])` - escribe data al archivo de forma
-sincrona  
-`fs.stat(path, callback)` - consigue informacion del archivo   
 
 ### os (sistema operativo)
 
@@ -110,41 +66,19 @@ sincrona
 ## ASYNC-AWAIT
 
 ```js
-async function doSomething() {
-  //...
-  const rate = await getApiLimit(); 
-  // avoid unhandled promise rejection with
-  const rate = await getApiLimit().catch(() => {}); 
-  // or 
-  try {
-    const rate = await getApiLimit();
-  } catch(){
-    //...
-  }
-}
-
-function getApiLimit() {
-  return new Promise((resolve, reject) => {
-    const options = {
-      hostname: 'api.github.com',
-      port: 443,
-      path: "/rate_limit",
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + token[lib.getRandomNumber(0, 9)],
-        "User-Agent": "github stars repos",
-        'Accept': '/application/vnd.github.v3.star+json',
-      }
-    };
-    lib.makeRequest(options, null, function (err, data, headers) {
-      if (err) {
-        console.log('Error => ', err);
-        reject(-1);
-      }
-      resolve(data);
-    });
+function sleep(sleepTime) {
+  return new Promise(function (resolve, reject) {
+    setTimeout(resolve, sleepTime);
   });
 }
+
+async function go() {
+  console.log('Starting');
+  await sleep(1000);
+  console.log('Ending');
+}
+
+go();
 ```
 
 ### Patrones
@@ -209,29 +143,37 @@ catch(e) {
 ### Paralelismo
 
 ```js
-// Asi tardaria 1000ms
+// Asi tarda 1000ms
 async function series() {
+  console.log("series");
   await wait(500);
   await wait(500);
-  return "done!";
+  console.log("series done");
 }
 
-// Asi tardaria 500ms
+// Asi tarda 500ms
 async function parallel() {
+  console.log('parallel');
   const wait1 = wait(500);
   const wait2 = wait(500);
   await wait1;
   await wait2;
-  return "done!";
+  console.log('parallel done');
 }
 
-async function parallel() {
+// Asi tarda 500ms
+async function parallel2() {
+  console.log("parallel2");
   const [wait1, wait2] = await Promise.all([
     wait(500),
     wait(500),
   ]);
-  return "done!";
+  console.log('parallel2 done');
 }
+
+series();
+parallel();
+parallel2();
 ```
 
 ---
