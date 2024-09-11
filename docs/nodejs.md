@@ -63,23 +63,27 @@ Este enlace va a la ultima version de node, si usas LTS u otra desde ahi te sale
 
 ---
 
-## ASYNC-AWAIT
+## ESModules  
+
+Como de momento con ESM no se puede leer directamente un archivo json  
+`import packageJSON from './package.json' with { type: 'json' };`  
+hay que hacer lo siguiente
 
 ```js
-function sleep(sleepTime) {
-  return new Promise(function (resolve, reject) {
-    setTimeout(resolve, sleepTime);
-  });
-}
+// Sincrona 1
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const data = require("./data.json");
+// data ya contiene los datos parseados de data.json
 
-async function go() {
-  console.log('Starting');
-  await sleep(1000);
-  console.log('Ending');
-}
-
-go();
+// Sincrona 2
+import { readFileSync } from "fs";
+const packageJSON = JSON.parse(readFileSync("./package.json"));
 ```
+
+---
+
+## ASYNC-AWAIT
 
 ### Patrones
 
@@ -138,42 +142,6 @@ try {
 catch(e) {
  // Error!
 }
-```
-
-### Paralelismo
-
-```js
-// Asi tarda 1000ms
-async function series() {
-  console.log("series");
-  await wait(500);
-  await wait(500);
-  console.log("series done");
-}
-
-// Asi tarda 500ms
-async function parallel() {
-  console.log('parallel');
-  const wait1 = wait(500);
-  const wait2 = wait(500);
-  await wait1;
-  await wait2;
-  console.log('parallel done');
-}
-
-// Asi tarda 500ms
-async function parallel2() {
-  console.log("parallel2");
-  const [wait1, wait2] = await Promise.all([
-    wait(500),
-    wait(500),
-  ]);
-  console.log('parallel2 done');
-}
-
-series();
-parallel();
-parallel2();
 ```
 
 ---

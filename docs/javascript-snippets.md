@@ -5,7 +5,7 @@
 ### Random Numbers
 
 ```javascript
-function getRandomNumber (min, max) {
+function randomInt (min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 ```
@@ -279,24 +279,6 @@ for (let i = 0; i < calls; i++) {
 }
 ```
 
-### Send Cookies to APIs
-
-```js
-// Server
-app.use(function (req, res, next) {
-  // next line for avoid CORS
-  res.header('Access-Control-Allow-Origin', req.headers.origin);
-  // cookies
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With,
-   Content-Type, Accept');
-  res.header('Access-Control-Allow-Credentials', true);
-  next();
-});
-
-// client
-xhr.withCredentials = true; // allow send cookies
-```
-
 ---
 
 ## NETWORK
@@ -304,58 +286,66 @@ xhr.withCredentials = true; // allow send cookies
 ### Validate IP 
 
 ```javascript
-function isValidIP (ip) {
-  if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ip)) {
+function isValidIP(ip) {
+  const ip4 = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+  const ip6 = /(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))/;
+  if (ip4.test(ip)) {
     return true;
-  } else if (/(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))/.test(ip)) {
-    return true;
-  } else {
-    return false;
   }
-}
-```
-
-### Validate Hostname
-
-```javascript
-function isValidHostname (hostname) {
-  let condition = /^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])$/;
-  if (condition.test(hostname)) {
+  if (ip6.test(ip)) {
     return true;
   }
   return false;
 }
 ```
 
-### Validate URL
+### Validate Hostname
 
 ```javascript
-
-function isValidURL (url) {
-  return /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(url);
+function isValidHostname(hostname) {
+  if (!hostname || hostname.length > 255) {
+    return false;
+  }
+  const condition = /^(?!-)[A-Za-z0-9-]{1,63}(?<!-)$/;
+  const parts = hostname.split('.');
+  for (let part of parts) {
+    if (!condition.test(part)) {
+      return false;
+    }
+  }
+  return true;
 }
 ```
 
-### Get URL Parameter
+### Validate URL
 
 ```javascript
-function getURLParameter (name) {
-  return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
+function isValidURL(url) {
+  const valid = ["http", "https"];
+  const invalid = ["localhost", "127.0.0.1"];
+  try {
+    const myUrl = new URL(url);
+    const protocol = myUrl.protocol.replace(":", "");
+    const hostname = myUrl.hostname;
+    return valid.includes(protocol) && !invalid.includes(hostname);
+  } catch (err) {
+    return false;
+  }
 }
 ```
 
 ### Remove protocol-www
 
 ```js
-function cleanUrl (url) {
-  if (url.slice(0, 12) === 'https://www.') {
-    url = url.slice(12);
-  } else if (url.slice(0, 11) === 'http://www.') {
-    url = url.slice(11);
-  } else if (url.slice(0, 8) === 'https://') {
+function cleanUrl(url) {
+  if (url.startsWith('https://')) {
     url = url.slice(8);
-  } else if (url.slice(0, 7) === 'http://') {
+  } else if (url.startsWith('http://')) {
     url = url.slice(7);
+  }
+
+  if (url.startsWith('www.')) {
+    url = url.slice(4);
   }
   return url;
 }

@@ -85,21 +85,22 @@
 <code>console.log('Total memory: ' + (os.totalmem() / 1e6).toFixed(1) + ' MB')</code><br />
 <code>console.log('Free memory: ' + (os.freemem() / 1e6).toFixed(1) + ' MB')</code> </p>
 <hr />
-<h2 id="async-await">ASYNC-AWAIT</h2>
-<pre><code class="language-js">function sleep(sleepTime) {
-  return new Promise(function (resolve, reject) {
-    setTimeout(resolve, sleepTime);
-  });
-}
+<h2 id="esmodules">ESModules</h2>
+<p>Como de momento con ESM no se puede leer directamente un archivo json<br />
+<code>import packageJSON from './package.json' with { type: 'json' };</code><br />
+hay que hacer lo siguiente</p>
+<pre><code class="language-js">// Sincrona 1
+import { createRequire } from &quot;module&quot;;
+const require = createRequire(import.meta.url);
+const data = require(&quot;./data.json&quot;);
+// data ya contiene los datos parseados de data.json
 
-async function go() {
-  console.log('Starting');
-  await sleep(1000);
-  console.log('Ending');
-}
-
-go();
+// Sincrona 2
+import { readFileSync } from &quot;fs&quot;;
+const packageJSON = JSON.parse(readFileSync(&quot;./package.json&quot;));
 </code></pre>
+<hr />
+<h2 id="async-await">ASYNC-AWAIT</h2>
 <h3 id="patrones">Patrones</h3>
 <p>Funcion asincrona anonima</p>
 <pre><code class="language-js">let main = (async function() {
@@ -142,39 +143,6 @@ class MyClass {
 catch(e) {
  // Error!
 }
-</code></pre>
-<h3 id="paralelismo">Paralelismo</h3>
-<pre><code class="language-js">// Asi tarda 1000ms
-async function series() {
-  console.log(&quot;series&quot;);
-  await wait(500);
-  await wait(500);
-  console.log(&quot;series done&quot;);
-}
-
-// Asi tarda 500ms
-async function parallel() {
-  console.log('parallel');
-  const wait1 = wait(500);
-  const wait2 = wait(500);
-  await wait1;
-  await wait2;
-  console.log('parallel done');
-}
-
-// Asi tarda 500ms
-async function parallel2() {
-  console.log(&quot;parallel2&quot;);
-  const [wait1, wait2] = await Promise.all([
-    wait(500),
-    wait(500),
-  ]);
-  console.log('parallel2 done');
-}
-
-series();
-parallel();
-parallel2();
 </code></pre>
 <hr />
           
@@ -351,6 +319,11 @@ parallel2();
   
 </ul>
   
+  <li><a href="#esmodules">ESModules</a></li>
+  <ul>
+  
+</ul>
+  
   <li><a href="#async-await">ASYNC-AWAIT</a></li>
   <ul>
   
@@ -360,11 +333,6 @@ parallel2();
 </ul>
   
   <li><a href="#manejo-de-errores">Manejo de errores</a></li>
-  <ul>
-  
-</ul>
-  
-  <li><a href="#paralelismo">Paralelismo</a></li>
   <ul>
   
 </ul>
@@ -564,6 +532,11 @@ parallel2();
   
 </ul>
   
+  <li><a href="#esmodules">ESModules</a></li>
+  <ul>
+  
+</ul>
+  
   <li><a href="#async-await">ASYNC-AWAIT</a></li>
   <ul>
   
@@ -573,11 +546,6 @@ parallel2();
 </ul>
   
   <li><a href="#manejo-de-errores">Manejo de errores</a></li>
-  <ul>
-  
-</ul>
-  
-  <li><a href="#paralelismo">Paralelismo</a></li>
   <ul>
   
 </ul>
@@ -611,7 +579,7 @@ parallel2();
 
   <!--
   MkDocs version      : 1.4.2
-  Docs Build Date UTC : 2024-09-10 14:57:07.224749+00:00
+  Docs Build Date UTC : 2024-09-11 13:04:31.487114+00:00
   -->
 </body>
 

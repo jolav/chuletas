@@ -9,8 +9,45 @@ Hasta que sean nativos en nodejs 21.X la opcion es poner en package.json
   "type": "module"
 }
 ```
-o usar la extension mjs en lugar de js.
+o usar la extension mjs en lugar de js.  
 
+---
+
+## FETCH
+
+```js
+async function fetchData(c, data) {
+  const options = {
+    timeout: c.timeout,
+    host: c.host,
+    port: c.port,
+    path: c.api,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Accept-Charset': 'utf-8'
+    },
+    body: new URLSearchParams({
+      'key': c.API_KEY,
+      'data': JSON.stringify(data)
+    }),
+  };
+  const url = c.API_URL + c.API_ENDPOINT;
+  try {
+    const response = await fetch(url, options);
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      throw new Error(response.status + " " + response.statusText);
+    }
+  } catch (err) {
+    console.log('ERROR fetchData => ', err);
+  }
+}
+```
+
+---
 
 ## HTTP Request
 
@@ -168,30 +205,57 @@ function makeRequestAsync(options, parameters) {
 ### read JSON
 
 ```javascript
-function loadJSONfile (filePath, callback) {
-  fs.readFile(filePath, 'utf8', (err, data) => {
-    if (err) {
-      console.log('ERROR READING JSON FILE => ', err);
-      throw err;
-    } else {
-      callback(JSON.parse(data));
-    }
-  });
+// sincrona
+import { readFileSync } from 'fs';
+
+function loadJsonFile() {
+  try {
+    const data = readFileSync('./data.json', 'utf8');
+    return JSON.parse(data);
+  } catch (err) {
+    console.error('Error reading JSON file =>', err);
+    return null;
+  }
+}
+
+// asincrona
+import { promises as fs } from 'fs';
+
+async function loadJsonFile() {
+  try {
+    const data = await fs.readFile('./data.json', 'utf8');
+    return JSON.parse(data);
+  } catch (err) {
+    console.error('Error reading JSON file =>', err);
+  }
 }
 ```
 
 ### write JSON
 
 ```javascript
-function writeJSONtoFile (filePath, dataSet, callback) {
-  const json = JSON.stringify(dataSet);
-  fs.writeFile(filePath, json, 'utf8', (err) => {
-    if (err) {
-      console.log('ERROR WRITING JSON IN FILE => ', err);
-      throw err;
-    }
-    callback();
-  });
+// sincrona
+import { writeFileSync } from 'fs';
+
+function saveJsonFile(jsonData) {
+  try {
+    const data = JSON.stringify(jsonData, null, 2);
+    writeFileSync('./data.json', data, 'utf8');
+  } catch (err) {
+    console.error('Error saving JSON file =>', err);
+  }
+}
+
+// asincrona
+import { promises as fs } from 'fs';
+
+async function saveJsonFile(jsonData) {
+  try {
+    const data = JSON.stringify(jsonData, null, 2);
+    await fs.writeFile("./data.json", data);
+  } catch (err) {
+    console.error("Error Saving JSON file => ", err);
+  }
 }
 ```
 
@@ -311,7 +375,20 @@ function checkUrlExists (urlchecked, cb) {
 ## ASYNC/AWAIT
 
 ```js
+// Ejemplo 1
+function sleep(sleepTime) {
+  return new Promise(function (resolve, reject) {
+    setTimeout(resolve, sleepTime);
+  });
+}
 
+async function go() {
+  console.log('Starting');
+  await sleep(1000);
+  console.log('Ending');
+}
+
+// Ejemplo 2
 async function doThings() {
   try {
     const exist = await existsRepo(url);
@@ -322,7 +399,7 @@ async function doThings() {
 }
 
 function existsRepo (urlchecked) {
-  return new Promise((resolve, reject) => {
+  return new Promise(function (resolve, reject) {
     lib.checkUrlExists(urlchecked, function (err, res) {
       if (err) {
         resolve(err);
@@ -333,128 +410,124 @@ function existsRepo (urlchecked) {
 }
 ```
 
+### paralelismo  
+
+```js
+// Asi tarda 1000ms
+async function series() {
+  console.log("series");
+  await wait(500);
+  await wait(500);
+  console.log("series done");
+}
+
+// Asi tarda 500ms
+async function parallel() {
+  console.log('parallel');
+  const wait1 = wait(500);
+  const wait2 = wait(500);
+  await wait1;
+  await wait2;
+  console.log('parallel done');
+}
+
+// Asi tarda 500ms
+async function parallel2() {
+  console.log("parallel2");
+  const [wait1, wait2] = await Promise.all([
+    wait(500),
+    wait(500),
+  ]);
+  console.log('parallel2 done');
+}
+
+series();
+parallel();
+parallel2();
+```
+
 ---
 
 ## MISC
 
 ### Linux Commands
 
+#### Sincronos  
+
 ```js
-const exec = require('child_process').exec;
+import { execSync } from "child_process";
 
-function linuxCommand (command, cb) {
-  exec(command, function (err, stdout, stderr) {
-    if (err) {
-      // console.log('Err => ', err)
-      cb(err, stderr);
-    }
-    if (stderr) {
-      cb(err, stderr);
-      return;
-    }
-    cb(err , stdout);
-  });
-}
+const createNewDir = `cd ${origin} && mkdir ${newDir}`;
 
-function execCommand(command) {
-  return new Promise((resolve, reject) => {
-    exec(command, function (err, stdout, stderr) {
-      if (err) {
-        console.error(`Error 2 => ${command} => `, err);
-        reject(err);
-      }
-      if (stderr) {
-        console.error(`Error 3 => ${command} => `, err);
-        reject(stderr);
-      }
-      resolve(stdout);//, stderr);
-    });
-  });
-}
-
-function doCommand(command) {
-  return new Promise((resolve, reject) => {
-    shCommand(command, function (err, res) {
-      if (err) {
-        console.error(`Error 1 => ${command} => `, err);
-        reject(res);
-      }
-      resolve(res);
-    });
-  });
-}
-function shCommand(command, cb) {
-  exec(command, function (err, stdout, stderr) {
-    if (err) {
-      console.error(`Error 2 => ${command} => `, err);
-      cb(err, stderr);
-    }
-    if (stderr) {
-      console.error(`Error 3 => ${command} => `, err);
-      cb(err, stderr);
-    }
-    cb(err, stdout);//, stderr);
-  });
+try {
+  const modes = ["dev", "production"];
+  const mode = modes[action];
+  if (mode === "dev") {
+    console.log(createNewDir);
+  }
+  if (mode === "production") {
+    execSync(createNewDir);
+  }
+} catch (err) {
+  console.error('Error =>', err);
 }
 ```
 
-### MongoDB Backups
+#### Asincronos  
 
 ```js
-// crontab -e
-// 0 */12 * * * node /var/www/path/to/backup/backup.js // every 12 hour
 
-// la primera vez ejecutarlo manualmente para evitar que pregunte por el 
-// fingerprint y se quede pillado
+import { exec } from 'child_process';
 
-require('dotenv').config();
-const exec = require('child_process').exec;
-mongoexport();
-
-function mongoexport () {
-  const user = process.env.DBUSER;
-  const password = process.env.PASS;
-  const dbname = process.env.DB_NAME;
-  const collection = [process.env.COLLECTION1, process.env.COLLECTION2];
-  for (let i = 0; i < collection.length; i++) {
-    const command = `mongoexport --db ${dbname} 
-    --collection ${collection[i]}
-    --out data/${collection[i]}.json -u '${user}' -p '${password}' 
-    --authenticationDatabase 'admin'`;
-    exec(command, function (err, stdout, stderr) {
-      if (err) {
-        console.log('Err => ', err);
-        return;
-      }
-      if (stderr) {
-        // console.log('StdErr => ', i /*stderr*/)
-        // return
-      }
-      // console.log('Stdout =>', i /* stdout*/)
-      if (i === collection.length - 1) {
-        scp();
-      }
-    });
-  }
-}
-
-function scp () {
-  const path = process.env.MYPATH; // path/to/file/with/password
-  // remote 'username@domain.com:/path/to/backup'
-  const remote = process.env.REMOTE; 
-  const command = `sshpass -f ${path} scp -r data ${remote}`;
+// callbacks
+function runCommandCB(command, cb) {
   exec(command, function (err, stdout, stderr) {
     if (err) {
-      console.log('Err => ', err);
+      console.error(`Error executing "${command}" =>`, err);
+      cb(err, stderr || stdout);
       return;
     }
     if (stderr) {
-      // console.log('StdErr => ', stderr)
-      // return
+      console.warn(`Warn executing "${command}" =>`, stderr);
+      cb(null, stderr);
+      return;
     }
-  // console.log('DONE =>', stdout)
+    cb(null, stdout);
   });
 }
+
+runCommandCB(command, function (err, output) {
+  if (err) {
+    console.log("Err => ", err);
+  } else {
+    console.log("Output => ", output);
+  }
+});
+
+// promises
+function runCommandPR(command) {
+  return new Promise(function (resolve, reject) {
+    exec(command, function (err, stdout, stderr) {
+      if (err) {
+        console.error(`Error executing "${command}" => `, err);
+        reject(err);
+      } else if (stderr) {
+        console.warn(`Warn executing "${command}" => `, stderr);
+        resolve(stdout);
+      } else {
+        resolve(stdout);
+      }
+    });
+  });
+}
+
+runCommandPR(command)
+  .then(function (output) {
+    console.log("Output => ", output);
+  })
+  .catch(function (err) {
+    console.log("Err => ", err);
+  });
 ```
 
 ### pm2 cluster 

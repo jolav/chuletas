@@ -51,7 +51,40 @@
   &quot;type&quot;: &quot;module&quot;
 }
 </code></pre>
-<p>o usar la extension mjs en lugar de js.</p>
+<p>o usar la extension mjs en lugar de js.  </p>
+<hr />
+<h2 id="fetch">FETCH</h2>
+<pre><code class="language-js">async function fetchData(c, data) {
+  const options = {
+    timeout: c.timeout,
+    host: c.host,
+    port: c.port,
+    path: c.api,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Accept-Charset': 'utf-8'
+    },
+    body: new URLSearchParams({
+      'key': c.API_KEY,
+      'data': JSON.stringify(data)
+    }),
+  };
+  const url = c.API_URL + c.API_ENDPOINT;
+  try {
+    const response = await fetch(url, options);
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      throw new Error(response.status + &quot; &quot; + response.statusText);
+    }
+  } catch (err) {
+    console.log('ERROR fetchData =&gt; ', err);
+  }
+}
+</code></pre>
+<hr />
 <h2 id="http-request">HTTP Request</h2>
 <h3 id="get">GET</h3>
 <pre><code class="language-javascript">function makeHttpsRequest (path, callback) {
@@ -197,27 +230,54 @@ function makeRequestAsync(options, parameters) {
 <hr />
 <h2 id="files">FILES</h2>
 <h3 id="read-json">read JSON</h3>
-<pre><code class="language-javascript">function loadJSONfile (filePath, callback) {
-  fs.readFile(filePath, 'utf8', (err, data) =&gt; {
-    if (err) {
-      console.log('ERROR READING JSON FILE =&gt; ', err);
-      throw err;
-    } else {
-      callback(JSON.parse(data));
-    }
-  });
+<pre><code class="language-javascript">// sincrona
+import { readFileSync } from 'fs';
+
+function loadJsonFile() {
+  try {
+    const data = readFileSync('./data.json', 'utf8');
+    return JSON.parse(data);
+  } catch (err) {
+    console.error('Error reading JSON file =&gt;', err);
+    return null;
+  }
+}
+
+// asincrona
+import { promises as fs } from 'fs';
+
+async function loadJsonFile() {
+  try {
+    const data = await fs.readFile('./data.json', 'utf8');
+    return JSON.parse(data);
+  } catch (err) {
+    console.error('Error reading JSON file =&gt;', err);
+  }
 }
 </code></pre>
 <h3 id="write-json">write JSON</h3>
-<pre><code class="language-javascript">function writeJSONtoFile (filePath, dataSet, callback) {
-  const json = JSON.stringify(dataSet);
-  fs.writeFile(filePath, json, 'utf8', (err) =&gt; {
-    if (err) {
-      console.log('ERROR WRITING JSON IN FILE =&gt; ', err);
-      throw err;
-    }
-    callback();
-  });
+<pre><code class="language-javascript">// sincrona
+import { writeFileSync } from 'fs';
+
+function saveJsonFile(jsonData) {
+  try {
+    const data = JSON.stringify(jsonData, null, 2);
+    writeFileSync('./data.json', data, 'utf8');
+  } catch (err) {
+    console.error('Error saving JSON file =&gt;', err);
+  }
+}
+
+// asincrona
+import { promises as fs } from 'fs';
+
+async function saveJsonFile(jsonData) {
+  try {
+    const data = JSON.stringify(jsonData, null, 2);
+    await fs.writeFile(&quot;./data.json&quot;, data);
+  } catch (err) {
+    console.error(&quot;Error Saving JSON file =&gt; &quot;, err);
+  }
 }
 </code></pre>
 <h3 id="get-file-from-url">Get file from url</h3>
@@ -311,7 +371,20 @@ function checkUrlExists (urlchecked, cb) {
 </code></pre>
 <hr />
 <h2 id="asyncawait">ASYNC/AWAIT</h2>
-<pre><code class="language-js">
+<pre><code class="language-js">// Ejemplo 1
+function sleep(sleepTime) {
+  return new Promise(function (resolve, reject) {
+    setTimeout(resolve, sleepTime);
+  });
+}
+
+async function go() {
+  console.log('Starting');
+  await sleep(1000);
+  console.log('Ending');
+}
+
+// Ejemplo 2
 async function doThings() {
   try {
     const exist = await existsRepo(url);
@@ -322,7 +395,7 @@ async function doThings() {
 }
 
 function existsRepo (urlchecked) {
-  return new Promise((resolve, reject) =&gt; {
+  return new Promise(function (resolve, reject) {
     lib.checkUrlExists(urlchecked, function (err, res) {
       if (err) {
         resolve(err);
@@ -332,121 +405,113 @@ function existsRepo (urlchecked) {
   });
 }
 </code></pre>
+<h3 id="paralelismo">paralelismo</h3>
+<pre><code class="language-js">// Asi tarda 1000ms
+async function series() {
+  console.log(&quot;series&quot;);
+  await wait(500);
+  await wait(500);
+  console.log(&quot;series done&quot;);
+}
+
+// Asi tarda 500ms
+async function parallel() {
+  console.log('parallel');
+  const wait1 = wait(500);
+  const wait2 = wait(500);
+  await wait1;
+  await wait2;
+  console.log('parallel done');
+}
+
+// Asi tarda 500ms
+async function parallel2() {
+  console.log(&quot;parallel2&quot;);
+  const [wait1, wait2] = await Promise.all([
+    wait(500),
+    wait(500),
+  ]);
+  console.log('parallel2 done');
+}
+
+series();
+parallel();
+parallel2();
+</code></pre>
 <hr />
 <h2 id="misc">MISC</h2>
 <h3 id="linux-commands">Linux Commands</h3>
-<pre><code class="language-js">const exec = require('child_process').exec;
+<h4 id="sincronos">Sincronos</h4>
+<pre><code class="language-js">import { execSync } from &quot;child_process&quot;;
 
-function linuxCommand (command, cb) {
-  exec(command, function (err, stdout, stderr) {
-    if (err) {
-      // console.log('Err =&gt; ', err)
-      cb(err, stderr);
-    }
-    if (stderr) {
-      cb(err, stderr);
-      return;
-    }
-    cb(err , stdout);
-  });
-}
+const createNewDir = `cd ${origin} &amp;&amp; mkdir ${newDir}`;
 
-function execCommand(command) {
-  return new Promise((resolve, reject) =&gt; {
-    exec(command, function (err, stdout, stderr) {
-      if (err) {
-        console.error(`Error 2 =&gt; ${command} =&gt; `, err);
-        reject(err);
-      }
-      if (stderr) {
-        console.error(`Error 3 =&gt; ${command} =&gt; `, err);
-        reject(stderr);
-      }
-      resolve(stdout);//, stderr);
-    });
-  });
-}
-
-function doCommand(command) {
-  return new Promise((resolve, reject) =&gt; {
-    shCommand(command, function (err, res) {
-      if (err) {
-        console.error(`Error 1 =&gt; ${command} =&gt; `, err);
-        reject(res);
-      }
-      resolve(res);
-    });
-  });
-}
-function shCommand(command, cb) {
-  exec(command, function (err, stdout, stderr) {
-    if (err) {
-      console.error(`Error 2 =&gt; ${command} =&gt; `, err);
-      cb(err, stderr);
-    }
-    if (stderr) {
-      console.error(`Error 3 =&gt; ${command} =&gt; `, err);
-      cb(err, stderr);
-    }
-    cb(err, stdout);//, stderr);
-  });
+try {
+  const modes = [&quot;dev&quot;, &quot;production&quot;];
+  const mode = modes[action];
+  if (mode === &quot;dev&quot;) {
+    console.log(createNewDir);
+  }
+  if (mode === &quot;production&quot;) {
+    execSync(createNewDir);
+  }
+} catch (err) {
+  console.error('Error =&gt;', err);
 }
 </code></pre>
-<h3 id="mongodb-backups">MongoDB Backups</h3>
-<pre><code class="language-js">// crontab -e
-// 0 */12 * * * node /var/www/path/to/backup/backup.js // every 12 hour
+<h4 id="asincronos">Asincronos</h4>
+<pre><code class="language-js">
+import { exec } from 'child_process';
 
-// la primera vez ejecutarlo manualmente para evitar que pregunte por el 
-// fingerprint y se quede pillado
-
-require('dotenv').config();
-const exec = require('child_process').exec;
-mongoexport();
-
-function mongoexport () {
-  const user = process.env.DBUSER;
-  const password = process.env.PASS;
-  const dbname = process.env.DB_NAME;
-  const collection = [process.env.COLLECTION1, process.env.COLLECTION2];
-  for (let i = 0; i &lt; collection.length; i++) {
-    const command = `mongoexport --db ${dbname} 
-    --collection ${collection[i]}
-    --out data/${collection[i]}.json -u '${user}' -p '${password}' 
-    --authenticationDatabase 'admin'`;
-    exec(command, function (err, stdout, stderr) {
-      if (err) {
-        console.log('Err =&gt; ', err);
-        return;
-      }
-      if (stderr) {
-        // console.log('StdErr =&gt; ', i /*stderr*/)
-        // return
-      }
-      // console.log('Stdout =&gt;', i /* stdout*/)
-      if (i === collection.length - 1) {
-        scp();
-      }
-    });
-  }
-}
-
-function scp () {
-  const path = process.env.MYPATH; // path/to/file/with/password
-  // remote 'username@domain.com:/path/to/backup'
-  const remote = process.env.REMOTE; 
-  const command = `sshpass -f ${path} scp -r data ${remote}`;
+// callbacks
+function runCommandCB(command, cb) {
   exec(command, function (err, stdout, stderr) {
     if (err) {
-      console.log('Err =&gt; ', err);
+      console.error(`Error executing &quot;${command}&quot; =&gt;`, err);
+      cb(err, stderr || stdout);
       return;
     }
     if (stderr) {
-      // console.log('StdErr =&gt; ', stderr)
-      // return
+      console.warn(`Warn executing &quot;${command}&quot; =&gt;`, stderr);
+      cb(null, stderr);
+      return;
     }
-  // console.log('DONE =&gt;', stdout)
+    cb(null, stdout);
   });
 }
+
+runCommandCB(command, function (err, output) {
+  if (err) {
+    console.log(&quot;Err =&gt; &quot;, err);
+  } else {
+    console.log(&quot;Output =&gt; &quot;, output);
+  }
+});
+
+// promises
+function runCommandPR(command) {
+  return new Promise(function (resolve, reject) {
+    exec(command, function (err, stdout, stderr) {
+      if (err) {
+        console.error(`Error executing &quot;${command}&quot; =&gt; `, err);
+        reject(err);
+      } else if (stderr) {
+        console.warn(`Warn executing &quot;${command}&quot; =&gt; `, stderr);
+        resolve(stdout);
+      } else {
+        resolve(stdout);
+      }
+    });
+  });
+}
+
+runCommandPR(command)
+  .then(function (output) {
+    console.log(&quot;Output =&gt; &quot;, output);
+  })
+  .catch(function (err) {
+    console.log(&quot;Err =&gt; &quot;, err);
+  });
 </code></pre>
 <h3 id="pm2-cluster">pm2 cluster</h3>
 <ul>
@@ -622,6 +687,11 @@ if (process.env &amp;&amp; process.env.pm_id) {
   
 </ul>
   
+  <li><a href="#fetch">FETCH</a></li>
+  <ul>
+  
+</ul>
+  
   <li><a href="#http-request">HTTP Request</a></li>
   <ul>
   
@@ -685,6 +755,11 @@ if (process.env &amp;&amp; process.env.pm_id) {
   <li><a href="#asyncawait">ASYNC/AWAIT</a></li>
   <ul>
   
+  <li><a href="#paralelismo">paralelismo</a></li>
+  <ul>
+  
+</ul>
+  
 </ul>
   
   <li><a href="#misc">MISC</a></li>
@@ -693,10 +768,15 @@ if (process.env &amp;&amp; process.env.pm_id) {
   <li><a href="#linux-commands">Linux Commands</a></li>
   <ul>
   
+  <li><a href="#sincronos">Sincronos</a></li>
+  <ul>
+  
 </ul>
   
-  <li><a href="#mongodb-backups">MongoDB Backups</a></li>
+  <li><a href="#asincronos">Asincronos</a></li>
   <ul>
+  
+</ul>
   
 </ul>
   
@@ -880,6 +960,11 @@ if (process.env &amp;&amp; process.env.pm_id) {
   
 </ul>
   
+  <li><a href="#fetch">FETCH</a></li>
+  <ul>
+  
+</ul>
+  
   <li><a href="#http-request">HTTP Request</a></li>
   <ul>
   
@@ -943,6 +1028,11 @@ if (process.env &amp;&amp; process.env.pm_id) {
   <li><a href="#asyncawait">ASYNC/AWAIT</a></li>
   <ul>
   
+  <li><a href="#paralelismo">paralelismo</a></li>
+  <ul>
+  
+</ul>
+  
 </ul>
   
   <li><a href="#misc">MISC</a></li>
@@ -951,10 +1041,15 @@ if (process.env &amp;&amp; process.env.pm_id) {
   <li><a href="#linux-commands">Linux Commands</a></li>
   <ul>
   
+  <li><a href="#sincronos">Sincronos</a></li>
+  <ul>
+  
 </ul>
   
-  <li><a href="#mongodb-backups">MongoDB Backups</a></li>
+  <li><a href="#asincronos">Asincronos</a></li>
   <ul>
+  
+</ul>
   
 </ul>
   
@@ -992,7 +1087,7 @@ if (process.env &amp;&amp; process.env.pm_id) {
 
   <!--
   MkDocs version      : 1.4.2
-  Docs Build Date UTC : 2024-09-10 14:57:07.221885+00:00
+  Docs Build Date UTC : 2024-09-11 13:04:31.482542+00:00
   -->
 </body>
 
