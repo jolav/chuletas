@@ -101,6 +101,22 @@ const packageJSON = JSON.parse(readFileSync(&quot;./package.json&quot;));
 </code></pre>
 <hr />
 <h2 id="async-await">ASYNC-AWAIT</h2>
+<h3 id="relacion-con-promises">Relacion con Promises</h3>
+<pre><code class="language-js">async function f(x) { /* body */ }
+
+// es equivalente a esto con promises ....
+
+function f(x) {
+  return new Promise(function(resolve, reject) {
+    try {
+      resolve((function(x) { /* body */ })(x));
+    }
+      catch(err) {
+      reject(err);
+    }
+  });
+}
+</code></pre>
 <h3 id="patrones">Patrones</h3>
 <p>Funcion asincrona anonima</p>
 <pre><code class="language-js">let main = (async function() {
@@ -327,6 +343,11 @@ catch(e) {
   <li><a href="#async-await">ASYNC-AWAIT</a></li>
   <ul>
   
+  <li><a href="#relacion-con-promises">Relacion con Promises</a></li>
+  <ul>
+  
+</ul>
+  
   <li><a href="#patrones">Patrones</a></li>
   <ul>
   
@@ -540,6 +561,11 @@ catch(e) {
   <li><a href="#async-await">ASYNC-AWAIT</a></li>
   <ul>
   
+  <li><a href="#relacion-con-promises">Relacion con Promises</a></li>
+  <ul>
+  
+</ul>
+  
   <li><a href="#patrones">Patrones</a></li>
   <ul>
   
@@ -579,7 +605,7 @@ catch(e) {
 
   <!--
   MkDocs version      : 1.4.2
-  Docs Build Date UTC : 2024-09-11 13:04:31.487114+00:00
+  Docs Build Date UTC : 2024-09-15 20:03:18.059399+00:00
   -->
 </body>
 

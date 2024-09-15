@@ -83,7 +83,26 @@ const packageJSON = JSON.parse(readFileSync("./package.json"));
 
 ---
 
-## ASYNC-AWAIT
+## ASYNC-AWAIT  
+
+### Relacion con Promises
+
+```js
+async function f(x) { /* body */ }
+
+// es equivalente a esto con promises ....
+
+function f(x) {
+  return new Promise(function(resolve, reject) {
+    try {
+      resolve((function(x) { /* body */ })(x));
+    }
+      catch(err) {
+      reject(err);
+    }
+  });
+}
+```
 
 ### Patrones
 
