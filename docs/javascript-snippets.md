@@ -124,17 +124,38 @@ function objectIsEmpty(obj) {
 ```js
 async function fetchData(c, data) {
   const options = {
-    timeout: c.timeout,
-    host: c.host,
-    port: c.port,
-    path: c.api,
+    method: 'GET',
+    signal: AbortSignal.timeout(5000),
+    headers: {
+      'Authorization': `Bearer ${"token"}`,
+      'Accept-Charset': 'utf-8',
+    },
+  };
+  const url = c.API_URL + c.API_ENDPOINT;
+  try {
+    const response = await fetch(url, options);
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      throw new Error(response.status + " " + response.statusText);
+    }
+  } catch (err) {
+    console.log('ERROR fetchData => ', err);
+  }
+}
+
+async function fetchData(c, data) {
+  const options = {
     method: 'POST',
+    signal: AbortSignal.timeout(5000),
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': `Bearer ${"token"}`,
       'Accept-Charset': 'utf-8'
     },
     body: new URLSearchParams({
-      'key': c.API_KEY,
+      'key': c.API_KEY, //o el token en el header
       'data': JSON.stringify(data)
     }),
   };
@@ -151,6 +172,10 @@ async function fetchData(c, data) {
     console.log('ERROR fetchData => ', err);
   }
 }
+
+//  Si la API espera JSON, 
+// cambiar el "Content-Type" : "application/json"
+//  y convertir body a JSON con JSON.stringify()
 ```
 
 ---

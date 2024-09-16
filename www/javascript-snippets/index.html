@@ -129,17 +129,38 @@ arr = arr.filter(v=&gt;v!='');
 <h2 id="fetch">FETCH</h2>
 <pre><code class="language-js">async function fetchData(c, data) {
   const options = {
-    timeout: c.timeout,
-    host: c.host,
-    port: c.port,
-    path: c.api,
+    method: 'GET',
+    signal: AbortSignal.timeout(5000),
+    headers: {
+      'Authorization': `Bearer ${&quot;token&quot;}`,
+      'Accept-Charset': 'utf-8',
+    },
+  };
+  const url = c.API_URL + c.API_ENDPOINT;
+  try {
+    const response = await fetch(url, options);
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      throw new Error(response.status + &quot; &quot; + response.statusText);
+    }
+  } catch (err) {
+    console.log('ERROR fetchData =&gt; ', err);
+  }
+}
+
+async function fetchData(c, data) {
+  const options = {
     method: 'POST',
+    signal: AbortSignal.timeout(5000),
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': `Bearer ${&quot;token&quot;}`,
       'Accept-Charset': 'utf-8'
     },
     body: new URLSearchParams({
-      'key': c.API_KEY,
+      'key': c.API_KEY, //o el token en el header
       'data': JSON.stringify(data)
     }),
   };
@@ -156,6 +177,10 @@ arr = arr.filter(v=&gt;v!='');
     console.log('ERROR fetchData =&gt; ', err);
   }
 }
+
+//  Si la API espera JSON, 
+// cambiar el &quot;Content-Type&quot; : &quot;application/json&quot;
+//  y convertir body a JSON con JSON.stringify()
 </code></pre>
 <hr />
 <h2 id="ajax-requests">AJAX REQUESTS</h2>
@@ -1045,7 +1070,7 @@ image.src = linkToImage;
 
   <!--
   MkDocs version      : 1.4.2
-  Docs Build Date UTC : 2024-09-15 20:03:18.039122+00:00
+  Docs Build Date UTC : 2024-09-16 15:55:18.429614+00:00
   -->
 </body>
 
