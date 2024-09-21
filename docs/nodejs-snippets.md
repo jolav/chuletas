@@ -504,30 +504,43 @@ runCommandCB(command, function (err, output) {
   }
 });
 
-// promises
-function runCommandPR(command) {
+// promises 
+function runCommand(command) {
   return new Promise(function (resolve, reject) {
     exec(command, function (err, stdout, stderr) {
       if (err) {
-        console.error(`Error executing "${command}" => `, err);
-        reject(err);
-      } else if (stderr) {
-        console.warn(`Warn executing "${command}" => `, stderr);
-        resolve(stdout);
-      } else {
-        resolve(stdout);
+        console.error(`Error executing "${command}":`, err);
+        reject(new Error(`Execution failed: ${stderr || stdout}`));
+        return;
       }
+      if (stderr) {
+        console.warn(`Warning executing "${command}":`, stderr);
+        resolve(stderr);
+        return;
+      }
+      resolve(stdout);
     });
   });
 }
 
-runCommandPR(command)
+// usar con promises
+runCommand(command)
   .then(function (output) {
     console.log("Output => ", output);
   })
   .catch(function (err) {
     console.log("Err => ", err);
   });
+
+// usar con async/await
+async function doCommand(command) {
+  try {
+    const output = await runCommand(command);
+    console.log("Output => ", output);
+  } catch (err) {
+    console.log("Err => ", err.message);
+  }
+}
 ```
 
 ### pm2 cluster 

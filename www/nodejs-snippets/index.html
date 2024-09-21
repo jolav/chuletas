@@ -488,30 +488,43 @@ runCommandCB(command, function (err, output) {
   }
 });
 
-// promises
-function runCommandPR(command) {
+// promises 
+function runCommand(command) {
   return new Promise(function (resolve, reject) {
     exec(command, function (err, stdout, stderr) {
       if (err) {
-        console.error(`Error executing &quot;${command}&quot; =&gt; `, err);
-        reject(err);
-      } else if (stderr) {
-        console.warn(`Warn executing &quot;${command}&quot; =&gt; `, stderr);
-        resolve(stdout);
-      } else {
-        resolve(stdout);
+        console.error(`Error executing &quot;${command}&quot;:`, err);
+        reject(new Error(`Execution failed: ${stderr || stdout}`));
+        return;
       }
+      if (stderr) {
+        console.warn(`Warning executing &quot;${command}&quot;:`, stderr);
+        resolve(stderr);
+        return;
+      }
+      resolve(stdout);
     });
   });
 }
 
-runCommandPR(command)
+// usar con promises
+runCommand(command)
   .then(function (output) {
     console.log(&quot;Output =&gt; &quot;, output);
   })
   .catch(function (err) {
     console.log(&quot;Err =&gt; &quot;, err);
   });
+
+// usar con async/await
+async function doCommand(command) {
+  try {
+    const output = await runCommand(command);
+    console.log(&quot;Output =&gt; &quot;, output);
+  } catch (err) {
+    console.log(&quot;Err =&gt; &quot;, err.message);
+  }
+}
 </code></pre>
 <h3 id="pm2-cluster">pm2 cluster</h3>
 <ul>
@@ -1087,7 +1100,7 @@ if (process.env &amp;&amp; process.env.pm_id) {
 
   <!--
   MkDocs version      : 1.4.2
-  Docs Build Date UTC : 2024-09-16 15:55:18.470559+00:00
+  Docs Build Date UTC : 2024-09-21 09:26:36.286105+00:00
   -->
 </body>
 
