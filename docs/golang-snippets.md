@@ -1503,6 +1503,135 @@ luego podemos hacer ./binary -v
 */
 ```
 
+### Args + Flags + test
+
+```makefile
+#go build -ldflags="-X 'main.when=$(date -u +%F_%T)'"
+DATE=$(shell date -u +%F_%T)
+LDFLAGS=-ldflags "-X main.when=$(DATE)"
+
+all: build
+
+build:
+	go build $(LDFLAGS) 
+
+clean:
+	rm binary
+```
+
+```go 
+// main.go
+var version = "0.0.1"
+var when = ""
+
+func main() {
+	tasks := checkFlags()
+
+	fmt.Println("USER => ", getUserName())
+	fmt.Println("TASKS=", tasks)
+}
+
+func checkFlags() []string {
+	if len(os.Args) > 1 && os.Args[1] == "-v" {
+		versionFlag := flag.Bool("v", false, "Show Version")
+		flag.Parse()
+		if *versionFlag {
+			fmt.Printf("Version ->\t%s\n", version)
+			fmt.Printf("Date    ->\t%s\n", when)
+			os.Exit(0)
+		}
+	}
+	var result []string
+	validFlags := []string{"vnstat", "www", "cloud", "mysql", "rsync"}
+
+	for _, arg := range os.Args[1:] {
+		if strings.HasPrefix(arg, "-") {
+			flag := strings.TrimPrefix(arg, "-")
+			for _, validFlag := range validFlags {
+				if flag == validFlag {
+					if !includes(result, validFlag) {
+						result = append(result, validFlag)
+					}
+				}
+			}
+		}
+	}
+	return result
+}
+
+func getUserName() string {
+	currentUser, err := user.Current()
+	if err != nil {
+		fmt.Println("Error:", err)
+		os.Exit(0)
+	}
+	return currentUser.Username
+}
+
+func includes(slice []string, element string) bool {
+	for _, v := range slice {
+		if v == element {
+			return true
+		}
+	}
+	return false
+}
+
+// main_test.go
+func TestCheckFlags(t *testing.T) {
+	tests := []struct {
+		name     string
+		args     []string
+		expected []string
+	}{
+		{"Test vnstat flag", []string{"cmd", "-vnstat"},
+			[]string{"vnstat"}},
+		{"Test www flag", []string{"cmd", "-www"},
+			[]string{"www"}},
+		{"Test cloud flag", []string{"cmd", "-cloud"},
+			[]string{"cloud"}},
+		{"Test mysql flag", []string{"cmd", "-mysql"},
+			[]string{"mysql"}},
+		{"Test rsync flag", []string{"cmd", "-rsync"},
+			[]string{"rsync"}},
+		{"Test vnstat and mysql flags",
+		  []string{"cmd", "-vnstat", "-mysql"},
+			[]string{"vnstat", "mysql"}},
+		{"Test no flags", []string{"cmd"}, []string{}},
+		{"Test repeated flags", []string{"cmd", "-www", "-www"},
+			[]string{"www"}},
+		{"Test unknown flag", []string{"cmd", "-unknown"},
+			[]string{}},
+		{"Test multiple unknown flags", 
+		[]string{"cmd", "-unknown", "-anotherunknown"}, 
+		[]string{}},
+		{"Test multiple unknown and known flags",
+		  []string{"cmd", "-www", "-unknown", "-rsync", "-anotherunk"},
+			[]string{"www", "rsync"}},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			os.Args = tt.args
+			flag.CommandLine = flag.NewFlagSet(os.Args[0], flag.ExitOnError)
+			result := checkFlags()
+			if len(result) != len(tt.expected) {
+				t.Errorf("expected length %d, got %d",
+				 len(tt.expected), len(result))
+			}
+			for i, v := range tt.expected {
+				if result[i] != v {
+					t.Errorf("expected %s at index %d, got %s", 
+					v, i, result[i])
+				}
+			}
+		})
+	}
+}
+
+
+```
+
 ---
 
 ## ORGANIZACION DE CODIGO

@@ -298,7 +298,33 @@ func init() {
 }
 </code></pre>
 <h3 id="update">Update</h3>
-<pre><code class="language-go">
+<pre><code class="language-go">func (loginDB *DB) UpdateAccount(u *User) error {
+    query := `
+            UPDATE users
+            SET passHashed = ?, email = ?, verified = ?, 
+            lastSeen = ?, online = ?
+            WHERE nickID = ?
+    `
+    stmt, err := loginDB.Prepare(query)
+    if err != nil {
+        log.Printf(&quot;Error preparando actualización: %s&quot;, err)
+        return err
+    }
+    defer stmt.Close()
+    _, err = stmt.Exec(
+        u.PassHashed,
+        u.Email,
+        u.Verified,
+        u.LastSeen,
+        u.Online,
+        u.NickID,
+    )
+    if err != nil {
+        log.Printf(&quot;Error ejecutando actualización: %s&quot;, err)
+        return err
+    }
+    return nil
+}
 </code></pre>
 <h3 id="delete">Delete</h3>
 <pre><code class="language-go">func (loginDB *DB) DeleteSession(usernameID string) error {
@@ -738,7 +764,7 @@ func init() {
 
   <!--
   MkDocs version      : 1.4.2
-  Docs Build Date UTC : 2024-09-21 09:26:36.202852+00:00
+  Docs Build Date UTC : 2024-09-26 16:48:53.298759+00:00
   -->
 </body>
 

@@ -280,7 +280,33 @@ func (loginDB *DB) SaveSession(s *Session) error {
 ### Update
 
 ```go
-
+func (loginDB *DB) UpdateAccount(u *User) error {
+	query := `
+			UPDATE users
+			SET passHashed = ?, email = ?, verified = ?, 
+			lastSeen = ?, online = ?
+			WHERE nickID = ?
+	`
+	stmt, err := loginDB.Prepare(query)
+	if err != nil {
+		log.Printf("Error preparando actualización: %s", err)
+		return err
+	}
+	defer stmt.Close()
+	_, err = stmt.Exec(
+		u.PassHashed,
+		u.Email,
+		u.Verified,
+		u.LastSeen,
+		u.Online,
+		u.NickID,
+	)
+	if err != nil {
+		log.Printf("Error ejecutando actualización: %s", err)
+		return err
+	}
+	return nil
+}
 ```
 
 ### Delete

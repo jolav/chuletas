@@ -1344,6 +1344,130 @@ go build  -ldflags=&quot;-X 'main.when=$(date -u +%F_%T)'&quot;
 luego podemos hacer ./binary -v
 */
 </code></pre>
+<h3 id="args-flags-test">Args + Flags + test</h3>
+<pre><code class="language-makefile">#go build -ldflags=&quot;-X 'main.when=$(date -u +%F_%T)'&quot;
+DATE=$(shell date -u +%F_%T)
+LDFLAGS=-ldflags &quot;-X main.when=$(DATE)&quot;
+
+all: build
+
+build:
+    go build $(LDFLAGS) 
+
+clean:
+    rm binary
+</code></pre>
+<pre><code class="language-go">// main.go
+var version = &quot;0.0.1&quot;
+var when = &quot;&quot;
+
+func main() {
+    tasks := checkFlags()
+
+    fmt.Println(&quot;USER =&gt; &quot;, getUserName())
+    fmt.Println(&quot;TASKS=&quot;, tasks)
+}
+
+func checkFlags() []string {
+    if len(os.Args) &gt; 1 &amp;&amp; os.Args[1] == &quot;-v&quot; {
+        versionFlag := flag.Bool(&quot;v&quot;, false, &quot;Show Version&quot;)
+        flag.Parse()
+        if *versionFlag {
+            fmt.Printf(&quot;Version -&gt;\t%s\n&quot;, version)
+            fmt.Printf(&quot;Date    -&gt;\t%s\n&quot;, when)
+            os.Exit(0)
+        }
+    }
+    var result []string
+    validFlags := []string{&quot;vnstat&quot;, &quot;www&quot;, &quot;cloud&quot;, &quot;mysql&quot;, &quot;rsync&quot;}
+
+    for _, arg := range os.Args[1:] {
+        if strings.HasPrefix(arg, &quot;-&quot;) {
+            flag := strings.TrimPrefix(arg, &quot;-&quot;)
+            for _, validFlag := range validFlags {
+                if flag == validFlag {
+                    if !includes(result, validFlag) {
+                        result = append(result, validFlag)
+                    }
+                }
+            }
+        }
+    }
+    return result
+}
+
+func getUserName() string {
+    currentUser, err := user.Current()
+    if err != nil {
+        fmt.Println(&quot;Error:&quot;, err)
+        os.Exit(0)
+    }
+    return currentUser.Username
+}
+
+func includes(slice []string, element string) bool {
+    for _, v := range slice {
+        if v == element {
+            return true
+        }
+    }
+    return false
+}
+
+// main_test.go
+func TestCheckFlags(t *testing.T) {
+    tests := []struct {
+        name     string
+        args     []string
+        expected []string
+    }{
+        {&quot;Test vnstat flag&quot;, []string{&quot;cmd&quot;, &quot;-vnstat&quot;},
+            []string{&quot;vnstat&quot;}},
+        {&quot;Test www flag&quot;, []string{&quot;cmd&quot;, &quot;-www&quot;},
+            []string{&quot;www&quot;}},
+        {&quot;Test cloud flag&quot;, []string{&quot;cmd&quot;, &quot;-cloud&quot;},
+            []string{&quot;cloud&quot;}},
+        {&quot;Test mysql flag&quot;, []string{&quot;cmd&quot;, &quot;-mysql&quot;},
+            []string{&quot;mysql&quot;}},
+        {&quot;Test rsync flag&quot;, []string{&quot;cmd&quot;, &quot;-rsync&quot;},
+            []string{&quot;rsync&quot;}},
+        {&quot;Test vnstat and mysql flags&quot;,
+          []string{&quot;cmd&quot;, &quot;-vnstat&quot;, &quot;-mysql&quot;},
+            []string{&quot;vnstat&quot;, &quot;mysql&quot;}},
+        {&quot;Test no flags&quot;, []string{&quot;cmd&quot;}, []string{}},
+        {&quot;Test repeated flags&quot;, []string{&quot;cmd&quot;, &quot;-www&quot;, &quot;-www&quot;},
+            []string{&quot;www&quot;}},
+        {&quot;Test unknown flag&quot;, []string{&quot;cmd&quot;, &quot;-unknown&quot;},
+            []string{}},
+        {&quot;Test multiple unknown flags&quot;, 
+        []string{&quot;cmd&quot;, &quot;-unknown&quot;, &quot;-anotherunknown&quot;}, 
+        []string{}},
+        {&quot;Test multiple unknown and known flags&quot;,
+          []string{&quot;cmd&quot;, &quot;-www&quot;, &quot;-unknown&quot;, &quot;-rsync&quot;, &quot;-anotherunk&quot;},
+            []string{&quot;www&quot;, &quot;rsync&quot;}},
+    }
+
+    for _, tt := range tests {
+        t.Run(tt.name, func(t *testing.T) {
+            os.Args = tt.args
+            flag.CommandLine = flag.NewFlagSet(os.Args[0], flag.ExitOnError)
+            result := checkFlags()
+            if len(result) != len(tt.expected) {
+                t.Errorf(&quot;expected length %d, got %d&quot;,
+                 len(tt.expected), len(result))
+            }
+            for i, v := range tt.expected {
+                if result[i] != v {
+                    t.Errorf(&quot;expected %s at index %d, got %s&quot;, 
+                    v, i, result[i])
+                }
+            }
+        })
+    }
+}
+
+
+</code></pre>
 <hr />
 <h2 id="organizacion-de-codigo">ORGANIZACION DE CODIGO</h2>
 <h3 id="compartir-structs-entre-paquetes">Compartir structs entre paquetes</h3>
@@ -1922,6 +2046,11 @@ func NewPlaceHolder(name string, date string) PlaceHolder {
   
 </ul>
   
+  <li><a href="#args-flags-test">Args + Flags + test</a></li>
+  <ul>
+  
+</ul>
+  
 </ul>
   
   <li><a href="#organizacion-de-codigo">ORGANIZACION DE CODIGO</a></li>
@@ -2425,6 +2554,11 @@ func NewPlaceHolder(name string, date string) PlaceHolder {
   
 </ul>
   
+  <li><a href="#args-flags-test">Args + Flags + test</a></li>
+  <ul>
+  
+</ul>
+  
 </ul>
   
   <li><a href="#organizacion-de-codigo">ORGANIZACION DE CODIGO</a></li>
@@ -2464,7 +2598,7 @@ func NewPlaceHolder(name string, date string) PlaceHolder {
 
   <!--
   MkDocs version      : 1.4.2
-  Docs Build Date UTC : 2024-09-21 09:26:36.210364+00:00
+  Docs Build Date UTC : 2024-09-26 16:48:53.307977+00:00
   -->
 </body>
 
