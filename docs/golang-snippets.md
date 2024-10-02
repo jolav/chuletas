@@ -4,125 +4,99 @@
 
 ## SEND/RECEIVE DATA
 
-### SendJSONToClient   
+### SendResponse   
 
 ```go
-
-import (
-	"encoding/json"
-	"log"
-	"net/http"
-)
-
-// SendJSONToClient ...
-func SendJSONToClient(w http.ResponseWriter, d interface{}) {
-	w.Header().Set("Content-Type", "application/json")
-	var dataJSON = []byte(`{}`)
-	dataJSON, err := json.MarshalIndent(d, "", " ")
-	if err != nil {
-		log.Printf("ERROR Marshaling %s\n", err)
-		w.Write([]byte(`{}`))
-	}
-	w.Write(dataJSON)
-}
-```
-
-### SendXMLToClient   
-
-```go
-
-import (
-	"encoding/xml"
-	"log"
-	"net/http"
-)
-
-// SendXMLToClient ...
-func SendXMLToClient(w http.ResponseWriter, d interface{}) {
-	w.Header().Set("Content-Type", "application/xml")
-	var dataXML = []byte(`<output></output>`)
-	dataXML, err := xml.Marshal(&d)
-	if err != nil {
-		log.Printf("ERROR Parsing into XML %s\n", err)
-		w.Write([]byte(`{}`))
-	}
-	w.Write(dataXML)
-}
-```
-
-### SendErrorToClient
-
-```go
-import (
-	"encoding/json"
-	"log"
-	"net/http"
-)
-
-// SendErrorToClient ...
-func SendErrorToClient(w http.ResponseWriter, d interface{}) {
-	w.WriteHeader(http.StatusBadRequest)
-	w.Header().Set("Content-Type", "application/json")
-	var dataJSON = []byte(`{}`)
-	dataJSON, err := json.MarshalIndent(d, "", " ")
-	if err != nil {
-		log.Printf("ERROR Marshaling %s\n", err)
-		w.Write([]byte(`{}`))
-	}
-	w.Write(dataJSON)
-}
-```
-
-### DoGetRequest
-
-```go
-import (
-	"encoding/json"
-	"io/ioutil"
-	"log"
-	"net/http"
-	"time"
-)
-
-// DoGetRequest ...
-func DoGetRequest(w http.ResponseWriter, url string, d interface{}) {
-	var netClient = &http.Client{
-		Timeout: time.Second * 10,
-	}
-	resp, err := netClient.Get(url)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	if resp.StatusCode != 200 {
-		log.Fatal(err)
+// SendResponse...
+func SendResponse(w http.ResponseWriter, d interface{}, s int) {
+	w.WriteHeader(s)
+	if d == nil {
 		return
 	}
+	w.Header().Set("Content-Type", "application/json")
+	dataJSON, err := json.MarshalIndent(d, "", " ")
+	if err != nil {
+		log.Printf("ERROR Marshaling %v\n", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	_, err = w.Write(dataJSON)
+	if err != nil {
+		log.Printf("ERROR writing JSON response: %v\n", err)
+	}
+}
 
+// SendtResponseXML ...
+func SendResponseXML(w http.ResponseWriter, d interface{}, s int) {
+	w.WriteHeader(s)
+	if d == nil {
+		return
+	}
+	w.Header().Set("Content-Type", "application/xml")
+	dataXML, err := xml.MarshalIndent(d, "", "  ")
+	if err != nil {
+		log.Printf("ERROR Marshaling XML: %v\n", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	_, err = w.Write(dataXML)
+	if err != nil {
+		log.Printf("ERROR writing XML response: %v\n", err)
+	}
+}
+```
+
+### Fetch GET
+
+```go
+// FetchGET ...
+func FetchGET(url string, d interface{}) error {
+	client := &http.Client{
+		Timeout: 10 * time.Second,
+	}
+	// with headers
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		log.Printf("ERROR: creating request %s => %v", url, err)
+		return err
+	}
+	req.Header.Set("Authorization", "Bearer ACCESS_TOKEN")
+	req.Header.Set("Accept", "application/json")
+	resp, err := client.Do(req) 
+	if err != nil {
+		log.Printf("ERROR: Request %s => %v", url, err)
+		return err
+	}
+
+	// without Headers
+	resp, err := client.Get(url)
+	if err != nil {
+		log.Printf("ERROR: Request %s => %v", url, err)
+		return err
+	}
+	// common
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatal(err)
+
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		err := errors.New("HTTP status:" + http.StatusText(resp.StatusCode))
+		log.Printf("ERROR: %v", err)
+		return err
 	}
-	// body is a string, for use we must Unmarshal over a struct
-	err = json.Unmarshal(body, &d)
+
+	decoder := json.NewDecoder(resp.Body)
+	err = decoder.Decode(&d)
 	if err != nil {
-		log.Fatalln(err)
+		log.Printf("ERROR unnmarshalling => %v", err)
+		return err
 	}
+
+	return nil
 }
 ```
 
 ### DoGetConcurrentRequest
 
 ```go
-import (
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
-	"log"
-	"net/http"
-)
-
 func fillDefaultStocks(links []string) {
 	ch := make(chan []byte)
 	for _, link := range links {
@@ -159,48 +133,110 @@ func doGetConcurrentRequest(url string, ch chan<- []byte) {
 }
 ```
 
-### DoPostRequest
+### fetchPOST
 
 ```go
-func sendRequest(data []byte, a app) {
-	server, _ := os.Hostname()
-	server = strings.ToLower(server)
-	contentType := "application/x-www-form-urlencoded" //; param=value"
-	host := "https://" + a.Conf.Host + a.Conf.PathToAPI
+// FetchPOST ...
+func FetchPOST(url string, d interface{}) error {
+	client := &http.Client{
+		Timeout: 10 * time.Second,
+	}
 
-	var client = &http.Client{
-		Timeout: time.Second * 3,
+	jsonData, err := json.Marshal(d)
+	if err != nil {
+		log.Printf("ERROR: Failed to marshal request body => %v", err)
+		return err
 	}
-	params := url.Values{
-		//"server": {server},
-		"test": {a.Conf.Valid},
-		"data": {string(data)},
+
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
+	if err != nil {
+		log.Printf("ERROR: Failed to create request for %s => %v", url, err)
+		return err
 	}
-	params.Add("server", server)
+
+	req.Header.Set("Authorization", "Bearer ACCESS_TOKEN")
+	req.Header.Set("Accept", "application/json")
+	req.Header.Set("Content-Type", "application/json")
+
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Printf("ERROR: Request %s => %v", url, err)
+		return err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		err := errors.New("HTTP status: " + http.StatusText(resp.StatusCode))
+		log.Printf("ERROR: %v", err)
+		return err
+	}
+
+	decoder := json.NewDecoder(resp.Body)
+	err = decoder.Decode(&d)
+	if err != nil {
+		log.Printf("ERROR unmarshalling => %v", err)
+		return err
+	}
+
+	return nil
+}
+
+```
+
+### fetchPOST with url params
+
+```go
+import (
+	url2 "net/url"
+)
+
+// FetchPOSTparams ...
+func FetchPOSTparams(url string, d map[string]string) error {
+	client := &http.Client{
+		Timeout: 10 * time.Second,
+	}
+
+	params := url2.Values{}
+	for key, value := range d {
+		params.Add(key, value)
+	}
+	/*params = url2.Values{
+		"test": "myTest",
+		"data": "myData",
+	}*/
 
 	query := bytes.NewBufferString(params.Encode())
-	resp, err := http.NewRequest("POST", host, query)
-	resp.Header.Add("Content-Type", contentType)
-	resp.Header.Add("Accept-Charset", "utf-8")
+
+	req, err := http.NewRequest("POST", url, query)
 	if err != nil {
-		log.Fatal("Error preparing POST request => ", err)
+		log.Printf("ERROR: Failed to create request for %s => %v", url, err)
+		return err
 	}
 
-	r, err := client.Do(resp)
+	req.Header.Set("Authorization", "Bearer YOUR_ACCESS_TOKEN")
+	req.Header.Set("Accept-Charset", "utf-8")
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+
+	resp, err := client.Do(req)
 	if err != nil {
-		log.Fatal("Error sending POST request => ", err)
+		log.Printf("ERROR: Request %s => %v", url, err)
+		return err
 	}
-	if r.StatusCode != 200 {
-		log.Fatal("Error received from server => ", r.Status, " ", err)
+	defer resp.Body.Close()
+
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		err := errors.New("HTTP status: " + http.StatusText(resp.StatusCode))
+		log.Printf("ERROR: %v", err)
+		return err
 	}
+
+	return nil
 }
 ```
 
 ### GetInterfacesTypes 
 
 ```go
-import "fmt"
-
 // GetInterfacesTypes ...
 func GetInterfacesTypes(f interface{}) {
 	switch vf := f.(type) {
@@ -246,29 +282,10 @@ func GetInterfacesTypes(f interface{}) {
 ### IsJSON
 
 ```go
-import "encoding/json"
 // IsJSON ...
-
 func IsJSON(str string) bool {
 	var js json.RawMessage
 	return json.Unmarshal([]byte(str), &js) == nil
-}
-```
-
----
-
-## ERRORCHECK
-
-### Check
-
-```go
-import "log"
-
-// Check ...
-func Check(err error) {
-	if err != nil {
-		log.Fatal(err)
-	}
 }
 ```
 
@@ -279,192 +296,156 @@ func Check(err error) {
 ### ReadFile 
 
 ```go
-import (
-	"log"
-	"os"
-)
-
 // ReadFile ...
-func ReadFile(filePath string) string {
-	file, err := os.Open(filePath)
-	defer file.Close()
-	stat, err := file.Stat()
+func ReadFile(filePath string) (string, error) {
+	data, err := ioutil.ReadFile(filePath)
 	if err != nil {
-		log.Fatal(err)
+		return "", err
 	}
-	bs := make([]byte, stat.Size())
-	_, err = file.Read(bs)
-	if err != nil {
-		log.Fatal(err)
-	}
-	data := string(bs)
-	return data
+	return string(data), nil
 }
-```
-
-### ReadFileLineByLine  
-
-```go
-import (
-	"bufio"
-	"fmt"
-	"log"
-	"os"
-)
 
 // ReadFileLineByLine ...
-func ReadFileLineByLine(filePath string) {
+func ReadFileLineByLine(filePath string) ([]string, error) {
 	file, err := os.Open(filePath)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 	defer file.Close()
+
+	var lines []string
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
-		line := scanner.Text()
-		fmt.Println(line)
+		lines = append(lines, scanner.Text())
 	}
+
 	if err := scanner.Err(); err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
+
+	return lines, nil
 }
+
 ```
 
 ### WriteFile  
 
 ```go
-import (
-	"log"
-	"os"
-)
-
 // WriteFile ...
-func WriteFile(filePath string, content string) {
+func WriteFile(filePath string, content string) error {
 	file, err := os.Create(filePath)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 	defer file.Close()
-	file.WriteString(content)
-}
 
+	_, err = file.WriteString(content)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
 ```
 
-### LoadJSONfromFileDecoder   
+### LoadJSON from File   
 
 ```go
-import (
-	"encoding/json"
-	"log"
-	"os"
-)
-
-// LoadJSONfromFileDecoder ...
-func LoadJSONfromFileDecoder(filePath string, data interface{}) {
+// LoadJSONFIleDecoder ... use streams
+func LoadJSONFileDecoder(filePath string, data interface{}) error {
 	file, err := os.Open(filePath)
 	if err != nil {
-		log.Fatalln("Cannot open config file", err)
+		return err
 	}
 	defer file.Close()
+
 	decoder := json.NewDecoder(file)
-	err = decoder.Decode(&data)
+	err = decoder.Decode(data)
 	if err != nil {
-		log.Fatalln("Cannot get configuration from file", err)
+		return err
 	}
+
+	return nil
 }
-```
 
-### LoadJSONfromFileMarshall  
-
-```go
-import (
-	"encoding/json"
-	"io/ioutil"
-	"log"
-	"os"
-)
-
-// LoadJSONfromFileMarshall ...
-func LoadJSONfromFileMarshall(filePath string, data interface{}) {
+// LoadJSONFileMarschall ... loads all
+func LoadJSONFileMarshall(filePath string, data interface{}) error {
 	file, err := os.Open(filePath)
 	if err != nil {
-		log.Fatalln("Cannot open config file", err)
+		return err
 	}
 	defer file.Close()
-	body, err := ioutil.ReadAll(file) //	get file content
+
+	body, err := ioutil.ReadAll(file)
 	if err != nil {
-		log.Fatalln(err)
+		return err
 	}
-	err = json.Unmarshal(body, &data)
+
+	err = json.Unmarshal(body, data)
 	if err != nil {
-		log.Fatalln(err)
+		return err
 	}
+
+	return nil
 }
+
 ```
 
 ### WriteJSONtoFile  
 
 ```go
-import (
-	"encoding/json"
-	"os"
-)
-
 // WriteJSONtoFile ...
-func WriteJSONtoFile(filePath string, d interface{}) {
+func WriteJSONtoFile(filePath string, d interface{}) error {
 	f, err := os.Create(filePath)
 	if err != nil {
-		panic(err)
+		return err
 	}
 	defer f.Close()
-	e := json.NewEncoder(f)
-	e.Encode(&d)
+
+	encoder := json.NewEncoder(f)
+	err = encoder.Encode(d)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 ```
 
 ### DownloadFile  
 
 ```go
-import (
-	"io"
-	"net/http"
-	"os"
-)
-
 // DownloadFile ...
-func DownloadFile(filePath string, url string) (err error) {
-	// Create the file
+func DownloadFile(filePath string, url string) error {
 	out, err := os.Create(filePath)
 	if err != nil {
 		return err
 	}
 	defer out.Close()
-	// Get the data
+
 	resp, err := http.Get(url)
 	if err != nil {
 		return err
 	}
 	defer resp.Body.Close()
-	// Writer the body to file
+
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("ERROR Downloading file: %d", resp.StatusCode)
+	}
+
 	_, err = io.Copy(out, resp.Body)
 	if err != nil {
 		return err
 	}
+
 	return nil
 }
+
 ```
 
 ### SendFileFromServerToClient
 
 ```go
-import (
-	"fmt"
-	"io"
-	"net"
-	"net/http"
-	"time"
-)
-
 func Index(w http.ResponseWriter, r *http.Request) {
 	url := "http://upload.wikimedia.org/wikipedia/en/b/bc/Wiki.png"
 
@@ -517,15 +498,6 @@ func main() {
 ```
 
 ```go
-import (
-	"bufio"
-	"encoding/csv"
-	"encoding/json"
-	"fmt"
-	"io"
-	"os"
-)
-
 type stock struct {
 	Symbol string `json:"symbol"`
 }
@@ -839,35 +811,6 @@ func badRequest(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
-
-
----
-
-## MIDDLEWARES
-
-### RateLimit  
-
-```go
-import "net/http"
-
-// ExceedLimit ...
-func ExceedLimit(ip string) bool {
-	// ToDO
-	return false
-}
-
-// RateLimit ...
-func RateLimit(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if ExceedLimit(GetIP(r)) {
-			http.Error(w, "Too many requests", http.StatusTooManyRequests)
-			return
-		}
-		next.ServeHTTP(w, r)
-	})
-}
-```
-
 ---
 
 ## NETWORK
@@ -875,31 +818,42 @@ func RateLimit(next http.Handler) http.Handler {
 ### GetIP  
 
 ```go
-import (
-	"net"
-	"net/http"
-)
-
-// GetIP returns string with IP
+// GetIP ...
 func GetIP(r *http.Request) string {
-	ip := r.Header.Get("X-Forwarded-For")
-	if len(ip) > 0 {
-		return ip
+	headers := []string{
+		"X-Forwarded-For",
+		"X-Real-IP",
+		"CF-Connecting-IP",
 	}
-	ip, _, _ = net.SplitHostPort(r.RemoteAddr)
-	return ip
+	for _, header := range headers {
+		ips := r.Header.Get(header)
+		if ips != "" {
+			return strings.TrimSpace(strings.Split(ips, ",")[0])
+		}
+	}
+	ip := r.RemoteAddr
+	colon := strings.LastIndex(ip, ":")
+	if colon != -1 {
+		ip = ip[:colon]
+	}
+	return strings.TrimSpace(ip)
 }
 ```
 
 ### IsValidURL  
 
 ```go
-import "net/url"
-
 // IsValidURL ...
 func IsValidURL(rawurl string) bool {
-	_, err := url.ParseRequestURI(rawurl)
+	rawurl = strings.TrimSpace(rawurl) 
+	parsedURL, err := url.Parse(rawurl)
 	if err != nil {
+		return false
+	}	
+	if parsedURL.Scheme != "http" && parsedURL.Scheme != "https" {
+		return false
+	}
+	if parsedURL.Host == "" {
 		return false
 	}
 	return true
@@ -909,54 +863,50 @@ func IsValidURL(rawurl string) bool {
 ### ExistsURL
 
 ```go
-import "net/http"
+// ExistsURL ...
+func ExistsURL(myUrl string) bool {
+	client := http.Client{
+		Timeout: 5 * time.Second,
+		CheckRedirect: func(req *http.Request, via []*http.Request) error {
+			return http.ErrUseLastResponse // Dont follow redirections
+		},
+	}
 
-func ExistsURL(myurl string) bool {
-	resp, err := http.Head(myurl)
+	resp, err := client.Head(myUrl)
 	if err != nil {
 		return false
 	}
-	if resp.StatusCode != http.StatusOK {
-		return false
-	}
-	return true
+	defer resp.Body.Close()
+
+	return resp.StatusCode >= 200 && resp.StatusCode < 400
 }
 ```
 
 ### GetLanguage  
 
 ```go
-import (
-	"net/http"
-	"strings"
-)
-
 // GetLanguage ...
 func GetLanguage(r *http.Request) string {
 	lang := r.Header.Get("Accept-Language")
-	if lang != "" { // curl request doesnt have Accept-Language
-		lang = lang[0:strings.Index(lang, ",")]
+	if lang != "" {
+		langs := strings.SplitN(lang, ",", 2)
+		return strings.ToLower(strings.TrimSpace(langs[0]))
 	}
-	return lang
+	return "en"
 }
+
 ```
 
 ### RemoveProtocolFromURL
 
 ```go
-// RemoveProtocolFromURL ...
-func RemoveProtocolFromURL(url string) string {
+// RemoveProtocol ...
+func RemoveProtocol(url string) string {
 	if strings.HasPrefix(url, "https://") {
 		return url[8:]
 	}
-	if strings.HasPrefix(url, "https:/") {
-		return url[7:]
-	}
 	if strings.HasPrefix(url, "http://") {
 		return url[7:]
-	}
-	if strings.HasPrefix(url, "http:/") {
-		return url[6:]
 	}
 	return url
 }
@@ -965,21 +915,13 @@ func RemoveProtocolFromURL(url string) string {
 ### RemoveProtocolAndWWWFromURL
 
 ```go
-// RemoveProtocolAndWWWFromURL ...
-func RemoveProtocolAndWWWFromURL(url string) string {
-	if strings.HasPrefix(url, "https://www.") {
-		return url[12:]
+// RemoveProtocolAndWWW ...
+func RemoveProtocolAndWWWL(url string) string {
+	url = RemoveProtocol(url)
+	if strings.HasPrefix(url, "www.") {
+		return url[4:]
 	}
-	if strings.HasPrefix(url, "https:/www.") {
-		return url[11:]
-	}
-	if strings.HasPrefix(url, "http://www.") {
-		return url[11:]
-	}
-	if strings.HasPrefix(url, "http:/www.") {
-		return url[10:]
-	}
-	return RemoveProtocolFromURL(url)
+	return url
 }
 ```
 
@@ -991,64 +933,22 @@ func RemoveProtocolAndWWWFromURL(url string) string {
 
 ```go
 import (
-	"math/rand"
 	"time"
+
+	"golang.org/x/exp/rand"
 )
 
-// GetRandomInt [min, max] both included
-func GetRandomInt(min, max int) int {
+// RandomInt ... min and max included
+func RandomInt(min, max int) int {
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
-	//rand.Seed(time.Now().UnixNano())
-	//	return rand.Intn(max-min+1) + min
 	return r.Intn(max-min+1) + min
-}
-```
-
-### GetRandomFloat64  
-
-```go
-import (
-	"math/rand"
-	"time"
-)
-
-// GetRandomFloat64 [min, max] both included
-func GetRandomFloat64(min, max float64) float64 {
-	rand.Seed(time.Now().UnixNano())
-	return (rand.Float64() * (max - min)) + (min)
-}
-```
-
-### ToFixedFloat64  
-
-```go
-import "math"
-
-// ToFixedFloat64 (untruncated, num) -> untruncated.toFixed(num)
-func ToFixedFloat64(untruncated float64, precision int) float64 {
-	coef := math.Pow10(precision)
-	truncated := float64(int(untruncated*coef)) / coef
-	return truncated
-}
-```
-
-### ToFixedFloat32  
-
-```go
-import "math"
-
-// ToFixedFloat32 (untruncated, num) -> untruncated.toFixed(num)
-func ToFixedFloat32(untruncated float32, precision int) float32 {
-	coef := float32(math.Pow10(precision))
-	truncated := float32(int(untruncated*coef)) / coef
-	return truncated
 }
 ```
 
 ### RoundFloat64  
 
 ```go
-// RoundFloat64 -> rounds float64 into integer
+// RoundFloat64 ... rounds float64 into integer
 func RoundFloat64(num float64) int {
 	if num < 0 {
 		return int(num - 0.5)
@@ -1060,7 +960,7 @@ func RoundFloat64(num float64) int {
 ### RoundFloat32  
 
 ```go
-// RoundFloat32 -> rounds float32 into integer
+// RoundFloat32 ... rounds float32 into integer
 func RoundFloat32(num float32) int {
 	if num < 0 {
 		return int(num - 0.5)
@@ -1072,7 +972,7 @@ func RoundFloat32(num float32) int {
 ### ReverseSliceInt  
 
 ```go
-// ReverseSliceInt [0,1,2,3,4,5] ==> [5,4,3,2,1,0]
+// ReverseSliceInt ... [0,1,2,3,4,5] ==> [5,4,3,2,1,0]
 func ReverseSliceInt(reverse []int) []int {
 	for i, j := 0, len(reverse)-1; i < j; i, j = i+1, j-1 {
 		reverse[i], reverse[j] = reverse[j], reverse[i]
@@ -1084,20 +984,26 @@ func ReverseSliceInt(reverse []int) []int {
 ### TransposeMatrixInt  
 
 ```go
-// TransposeMatrixInt rows > cols or cols > rows
+// TransposeMatrixInt ... rows > cols or cols > rows
 // but rows.elements >= cols.elements
 func TransposeMatrixInt(matrix [][]int) [][]int {
+	if len(matrix) == 0 {
+		return [][]int{}
+	}
+
 	result := make([][]int, len(matrix[0]))
 	for i := range result {
 		result[i] = make([]int, len(matrix))
 	}
-	for y, v := range matrix {
-		for x, t := range v {
-			result[x][y] = t
+
+	for y, row := range matrix {
+		for x, value := range row {
+			result[x][y] = value
 		}
 	}
 	return result
 }
+
 ```
 
 ### SliceContainsInt  
@@ -1114,41 +1020,6 @@ func SliceContainsInt(num int, slice []int) bool {
 }
 ```
 
-### ArabicToRomanNumbers  
-
-```go
-import "math"
-
-// ArabicToRomanNumbers converts arabic int to roman numeral (string)
-func ArabicToRomanNumbers(n int) string {
-	var rom string
-	hundreds := []string{
-		"C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"}
-	tens := []string{
-		"X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"}
-	units := []string{
-		"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"}
-	t := int(math.Floor(float64(n / 1000)))
-	h := int(math.Floor(float64(n % 1000 / 100)))
-	d := int(math.Floor(float64(n % 100 / 10)))
-	u := int(math.Floor(float64(n % 10)))
-	for i := 0; i < t; i++ {
-		rom += "M"
-	}
-	if h > 0 {
-		rom += hundreds[h-1]
-	}
-	if d > 0 {
-		rom += tens[d-1]
-	}
-	if u > 0 {
-		rom += units[u-1]
-	}
-	return rom
-}
-
-```
-
 ---
 
 ## STRINGS
@@ -1160,7 +1031,7 @@ import "strings"
 
 // RemoveAllWhitespaces ...
 func RemoveAllWhitespaces(str string) string {
-	return strings.Replace(str, " ", "", -1)
+	return strings.ReplaceAll(str, " ", "")
 }
 ```
 
@@ -1170,10 +1041,9 @@ func RemoveAllWhitespaces(str string) string {
 import "strings"
 
 // ReplaceAllWhitespacesByChar ...
-func ReplaceAllWhitespacesByChar(str string, otherChar string) string {
-	return strings.Replace(str, " ", otherChar, -1)
+func ReplaceAllWhitespacesByChar(str, otherChar string) string {
+	return strings.ReplaceAll(str, " ", otherChar)
 }
-
 ```
 
 ### ReverseSliceString  
@@ -1194,17 +1064,22 @@ func ReverseSliceString(reverse []string) []string {
 // TransposeMatrixString rows > cols or cols > rows
 // but rows.elements >= cols.elements
 func TransposeMatrixString(matrix [][]string) [][]string {
+	if len(matrix) == 0 || len(matrix[0]) == 0 {
+		return [][]string{}
+	}
+
 	result := make([][]string, len(matrix[0]))
 	for i := range result {
 		result[i] = make([]string, len(matrix))
 	}
-	for y, v := range matrix {
-		for x, t := range v {
-			result[x][y] = t
+	for y, row := range matrix {
+		for x, value := range row {
+			result[x][y] = value
 		}
 	}
 	return result
 }
+
 ```
 
 ### SliceContainsString  
@@ -1218,21 +1093,6 @@ func SliceContainsString(str string, slice []string) bool {
 		}
 	}
 	return false
-}
-```
-
-### FixBadEncodedStrings
-
-```go
-// FixBadEncodedStrings ...
-func FixBadEncodedStrings(bad string) string {
-	//bad := "KlÃ¤der"
-	var good []byte
-	for _, c := range bad {
-		good = append(good, byte(c))
-	}
-	//fmt.Println(string(good))
-	return string(good)
 }
 ```
 
@@ -1259,7 +1119,7 @@ func main()  {
 }
 
 func execCommand(args []string) (err error) {
-	_, err = exec.Command(args[0], args[1:len(args)]...).CombinedOutput()
+	_, err = exec.Command(args[0], args[1:]...).CombinedOutput()
 	if err != nil {
 		fmt.Println(err)
 		return err
@@ -1268,7 +1128,7 @@ func execCommand(args []string) (err error) {
 }
 
 func execCommand(args []string) (c []byte, err error) {
-	c, err = exec.Command(args[0], args[1:len(args)]...).CombinedOutput()
+	c, err = exec.Command(args[0], args[1:]...).CombinedOutput()
 	if err != nil {
 		return nil, err
 	}
@@ -1293,121 +1153,89 @@ func execCommand(comm string) {
 import "time"
 
 // ParseStringToTime ...
-func ParseStringToTime(start string) time.Time {
-	layout1 := "2006-01-02" // Layout numbers?
-	layout2 := "2006-01-02T15:04:05"
-	t, err := time.Parse(layout1, start)
-	if err != nil {
-		t, err = time.Parse(layout2, start)
+func ParseStringToTime(start string) (time.Time, error) {
+	formats := []string{
+		time.RFC3339,
+		"2006-01-02T15:04:05",
+		"2006-01-02",
 	}
-	return t
-}
-```
 
-### GetTimestampFromDate  
+	for _, layout := range formats {
+		t, err := time.Parse(layout, start)
+		if err == nil {
+			return t, nil
+		}
+	}
 
-```go
-import (
-	"strconv"
-	"strings"
-	"time"
-)
-
-// GetTimestampFromDateString ...(yyyy-mm-dd)
-func GetTimestampFromDateString(date string) float64 {
-	var t int64
-	params := strings.Split(date, "-")
-	day, _ := strconv.Atoi(params[2])
-	month, _ := strconv.Atoi(params[1])
-	year, _ := strconv.Atoi(params[0])
-	auxT := time.Date(year, time.Month(month), day, 0, 0, 0, 0, time.UTC)
-	t = int64(auxT.UnixNano() / int64(time.Millisecond))
-	return float64(t)
+	fail := fmt.Errorf("Fail parsing time: %s", start)
+	return time.Time{}, fail
 }
 ```
 
 ### OnceADayTask
 
 ```go
-import "time"
+func main() {
+	go onceADayTask(3, 10, 10)
+	select {}
+}
 
-func onceADayTask() {
+func onceADayTask(h, m, s int) {
 	t := time.Now()
-	n := time.Date(t.Year(),t.Month(),t.Day(),3,10,10,0,t.Location())
-	d := n.Sub(t)
-	if d < 0 {
+	n := time.Date(
+		t.Year(), t.Month(), t.Day(),
+		h, m, s, 0,
+		t.Location(),
+	)
+	if n.Before(t) {
 		n = n.Add(24 * time.Hour)
-		d = n.Sub(t)
 	}
+
 	for {
-		time.Sleep(d)
-		d = 24 * time.Hour
+		time.Sleep(time.Until(n))
 		doSomeTask()
+		n = n.Add(24 * time.Hour)
 	}
+}
+
+func doSomeTask() {
+	fmt.Printf("Hi: %s\n", time.Now().Format("03:04:05 PM"))
 }
 ```
 
 ### SetInterval
 
 ```go
-
-import (
-	"fmt"
-	"net/http"
-	"time"
-)
-
-type updates []struct {
-	Symbol string  `json:"symbol"`
-	Price  float64 `json:"price"`
-}
-
-func initUpdateIntervals() {
-	var u updates
-	var w http.ResponseWriter
-	ticker := time.NewTicker(time.Millisecond * 1000)
+func main() {
+	ticker := time.NewTicker(1 * time.Second)
+	defer ticker.Stop()
+	done := make(chan bool)
 	go func() {
-		for _ = range ticker.C {
-			u = updates{}
-			lib.MakeGetRequest(w, url, &u)
-			for _, v := range u {
-				if v.Symbol != "" {
-					stocks[v.Symbol].PriceNow = v.Price
-				}
-			}
-			t := time.Now()
-			hour, min, sec := t.Clock()
-			fmt.Println(`TICK`, hour, min, sec)
-			if hour == 6 && min == 1 {
-				if sec > 0 && sec < 6 {
-					go dailyWork()
-				}
+		for {
+			select {
+			case <-ticker.C:
+				fmt.Println("Ticker every X * time.Second")
+			case <-done:
+				return
 			}
 		}
 	}()
+	time.Sleep(5 * time.Second)
+	done <- true
+	fmt.Println("Ticker stopped. Exiting program.")
 }
 ```
 
 ```go
-ticker := time.NewTicker(2 * time.Second)
-quit := make(chan struct{})
-go func() {
-	for {
-		select {
-		case <-ticker.C:
-			fmt.Println("Se ejecuta cada X * time.Second")
-		case <-quit:
-			ticker.Stop()
-			return
-		}
-	}
-}()
-```
-
-```go
+func main() {
+	go interval()
+	select {}
+}
 func interval() {
-	ticker := time.NewTicker(time.Millisecond * 2000)
-	for _ = range ticker.C {
+	ticker := time.NewTicker(2 * time.Second)
+	defer ticker.Stop()
+
+	for range ticker.C {
 		fmt.Println("Hi Every 2 secs")
 	}
 }
@@ -1445,6 +1273,43 @@ func createCustomInfoLogFile2(f string) *log.Logger {
 	var iLog *log.Logger
 	iLog = log.New(infoLog, "INFO :\t", log.Ldate|log.Ltime)
 	return iLog
+}
+```
+
+```go
+const (
+	errorLogFile = "error.log"
+	infoLogFile  = "info.log"
+)
+
+func openLogFile(filename string) (*os.File, error) {
+	return os.OpenFile(
+		filename,
+		os.O_CREATE|os.O_WRONLY|os.O_APPEND,
+		0664,
+	)
+}
+
+func main() {
+	errorFile, err := openLogFile(errorLogFile)
+	if err != nil {
+		log.Fatalf("ERROR opening error log: %s: %v", errorLogFile, err)
+	}
+	defer errorFile.Close()
+
+	infoFile, err := openLogFile(infoLogFile)
+	if err != nil {
+		log.Fatalf("ERRRO opening info log: %s: %v", infoLogFile, err)
+	}
+	defer infoFile.Close()
+
+	eLog :=
+		log.New(errorFile, "ERROR: ", log.Ldate|log.Ltime|log.Lshortfile)
+	iLog :=
+		log.New(infoFile, "INFO: ", log.Ldate|log.Ltime)
+
+	eLog.Println("ERROR")
+	iLog.Println("INFO")
 }
 ```
 
