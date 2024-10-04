@@ -183,43 +183,43 @@ func FetchPOST(url string, d interface{}) error {
 
 ```
 
-### fetchPOST with url params
+### fetchPOST with params
 
 ```go
 import (
-	url2 "net/url"
+	url "net/url"
 )
 
 // FetchPOSTparams ...
-func FetchPOSTparams(url string, d map[string]string) error {
+func FetchPOSTparams(path string, d map[string]string) error {
 	client := &http.Client{
 		Timeout: 10 * time.Second,
 	}
 
-	params := url2.Values{}
+	params := url.Values{}
 	for key, value := range d {
 		params.Add(key, value)
 	}
-	/*params = url2.Values{
-		"test": "myTest",
-		"data": "myData",
+	/*params := url.Values{
+		"test": {myTest},
+		"data": {myData},
 	}*/
 
-	query := bytes.NewBufferString(params.Encode())
+	body := bytes.NewBufferString(params.Encode())
 
-	req, err := http.NewRequest("POST", url, query)
+	req, err := http.NewRequest("POST", path, body)
 	if err != nil {
-		log.Printf("ERROR: Failed to create request for %s => %v", url, err)
+		log.Printf("ERROR: Failed to create request for %s => %v", path, err)
 		return err
 	}
 
 	req.Header.Set("Authorization", "Bearer YOUR_ACCESS_TOKEN")
 	req.Header.Set("Accept-Charset", "utf-8")
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("Content-Type", "application/x-www-form-pathencoded")
 
 	resp, err := client.Do(req)
 	if err != nil {
-		log.Printf("ERROR: Request %s => %v", url, err)
+		log.Printf("ERROR: Request %s => %v", path, err)
 		return err
 	}
 	defer resp.Body.Close()

@@ -213,41 +213,41 @@ func FetchPOST(url string, d interface{}) error {
 }
 
 </code></pre>
-<h3 id="fetchpost-with-url-params">fetchPOST with url params</h3>
+<h3 id="fetchpost-with-params">fetchPOST with params</h3>
 <pre><code class="language-go">import (
-    url2 &quot;net/url&quot;
+    url &quot;net/url&quot;
 )
 
 // FetchPOSTparams ...
-func FetchPOSTparams(url string, d map[string]string) error {
+func FetchPOSTparams(path string, d map[string]string) error {
     client := &amp;http.Client{
         Timeout: 10 * time.Second,
     }
 
-    params := url2.Values{}
+    params := url.Values{}
     for key, value := range d {
         params.Add(key, value)
     }
-    /*params = url2.Values{
-        &quot;test&quot;: &quot;myTest&quot;,
-        &quot;data&quot;: &quot;myData&quot;,
+    /*params := url.Values{
+        &quot;test&quot;: {myTest},
+        &quot;data&quot;: {myData},
     }*/
 
-    query := bytes.NewBufferString(params.Encode())
+    body := bytes.NewBufferString(params.Encode())
 
-    req, err := http.NewRequest(&quot;POST&quot;, url, query)
+    req, err := http.NewRequest(&quot;POST&quot;, path, body)
     if err != nil {
-        log.Printf(&quot;ERROR: Failed to create request for %s =&gt; %v&quot;, url, err)
+        log.Printf(&quot;ERROR: Failed to create request for %s =&gt; %v&quot;, path, err)
         return err
     }
 
     req.Header.Set(&quot;Authorization&quot;, &quot;Bearer YOUR_ACCESS_TOKEN&quot;)
     req.Header.Set(&quot;Accept-Charset&quot;, &quot;utf-8&quot;)
-    req.Header.Set(&quot;Content-Type&quot;, &quot;application/x-www-form-urlencoded&quot;)
+    req.Header.Set(&quot;Content-Type&quot;, &quot;application/x-www-form-pathencoded&quot;)
 
     resp, err := client.Do(req)
     if err != nil {
-        log.Printf(&quot;ERROR: Request %s =&gt; %v&quot;, url, err)
+        log.Printf(&quot;ERROR: Request %s =&gt; %v&quot;, path, err)
         return err
     }
     defer resp.Body.Close()
@@ -1650,7 +1650,7 @@ func NewPlaceHolder(name string, date string) PlaceHolder {
   
 </ul>
   
-  <li><a href="#fetchpost-with-url-params">fetchPOST with url params</a></li>
+  <li><a href="#fetchpost-with-params">fetchPOST with params</a></li>
   <ul>
   
 </ul>
@@ -2093,7 +2093,7 @@ func NewPlaceHolder(name string, date string) PlaceHolder {
   
 </ul>
   
-  <li><a href="#fetchpost-with-url-params">fetchPOST with url params</a></li>
+  <li><a href="#fetchpost-with-params">fetchPOST with params</a></li>
   <ul>
   
 </ul>
@@ -2372,7 +2372,7 @@ func NewPlaceHolder(name string, date string) PlaceHolder {
 
   <!--
   MkDocs version      : 1.4.2
-  Docs Build Date UTC : 2024-10-02 16:18:53.654148+00:00
+  Docs Build Date UTC : 2024-10-04 13:57:34.251456+00:00
   -->
 </body>
 
