@@ -289,6 +289,14 @@ func IsJSON(str string) bool {
 }
 ```
 
+### IsPointer
+
+```go
+func IsPointer(d interface{}) bool {
+	return reflect.TypeOf(d).Kind() == reflect.Ptr
+}
+```
+
 ---
 
 ## FILES
@@ -840,6 +848,23 @@ func GetIP(r *http.Request) string {
 }
 ```
 
+### GetRequestOrigin  
+
+```go
+func GetRequestOrigin(r *http.Request) string {
+	switch {
+	case r.Header.Get("Host") != "":
+		return r.Header.Get("Host")
+	case r.Header.Get("Origin") != "":
+		return r.Header.Get("Origin")
+	case r.Header.Get("Referer") != "":
+		return r.Header.Get("Referer")
+	default:
+		return "?????"
+	}
+}
+```
+
 ### IsValidURL  
 
 ```go
@@ -925,6 +950,54 @@ func RemoveProtocolAndWWWL(url string) string {
 }
 ```
 
+### Nginx return 444
+
+```go
+func close(w http.ResponseWriter, r *http.Request) {
+	hijacker, ok := w.(http.Hijacker)
+	if !ok {
+		http.Error(w, "Server does not support hijacking", http.StatusInternalServerError)
+		return
+	}
+	conn, _, err := hijacker.Hijack()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	conn.Close()
+	return
+}
+```
+
+### Slow Response  
+
+```go
+func slowSend(w http.ResponseWriter, r *http.Request) {
+	flusher, ok := w.(http.Flusher)
+	if !ok {
+		err := "Server does not support flusher"
+		http.Error(w, err, http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "text/plain")
+	fmt.Fprintln(w, "Initiating slow response...")
+
+	for i := 0; i < 100; i++ {
+		fmt.Fprintf(w, "Fragmento %d\n", i+1)
+		flusher.Flush()
+		time.Sleep(1 * time.Second)
+	}
+
+	fmt.Fprintln(w, "Task accomplished")
+}
+
+func holdConn(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Begin.............")
+	time.Sleep(60 * time.Second)
+	fmt.Fprintf(w, "Thats all")
+}
+```
 ---
 
 ## NUMBERS

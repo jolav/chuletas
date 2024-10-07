@@ -310,6 +310,11 @@ func IsJSON(str string) bool {
     return json.Unmarshal([]byte(str), &amp;js) == nil
 }
 </code></pre>
+<h3 id="ispointer">IsPointer</h3>
+<pre><code class="language-go">func IsPointer(d interface{}) bool {
+    return reflect.TypeOf(d).Kind() == reflect.Ptr
+}
+</code></pre>
 <hr />
 <h2 id="files">FILES</h2>
 <h3 id="readfile">ReadFile</h3>
@@ -806,6 +811,20 @@ func GetIP(r *http.Request) string {
     return strings.TrimSpace(ip)
 }
 </code></pre>
+<h3 id="getrequestorigin">GetRequestOrigin</h3>
+<pre><code class="language-go">func GetRequestOrigin(r *http.Request) string {
+    switch {
+    case r.Header.Get(&quot;Host&quot;) != &quot;&quot;:
+        return r.Header.Get(&quot;Host&quot;)
+    case r.Header.Get(&quot;Origin&quot;) != &quot;&quot;:
+        return r.Header.Get(&quot;Origin&quot;)
+    case r.Header.Get(&quot;Referer&quot;) != &quot;&quot;:
+        return r.Header.Get(&quot;Referer&quot;)
+    default:
+        return &quot;?????&quot;
+    }
+}
+</code></pre>
 <h3 id="isvalidurl">IsValidURL</h3>
 <pre><code class="language-go">// IsValidURL ...
 func IsValidURL(rawurl string) bool {
@@ -874,6 +893,49 @@ func RemoveProtocolAndWWWL(url string) string {
         return url[4:]
     }
     return url
+}
+</code></pre>
+<h3 id="nginx-return-444">Nginx return 444</h3>
+<pre><code class="language-go">func close(w http.ResponseWriter, r *http.Request) {
+    hijacker, ok := w.(http.Hijacker)
+    if !ok {
+        http.Error(w, &quot;Server does not support hijacking&quot;, http.StatusInternalServerError)
+        return
+    }
+    conn, _, err := hijacker.Hijack()
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        return
+    }
+    conn.Close()
+    return
+}
+</code></pre>
+<h3 id="slow-response">Slow Response</h3>
+<pre><code class="language-go">func slowSend(w http.ResponseWriter, r *http.Request) {
+    flusher, ok := w.(http.Flusher)
+    if !ok {
+        err := &quot;Server does not support flusher&quot;
+        http.Error(w, err, http.StatusInternalServerError)
+        return
+    }
+
+    w.Header().Set(&quot;Content-Type&quot;, &quot;text/plain&quot;)
+    fmt.Fprintln(w, &quot;Initiating slow response...&quot;)
+
+    for i := 0; i &lt; 100; i++ {
+        fmt.Fprintf(w, &quot;Fragmento %d\n&quot;, i+1)
+        flusher.Flush()
+        time.Sleep(1 * time.Second)
+    }
+
+    fmt.Fprintln(w, &quot;Task accomplished&quot;)
+}
+
+func holdConn(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintf(w, &quot;Begin.............&quot;)
+    time.Sleep(60 * time.Second)
+    fmt.Fprintf(w, &quot;Thats all&quot;)
 }
 </code></pre>
 <hr />
@@ -1665,6 +1727,11 @@ func NewPlaceHolder(name string, date string) PlaceHolder {
   
 </ul>
   
+  <li><a href="#ispointer">IsPointer</a></li>
+  <ul>
+  
+</ul>
+  
 </ul>
   
   <li><a href="#files">FILES</a></li>
@@ -1740,6 +1807,11 @@ func NewPlaceHolder(name string, date string) PlaceHolder {
   
 </ul>
   
+  <li><a href="#getrequestorigin">GetRequestOrigin</a></li>
+  <ul>
+  
+</ul>
+  
   <li><a href="#isvalidurl">IsValidURL</a></li>
   <ul>
   
@@ -1761,6 +1833,16 @@ func NewPlaceHolder(name string, date string) PlaceHolder {
 </ul>
   
   <li><a href="#removeprotocolandwwwfromurl">RemoveProtocolAndWWWFromURL</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#nginx-return-444">Nginx return 444</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#slow-response">Slow Response</a></li>
   <ul>
   
 </ul>
@@ -2108,6 +2190,11 @@ func NewPlaceHolder(name string, date string) PlaceHolder {
   
 </ul>
   
+  <li><a href="#ispointer">IsPointer</a></li>
+  <ul>
+  
+</ul>
+  
 </ul>
   
   <li><a href="#files">FILES</a></li>
@@ -2183,6 +2270,11 @@ func NewPlaceHolder(name string, date string) PlaceHolder {
   
 </ul>
   
+  <li><a href="#getrequestorigin">GetRequestOrigin</a></li>
+  <ul>
+  
+</ul>
+  
   <li><a href="#isvalidurl">IsValidURL</a></li>
   <ul>
   
@@ -2204,6 +2296,16 @@ func NewPlaceHolder(name string, date string) PlaceHolder {
 </ul>
   
   <li><a href="#removeprotocolandwwwfromurl">RemoveProtocolAndWWWFromURL</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#nginx-return-444">Nginx return 444</a></li>
+  <ul>
+  
+</ul>
+  
+  <li><a href="#slow-response">Slow Response</a></li>
   <ul>
   
 </ul>
@@ -2372,7 +2474,7 @@ func NewPlaceHolder(name string, date string) PlaceHolder {
 
   <!--
   MkDocs version      : 1.4.2
-  Docs Build Date UTC : 2024-10-04 13:57:34.251456+00:00
+  Docs Build Date UTC : 2024-10-07 20:02:36.369573+00:00
   -->
 </body>
 
