@@ -78,7 +78,9 @@ tar xzf myfiles.tar.gz
 * **grep**
 
 Eliminar todas las lineas de una fichero que contienen un determinado 'texto'  
-`cat nombreArchivo | grep -v 'texto' > nuevoArchivo`
+`cat nombreArchivo | grep -v 'texto' > nuevoArchivo`  
+`cat nombreArchivo | grep -v -e 'texto1' -e 'texto2' > nuevoArchivo`  
+`cat nombreArchivo | grep -v -E 'texto1|texto2' > nuevoArchivo`  
 
 Coger solo las lineas de un archivo que contienen un determinado 'texto'  
 `grep -i "texto" nombreArchivo`

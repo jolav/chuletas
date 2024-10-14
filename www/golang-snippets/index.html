@@ -91,26 +91,43 @@ func FetchGET(url string, d interface{}) error {
     client := &amp;http.Client{
         Timeout: 10 * time.Second,
     }
-    // with headers
-    req, err := http.NewRequest(&quot;GET&quot;, url, nil)
+
+    // PARAMS IN URL
+    u, err := url.Parse(BASE_URL)
     if err != nil {
-        log.Printf(&quot;ERROR: creating request %s =&gt; %v&quot;, url, err)
+        err := fmt.Sprintf(&quot;ERROR Parsing URL =&gt; %v&quot;, err)
+    }
+    params := url.Values{
+        &quot;key&quot;: {API_KEY},
+        &quot;aqi&quot;: {&quot;no&quot;},
+        &quot;q&quot;:   {city},
+    }
+    u.RawQuery = params.Encode()
+    path := u.String()
+
+    // HEADERS
+    req, err := http.NewRequest(&quot;GET&quot;, path, nil)
+    if err != nil {
+        log.Printf(&quot;ERROR: creating request %s =&gt; %v&quot;, path, err)
         return err
     }
     req.Header.Set(&quot;Authorization&quot;, &quot;Bearer ACCESS_TOKEN&quot;)
     req.Header.Set(&quot;Accept&quot;, &quot;application/json&quot;)
     resp, err := client.Do(req) 
     if err != nil {
-        log.Printf(&quot;ERROR: Request %s =&gt; %v&quot;, url, err)
+        log.Printf(&quot;ERROR: Request %s =&gt; %v&quot;, path, err)
         return err
     }
+    /////
 
-    // without Headers
-    resp, err := client.Get(url)
+    // NO HEADERS
+    resp, err := client.Get(path)
     if err != nil {
-        log.Printf(&quot;ERROR: Request %s =&gt; %v&quot;, url, err)
+        log.Printf(&quot;ERROR: Request %s =&gt; %v&quot;, path, err)
         return err
     }
+    /////
+
     // common
     defer resp.Body.Close()
 
@@ -2474,7 +2491,7 @@ func NewPlaceHolder(name string, date string) PlaceHolder {
 
   <!--
   MkDocs version      : 1.4.2
-  Docs Build Date UTC : 2024-10-07 20:02:36.369573+00:00
+  Docs Build Date UTC : 2024-10-14 20:03:25.587277+00:00
   -->
 </body>
 

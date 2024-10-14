@@ -54,26 +54,43 @@ func FetchGET(url string, d interface{}) error {
 	client := &http.Client{
 		Timeout: 10 * time.Second,
 	}
-	// with headers
-	req, err := http.NewRequest("GET", url, nil)
+
+	// PARAMS IN URL
+	u, err := url.Parse(BASE_URL)
 	if err != nil {
-		log.Printf("ERROR: creating request %s => %v", url, err)
+		err := fmt.Sprintf("ERROR Parsing URL => %v", err)
+	}
+	params := url.Values{
+		"key": {API_KEY},
+		"aqi": {"no"},
+		"q":   {city},
+	}
+	u.RawQuery = params.Encode()
+	path := u.String()
+
+	// HEADERS
+	req, err := http.NewRequest("GET", path, nil)
+	if err != nil {
+		log.Printf("ERROR: creating request %s => %v", path, err)
 		return err
 	}
 	req.Header.Set("Authorization", "Bearer ACCESS_TOKEN")
 	req.Header.Set("Accept", "application/json")
 	resp, err := client.Do(req) 
 	if err != nil {
-		log.Printf("ERROR: Request %s => %v", url, err)
+		log.Printf("ERROR: Request %s => %v", path, err)
 		return err
 	}
+	/////
 
-	// without Headers
-	resp, err := client.Get(url)
+	// NO HEADERS
+	resp, err := client.Get(path)
 	if err != nil {
-		log.Printf("ERROR: Request %s => %v", url, err)
+		log.Printf("ERROR: Request %s => %v", path, err)
 		return err
 	}
+	/////
+
 	// common
 	defer resp.Body.Close()
 

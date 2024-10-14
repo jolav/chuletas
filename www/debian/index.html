@@ -109,7 +109,9 @@ tar xzf myfiles.tar.gz
 <li><strong>grep</strong></li>
 </ul>
 <p>Eliminar todas las lineas de una fichero que contienen un determinado 'texto'<br />
-<code>cat nombreArchivo | grep -v 'texto' &gt; nuevoArchivo</code></p>
+<code>cat nombreArchivo | grep -v 'texto' &gt; nuevoArchivo</code><br />
+<code>cat nombreArchivo | grep -v -e 'texto1' -e 'texto2' &gt; nuevoArchivo</code><br />
+<code>cat nombreArchivo | grep -v -E 'texto1|texto2' &gt; nuevoArchivo</code>  </p>
 <p>Coger solo las lineas de un archivo que contienen un determinado 'texto'<br />
 <code>grep -i "texto" nombreArchivo</code></p>
 <ul>
@@ -2488,7 +2490,7 @@ WantedBy=multi-user.target
 
   <!--
   MkDocs version      : 1.4.2
-  Docs Build Date UTC : 2024-10-07 20:02:36.343454+00:00
+  Docs Build Date UTC : 2024-10-14 20:03:25.545368+00:00
   -->
 </body>
 
