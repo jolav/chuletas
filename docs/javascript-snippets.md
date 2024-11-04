@@ -35,6 +35,21 @@ parseFloat(num.toFixed(3)); // return 6.77 , 6
 
 ## STRINGS
 
+### Create UUIDv4
+
+```js
+// vale para el navegador y para nodejs
+function generateUUID() {
+  const template = [1e7] + -1e3 + -4e3 + -8e3 + -1e11;
+  const uuid = template.replace(/[018]/g, function (c) {
+    const random = crypto.getRandomValues(new Uint8Array(1))[0];
+    const value = (c ^ random & 15 >> c / 4).toString(16);
+    return value;
+  });
+  return uuid;
+}
+```
+
 ### Clean whitespaces
 
 ```javascript

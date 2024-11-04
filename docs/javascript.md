@@ -340,6 +340,31 @@ console.log(domain.startsWith("www.")); // false
 
 ---
 
+## MAPS
+
+El **objeto `Map`** es una colección de pares clave-valor. Aquí hay algunas características clave:
+
+- **Claves únicas**: Cada clave en un `Map` es única, lo que significa que no puede haber duplicados.  
+
+- **Iteración**: Puedes iterar sobre un `Map` utilizando un bucle `for...of`, que devuelve un array de dos elementos `[clave, valor]` en cada iteración.
+
+
+- **Métodos útiles**: Algunos métodos importantes del objeto `Map` incluyen:
+  - `set(key, value)`: Agrega o actualiza un elemento con una clave y un valor.
+  - `get(key)`: Devuelve el valor asociado a la clave.
+  - `has(key)`: Verifica si una clave existe en el `Map`.
+  - `delete(key)`: Elimina un elemento por su clave.
+  - `clear()`: Elimina todos los elementos del `Map`.
+
+```js
+let mapa = new Map();
+mapa.set('a', 1);
+mapa.set('b', 2);
+console.log(mapa.get('a')); // 1
+```
+
+---
+
 ## ARRAYS
 
 Los arrays en Javascript son falsos arrays pero aun asi renta su uso    

@@ -310,6 +310,30 @@ console.log(res) // [ 'ain', 'ain', 'ain' ]
 console.log(domain.startsWith(&quot;www.&quot;)); // false
 </code></pre>
 <hr />
+<h2 id="maps">MAPS</h2>
+<p>El <strong>objeto <code>Map</code></strong> es una colección de pares clave-valor. Aquí hay algunas características clave:</p>
+<ul>
+<li>
+<p><strong>Claves únicas</strong>: Cada clave en un <code>Map</code> es única, lo que significa que no puede haber duplicados.  </p>
+</li>
+<li>
+<p><strong>Iteración</strong>: Puedes iterar sobre un <code>Map</code> utilizando un bucle <code>for...of</code>, que devuelve un array de dos elementos <code>[clave, valor]</code> en cada iteración.</p>
+</li>
+<li>
+<p><strong>Métodos útiles</strong>: Algunos métodos importantes del objeto <code>Map</code> incluyen:</p>
+</li>
+<li><code>set(key, value)</code>: Agrega o actualiza un elemento con una clave y un valor.</li>
+<li><code>get(key)</code>: Devuelve el valor asociado a la clave.</li>
+<li><code>has(key)</code>: Verifica si una clave existe en el <code>Map</code>.</li>
+<li><code>delete(key)</code>: Elimina un elemento por su clave.</li>
+<li><code>clear()</code>: Elimina todos los elementos del <code>Map</code>.</li>
+</ul>
+<pre><code class="language-js">let mapa = new Map();
+mapa.set('a', 1);
+mapa.set('b', 2);
+console.log(mapa.get('a')); // 1
+</code></pre>
+<hr />
 <h2 id="arrays">ARRAYS</h2>
 <p>Los arrays en Javascript son falsos arrays pero aun asi renta su uso  <br />
 Heredan de <code>Array.prototype</code> muchos metodos muy utiles</p>
@@ -1727,6 +1751,11 @@ foo.awesome();                 // LET ME INTRODUCE: HIPPO
   
 </ul>
   
+  <li><a href="#maps">MAPS</a></li>
+  <ul>
+  
+</ul>
+  
   <li><a href="#arrays">ARRAYS</a></li>
   <ul>
   
@@ -2095,6 +2124,11 @@ foo.awesome();                 // LET ME INTRODUCE: HIPPO
   
 </ul>
   
+  <li><a href="#maps">MAPS</a></li>
+  <ul>
+  
+</ul>
+  
   <li><a href="#arrays">ARRAYS</a></li>
   <ul>
   
@@ -2287,7 +2321,7 @@ foo.awesome();                 // LET ME INTRODUCE: HIPPO
 
   <!--
   MkDocs version      : 1.4.2
-  Docs Build Date UTC : 2024-10-14 20:03:25.646968+00:00
+  Docs Build Date UTC : 2024-11-04 17:28:47.302279+00:00
   -->
 </body>
 
