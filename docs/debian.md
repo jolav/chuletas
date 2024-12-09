@@ -268,6 +268,25 @@ cat /proc/XXX/limits
 `cpulimit -e nombreProceso -l 50` - limita el proceso `nombreProceso` al 50%   
 Añadir `&` para recuperar el control de la consola     
 
+* **cpu_steal**
+
+```sh
+cat /proc/stat    
+cpu  56933 276 469486 39394437 19656 0 159573 1942961 0 0    
+total_cpu_time = 56933 + 276 + 469486 + 39394437 + 19656 + 0 
+                + 159573 + 1942961 + 0 + 0= 41308022    
+steal = (1942961 / 41308022) * 100 ≈ 4.70%  
+```  
+
+* **cambiar hostname**  
+
+```sh
+hostnamectl set-hostname NUEVO_HOSTNAME
+nano /etc/hostname
+nano /etc/hosts
+systemctl restart systemd-hostnamed
+``` 
+
 * **averiguar la version de debian**
 
 `lsb_release -a`
@@ -1359,6 +1378,18 @@ webmin > webmin Configuration > SSL Encryption > SSL Settings
 ```
 
 Apply -> service nginx restart
+
+---
+
+## CERTIFICADOS AUTOFIRMADOS
+
+```sh
+cd /etc/nginx/ssl
+openssl req -x509 -nodes -days 3650 -newkey rsa:2048 
+-keyout selfsigned.key -out selfsigned.crt
+```  
+
+ya se pueden usar como dummies en nginx en lugar de los verdaderos de letsencrypt para simular https  
 
 ---
 

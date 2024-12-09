@@ -268,6 +268,23 @@ cat /proc/XXX/limits
 <code>cpulimit -e nombreProceso -l 50</code> - limita el proceso <code>nombreProceso</code> al 50% <br />
 Añadir <code>&amp;</code> para recuperar el control de la consola     </p>
 <ul>
+<li><strong>cpu_steal</strong></li>
+</ul>
+<pre><code class="language-sh">cat /proc/stat    
+cpu  56933 276 469486 39394437 19656 0 159573 1942961 0 0    
+total_cpu_time = 56933 + 276 + 469486 + 39394437 + 19656 + 0 
+                + 159573 + 1942961 + 0 + 0= 41308022    
+steal = (1942961 / 41308022) * 100 ≈ 4.70%  
+</code></pre>
+<ul>
+<li><strong>cambiar hostname</strong>  </li>
+</ul>
+<pre><code class="language-sh">hostnamectl set-hostname NUEVO_HOSTNAME
+nano /etc/hostname
+nano /etc/hosts
+systemctl restart systemd-hostnamed
+</code></pre>
+<ul>
 <li><strong>averiguar la version de debian</strong></li>
 </ul>
 <p><code>lsb_release -a</code></p>
@@ -1204,6 +1221,13 @@ y despues<br />
 </code></pre>
 <p>Apply -&gt; service nginx restart</p>
 <hr />
+<h2 id="certificados-autofirmados">CERTIFICADOS AUTOFIRMADOS</h2>
+<pre><code class="language-sh">cd /etc/nginx/ssl
+openssl req -x509 -nodes -days 3650 -newkey rsa:2048 
+-keyout selfsigned.key -out selfsigned.crt
+</code></pre>
+<p>ya se pueden usar como dummies en nginx en lugar de los verdaderos de letsencrypt para simular https  </p>
+<hr />
 <h2 id="lets-encrypt">LETS ENCRYPT</h2>
 <p><a href="https://certbot.eff.org/">HTTPS certbot</a></p>
 <p><code>apt-get install certbot</code> - install    </p>
@@ -2020,6 +2044,11 @@ WantedBy=multi-user.target
   
 </ul>
   
+  <li><a href="#certificados-autofirmados">CERTIFICADOS AUTOFIRMADOS</a></li>
+  <ul>
+  
+</ul>
+  
   <li><a href="#lets-encrypt">LETS ENCRYPT</a></li>
   <ul>
   
@@ -2398,6 +2427,11 @@ WantedBy=multi-user.target
   
 </ul>
   
+  <li><a href="#certificados-autofirmados">CERTIFICADOS AUTOFIRMADOS</a></li>
+  <ul>
+  
+</ul>
+  
   <li><a href="#lets-encrypt">LETS ENCRYPT</a></li>
   <ul>
   
@@ -2490,7 +2524,7 @@ WantedBy=multi-user.target
 
   <!--
   MkDocs version      : 1.4.2
-  Docs Build Date UTC : 2024-12-04 15:17:19.298921+00:00
+  Docs Build Date UTC : 2024-12-09 21:25:23.823707+00:00
   -->
 </body>
 
