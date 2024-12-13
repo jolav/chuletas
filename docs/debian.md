@@ -30,10 +30,6 @@ non-free-firmware
 ## Insync
 deb https://apt.insync.io/debian bookworm non-free contrib
 
-## NodeSource
-#deb [signed-by=/etc/apt/keyrings/nodesource.gpg] 
-#https://deb.nodesource.com/  node_20.x nodistro main
-
 ## Debian Multimedia
 #deb http://www.deb-multimedia.org/ bookworm main non-free
 
@@ -46,8 +42,6 @@ deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
 ```
 
 `apt install aptitude htop smartmontools sshpass rsync curl wget nano apt-transport-https iperf zip arc arj bzip2 cabextract lzop nomarch p7zip p7zip-full pax tnef unrar-free unzip deborphan net-tools intel-microcode hdparm ncdu rename iftop nethogs tcptrack dnsutils`
-
-`curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg`
 
 Para instalar [Dropbox](https://www.dropbox.com/es_ES/install-linux)
 
@@ -369,6 +363,16 @@ nano -c /etc/ssh/ssh_config
 Host *
 ServerAliveInterval 120
 ```
+
+### SSHFS
+
+```sh
+mkdir /local/path
+sshfs user@hostname:/remote/path /local/path 
+// al terminar
+fusermount -u /local/path
+```
+
 
 ### CLAMAV
 
@@ -1397,7 +1401,23 @@ ya se pueden usar como dummies en nginx en lugar de los verdaderos de letsencryp
 
 [HTTPS certbot](https://certbot.eff.org/)
 
-`apt-get install certbot` - install    
+`apt-get install certbot python3-certbot-nginx` - install    
+
+* **Create certificate 12-12-2024**
+
+```sh
+certbot --nginx -d el.dominioquesea.com
+// This certificate expires on 2025-03-12.
+// These files will be updated when the certificate renews.
+// Certbot has set up a scheduled task to automatically renew 
+// this certificate in the background.
+// Deploying certificate
+// Could not install certificate
+
+// perfecto, pues los crea sin tocar la conf de nginx
+// crea los certs en /etc/letsencrypt/live
+// luego ya los configuras en las conf de nginx
+```
 
 * **Create certificate**
 

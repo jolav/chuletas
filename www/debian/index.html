@@ -69,10 +69,6 @@ non-free-firmware
 ## Insync
 deb https://apt.insync.io/debian bookworm non-free contrib
 
-## NodeSource
-#deb [signed-by=/etc/apt/keyrings/nodesource.gpg] 
-#https://deb.nodesource.com/  node_20.x nodistro main
-
 ## Debian Multimedia
 #deb http://www.deb-multimedia.org/ bookworm main non-free
 
@@ -84,7 +80,6 @@ deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
 #https://linux.teamviewer.com/deb stable main
 </code></pre>
 <p><code>apt install aptitude htop smartmontools sshpass rsync curl wget nano apt-transport-https iperf zip arc arj bzip2 cabextract lzop nomarch p7zip p7zip-full pax tnef unrar-free unzip deborphan net-tools intel-microcode hdparm ncdu rename iftop nethogs tcptrack dnsutils</code></p>
-<p><code>curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg</code></p>
 <p>Para instalar <a href="https://www.dropbox.com/es_ES/install-linux">Dropbox</a></p>
 <hr />
 <h2 id="commands"><strong>COMMANDS</strong></h2>
@@ -349,6 +344,12 @@ PermitEmptyPasswords no
 <pre><code class="language-sh">nano -c /etc/ssh/ssh_config
 Host *
 ServerAliveInterval 120
+</code></pre>
+<h3 id="sshfs">SSHFS</h3>
+<pre><code class="language-sh">mkdir /local/path
+sshfs user@hostname:/remote/path /local/path 
+// al terminar
+fusermount -u /local/path
 </code></pre>
 <h3 id="clamav">CLAMAV</h3>
 <p>Antivirus para asegurarnos de que no somos conductores de virus entre maquinas windows y por si las moscas ...<br />
@@ -1230,7 +1231,22 @@ openssl req -x509 -nodes -days 3650 -newkey rsa:2048
 <hr />
 <h2 id="lets-encrypt">LETS ENCRYPT</h2>
 <p><a href="https://certbot.eff.org/">HTTPS certbot</a></p>
-<p><code>apt-get install certbot</code> - install    </p>
+<p><code>apt-get install certbot python3-certbot-nginx</code> - install    </p>
+<ul>
+<li><strong>Create certificate 12-12-2024</strong></li>
+</ul>
+<pre><code class="language-sh">certbot --nginx -d el.dominioquesea.com
+// This certificate expires on 2025-03-12.
+// These files will be updated when the certificate renews.
+// Certbot has set up a scheduled task to automatically renew 
+// this certificate in the background.
+// Deploying certificate
+// Could not install certificate
+
+// perfecto, pues los crea sin tocar la conf de nginx
+// crea los certs en /etc/letsencrypt/live
+// luego ya los configuras en las conf de nginx
+</code></pre>
 <ul>
 <li><strong>Create certificate</strong></li>
 </ul>
@@ -1917,6 +1933,11 @@ WantedBy=multi-user.target
   
 </ul>
   
+  <li><a href="#sshfs">SSHFS</a></li>
+  <ul>
+  
+</ul>
+  
   <li><a href="#clamav">CLAMAV</a></li>
   <ul>
   
@@ -2300,6 +2321,11 @@ WantedBy=multi-user.target
   
 </ul>
   
+  <li><a href="#sshfs">SSHFS</a></li>
+  <ul>
+  
+</ul>
+  
   <li><a href="#clamav">CLAMAV</a></li>
   <ul>
   
@@ -2524,7 +2550,7 @@ WantedBy=multi-user.target
 
   <!--
   MkDocs version      : 1.4.2
-  Docs Build Date UTC : 2024-12-09 21:25:23.823707+00:00
+  Docs Build Date UTC : 2024-12-13 15:34:15.286105+00:00
   -->
 </body>
 

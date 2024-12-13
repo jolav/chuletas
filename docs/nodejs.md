@@ -2,6 +2,17 @@
 
 ---
 
+## INSTALACION
+
+```sh
+
+curl -fsSL https://deb.nodesource.com/setup_22.x -o nodesource_setup.sh
+bash nodesource_setup.sh
+apt install nodejs
+```
+
+---
+
 ## NPM
 
 `npm install paquete -g` - Instala paquete globalmente.Asi convertimos el paquete un comando ejecutable      
