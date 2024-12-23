@@ -312,6 +312,8 @@ console.log(domain.startsWith(&quot;www.&quot;)); // false
 <hr />
 <h2 id="maps">MAPS</h2>
 <p>El <strong>objeto <code>Map</code></strong> es una colección de pares clave-valor. Aquí hay algunas características clave:</p>
+<pre><code class="language-js">const myMap = new Map
+</code></pre>
 <ul>
 <li>
 <p><strong>Claves únicas</strong>: Cada clave en un <code>Map</code> es única, lo que significa que no puede haber duplicados.  </p>
@@ -319,14 +321,28 @@ console.log(domain.startsWith(&quot;www.&quot;)); // false
 <li>
 <p><strong>Iteración</strong>: Puedes iterar sobre un <code>Map</code> utilizando un bucle <code>for...of</code>, que devuelve un array de dos elementos <code>[clave, valor]</code> en cada iteración.</p>
 </li>
-<li>
-<p><strong>Métodos útiles</strong>: Algunos métodos importantes del objeto <code>Map</code> incluyen:</p>
-</li>
+</ul>
+<pre><code class="language-js">for (let [key, value] of myMap) {
+    console.log(key, value);
+}
+for (let [key, value] of myMap.entries()) {
+    console.log(key, value);
+}
+for (let key of myMap.keys()) {
+    console.log(key);
+}
+for (let value of myMap.values()) {
+    console.log(value);
+}
+</code></pre>
+<ul>
+<li><strong>Métodos útiles</strong>: Algunos métodos importantes del objeto <code>Map</code> incluyen:</li>
 <li><code>set(key, value)</code>: Agrega o actualiza un elemento con una clave y un valor.</li>
 <li><code>get(key)</code>: Devuelve el valor asociado a la clave.</li>
 <li><code>has(key)</code>: Verifica si una clave existe en el <code>Map</code>.</li>
 <li><code>delete(key)</code>: Elimina un elemento por su clave.</li>
-<li><code>clear()</code>: Elimina todos los elementos del <code>Map</code>.</li>
+<li><code>clear()</code>: Elimina todos los elementos del <code>Map</code>.  </li>
+<li><code>size</code>: Devuelve el numero de elementos del <code>Map</code>  </li>
 </ul>
 <pre><code class="language-js">let mapa = new Map();
 mapa.set('a', 1);
@@ -2321,7 +2337,7 @@ foo.awesome();                 // LET ME INTRODUCE: HIPPO
 
   <!--
   MkDocs version      : 1.4.2
-  Docs Build Date UTC : 2024-12-13 15:34:15.385917+00:00
+  Docs Build Date UTC : 2024-12-23 15:31:45.172407+00:00
   -->
 </body>
 

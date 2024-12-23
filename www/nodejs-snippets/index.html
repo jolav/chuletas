@@ -55,11 +55,9 @@
 <hr />
 <h2 id="fetch">FETCH</h2>
 <pre><code class="language-js">async function fetchData(c, data) {
+  const url = `${c.API_URL}${c.API_ENDPOINT}`;
+
   const options = {
-    timeout: c.timeout,
-    host: c.host,
-    port: c.port,
-    path: c.api,
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -68,16 +66,16 @@
     body: new URLSearchParams({
       'key': c.API_KEY,
       'data': JSON.stringify(data)
-    }),
+    }).toString(),
   };
-  const url = c.API_URL + c.API_ENDPOINT;
+
   try {
     const response = await fetch(url, options);
     if (response.ok) {
-      const data = await response.json();
-      return data;
+      const responseData = await response.json();
+      return responseData;
     } else {
-      throw new Error(response.status + &quot; &quot; + response.statusText);
+      throw new Error(`${response.status} ${response.statusText}`);
     }
   } catch (err) {
     console.log('ERROR fetchData =&gt; ', err);
@@ -1100,7 +1098,7 @@ if (process.env &amp;&amp; process.env.pm_id) {
 
   <!--
   MkDocs version      : 1.4.2
-  Docs Build Date UTC : 2024-12-13 15:34:15.404103+00:00
+  Docs Build Date UTC : 2024-12-23 15:31:45.199008+00:00
   -->
 </body>
 

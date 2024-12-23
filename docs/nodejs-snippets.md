@@ -17,11 +17,9 @@ o usar la extension mjs en lugar de js.
 
 ```js
 async function fetchData(c, data) {
+  const url = `${c.API_URL}${c.API_ENDPOINT}`;
+
   const options = {
-    timeout: c.timeout,
-    host: c.host,
-    port: c.port,
-    path: c.api,
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -30,16 +28,16 @@ async function fetchData(c, data) {
     body: new URLSearchParams({
       'key': c.API_KEY,
       'data': JSON.stringify(data)
-    }),
+    }).toString(),
   };
-  const url = c.API_URL + c.API_ENDPOINT;
+
   try {
     const response = await fetch(url, options);
     if (response.ok) {
-      const data = await response.json();
-      return data;
+      const responseData = await response.json();
+      return responseData;
     } else {
-      throw new Error(response.status + " " + response.statusText);
+      throw new Error(`${response.status} ${response.statusText}`);
     }
   } catch (err) {
     console.log('ERROR fetchData => ', err);
