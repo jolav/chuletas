@@ -378,7 +378,7 @@ rkhunter --update
 rkhunter --check
 </code></pre>
 <h3 id="fail2ban">FAIL2BAN</h3>
-<p><code>apt-get install fail2ban whois</code><br />
+<p><code>apt-get install fail2ban whois python3-systemd</code><br />
 <code>cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local</code><br />
 <code>nano /etc/fail2ban/jail.local</code>  </p>
 <pre><code class="language-sh">// Aqui van las IPs que no tendran esas restricciones
@@ -405,6 +405,7 @@ maxretry  = 3
 
 [ssh]
 
+backend=systemd
 enabled = true
 port    = ssh
 filter  = sshd
@@ -413,6 +414,7 @@ maxretry = 3
 
 [ssh-ddos]
 
+backend=systemd
 enabled  = true
 port     = ssh
 filter   = sshd-ddos
@@ -2550,7 +2552,7 @@ WantedBy=multi-user.target
 
   <!--
   MkDocs version      : 1.4.2
-  Docs Build Date UTC : 2024-12-23 15:31:45.007349+00:00
+  Docs Build Date UTC : 2025-01-08 15:36:29.956248+00:00
   -->
 </body>
 

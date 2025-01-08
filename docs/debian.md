@@ -412,7 +412,7 @@ rkhunter --check
 
 ### FAIL2BAN
 
-`apt-get install fail2ban whois`  
+`apt-get install fail2ban whois python3-systemd`  
 `cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local`  
 `nano /etc/fail2ban/jail.local`  
 
@@ -445,6 +445,7 @@ maxretry  = 3
 
 [ssh]
 
+backend=systemd
 enabled = true
 port    = ssh
 filter  = sshd
@@ -453,6 +454,7 @@ maxretry = 3
 
 [ssh-ddos]
 
+backend=systemd
 enabled  = true
 port     = ssh
 filter   = sshd-ddos
