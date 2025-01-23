@@ -462,8 +462,8 @@ logpath  = /var/log/auth.log
 maxretry = 3
 ```
 
-`service fail2ban restart`  
-`service fail2ban status`
+`systemctl restart fail2ban.service`  
+`systemctl status fail2ban.service`
 
 Los logs de baneos estan en estos dos archivos  
 `/var/log/fail2ban.log`  
@@ -602,7 +602,23 @@ pm2 start ecosystem.config.js --env production
 
 ## NPM sin ser ROOT
 
-Como instalar paquetes npm globalmente sin ser root
+Usando nvm
+
+```sh
+https://nodejs.org/en/download
+# Download and install nvm: using curl | bash
+curl -o- https://raw.githubusercontent.com/nvm/install.sh | bash
+
+nvm install numeroVersion
+
+node -v # ver version de node
+nvm current # lo mismo
+npm -v # ver version de npm
+
+# ya esta, ahora npm install -g
+```
+
+Usando nodesource
 
 ```sh
 // crear carpeta para los paquetes globales

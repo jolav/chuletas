@@ -421,8 +421,8 @@ filter   = sshd-ddos
 logpath  = /var/log/auth.log
 maxretry = 3
 </code></pre>
-<p><code>service fail2ban restart</code><br />
-<code>service fail2ban status</code></p>
+<p><code>systemctl restart fail2ban.service</code><br />
+<code>systemctl status fail2ban.service</code></p>
 <p>Los logs de baneos estan en estos dos archivos<br />
 <code>/var/log/fail2ban.log</code><br />
 <code>/var/log/auth.log</code>   </p>
@@ -541,7 +541,20 @@ pm2 start ecosystem.config.js --env production
 </code></pre>
 <hr />
 <h2 id="npm-sin-ser-root">NPM sin ser ROOT</h2>
-<p>Como instalar paquetes npm globalmente sin ser root</p>
+<p>Usando nvm</p>
+<pre><code class="language-sh">https://nodejs.org/en/download
+# Download and install nvm: using curl | bash
+curl -o- https://raw.githubusercontent.com/nvm/install.sh | bash
+
+nvm install numeroVersion
+
+node -v # ver version de node
+nvm current # lo mismo
+npm -v # ver version de npm
+
+# ya esta, ahora npm install -g
+</code></pre>
+<p>Usando nodesource</p>
 <pre><code class="language-sh">// crear carpeta para los paquetes globales
 mkdir &quot;${HOME}/.npm-packages&quot;
 
@@ -2552,7 +2565,7 @@ WantedBy=multi-user.target
 
   <!--
   MkDocs version      : 1.4.2
-  Docs Build Date UTC : 2025-01-08 15:36:29.956248+00:00
+  Docs Build Date UTC : 2025-01-23 18:39:04.157296+00:00
   -->
 </body>
 
