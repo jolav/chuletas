@@ -1352,6 +1352,22 @@ location ~* /(?:uploads|files)/.*\.php$ {
 }
 ```
 
+* **Reparir carga entre instancias de aplicaciones**
+
+```nginx
+// etc/nginx/nginx.conf
+http {
+    upstream backend_servers {
+        server 127.0.0.1:3020 weight=50;  # 25% del tráfico
+        server 127.0.0.1:3021 weight=150; # 75% del tráfico
+    }
+}
+
+// ya en pagina.cpnf en lugar del tipico
+#proxy_pass http://127.0.0.1:3021/servicio;
+proxy_pass http://backend_servers/servicio;
+```
+
 ---
 
 ## WEBMIN
