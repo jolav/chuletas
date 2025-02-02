@@ -661,12 +661,15 @@ systemctl enable name.service
 <p>En esa carpeta creamos el nombreservicio.service</p>
 <pre><code class="language-sh">[Unit]
 Description= Descripcion de la tarea
+After=network.target
 
 [Service]
 RestartSec=5s
 Restart=always   
 WorkingDirectory=/ruta/a/la/carpeta/del/binario
 ExecStart=/ruta/a/la/carpeta/del/binario/./nombreDelBinario
+StandardOutput=append:/home/ruta//al/info.log
+StandardError=append:/home/ruta/al/error.log
 
 [Install]
 WantedBy=default.target
@@ -1197,9 +1200,7 @@ location ~* /(?:uploads|files)/.*\.php$ {
         deny all;
 }
 </code></pre>
-<ul>
-<li><strong>Reparir carga entre instancias de aplicaciones</strong></li>
-</ul>
+<h3 id="repartir-peticiones">Repartir peticiones</h3>
 <pre><code class="language-nginx">// etc/nginx/nginx.conf
 http {
     upstream backend_servers {
@@ -2088,6 +2089,11 @@ WantedBy=multi-user.target
   
 </ul>
   
+  <li><a href="#repartir-peticiones">Repartir peticiones</a></li>
+  <ul>
+  
+</ul>
+  
 </ul>
   
   <li><a href="#webmin">WEBMIN</a></li>
@@ -2476,6 +2482,11 @@ WantedBy=multi-user.target
   
 </ul>
   
+  <li><a href="#repartir-peticiones">Repartir peticiones</a></li>
+  <ul>
+  
+</ul>
+  
 </ul>
   
   <li><a href="#webmin">WEBMIN</a></li>
@@ -2580,7 +2591,7 @@ WantedBy=multi-user.target
 
   <!--
   MkDocs version      : 1.4.2
-  Docs Build Date UTC : 2025-01-29 16:39:08.491541+00:00
+  Docs Build Date UTC : 2025-02-02 21:35:59.994295+00:00
   -->
 </body>
 

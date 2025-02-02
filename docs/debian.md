@@ -744,12 +744,15 @@ En esa carpeta creamos el nombreservicio.service
 ```sh
 [Unit]
 Description= Descripcion de la tarea
+After=network.target
 
 [Service]
 RestartSec=5s
 Restart=always   
 WorkingDirectory=/ruta/a/la/carpeta/del/binario
 ExecStart=/ruta/a/la/carpeta/del/binario/./nombreDelBinario
+StandardOutput=append:/home/ruta//al/info.log
+StandardError=append:/home/ruta/al/error.log
 
 [Install]
 WantedBy=default.target
@@ -1352,7 +1355,7 @@ location ~* /(?:uploads|files)/.*\.php$ {
 }
 ```
 
-* **Reparir carga entre instancias de aplicaciones**
+### Repartir peticiones
 
 ```nginx
 // etc/nginx/nginx.conf
