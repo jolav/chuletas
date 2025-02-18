@@ -9,17 +9,18 @@
 ```go
 // SendResponse...
 func SendResponse(w http.ResponseWriter, d interface{}, s int) {
-	w.WriteHeader(s)
 	if d == nil {
+		w.WriteHeader(s)
 		return
 	}
-	w.Header().Set("Content-Type", "application/json")
 	dataJSON, err := json.MarshalIndent(d, "", " ")
 	if err != nil {
 		log.Printf("ERROR Marshaling %v\n", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(s)
 	_, err = w.Write(dataJSON)
 	if err != nil {
 		log.Printf("ERROR writing JSON response: %v\n", err)

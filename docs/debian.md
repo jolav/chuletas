@@ -77,7 +77,14 @@ Eliminar todas las lineas de una fichero que contienen un determinado 'texto'
 `cat nombreArchivo | grep -v -E 'texto1|texto2' > nuevoArchivo`  
 
 Coger solo las lineas de un archivo que contienen un determinado 'texto'  
-`grep -i "texto" nombreArchivo`
+`grep -i "texto" nombreArchivo`  
+
+Eliminar lineas usando archivo temporal  
+`grep -v "text" archivo.txt > temp.txt && mv temp.txt archivo.txt`  
+
+Quedarte solo con determinadas lineas en un archivo  
+`grep -i "text" archivo.txt > temp.txt && mv temp.txt archivo.txt`  
+
 
 * **zip**
 

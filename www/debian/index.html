@@ -108,7 +108,11 @@ tar xzf myfiles.tar.gz
 <code>cat nombreArchivo | grep -v -e 'texto1' -e 'texto2' &gt; nuevoArchivo</code><br />
 <code>cat nombreArchivo | grep -v -E 'texto1|texto2' &gt; nuevoArchivo</code>  </p>
 <p>Coger solo las lineas de un archivo que contienen un determinado 'texto'<br />
-<code>grep -i "texto" nombreArchivo</code></p>
+<code>grep -i "texto" nombreArchivo</code>  </p>
+<p>Eliminar lineas usando archivo temporal<br />
+<code>grep -v "text" archivo.txt &gt; temp.txt &amp;&amp; mv temp.txt archivo.txt</code>  </p>
+<p>Quedarte solo con determinadas lineas en un archivo<br />
+<code>grep -i "text" archivo.txt &gt; temp.txt &amp;&amp; mv temp.txt archivo.txt</code>  </p>
 <ul>
 <li><strong>zip</strong></li>
 </ul>
@@ -2591,7 +2595,7 @@ WantedBy=multi-user.target
 
   <!--
   MkDocs version      : 1.4.2
-  Docs Build Date UTC : 2025-02-02 21:35:59.994295+00:00
+  Docs Build Date UTC : 2025-02-18 16:42:07.543651+00:00
   -->
 </body>
 
