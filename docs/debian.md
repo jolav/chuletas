@@ -1824,6 +1824,8 @@ hdparm -tT /dev/sda
 // testea
 dd if=/dev/zero of=/tmp/output conv=fdatasync bs=384k count=1k;
  rm -f /tmp/output
+
+dd if=/dev/zero of=testfile bs=1M count=1024 oflag=direct
 ```
 
 * **more benchmarks**

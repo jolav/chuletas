@@ -1601,6 +1601,8 @@ hdparm -tT /dev/sda
 // testea
 dd if=/dev/zero of=/tmp/output conv=fdatasync bs=384k count=1k;
  rm -f /tmp/output
+
+dd if=/dev/zero of=testfile bs=1M count=1024 oflag=direct
 </code></pre>
 <ul>
 <li><strong>more benchmarks</strong></li>
@@ -2595,7 +2597,7 @@ WantedBy=multi-user.target
 
   <!--
   MkDocs version      : 1.4.2
-  Docs Build Date UTC : 2025-02-18 16:42:07.543651+00:00
+  Docs Build Date UTC : 2025-04-16 14:39:47.419030+00:00
   -->
 </body>
 
