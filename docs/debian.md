@@ -41,7 +41,7 @@ deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
 #https://linux.teamviewer.com/deb stable main
 ```
 
-`apt install aptitude htop smartmontools sshpass rsync curl wget nano apt-transport-https iperf zip arc arj bzip2 cabextract lzop nomarch p7zip p7zip-full pax tnef unrar-free unzip deborphan net-tools intel-microcode hdparm ncdu rename iftop nethogs tcptrack dnsutils`
+`apt install aptitude htop smartmontools nvme-cli sshpass rsync curl wget nano apt-transport-https iperf zip arc arj bzip2 cabextract lzop nomarch p7zip p7zip-full pax tnef unrar-free unzip deborphan net-tools intel-microcode hdparm ncdu rename iftop nethogs tcptrack dnsutils`
 
 Para instalar [Dropbox](https://www.dropbox.com/es_ES/install-linux)
 
@@ -1826,6 +1826,13 @@ dd if=/dev/zero of=/tmp/output conv=fdatasync bs=384k count=1k;
  rm -f /tmp/output
 
 dd if=/dev/zero of=testfile bs=1M count=1024 oflag=direct
+```
+
+* **nvme**
+```sh
+apt install nvme-cli  
+// el numero que sea del nvme  
+nvme smart-log /dev/nvme0n1  
 ```
 
 * **more benchmarks**

@@ -79,7 +79,7 @@ deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
 #deb [signed-by=/usr/share/keyrings/teamviewer-keyring.gpg]  
 #https://linux.teamviewer.com/deb stable main
 </code></pre>
-<p><code>apt install aptitude htop smartmontools sshpass rsync curl wget nano apt-transport-https iperf zip arc arj bzip2 cabextract lzop nomarch p7zip p7zip-full pax tnef unrar-free unzip deborphan net-tools intel-microcode hdparm ncdu rename iftop nethogs tcptrack dnsutils</code></p>
+<p><code>apt install aptitude htop smartmontools nvme-cli sshpass rsync curl wget nano apt-transport-https iperf zip arc arj bzip2 cabextract lzop nomarch p7zip p7zip-full pax tnef unrar-free unzip deborphan net-tools intel-microcode hdparm ncdu rename iftop nethogs tcptrack dnsutils</code></p>
 <p>Para instalar <a href="https://www.dropbox.com/es_ES/install-linux">Dropbox</a></p>
 <hr />
 <h2 id="commands"><strong>COMMANDS</strong></h2>
@@ -1605,6 +1605,13 @@ dd if=/dev/zero of=/tmp/output conv=fdatasync bs=384k count=1k;
 dd if=/dev/zero of=testfile bs=1M count=1024 oflag=direct
 </code></pre>
 <ul>
+<li><strong>nvme</strong></li>
+</ul>
+<pre><code class="language-sh">apt install nvme-cli  
+// el numero que sea del nvme  
+nvme smart-log /dev/nvme0n1  
+</code></pre>
+<ul>
 <li><strong>more benchmarks</strong></li>
 </ul>
 <pre><code class="language-sh">openssl speed rsa 
@@ -2597,7 +2604,7 @@ WantedBy=multi-user.target
 
   <!--
   MkDocs version      : 1.4.2
-  Docs Build Date UTC : 2025-04-16 14:39:47.419030+00:00
+  Docs Build Date UTC : 2025-05-14 13:24:17.596314+00:00
   -->
 </body>
 
