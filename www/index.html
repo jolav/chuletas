@@ -44,8 +44,11 @@
         <div class="body" role="main">
           
           <p><a href="https://jolav.github.io">Volver al inicio</a>.</p>
-<p>Jolav &copy; 2024 - <a href="https://github.com/jolav/chuletas">Ver el código en GitHub</a></p>
+<p>Jolav &copy; <span id="year"></span> - <a href="https://github.com/jolav/chuletas">Ver el código en GitHub</a></p>
 <h2 id="menu">MENU</h2>
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
           
           <h2>Navigation</h2>
 
@@ -370,7 +373,7 @@
 
   <!--
   MkDocs version      : 1.4.2
-  Docs Build Date UTC : 2025-05-14 13:24:17.586554+00:00
+  Docs Build Date UTC : 2025-06-04 08:56:51.075578+00:00
   -->
 </body>
 
