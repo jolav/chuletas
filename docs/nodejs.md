@@ -1,14 +1,20 @@
-# NODEJS 22.X.X
+# NODEJS 24.X.X
 
 ---
 
 ## INSTALACION
 
-```sh
+[Descargar el binario](https://nodejs.org/en/download) 
 
+```sh
 curl -fsSL https://deb.nodesource.com/setup_22.x -o nodesource_setup.sh
 bash nodesource_setup.sh
 apt install nodejs
+
+Descargar el binario: https://nodejs.org/en/download
+tar -xf node-lo-que-sea  
+cd node-lo-que-sea  
+cp -r ./{lib,share,include,bin} /usr  
 ```
 
 ---
