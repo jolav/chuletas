@@ -620,7 +620,8 @@ nvm install numeroVersion
 
 node -v # ver version de node
 nvm current # lo mismo
-npm -v # ver version de npm
+npm -v # ver version de npm 
+nvm alias default vX.X.X # para que cada nueva consola use esa versión  
 
 # ya esta, ahora npm install -g
 ```
